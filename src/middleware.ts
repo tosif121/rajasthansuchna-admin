@@ -30,7 +30,7 @@ export function middleware(req: NextRequest) {
   }
 
   // Protect Admin Pages: '/', '/dashboard', '/notices', '/agencies', '/audit-logs', '/review-queue'
-  const protectedPaths = ['/', '/dashboard', '/notices', '/agencies', '/audit-logs', '/review-queue'];
+  const protectedPaths = ['/', '/dashboard', '/notices', '/agencies', '/audit-logs', '/review-queue', '/settings'];
   const isProtectedPage = protectedPaths.some(p => pathname === p || pathname.startsWith(p + '/'));
 
   if (isProtectedPage && !isAuthenticated) {
@@ -50,6 +50,7 @@ export const config = {
     '/agencies/:path*',
     '/audit-logs/:path*',
     '/review-queue/:path*',
+    '/settings/:path*',
     '/login',
     '/api/v1/admin/:path*'
   ]
