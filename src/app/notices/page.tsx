@@ -12,20 +12,15 @@ import {
   DataTable, 
   Column, 
   DeleteConfirmationModal,
-  FormattedTimestamp,
-  ToggleSwitch 
+  FormattedTimestamp
 } from '@/components/reusable';
 import { 
-  FileText, 
-  Clock, 
   CheckCircle2, 
-  Globe, 
-  Send, 
   Eye, 
-  RefreshCw,
-  ExternalLink,
-  AlertCircle,
-  Trash2
+  RefreshCw, 
+  ExternalLink, 
+  AlertCircle, 
+  Trash2 
 } from 'lucide-react';
 
 interface NoticeItem {
@@ -35,7 +30,7 @@ interface NoticeItem {
   titleEn: string;
   agencyId: string;
   agencyName: string;
-  status: 'draft' | 'in_review' | 'approved' | 'published';
+  status: 'active' | 'inactive';
   revisionNumber: number;
   editorId: string;
   editorName: string;
@@ -53,8 +48,7 @@ interface NoticeItem {
 export default function NoticesPage() {
   const [notices, setNotices] = useState<NoticeItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentRole, setCurrentRole] = useState('reviewer');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [inspectNotice, setInspectNotice] = useState<NoticeItem | null>(null);
 
@@ -80,27 +74,22 @@ export default function NoticesPage() {
     fetchNotices();
   }, []);
 
-  const handleWorkflowAction = async (noticeId: string, action: 'submit' | 'approve' | 'publish') => {
+  const handleToggleStatus = async (noticeId: string) => {
     setFeedback(null);
     try {
-      const actorId = currentRole === 'editor' ? 'usr_editor_1' : 'usr_reviewer_2';
       invalidateClientApiCache('/api/v1/admin/notices');
-      const res = await fetch(`/api/v1/admin/notices/${noticeId}/${action}`, {
+      const res = await fetch(`/api/v1/admin/notices/${noticeId}/status`, {
         method: 'POST',
-        headers: {
-          'x-actor-id': actorId,
-          'x-actor-role': currentRole
-        }
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
-        setFeedback({ message: data.error || 'Action rejected by publishing policy.', type: 'error' });
+        setFeedback({ message: data.error || 'Failed to update status.', type: 'error' });
       } else {
-        setFeedback({ message: data.message || `Notice ${action}d successfully.`, type: 'success' });
+        setFeedback({ message: data.message || `Notice status updated to ${data.status}.`, type: 'success' });
         fetchNotices();
       }
     } catch {
-      setFeedback({ message: 'Error executing workflow action.', type: 'error' });
+      setFeedback({ message: 'Network error updating notice status.', type: 'error' });
     }
   };
 
@@ -169,36 +158,19 @@ export default function NoticesPage() {
     {
       header: 'Status',
       cell: (notice) => {
-        const isDraft = notice.status === 'draft';
-        const isInReview = notice.status === 'in_review';
-        const isApproved = notice.status === 'approved';
-        const isPublished = notice.status === 'published';
-
-        if (isPublished) {
+        const isActive = notice.status === 'active';
+        if (isActive) {
           return (
-            <Badge variant="success" className="gap-1">
+            <Badge variant="success" className="gap-1.5 font-bold text-[10px]">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              PUBLISHED
-            </Badge>
-          );
-        }
-        if (isInReview) {
-          return (
-            <Badge variant="warning" className="gap-1">
-              <Clock className="w-3 h-3" /> IN REVIEW
-            </Badge>
-          );
-        }
-        if (isApproved) {
-          return (
-            <Badge className="bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-700/50 gap-1">
-              <CheckCircle2 className="w-3 h-3" /> APPROVED
+              ACTIVE
             </Badge>
           );
         }
         return (
-          <Badge variant="secondary">
-            DRAFT
+          <Badge variant="secondary" className="gap-1.5 font-bold text-[10px] bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+            INACTIVE
           </Badge>
         );
       },
@@ -207,10 +179,7 @@ export default function NoticesPage() {
       header: 'Actions',
       className: 'text-right',
       cell: (notice) => {
-        const isDraft = notice.status === 'draft';
-        const isInReview = notice.status === 'in_review';
-        const isApproved = notice.status === 'approved';
-        const isPublished = notice.status === 'published';
+        const isActive = notice.status === 'active';
 
         return (
           <div className="flex items-center justify-end gap-1.5">
@@ -222,34 +191,25 @@ export default function NoticesPage() {
               <Eye className="w-3.5 h-3.5" />
             </button>
 
-            {isDraft && (
+            {isActive ? (
               <button
-                onClick={() => handleWorkflowAction(notice.id, 'submit')}
-                className="flex items-center gap-1 text-[11px] font-semibold bg-amber-50 dark:bg-amber-600/20 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40 hover:bg-amber-100 dark:hover:bg-amber-600/30 px-2 py-1 rounded transition-colors"
+                onClick={() => handleToggleStatus(notice.id)}
+                className="flex items-center gap-1 text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 px-2 py-1 rounded transition-colors"
+                title="Deactivate notice"
               >
-                <Send className="w-3 h-3" /> Submit
+                Deactivate
+              </button>
+            ) : (
+              <button
+                onClick={() => handleToggleStatus(notice.id)}
+                className="flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800 px-2 py-1 rounded transition-colors"
+                title="Activate notice"
+              >
+                <CheckCircle2 className="w-3 h-3" /> Activate
               </button>
             )}
 
-            {isInReview && (
-              <button
-                onClick={() => handleWorkflowAction(notice.id, 'approve')}
-                className="flex items-center gap-1 text-[11px] font-semibold bg-blue-50 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40 hover:bg-blue-100 dark:hover:bg-blue-600/30 px-2 py-1 rounded transition-colors"
-              >
-                <CheckCircle2 className="w-3 h-3" /> Approve
-              </button>
-            )}
-
-            {isApproved && (
-              <button
-                onClick={() => handleWorkflowAction(notice.id, 'publish')}
-                className="flex items-center gap-1 text-[11px] font-semibold bg-[#A30B0B] hover:bg-[#850909] text-white px-2 py-1 rounded shadow-xs transition-colors"
-              >
-                <Globe className="w-3 h-3" /> Publish
-              </button>
-            )}
-
-            {isPublished && (
+            {isActive && (
               <a
                 href={`/api/v1/notices/${notice.slug}`}
                 target="_blank"
@@ -260,10 +220,9 @@ export default function NoticesPage() {
               </a>
             )}
 
-            {/* Reusable DeleteConfirmation Trigger */}
             <button
               onClick={() => setNoticeToDelete(notice)}
-              title="Delete or Archive Notice"
+              title="Delete Notice"
               className="p-1.5 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -279,14 +238,14 @@ export default function NoticesPage() {
       <AdminSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
-        <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
+        <AdminHeader />
 
         <main className="p-4 sm:p-6 lg:p-8 w-full mx-auto space-y-6">
           {/* Reusable PageHeader */}
           <PageHeader
             eyebrow="Recruitment Management"
             title="All Notices"
-            description="Manage government recruitment circulars, revise application windows, and audit verification states."
+            description="Manage government recruitment circulars, activate/deactivate listings, and view live status in the mobile feed."
             actions={
               <button
                 onClick={fetchNotices}
@@ -323,13 +282,12 @@ export default function NoticesPage() {
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
             {[
               { label: 'All Notices', value: 'all', count: notices.length },
-              { label: 'Published', value: 'published', count: notices.filter(n => n.status === 'published').length },
-              { label: 'In Review', value: 'in_review', count: notices.filter(n => n.status === 'in_review').length },
-              { label: 'Drafts', value: 'draft', count: notices.filter(n => n.status === 'draft').length },
+              { label: 'Active', value: 'active', count: notices.filter(n => n.status === 'active').length },
+              { label: 'Inactive', value: 'inactive', count: notices.filter(n => n.status === 'inactive').length },
             ].map(tab => (
               <button
                 key={tab.value}
-                onClick={() => setStatusFilter(tab.value)}
+                onClick={() => setStatusFilter(tab.value as 'all' | 'active' | 'inactive')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
                   statusFilter === tab.value
                     ? 'bg-[#A30B0B] text-white shadow-sm'
@@ -346,58 +304,59 @@ export default function NoticesPage() {
             ))}
           </div>
 
-          {/* Reusable DataTable Component */}
+          {/* DataTable */}
           <DataTable
             columns={columns}
             data={filteredNotices}
             isLoading={loading}
             searchKey="titleEn"
-            searchPlaceholder="Search notices by title, qualification, or circular..."
+            searchPlaceholder="Search notices by recruitment title..."
             pageSize={10}
             emptyTitle="No recruitment notices found"
-            emptyDescription="No circulars match your current filter or search criteria."
+            emptyDescription={
+              statusFilter !== 'all'
+                ? `No notices currently in ${statusFilter} status.`
+                : 'No recruitment circulars have been registered in the system yet.'
+            }
           />
         </main>
       </div>
 
-      {/* Reusable DeleteConfirmationModal */}
+      {/* Delete Confirmation Modal */}
       <DeleteConfirmationModal
         isOpen={!!noticeToDelete}
-        title="Delete Recruitment Notice"
-        description="Are you sure you want to delete this notice? It will be removed immediately from the queue and API."
+        title="Delete Notice"
+        description="Are you sure you want to permanently delete this recruitment notice? This will revoke mobile feed availability."
         itemName={noticeToDelete?.titleEn || noticeToDelete?.titleHi}
         isDeleting={isDeleting}
         onConfirm={handleDeleteConfirm}
         onCancel={() => setNoticeToDelete(null)}
       />
 
-      {/* Inspect Modal */}
-      {inspectNotice && (
-        <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-              <div>
-                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Flutter API Contract Preview</h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">Live JSON serialized for Flutter Vacancy model</p>
-              </div>
-              <button onClick={() => setInspectNotice(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-white font-bold">✕</button>
-            </div>
+      {/* Inspect Notice Modal (shadcn Dialog) */}
+      <Dialog open={!!inspectNotice} onOpenChange={(open) => { if (!open) setInspectNotice(null); }}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Flutter Mobile Feed Notice</DialogTitle>
+            <DialogDescription>
+              Parsed JSON payload transmitted to Rajasthan Suchna client
+            </DialogDescription>
+          </DialogHeader>
 
-            <pre className="bg-slate-900 p-4 rounded-xl text-[11px] font-mono text-amber-400 dark:text-amber-300 overflow-x-auto max-h-96 border border-slate-800">
-              {JSON.stringify(inspectNotice, null, 2)}
-            </pre>
+          <pre className="bg-slate-900 p-4 rounded-xl text-[11px] font-mono text-amber-400 dark:text-amber-300 overflow-x-auto max-h-96 border border-slate-800">
+            {JSON.stringify(inspectNotice, null, 2)}
+          </pre>
 
-            <div className="flex justify-end">
-              <button
-                onClick={() => setInspectNotice(null)}
-                className="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setInspectNotice(null)}
+            >
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { apiGet } from "@/lib/api-client";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { 
@@ -35,67 +36,27 @@ interface AuditLogEntry {
   status: "SUCCESS" | "BLOCKED";
 }
 
-const initialLogs: AuditLogEntry[] = [
-  {
-    id: "aud_01",
-    actorName: "Admin",
-    actorRole: "Editor",
-    action: "CREATED_DRAFT",
-    entityType: "Notice",
-    entityName: "Rajasthan Police Constable Recruitment 2026",
-    timestamp: "2026-10-24 21:40:12 UTC",
-    ipAddress: "103.24.112.5 (Jaipur)",
-    status: "SUCCESS"
-  },
-  {
-    id: "aud_02",
-    actorName: "Admin",
-    actorRole: "Editor",
-    action: "SELF_APPROVAL_ATTEMPT",
-    entityType: "Notice",
-    entityName: "Rajasthan Patwari Recruitment 2026",
-    timestamp: "2026-10-24 21:55:04 UTC",
-    ipAddress: "103.24.112.5 (Jaipur)",
-    status: "BLOCKED"
-  },
-  {
-    id: "aud_03",
-    actorName: "Sunita Meena",
-    actorRole: "Reviewer",
-    action: "APPROVED_NOTICE",
-    entityType: "Notice",
-    entityName: "Rajasthan Patwari Recruitment 2026",
-    timestamp: "2026-10-24 22:04:19 UTC",
-    ipAddress: "103.24.115.18 (Jodhpur)",
-    status: "SUCCESS"
-  },
-  {
-    id: "aud_04",
-    actorName: "Anil Verma",
-    actorRole: "Publisher",
-    action: "PUBLISHED_FLUTTER_FEED",
-    entityType: "Public Feed",
-    entityName: "RSMSSB Constable 2026",
-    timestamp: "2026-10-24 22:15:33 UTC",
-    ipAddress: "103.24.112.5 (Jaipur)",
-    status: "SUCCESS"
-  },
-  {
-    id: "aud_05",
-    actorName: "System Automation",
-    actorRole: "System",
-    action: "EXAM_CALENDAR_SYNC",
-    entityType: "Calendar",
-    entityName: "RPSC RAS Prelims Schedule 2026",
-    timestamp: "2026-10-24 22:30:00 UTC",
-    ipAddress: "127.0.0.1 (Localhost)",
-    status: "SUCCESS"
-  }
-];
-
 export default function AuditLogsPage() {
-  const [logs, setLogs] = useState<AuditLogEntry[]>(initialLogs);
-  const [currentRole, setCurrentRole] = useState("reviewer");
+  const [logs, setLogs] = useState<AuditLogEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchLogs = async () => {
+    try {
+      setLoading(true);
+      const res = await apiGet<{ success: boolean; data: AuditLogEntry[] }>("/api/v1/admin/audit-logs", { ttlSeconds: 5 });
+      if (res.success) {
+        setLogs(res.data);
+      }
+    } catch {
+      setFeedback({ message: "Failed to load audit logs", type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLogs();
+  }, []);
   const [feedback, setFeedback] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   // Delete modal state
@@ -199,7 +160,7 @@ export default function AuditLogsPage() {
       <AdminSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
-        <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
+        <AdminHeader />
 
         <main className="p-4 sm:p-6 lg:p-8 w-full mx-auto space-y-6">
           <PageHeader

@@ -8,9 +8,9 @@ export async function GET(
   const { slug } = await params;
   const notice = await NoticeService.getNoticeBySlug(slug);
 
-  if (!notice || notice.status !== 'published') {
+  if (!notice || notice.status !== 'active') {
     return NextResponse.json(
-      { success: false, error: 'Published recruitment notice not found.' },
+      { success: false, error: 'Active recruitment notice not found.' },
       { status: 404 }
     );
   }

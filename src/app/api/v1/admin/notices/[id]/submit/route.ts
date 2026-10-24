@@ -7,13 +7,10 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const actorId = req.headers.get('x-actor-id') || 'usr_editor_1';
-  const actorRole = req.headers.get('x-actor-role') || 'editor';
-
-  const res = await NoticeService.submitForReview(id, actorId, actorRole);
+  const res = await NoticeService.updateNoticeStatus(id, 'active');
   if (!res.success) {
     return NextResponse.json({ success: false, error: res.error }, { status: 400 });
   }
   invalidateNoticeCache();
-  return NextResponse.json({ success: true, message: 'Notice submitted to reviewer queue.' });
+  return NextResponse.json({ success: true, message: 'Notice marked as active.' });
 }

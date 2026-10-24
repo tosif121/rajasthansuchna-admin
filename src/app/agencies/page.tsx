@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { apiGet } from "@/lib/api-client";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { 
@@ -34,17 +35,27 @@ interface Agency {
 }
 
 const initialAgencies: Agency[] = [
-  { id: "agency_rsmssb", nameEn: "RSMSSB (Rajasthan Staff Selection Board)", code: "RSMSSB", parentGroup: "rajasthan", officialUrl: "https://rsmssb.rajasthan.gov.in", activeNotices: 12 },
-  { id: "agency_rpsc", nameEn: "RPSC (Rajasthan Public Service Commission)", code: "RPSC", parentGroup: "rajasthan", officialUrl: "https://rpsc.rajasthan.gov.in", activeNotices: 8 },
-  { id: "agency_police", nameEn: "Rajasthan Police Headquarters", code: "POLICE", parentGroup: "rajasthan", officialUrl: "https://police.rajasthan.gov.in", activeNotices: 4 },
-  { id: "agency_hc", nameEn: "Rajasthan High Court Jodhpur", code: "HCRAJ", parentGroup: "rajasthan", officialUrl: "https://hcraj.nic.in", activeNotices: 3 },
-  { id: "agency_ssc", nameEn: "Staff Selection Commission (SSC)", code: "SSC", parentGroup: "central", officialUrl: "https://ssc.gov.in", activeNotices: 15 },
-  { id: "agency_rrb", nameEn: "Railway Recruitment Board (RRB)", code: "RRB", parentGroup: "central", officialUrl: "https://rrbcdg.gov.in", activeNotices: 6 },
+  { id: "agency_rsmssb", nameEn: "RSMSSB (Rajasthan Staff Selection Board)", code: "RSMSSB", parentGroup: "rajasthan", officialUrl: "https://rsmssb.rajasthan.gov.in", activeNotices: 0 },
+  { id: "agency_rpsc", nameEn: "RPSC (Rajasthan Public Service Commission)", code: "RPSC", parentGroup: "rajasthan", officialUrl: "https://rpsc.rajasthan.gov.in", activeNotices: 0 },
+  { id: "agency_police", nameEn: "Rajasthan Police Headquarters", code: "POLICE", parentGroup: "rajasthan", officialUrl: "https://police.rajasthan.gov.in", activeNotices: 0 },
+  { id: "agency_hc", nameEn: "Rajasthan High Court Jodhpur", code: "HCRAJ", parentGroup: "rajasthan", officialUrl: "https://hcraj.nic.in", activeNotices: 0 },
+  { id: "agency_ssc", nameEn: "Staff Selection Commission (SSC)", code: "SSC", parentGroup: "central", officialUrl: "https://ssc.gov.in", activeNotices: 0 },
+  { id: "agency_rrb", nameEn: "Railway Recruitment Board (RRB)", code: "RRB", parentGroup: "central", officialUrl: "https://rrbcdg.gov.in", activeNotices: 0 },
 ];
 
 export default function AgenciesPage() {
   const [agencies, setAgencies] = useState<Agency[]>(initialAgencies);
-  const [currentRole, setCurrentRole] = useState("reviewer");
+
+  useEffect(() => {
+    apiGet<{ success: boolean; data: any[] }>("/api/v1/admin/notices", { ttlSeconds: 5 }).then(res => {
+      if (res?.success && Array.isArray(res.data)) {
+        setAgencies(prev => prev.map(a => ({
+          ...a,
+          activeNotices: res.data.filter(n => n.status === "active" && (n.agencyId === a.id || (n.agencyName && n.agencyName.toLowerCase().includes(a.code.toLowerCase())))).length
+        })));
+      }
+    }).catch(() => {});
+  }, []);
   const [filterGroup, setFilterGroup] = useState<"all" | "rajasthan" | "central">("all");
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
   const [feedback, setFeedback] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -151,7 +162,7 @@ export default function AgenciesPage() {
       <AdminSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
-        <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
+        <AdminHeader />
 
         <main className="p-4 sm:p-6 lg:p-8 w-full mx-auto space-y-6">
           <PageHeader

@@ -1,4 +1,6 @@
-import { WorkflowStateMachine, WorkflowStatus } from '../workflow/state-machine';
+import { AuditService } from './audit-service';
+
+export type NoticeStatus = 'active' | 'inactive';
 
 export interface FlutterOfficialLink {
   label: string;
@@ -43,7 +45,7 @@ export interface AdminNoticeRecord {
   categoryName: string;
   state: 'rajasthan' | 'central';
   noticeType: string;
-  status: WorkflowStatus;
+  status: NoticeStatus;
   revisionNumber: number;
   summaryHi: string;
   summaryEn: string;
@@ -56,129 +58,15 @@ export interface AdminNoticeRecord {
   updatedAt: string;
 }
 
-// In-Memory Repository for zero-dependency development & demo
-let memoryNotices: AdminNoticeRecord[] = [
-  {
-    id: 'not_01',
-    slug: 'rajasthan-police-constable-2026',
-    titleHi: 'राजस्थान पुलिस कांस्टेबल भर्ती 2026 (10,500 पद)',
-    titleEn: 'Rajasthan Police Constable Recruitment 2026 (10,500 Posts)',
-    agencyId: 'agency_police',
-    agencyName: 'राजस्थान पुलिस मुख्यालय (Rajasthan Police)',
-    categoryId: 'cat_police',
-    categoryName: 'पुलिस एवं सुरक्षा (Police & Defence)',
-    state: 'rajasthan',
-    noticeType: 'vacancy',
-    status: 'published',
-    revisionNumber: 2,
-    summaryHi: 'कांस्टेबल (जीडी/चालक) के 10,500 पदों पर ऑनलाइन आवेदन आमंत्रित।',
-    summaryEn: 'Online applications invited for 10,500 Constable GD & Driver posts.',
-    facts: {
-      postsCount: 10500,
-      applicationStart: '2026-10-01',
-      applicationEnd: '2026-11-15',
-      qualification: '12th Pass (CET Senior Secondary Qualified)',
-      ageMin: 18,
-      ageMax: 26,
-      selectionProcess: 'लिखित परीक्षा + शारीरिक दक्षता (PET/PST) + दस्तावेज सत्यापन',
-      sourceUrl: 'https://police.rajasthan.gov.in',
-      sourceDate: '2026-09-28',
-      verifiedAt: '2026-10-02',
-      verifiedBy: 'Rajasthan Suchna Editorial Board'
-    },
-    sections: [
-      {
-        key: 'overview',
-        title: 'भर्ती विवरण (Overview)',
-        body: 'राजस्थान पुलिस द्वारा 10,500 पदों पर कांस्टेबल भर्ती की विस्तृत विज्ञप्ति जारी की गई है।'
-      }
-    ],
-    links: [
-      { label: 'आधिकारिक विज्ञप्ति (PDF)', url: 'https://police.rajasthan.gov.in/recruitment.pdf', kind: 'notificationPdf' },
-      { label: 'ऑनलाइन आवेदन करें (SSO)', url: 'https://sso.rajasthan.gov.in', kind: 'applyOnline' }
-    ],
-    editorId: 'usr_editor_1',
-    editorName: 'Admin',
-    publishedAt: '2026-10-02T10:00:00Z',
-    updatedAt: '2026-10-05T14:30:00Z'
-  },
-  {
-    id: 'not_02',
-    slug: 'rajasthan-patwari-bharti-2026',
-    titleHi: 'राजस्थान राजस्व पटवारी भर्ती 2026 (3,800 पद)',
-    titleEn: 'Rajasthan Patwari Recruitment 2026 (3,800 Posts)',
-    agencyId: 'agency_rsmssb',
-    agencyName: 'RSMSSB (राजस्थान कर्मचारी चयन बोर्ड)',
-    categoryId: 'cat_revenue',
-    categoryName: 'राजस्व एवं लेखा (Revenue & Accounts)',
-    state: 'rajasthan',
-    noticeType: 'vacancy',
-    status: 'in_review',
-    revisionNumber: 1,
-    summaryHi: 'राजस्व मंडल अजमेर द्वारा 3,800 पटवारी पदों की संशोधित विज्ञप्ति जारी।',
-    summaryEn: 'RSMSSB notification for 3,800 Revenue Patwari vacancies across Rajasthan.',
-    facts: {
-      postsCount: 3800,
-      applicationStart: '2026-11-05',
-      applicationEnd: '2026-12-05',
-      qualification: 'स्नातक (Graduation) + RSCIT / कम्प्यूटर डिप्लोमा',
-      ageMin: 18,
-      ageMax: 40,
-      selectionProcess: 'लिखित परीक्षा (MCQ) एवं मेरिट सूची',
-      sourceUrl: 'https://rsmssb.rajasthan.gov.in',
-      sourceDate: '2026-10-20',
-      verifiedAt: '2026-10-22',
-      verifiedBy: 'Senior Editor Anil Verma'
-    },
-    sections: [],
-    links: [
-      { label: 'विज्ञप्ति डाउनलोड करें', url: 'https://rsmssb.rajasthan.gov.in/patwari-2026.pdf', kind: 'notificationPdf' }
-    ],
-    editorId: 'usr_editor_1',
-    editorName: 'Admin',
-    updatedAt: '2026-10-23T09:15:00Z'
-  },
-  {
-    id: 'not_03',
-    slug: 'rpsc-ras-rts-exam-2026',
-    titleHi: 'RPSC RAS/RTS संयुक्त प्रतियोगी परीक्षा 2026',
-    titleEn: 'RPSC RAS / RTS Combined Competitive Examination 2026',
-    agencyId: 'agency_rpsc',
-    agencyName: 'RPSC (राजस्थान लोक सेवा आयोग)',
-    categoryId: 'cat_administrative',
-    categoryName: 'प्रशासनिक सेवाएं (Administrative)',
-    state: 'rajasthan',
-    noticeType: 'vacancy',
-    status: 'draft',
-    revisionNumber: 1,
-    summaryHi: 'आरएएस एवं अधीनस्थ सेवाओं के 980 पदों हेतु प्रारंभिक परीक्षा का प्रारूप।',
-    summaryEn: 'RPSC RAS 2026 notification for 980 administrative officers.',
-    facts: {
-      postsCount: 980,
-      applicationStart: '2026-11-10',
-      applicationEnd: '2026-12-10',
-      qualification: 'स्नातक (Any Degree)',
-      ageMin: 21,
-      ageMax: 40,
-      selectionProcess: 'प्रारंभिक परीक्षा (Prelims) + मुख्य परीक्षा (Mains) + साक्षात्कार (Interview)',
-      sourceUrl: 'https://rpsc.rajasthan.gov.in',
-      sourceDate: '2026-10-24',
-      verifiedAt: '2026-10-24',
-      verifiedBy: 'Content Ops Team'
-    },
-    sections: [],
-    links: [],
-    editorId: 'usr_editor_2',
-    editorName: 'Sunita Meena (Editor)',
-    updatedAt: '2026-10-24T18:00:00Z'
-  }
-];
+// Live in-memory repository (initialized clean with zero mock notices)
+let memoryNotices: AdminNoticeRecord[] = [];
 
 export class NoticeService {
   static async getNotices(filter?: { status?: string; query?: string; agencyId?: string }): Promise<AdminNoticeRecord[]> {
     let list = [...memoryNotices];
     if (filter?.status && filter.status !== 'all') {
-      list = list.filter((n) => n.status === filter.status);
+      const targetStatus = filter.status === 'published' ? 'active' : filter.status;
+      list = list.filter((n) => n.status === targetStatus);
     }
     if (filter?.agencyId && filter.agencyId !== 'all') {
       list = list.filter((n) => n.agencyId === filter.agencyId);
@@ -198,7 +86,7 @@ export class NoticeService {
     return memoryNotices.find((n) => n.slug === slug) || null;
   }
 
-  static async createNotice(data: Partial<AdminNoticeRecord>, actorId: string, actorName: string): Promise<AdminNoticeRecord> {
+  static async createNotice(data: Partial<AdminNoticeRecord>, actorId: string = 'admin', actorName: string = 'Admin'): Promise<AdminNoticeRecord> {
     const id = `not_${Date.now()}`;
     const slug = (data.titleEn || data.titleHi || 'recruitment')
       .toLowerCase()
@@ -216,94 +104,104 @@ export class NoticeService {
       categoryName: data.categoryName || 'पुलिस एवं सुरक्षा',
       state: data.state || 'rajasthan',
       noticeType: data.noticeType || 'vacancy',
-      status: 'draft',
+      status: (data.status as NoticeStatus) || 'active',
       revisionNumber: 1,
       summaryHi: data.summaryHi || '',
       summaryEn: data.summaryEn || '',
       facts: data.facts || {
         qualification: '10th / 12th / Graduate',
-        selectionProcess: 'लिखित परीक्षा',
+        selectionProcess: 'Written Exam and Document Verification',
         sourceUrl: 'https://rajasthan.gov.in',
         sourceDate: new Date().toISOString().split('T')[0],
         verifiedAt: new Date().toISOString().split('T')[0],
-        verifiedBy: actorName
+        verifiedBy: 'Rajasthan Suchna Operations'
       },
       sections: data.sections || [],
       links: data.links || [],
       editorId: actorId,
       editorName: actorName,
+      publishedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
     memoryNotices.unshift(newRecord);
+
+    await AuditService.recordLog({
+      actorName: 'Admin',
+      actorRole: 'Admin',
+      action: 'CREATED_NOTICE',
+      entityType: 'Notice',
+      entityName: newRecord.titleEn,
+      ipAddress: '127.0.0.1 (Jaipur)',
+      status: 'SUCCESS'
+    });
+
     return newRecord;
   }
 
-  static async submitForReview(noticeId: string, actorId: string, actorRole: string): Promise<{ success: boolean; error?: string }> {
-    const notice = await this.getNoticeById(noticeId);
+  static async updateNoticeStatus(id: string, status: NoticeStatus): Promise<{ success: boolean; notice?: AdminNoticeRecord; error?: string }> {
+    const notice = await this.getNoticeById(id);
     if (!notice) return { success: false, error: 'Notice not found.' };
 
-    const check = WorkflowStateMachine.evaluate({
-      noticeId,
-      revisionId: `rev_${notice.revisionNumber}`,
-      currentStatus: notice.status,
-      actorId,
-      actorRole,
-      editorId: notice.editorId
-    }, 'submit');
-
-    if (!check.allowed) return { success: false, error: check.error };
-    notice.status = check.nextStatus!;
+    notice.status = status;
     notice.updatedAt = new Date().toISOString();
-    return { success: true };
+    if (status === 'active' && !notice.publishedAt) {
+      notice.publishedAt = new Date().toISOString();
+    }
+
+    await AuditService.recordLog({
+      actorName: 'Admin',
+      actorRole: 'Admin',
+      action: status === 'active' ? 'ACTIVATED_NOTICE' : 'DEACTIVATED_NOTICE',
+      entityType: 'Notice',
+      entityName: notice.titleEn,
+      ipAddress: '127.0.0.1 (Jaipur)',
+      status: 'SUCCESS'
+    });
+
+    return { success: true, notice };
   }
 
-  static async approveNotice(noticeId: string, actorId: string, actorRole: string): Promise<{ success: boolean; error?: string }> {
-    const notice = await this.getNoticeById(noticeId);
+  static async toggleNoticeStatus(id: string): Promise<{ success: boolean; nextStatus?: NoticeStatus; error?: string }> {
+    const notice = await this.getNoticeById(id);
     if (!notice) return { success: false, error: 'Notice not found.' };
 
-    const check = WorkflowStateMachine.evaluate({
-      noticeId,
-      revisionId: `rev_${notice.revisionNumber}`,
-      currentStatus: notice.status,
-      actorId,
-      actorRole,
-      editorId: notice.editorId
-    }, 'approve');
-
-    if (!check.allowed) return { success: false, error: check.error };
-    notice.status = check.nextStatus!;
+    const nextStatus: NoticeStatus = notice.status === 'active' ? 'inactive' : 'active';
+    notice.status = nextStatus;
     notice.updatedAt = new Date().toISOString();
-    return { success: true };
+    if (nextStatus === 'active' && !notice.publishedAt) {
+      notice.publishedAt = new Date().toISOString();
+    }
+
+    await AuditService.recordLog({
+      actorName: 'Admin',
+      actorRole: 'Admin',
+      action: nextStatus === 'active' ? 'ACTIVATED_NOTICE' : 'DEACTIVATED_NOTICE',
+      entityType: 'Notice',
+      entityName: notice.titleEn,
+      ipAddress: '127.0.0.1 (Jaipur)',
+      status: 'SUCCESS'
+    });
+
+    return { success: true, nextStatus };
   }
 
-  static async publishNotice(noticeId: string, actorId: string, actorRole: string): Promise<{ success: boolean; error?: string }> {
-    const notice = await this.getNoticeById(noticeId);
-    if (!notice) return { success: false, error: 'Notice not found.' };
-
-    const check = WorkflowStateMachine.evaluate({
-      noticeId,
-      revisionId: `rev_${notice.revisionNumber}`,
-      currentStatus: notice.status,
-      actorId,
-      actorRole,
-      editorId: notice.editorId
-    }, 'publish');
-
-    if (!check.allowed) return { success: false, error: check.error };
-    notice.status = check.nextStatus!;
-    notice.publishedAt = new Date().toISOString();
-    notice.updatedAt = new Date().toISOString();
-    return { success: true };
-  }
-
-  /**
-   * Transforms an AdminNoticeRecord into the exact Flutter model format
-   */
   static async deleteNotice(id: string): Promise<boolean> {
     const idx = memoryNotices.findIndex((n) => n.id === id);
     if (idx !== -1) {
+      const deleted = memoryNotices[idx];
       memoryNotices.splice(idx, 1);
+
+      await AuditService.recordLog({
+        actorName: 'Admin',
+        actorRole: 'Admin',
+        action: 'DELETED_NOTICE',
+        entityType: 'Notice',
+        entityName: deleted.titleEn,
+        ipAddress: '127.0.0.1 (Jaipur)',
+        status: 'SUCCESS'
+      });
+
       return true;
     }
     return false;
@@ -318,23 +216,15 @@ export class NoticeService {
       categoryId: n.categoryId,
       agencyId: n.agencyId,
       state: n.state,
-      language: 'hi',
+      noticeType: n.noticeType,
+      status: n.status === 'active' ? 'published' : 'archived',
       summaryHi: n.summaryHi,
       summaryEn: n.summaryEn,
-      publishedAt: n.publishedAt || n.updatedAt,
-      type: n.noticeType,
       facts: n.facts,
       sections: n.sections,
       links: n.links,
-      revisionHistory: [
-        {
-          date: n.updatedAt,
-          title: `Revision ${n.revisionNumber}`,
-          description: `Verified by ${n.facts.verifiedBy}`
-        }
-      ],
-      isFeatured: false,
-      isBreaking: false
+      publishedAt: n.publishedAt || n.updatedAt,
+      updatedAt: n.updatedAt,
     };
   }
 }

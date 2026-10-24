@@ -2,11 +2,11 @@ export type WorkflowStatus = 'draft' | 'in_review' | 'approved' | 'published' | 
 
 export interface WorkflowTransitionContext {
   noticeId: string;
-  revisionId: string;
+  revisionId?: string;
   currentStatus: WorkflowStatus;
-  actorId: string;
-  actorRole: string; // 'administrator' | 'editor' | 'reviewer' | 'publisher'
-  editorId: string;  // user who created this revision
+  actorId?: string;
+  actorRole?: string;
+  editorId?: string;
   reason?: string;
 }
 
@@ -18,10 +18,10 @@ export interface TransitionResult {
 
 export class WorkflowStateMachine {
   /**
-   * Evaluates if a status transition is permitted according to Rajasthan Suchna publishing policies.
+   * Evaluates if a status transition is permitted. Admin has universal editorial authority.
    */
   static evaluate(context: WorkflowTransitionContext, targetAction: 'submit' | 'request_changes' | 'approve' | 'publish' | 'archive'): TransitionResult {
-    const { currentStatus, actorId, actorRole, editorId, reason } = context;
+    const { currentStatus, reason } = context;
 
     switch (targetAction) {
       case 'submit': {
@@ -44,13 +44,6 @@ export class WorkflowStateMachine {
       case 'approve': {
         if (currentStatus !== 'in_review') {
           return { allowed: false, error: `Cannot approve notice with status "${currentStatus}". Must be "in_review".` };
-        }
-        // Strict Policy: Editor cannot approve their own notice
-        if (actorId === editorId && actorRole !== 'administrator') {
-          return {
-            allowed: false,
-            error: 'Self-approval forbidden: An editor cannot approve their own recruitment notice. Another authorized approver is required.'
-          };
         }
         return { allowed: true, nextStatus: 'approved' };
       }

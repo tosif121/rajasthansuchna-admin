@@ -2,30 +2,49 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, Lock, Mail, ArrowRight, Sun, Moon } from 'lucide-react';
+import { ShieldCheck, Lock, Mail, ArrowRight, Sun, Moon, AlertCircle } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function LoginPage() {
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
-  const [email, setEmail] = useState('editor@rajasthansuchna.gov.in');
-  const [password, setPassword] = useState('admin123');
-  const [role, setRole] = useState('reviewer');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate authentication
-    setTimeout(() => {
-      localStorage.setItem('rs_auth_user', JSON.stringify({
-        email,
-        name: email.includes('editor') ? 'Admin' : 'Administrator',
-        role
-      }));
-      router.push('/dashboard');
-    }, 600);
+    setError(null);
+
+    try {
+      const res = await fetch('/api/v1/admin/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setError(data.error || 'Authentication failed. Please verify credentials.');
+        setLoading(false);
+        return;
+      }
+
+      // Store client session metadata
+      localStorage.setItem('rs_auth_user', JSON.stringify(data.user));
+
+      // Redirect to Admin Dashboard
+      router.push('/');
+      router.refresh();
+    } catch {
+      setError('Network connection error. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,8 +52,9 @@ export default function LoginPage() {
       {/* Theme toggle in top right */}
       <div className="absolute top-5 right-5">
         <button
+          type="button"
           onClick={toggleTheme}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors cursor-pointer min-h-[44px]"
         >
           {theme === 'dark' ? (
             <>
@@ -50,7 +70,7 @@ export default function LoginPage() {
         </button>
       </div>
 
-      <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-xl space-y-6">
+      <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
           <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-red-950/20">
@@ -58,68 +78,63 @@ export default function LoginPage() {
           </div>
           <h1 className="text-xl font-bold text-slate-900 dark:text-white">Rajasthan Suchna</h1>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Recruitment Publishing & Administrative Control Center
+            Official Administrative Console
           </p>
         </div>
+
+        {/* Error Feedback */}
+        {error && (
+          <div className="p-3 rounded-xl text-xs bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/80 flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div>
-            <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Email Address</label>
+            <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Admin Email or Username</label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
-                type="email"
+                type="text"
                 required
+                placeholder="admin@rajasthansuchna.gov.in"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg pl-9 pr-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg pl-9 pr-3 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B] text-xs font-medium"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Password</label>
+            <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Admin Password</label>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="password"
                 required
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg pl-9 pr-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg pl-9 pr-3 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B] text-xs font-medium"
               />
             </div>
-          </div>
-
-          <div>
-            <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Active Role</label>
-            <Select value={role} onValueChange={setRole}>
-              <SelectTrigger className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-xs sm:text-sm font-medium focus:ring-1 focus:ring-[#A30B0B]">
-                <SelectValue placeholder="Select active role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="reviewer">Senior Reviewer & Approver</SelectItem>
-                <SelectItem value="editor">Content Editor</SelectItem>
-                <SelectItem value="publisher">Production Publisher</SelectItem>
-                <SelectItem value="administrator">System Administrator</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 flex items-center justify-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold py-2.5 rounded-lg shadow-md transition-colors"
+            className="w-full mt-3 flex items-center justify-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold py-2.5 rounded-lg shadow-md transition-colors cursor-pointer min-h-[44px] disabled:opacity-50"
           >
-            {loading ? 'Authenticating...' : 'Sign In to Console'}
+            {loading ? 'Verifying Admin Access...' : 'Sign In as Admin'}
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
         <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
           <p className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Strict role-based publication gates active
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Authorized Administrator Access Only
           </p>
         </div>
       </div>

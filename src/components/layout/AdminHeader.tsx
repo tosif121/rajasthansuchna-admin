@@ -6,20 +6,19 @@ import { Sun, Moon, LogOut, ChevronDown, Menu } from "lucide-react";
 import { useTheme } from "@/components/theme/ThemeProvider";
 import { useSidebar } from "./SidebarContext";
 
-interface AdminHeaderProps {
-  currentRole?: string;
-  onRoleChange?: (role: string) => void;
-}
-
-export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
+export function AdminHeader() {
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const { toggleMobile } = useSidebar();
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/v1/admin/auth/logout', { method: 'POST' });
+    } catch {}
     localStorage.removeItem("rs_auth_user");
     router.push("/login");
+    router.refresh();
   };
 
   return (

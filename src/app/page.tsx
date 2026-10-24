@@ -19,18 +19,17 @@ import {
   DatePicker
 } from '@/components/reusable';
 import { 
-  Clock, 
-  FileEdit, 
-  Building, 
   Plus, 
-  Send, 
   CheckCircle2, 
   Globe, 
   AlertCircle,
   ExternalLink,
   RefreshCw,
   Eye,
-  Trash2
+  Trash2,
+  FileText,
+  Clock,
+  Building
 } from 'lucide-react';
 
 interface NoticeItem {
@@ -39,7 +38,7 @@ interface NoticeItem {
   titleHi: string;
   titleEn: string;
   agencyName: string;
-  status: 'draft' | 'in_review' | 'approved' | 'published';
+  status: 'active' | 'inactive';
   revisionNumber: number;
   editorId: string;
   editorName: string;
@@ -54,7 +53,6 @@ interface NoticeItem {
 export default function AdminDashboardPage() {
   const [notices, setNotices] = useState<NoticeItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentRole, setCurrentRole] = useState('reviewer');
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [inspectNotice, setInspectNotice] = useState<NoticeItem | null>(null);
@@ -66,9 +64,9 @@ export default function AdminDashboardPage() {
   const [formTitleEn, setFormTitleEn] = useState('');
   const [formTitleHi, setFormTitleHi] = useState('');
   const [formAgency, setFormAgency] = useState('RSMSSB (Staff Selection Board)');
-  const [formPosts, setFormPosts] = useState('1500');
-  const [formDeadline, setFormDeadline] = useState('2026-12-15');
-  const [formQual, setFormQual] = useState('12th Pass / CET Qualified');
+  const [formPosts, setFormPosts] = useState('');
+  const [formDeadline, setFormDeadline] = useState('');
+  const [formQual, setFormQual] = useState('');
 
   const fetchNotices = async () => {
     try {
@@ -88,27 +86,22 @@ export default function AdminDashboardPage() {
     fetchNotices();
   }, []);
 
-  const handleWorkflowAction = async (noticeId: string, action: 'submit' | 'approve' | 'publish') => {
+  const handleToggleStatus = async (noticeId: string) => {
     setFeedback(null);
     try {
-      const actorId = currentRole === 'editor' ? 'usr_editor_1' : 'usr_reviewer_2';
       invalidateClientApiCache('/api/v1/admin/notices');
-      const res = await fetch(`/api/v1/admin/notices/${noticeId}/${action}`, {
+      const res = await fetch(`/api/v1/admin/notices/${noticeId}/status`, {
         method: 'POST',
-        headers: {
-          'x-actor-id': actorId,
-          'x-actor-role': currentRole
-        }
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
-        setFeedback({ message: data.error || 'Action rejected by policy.', type: 'error' });
+        setFeedback({ message: data.error || 'Failed to update status.', type: 'error' });
       } else {
-        setFeedback({ message: data.message || `Notice ${action}d successfully.`, type: 'success' });
+        setFeedback({ message: data.message || `Notice status updated to ${data.status}.`, type: 'success' });
         fetchNotices();
       }
     } catch {
-      setFeedback({ message: 'Network error executing workflow action.', type: 'error' });
+      setFeedback({ message: 'Network error updating notice status.', type: 'error' });
     }
   };
 
@@ -122,7 +115,7 @@ export default function AdminDashboardPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setFeedback({ message: 'Notice retracted/deleted successfully.', type: 'success' });
+        setFeedback({ message: 'Notice deleted successfully.', type: 'success' });
         setNoticeToDelete(null);
         fetchNotices();
       } else {
@@ -143,13 +136,14 @@ export default function AdminDashboardPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-actor-id': currentRole === 'editor' ? 'usr_editor_1' : 'usr_reviewer_2',
-          'x-actor-name': currentRole === 'editor' ? 'Admin' : 'Sunita Meena (Reviewer)'
+          'x-actor-id': 'admin',
+          'x-actor-name': 'Admin'
         },
         body: JSON.stringify({
           titleEn: formTitleEn,
           titleHi: formTitleHi || formTitleEn,
           agencyName: formAgency,
+          status: 'active',
           facts: {
             postsCount: parseInt(formPosts, 10) || 500,
             applicationEnd: formDeadline,
@@ -164,22 +158,25 @@ export default function AdminDashboardPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setFeedback({ message: 'New draft notice created successfully.', type: 'success' });
+        setFeedback({ message: 'New notice created and set to active.', type: 'success' });
         setShowCreateModal(false);
         setFormTitleEn('');
         setFormTitleHi('');
+        setFormPosts('');
+        setFormDeadline('');
+        setFormQual('');
         fetchNotices();
       }
     } catch {
-      setFeedback({ message: 'Failed to create draft.', type: 'error' });
+      setFeedback({ message: 'Failed to create notice.', type: 'error' });
     }
   };
 
   const stats = {
-    published: notices.filter(n => n.status === 'published').length,
-    inReview: notices.filter(n => n.status === 'in_review').length,
-    drafts: notices.filter(n => n.status === 'draft').length,
-    agencies: 8
+    total: notices.length,
+    active: notices.filter(n => n.status === 'active').length,
+    inactive: notices.filter(n => n.status === 'inactive').length,
+    agencies: 6
   };
 
   // Reusable DataTable Columns for Dashboard
@@ -212,42 +209,25 @@ export default function AdminDashboardPage() {
     {
       header: 'Status',
       cell: (notice) => {
-        const isDraft = notice.status === 'draft';
-        const isInReview = notice.status === 'in_review';
-        const isApproved = notice.status === 'approved';
-        const isPublished = notice.status === 'published';
-
-        if (isPublished) {
+        const isActive = notice.status === 'active';
+        if (isActive) {
           return (
-            <Badge variant="success" className="gap-1">
+            <Badge variant="success" className="gap-1.5 font-bold text-[10px]">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              PUBLISHED
-            </Badge>
-          );
-        }
-        if (isInReview) {
-          return (
-            <Badge variant="warning" className="gap-1">
-              <Clock className="w-3 h-3" /> IN REVIEW
-            </Badge>
-          );
-        }
-        if (isApproved) {
-          return (
-            <Badge className="bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-700/50 gap-1">
-              <CheckCircle2 className="w-3 h-3" /> APPROVED
+              ACTIVE
             </Badge>
           );
         }
         return (
-          <Badge variant="secondary">
-            DRAFT
+          <Badge variant="secondary" className="gap-1.5 font-bold text-[10px] bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+            INACTIVE
           </Badge>
         );
       },
     },
     {
-      header: 'Author / Rev',
+      header: 'Author',
       cell: (notice) => (
         <div className="text-[11px] text-slate-500 dark:text-slate-400">
           <p className="text-slate-700 dark:text-slate-300 font-medium">{notice.editorName}</p>
@@ -256,13 +236,10 @@ export default function AdminDashboardPage() {
       ),
     },
     {
-      header: 'Workflow Action',
+      header: 'Status Action',
       className: 'text-right',
       cell: (notice) => {
-        const isDraft = notice.status === 'draft';
-        const isInReview = notice.status === 'in_review';
-        const isApproved = notice.status === 'approved';
-        const isPublished = notice.status === 'published';
+        const isActive = notice.status === 'active';
 
         return (
           <div className="flex items-center justify-end gap-1.5">
@@ -274,34 +251,25 @@ export default function AdminDashboardPage() {
               <Eye className="w-3.5 h-3.5" />
             </button>
 
-            {isDraft && (
+            {isActive ? (
               <button
-                onClick={() => handleWorkflowAction(notice.id, 'submit')}
-                className="flex items-center gap-1 text-[11px] font-semibold bg-amber-50 dark:bg-amber-600/20 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40 hover:bg-amber-100 dark:hover:bg-amber-600/30 px-2 py-1 rounded transition-colors"
+                onClick={() => handleToggleStatus(notice.id)}
+                className="flex items-center gap-1 text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 px-2 py-1 rounded transition-colors"
+                title="Deactivate notice"
               >
-                <Send className="w-3 h-3" /> Submit
+                Deactivate
+              </button>
+            ) : (
+              <button
+                onClick={() => handleToggleStatus(notice.id)}
+                className="flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800 px-2 py-1 rounded transition-colors"
+                title="Activate notice"
+              >
+                <CheckCircle2 className="w-3 h-3" /> Activate
               </button>
             )}
 
-            {isInReview && (
-              <button
-                onClick={() => handleWorkflowAction(notice.id, 'approve')}
-                className="flex items-center gap-1 text-[11px] font-semibold bg-blue-50 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40 hover:bg-blue-100 dark:hover:bg-blue-600/30 px-2 py-1 rounded transition-colors"
-              >
-                <CheckCircle2 className="w-3 h-3" /> Approve
-              </button>
-            )}
-
-            {isApproved && (
-              <button
-                onClick={() => handleWorkflowAction(notice.id, 'publish')}
-                className="flex items-center gap-1 text-[11px] font-semibold bg-[#A30B0B] hover:bg-[#850909] text-white px-2.5 py-1 rounded shadow-xs transition-colors"
-              >
-                <Globe className="w-3 h-3" /> Publish
-              </button>
-            )}
-
-            {isPublished && (
+            {isActive && (
               <a
                 href={`/api/v1/notices/${notice.slug}`}
                 target="_blank"
@@ -314,7 +282,7 @@ export default function AdminDashboardPage() {
 
             <button
               onClick={() => setNoticeToDelete(notice)}
-              title="Delete or Archive Notice"
+              title="Delete Notice"
               className="p-1.5 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -330,14 +298,14 @@ export default function AdminDashboardPage() {
       <AdminSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
-        <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
+        <AdminHeader />
 
         <main className="p-4 sm:p-6 lg:p-8 w-full mx-auto space-y-6">
           {/* Reusable PageHeader */}
           <PageHeader
             eyebrow="Publishing Center"
-            title="Editorial Dashboard"
-            description="Manage recruitment notices, conduct editorial reviews, and publish verified circulars to the Rajasthan Suchna Flutter app."
+            title="Dashboard"
+            description="Manage recruitment notices, activate or deactivate circulars, and broadcast verified circulars to the Rajasthan Suchna Flutter app."
             actions={
               <div className="flex items-center gap-3">
                 <Button
@@ -352,7 +320,7 @@ export default function AdminDashboardPage() {
                   onClick={() => setShowCreateModal(true)}
                   className="gap-2"
                 >
-                  <Plus className="w-4 h-4" /> New Recruitment Draft
+                  <Plus className="w-4 h-4" /> New Recruitment Notice
                 </Button>
               </div>
             }
@@ -387,49 +355,49 @@ export default function AdminDashboardPage() {
           {/* Reusable StatCards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
-              title="Live in Flutter Feed"
-              value={stats.published}
-              description="Active Circulars"
+              title="Total Notices"
+              value={stats.total}
+              description="All circulars in system"
+              icon={<FileText className="w-4 h-4 text-[#A30B0B] dark:text-red-400" />}
+              borderColor="border-l-[#A30B0B]"
+            />
+            <StatCard
+              title="Active Circulars"
+              value={stats.active}
+              description="Live in Flutter App Feed"
               icon={<Globe className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
               borderColor="border-l-emerald-500"
             />
             <StatCard
-              title="Pending Review"
-              value={stats.inReview}
-              description="Requires Approval"
-              icon={<Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />}
-              borderColor="border-l-amber-500"
+              title="Inactive Circulars"
+              value={stats.inactive}
+              description="Drafts & Retracted"
+              icon={<Clock className="w-4 h-4 text-slate-500 dark:text-slate-400" />}
+              borderColor="border-l-slate-400"
             />
             <StatCard
-              title="Drafts in Progress"
-              value={stats.drafts}
-              description="Unsubmitted"
-              icon={<FileEdit className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
-              borderColor="border-l-blue-500"
-            />
-            <StatCard
-              title="Registered Agencies"
+              title="Commissions / Agencies"
               value={stats.agencies}
-              description="RSSB, RPSC, etc."
-              icon={<Building className="w-4 h-4 text-purple-600 dark:text-purple-400" />}
-              borderColor="border-l-purple-500"
+              description="RSMSSB, RPSC, etc."
+              icon={<Building className="w-4 h-4 text-amber-600 dark:text-amber-400" />}
+              borderColor="border-l-amber-500"
             />
           </div>
 
-          {/* Reusable DataTable for Recruitment Publication Queue */}
+          {/* Reusable DataTable for Recruitment Notices */}
           <div className="space-y-3">
             <h3 className="font-bold text-sm text-slate-900 dark:text-white">
-              Recruitment Publication Queue
+              Recruitment Notices
             </h3>
             <DataTable
               columns={tableColumns}
               data={notices}
               isLoading={loading}
               searchKey="titleEn"
-              searchPlaceholder="Filter publication queue by recruitment name..."
+              searchPlaceholder="Filter notices by recruitment name..."
               pageSize={10}
-              emptyTitle="No notices in publication queue"
-              emptyDescription="Create a new recruitment draft to start the publishing pipeline."
+              emptyTitle="No notices found"
+              emptyDescription="Create a new recruitment notice to publish to the Flutter mobile app."
             />
           </div>
         </main>
@@ -438,21 +406,21 @@ export default function AdminDashboardPage() {
       {/* Reusable DeleteConfirmationModal */}
       <DeleteConfirmationModal
         isOpen={!!noticeToDelete}
-        title="Retract / Delete Notice"
-        description="Are you sure you want to delete this recruitment notice? It will be removed immediately from the queue and API."
+        title="Delete Notice"
+        description="Are you sure you want to delete this recruitment notice? It will be removed immediately from the system and Flutter feed."
         itemName={noticeToDelete?.titleEn || noticeToDelete?.titleHi}
         isDeleting={isDeleting}
         onConfirm={handleDeleteConfirm}
         onCancel={() => setNoticeToDelete(null)}
       />
 
-      {/* Create Draft Notice Modal (shadcn Dialog) */}
+      {/* Create Notice Modal (shadcn Dialog) */}
       <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Create Recruitment Draft</DialogTitle>
+            <DialogTitle>Create Recruitment Notice</DialogTitle>
             <DialogDescription>
-              Enter initial circular details. Editors cannot approve their own drafts.
+              Enter circular details to add as an active recruitment notice.
             </DialogDescription>
           </DialogHeader>
 
@@ -536,7 +504,7 @@ export default function AdminDashboardPage() {
                 Cancel
               </Button>
               <Button type="submit">
-                Save Draft Notice
+                Create Notice
               </Button>
             </DialogFooter>
           </form>

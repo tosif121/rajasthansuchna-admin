@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, 
   FileText, 
-  CheckSquare, 
   Building2, 
   History, 
   ShieldCheck,
@@ -17,7 +16,6 @@ import { useSidebar } from "./SidebarContext";
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "All Notices", href: "/notices", icon: FileText },
-  { name: "Review Queue", href: "/review-queue", icon: CheckSquare, badge: "1" },
   { name: "Agencies", href: "/agencies", icon: Building2 },
   { name: "Audit Logs", href: "/audit-logs", icon: History },
 ];
@@ -75,6 +73,7 @@ export function AdminSidebar() {
           {navigation.map((item) => {
             const isActive = pathname === item.href || (item.href === "/dashboard" && pathname === "/");
             const Icon = item.icon;
+
             return (
               <Link
                 key={item.name}
@@ -90,13 +89,6 @@ export function AdminSidebar() {
                   <Icon className={`w-4 h-4 shrink-0 ${isActive ? "text-white" : "text-slate-500 dark:text-slate-400"}`} />
                   <span>{item.name}</span>
                 </div>
-                {item.badge && (
-                  <span className={`px-2 py-0.5 text-xs rounded-full font-bold ${
-                    isActive ? "bg-white text-[#A30B0B]" : "bg-red-100 dark:bg-red-600/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/30"
-                  }`}>
-                    {item.badge}
-                  </span>
-                )}
               </Link>
             );
           })}

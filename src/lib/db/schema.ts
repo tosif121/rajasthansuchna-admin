@@ -59,7 +59,7 @@ export const notices = pgTable('notices', {
   categoryId: uuid('category_id').notNull().references(() => categories.id),
   state: text('state').default('rajasthan').notNull(), // 'rajasthan' | 'central'
   noticeType: text('notice_type').default('vacancy').notNull(), // 'vacancy' | 'admitCard' | 'result' | 'answerKey' | 'scheme'
-  status: text('status').default('draft').notNull(), // 'draft' | 'in_review' | 'approved' | 'published' | 'archived' | 'rejected'
+  status: text('status').default('active').notNull(), // 'active' | 'inactive'
   currentRevisionId: uuid('current_revision_id'),
   publishedAt: timestamp('published_at', { withTimezone: true }),
   expiresAt: timestamp('expires_at', { withTimezone: true }),

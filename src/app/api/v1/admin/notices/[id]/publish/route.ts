@@ -7,13 +7,10 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const actorId = req.headers.get('x-actor-id') || 'usr_publisher_1';
-  const actorRole = req.headers.get('x-actor-role') || 'publisher';
-
-  const res = await NoticeService.publishNotice(id, actorId, actorRole);
+  const res = await NoticeService.updateNoticeStatus(id, 'active');
   if (!res.success) {
     return NextResponse.json({ success: false, error: res.error }, { status: 400 });
   }
   invalidateNoticeCache();
-  return NextResponse.json({ success: true, message: 'Notice officially published to Flutter mobile feed.' });
+  return NextResponse.json({ success: true, message: 'Notice set to active and published to Flutter mobile feed.' });
 }

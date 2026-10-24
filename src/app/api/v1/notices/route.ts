@@ -10,12 +10,12 @@ export async function GET(req: NextRequest) {
   const agencyId = searchParams.get('agencyId') || searchParams.get('agency');
   const query = searchParams.get('q') || searchParams.get('searchQuery');
 
-  const cacheKey = `notices:published:${categoryId || 'all'}:${agencyId || 'all'}:${query || ''}:${page}:${limit}`;
+  const cacheKey = `notices:active:${categoryId || 'all'}:${agencyId || 'all'}:${query || ''}:${page}:${limit}`;
 
   // Coalesce concurrent in-flight requests into 1 execution with 30s TTL cache
   const result = await getCachedOrFetch(cacheKey, 30, async () => {
     let notices = await NoticeService.getNotices({
-      status: 'published',
+      status: 'active',
       query: query || undefined,
       agencyId: agencyId || undefined,
     });
