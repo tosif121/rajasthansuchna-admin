@@ -251,26 +251,30 @@ export default function ReviewQueuePage() {
             <StatCard
               title="Pending Verification"
               value={notices.length}
-              subtitle="Awaiting reviewer clearance"
-              icon={Clock}
+              description="Awaiting editorial clearance"
+              icon={<Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />}
+              borderColor="border-l-amber-500"
             />
             <StatCard
-              title="Four-Eyes Gate"
+              title="Integrity Gate"
               value="Enforced"
-              subtitle="Editors cannot self-approve"
-              icon={ShieldAlert}
+              description="Strict verification policy"
+              icon={<ShieldAlert className="w-4 h-4 text-rose-600 dark:text-rose-400" />}
+              borderColor="border-l-rose-500"
             />
             <StatCard
-              title="Average Review Time"
+              title="Review Turnaround"
               value="14 mins"
-              subtitle="SLA compliant"
-              icon={CheckSquare}
+              description="SLA verification time"
+              icon={<CheckSquare className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+              borderColor="border-l-blue-500"
             />
             <StatCard
-              title="Active Role"
-              value={currentRole.toUpperCase()}
-              subtitle="Current user authority"
-              icon={ShieldCheck}
+              title="Editorial Authority"
+              value="Active"
+              description="Admin approval clearance"
+              icon={<ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+              borderColor="border-l-emerald-500"
             />
           </div>
 

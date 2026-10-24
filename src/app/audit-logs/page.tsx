@@ -246,26 +246,30 @@ export default function AuditLogsPage() {
             <StatCard
               title="Total Events"
               value={logs.length}
-              subtitle="Recorded in system"
-              icon={History}
+              description="Recorded in system"
+              icon={<History className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+              borderColor="border-l-blue-500"
             />
             <StatCard
               title="Allowed Operations"
               value={successCount}
-              subtitle="Passed policy gate"
-              icon={CheckCircle2}
+              description="Passed policy gate"
+              icon={<CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+              borderColor="border-l-emerald-500"
             />
             <StatCard
               title="Policy Blocked"
               value={blockedCount}
-              subtitle="Integrity guards tripped"
-              icon={ShieldAlert}
+              description="Integrity guards tripped"
+              icon={<ShieldAlert className="w-4 h-4 text-rose-600 dark:text-rose-400" />}
+              borderColor="border-l-rose-500"
             />
             <StatCard
               title="Origin Endpoints"
               value="3 gateways"
-              subtitle="Active admin IPs"
-              icon={Globe2}
+              description="Active admin IPs"
+              icon={<Globe2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />}
+              borderColor="border-l-purple-500"
             />
           </div>
 

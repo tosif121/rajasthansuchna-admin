@@ -208,26 +208,30 @@ export default function AgenciesPage() {
             <StatCard
               title="Total Agencies"
               value={agencies.length}
-              subtitle="Registered commissions"
-              icon={Building2}
+              description="Registered commissions"
+              icon={<Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+              borderColor="border-l-blue-500"
             />
             <StatCard
               title="Rajasthan State"
               value={rajasthanCount}
-              subtitle="State recruitment boards"
-              icon={ShieldCheck}
+              description="State recruitment boards"
+              icon={<ShieldCheck className="w-4 h-4 text-amber-600 dark:text-amber-400" />}
+              borderColor="border-l-amber-500"
             />
             <StatCard
               title="Central Agencies"
               value={centralCount}
-              subtitle="SSC, RRB & Central"
-              icon={Globe}
+              description="SSC, RRB & Central"
+              icon={<Globe className="w-4 h-4 text-purple-600 dark:text-purple-400" />}
+              borderColor="border-l-purple-500"
             />
             <StatCard
               title="Active Circulars"
               value={totalNotices}
-              subtitle="Live on mobile app"
-              icon={ExternalLink}
+              description="Live on mobile app"
+              icon={<ExternalLink className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+              borderColor="border-l-emerald-500"
             />
           </div>
 
