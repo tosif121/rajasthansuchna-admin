@@ -2,14 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, 
   FileText, 
   CheckSquare, 
   Building2, 
   History, 
-  LogOut,
   ShieldCheck
 } from "lucide-react";
 
@@ -23,12 +22,6 @@ const navigation = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const router = useRouter();
-
-  const handleLogout = () => {
-    localStorage.removeItem("rs_auth_user");
-    router.push("/login");
-  };
 
   return (
     <aside className="w-64 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 min-h-screen transition-colors">
@@ -79,27 +72,6 @@ export function AdminSidebar() {
           );
         })}
       </nav>
-
-      {/* Admin User Footer with Logout */}
-      <div className="p-3.5 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50/80 dark:bg-slate-950 flex items-center justify-between">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-500/30 flex items-center justify-center text-amber-800 dark:text-amber-400 font-bold text-xs shrink-0">
-            A
-          </div>
-          <div className="min-w-0">
-            <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">Admin</p>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">Administrator</p>
-          </div>
-        </div>
-
-        <button
-          onClick={handleLogout}
-          title="Sign Out"
-          className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 hover:bg-slate-200 dark:hover:bg-slate-900 transition-colors cursor-pointer"
-        >
-          <LogOut className="w-4 h-4" />
-        </button>
-      </div>
     </aside>
   );
 }
