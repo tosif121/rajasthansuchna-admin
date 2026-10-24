@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏛️ Rajasthan Suchna - Admin Console & API Backend
 
-## Getting Started
+> **Editorial Publishing & Real-time Management Portal for Rajasthan Suchna Mobile Application**
 
-First, run the development server:
+A production-grade, highly responsive administrative console and REST API engine built with **Next.js 15 (App Router)**, **TypeScript**, **Tailwind CSS**, **Drizzle ORM**, and **Neon PostgreSQL Serverless Database**.
 
+---
+
+## ⚡ Architecture & Tech Stack
+
+- **Framework**: Next.js 15 (React 19, Server Components, Route Handlers)
+- **Database**: [Neon Serverless PostgreSQL](https://neon.tech) via `@neondatabase/serverless` & Drizzle ORM
+- **Styling**: Tailwind CSS with rich dark-mode support and custom GovTech editorial palette (`#A30B0B` deep red accents)
+- **Icons**: Lucide React
+- **UI Components**: Radix UI primitives (`@radix-ui/react-dialog`, `@radix-ui/react-dropdown-menu`, etc.)
+- **Caching**: In-memory LRU with SingleFlight promise deduplication for concurrent API reads
+
+---
+
+## 🚀 Key Modules & Pages
+
+### 1. 📊 Dashboard (`/` & `/dashboard`)
+- Executive statistics: Active Notices, Total Registered Agencies, Total Categories, System Status.
+- Real-time notice list with quick status badge and pagination.
+- Quick navigation shortcuts to notices, commissions, and taxonomy.
+
+### 2. 📄 Recruitment Notices (`/notices`)
+- Comprehensive management of recruitment vacancies, admit cards, results, and answer keys.
+- **Actions**:
+  - One-click **Activate / Deactivate** toggle.
+  - **Inspect JSON Model**: Preview the exact structured JSON received by the Flutter client.
+  - **Live URL**: Direct link to the public API notice endpoint.
+  - **Delete Notice**: With safety confirmation modal.
+- Search with instant debounce, jurisdiction filter (Rajasthan vs Central), and pagination.
+
+### 3. 📂 Exam Categories (`/categories`)
+- Complete taxonomy management for mobile app filter tabs.
+- **Custom Logo / Image Upload**: Upload custom category logos (PNG, SVG, WebP, JPG) with live preview.
+- **Preset Icon Picker**: 10 curated Lucide icons with stylish fallback badges.
+- **Status Lifecycle**: Toggle categories **Active** (visible in mobile app) or **Inactive** (hidden) with instant optimistic UI update.
+- **Dialogs**: Clean modals with click-outside and `Escape` key dismissal.
+
+### 4. 🏛️ Government Agencies (`/agencies`)
+- Directory of 13 state and central recruitment commissions (RSMSSB, RPSC, Rajasthan Police, REET, SSC, UPSC, RRB, etc.).
+- Direct external links to official government portals.
+- Real-time badge tracking active notices published by each commission.
+
+### 5. ⚙️ Settings & AI Configuration (`/settings`)
+- Dedicated LLM & AI assistant configuration panel.
+- Provider selection: Google Gemini, OpenAI, Groq, or Anthropic.
+- Temperature, system prompt, and context grounding threshold settings.
+
+---
+
+## 🔌 API Endpoints Reference (`/api/v1`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/v1/notices` | Paginated recruitment notices with query, agency, and category filters |
+| `POST`| `/api/v1/admin/notices` | Create a new notice with structured facts, dates, and PDF links |
+| `PATCH`| `/api/v1/admin/notices/[id]` | Update notice revision or toggle active/inactive status |
+| `DELETE`| `/api/v1/admin/notices/[id]` | Delete notice record |
+| `GET` | `/api/v1/categories` | List active categories (append `?all=true` for admin console) |
+| `POST`| `/api/v1/categories` | Add/update category with name, Hindi translation, logo/icon |
+| `PATCH`| `/api/v1/categories` | Toggle category active/inactive status |
+| `GET` | `/api/v1/agencies` | List government recruitment boards and official portal URLs |
+| `POST`| `/api/v1/agencies` | Register new government recruitment commission |
+
+---
+
+## 🛠️ Getting Started & Local Setup
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure Environment Variables
+Create a `.env.local` file in the project root:
+```env
+DATABASE_URL=postgresql://neondb_owner:YOUR_PASSWORD@ep-sample.us-east-2.aws.neon.tech/neondb?sslmode=require
+JWT_SECRET=your_secure_jwt_secret_key_here
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Database Migration & Seeding
+Create database schema tables and seed 30 recruitment notices, 13 agencies, 9 categories, and default administrator:
+```bash
+npm run seed
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Run Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📱 Connecting to the Flutter Mobile App
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+When running the mobile app on a **Physical Android Device** connected via USB/Wi-Fi:
+```bash
+# Enable ADB port forwarding so localhost:3000 routes from phone to Mac
+adb reverse tcp:3000 tcp:3000
+```
+On **Android Emulator**, the app automatically routes to `http://10.0.2.2:3000` with automatic failover!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+© 2026 Rajasthan Suchna. All rights reserved.
