@@ -14,7 +14,8 @@ import {
   Column, 
   DeleteConfirmationModal,
   FormattedTimestamp, 
-  ToggleSwitch 
+  ToggleSwitch,
+  DatePicker
 } from '@/components/reusable';
 import { 
   Clock, 
@@ -330,7 +331,7 @@ export default function AdminDashboardPage() {
       <div className="flex-1 flex flex-col min-w-0">
         <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
 
-        <main className="p-8  w-full mx-auto space-y-6">
+        <main className="p-4 sm:p-6 lg:p-8 w-full mx-auto space-y-6">
           {/* Reusable PageHeader */}
           <PageHeader
             eyebrow="Publishing Center"
@@ -512,10 +513,10 @@ export default function AdminDashboardPage() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Application Deadline</label>
-                <Input
-                  type="date"
-                  value={formDeadline}
-                  onChange={(e) => setFormDeadline(e.target.value)}
+                <DatePicker
+                  date={formDeadline}
+                  onChange={(dateStr) => setFormDeadline(dateStr)}
+                  placeholder="Select deadline"
                 />
               </div>
 

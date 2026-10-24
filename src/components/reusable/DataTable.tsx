@@ -1,7 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
-import { Search, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { 
+  Search, 
+  ChevronLeft, 
+  ChevronRight, 
+  ChevronsLeft, 
+  ChevronsRight 
+} from "lucide-react";
 import { 
   Table, 
   TableHeader, 
@@ -15,72 +21,110 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "./EmptyState";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 
-export interface Column<T> {
+export interface Column<T = any> {
   header: string;
-  accessorKey?: keyof T;
+  accessorKey?: keyof T | string;
+  id?: string;
   cell?: (row: T) => React.ReactNode;
   className?: string;
 }
 
-export interface DataTableProps<T> {
-  columns: Column<T>[];
+export interface DataTableProps<T = any> {
+  columns: Column<T>[] | any[];
   data: T[];
   isLoading?: boolean;
   searchPlaceholder?: string;
-  searchKey?: keyof T;
+  searchKey?: keyof T | string;
   pageSize?: number;
+  initialPageSize?: number;
+  pageSizeOptions?: number[];
   emptyTitle?: string;
   emptyDescription?: string;
+  disablePagination?: boolean;
 }
 
 export function DataTable<T extends Record<string, any>>({
   columns,
-  data,
+  data = [],
   isLoading = false,
   searchPlaceholder = "Search records...",
   searchKey,
   pageSize = 10,
+  initialPageSize = 10,
+  pageSizeOptions = [10, 20, 50, 100],
   emptyTitle = "No records found",
   emptyDescription = "Try adjusting your search query or filters.",
+  disablePagination = false,
 }: DataTableProps<T>) {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageSize, setCurrentPageSize] = useState(pageSize || 10);
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize || initialPageSize || 10);
 
-  const filtered = data.filter((item) => {
-    if (!search || !searchKey) return true;
-    const val = item[searchKey];
-    if (typeof val === "string") {
-      return val.toLowerCase().includes(search.toLowerCase());
-    }
-    return true;
-  });
+  const filtered = useMemo(() => {
+    if (!data || !Array.isArray(data)) return [];
+    if (!search.trim()) return data;
 
-  const totalPages = Math.ceil(filtered.length / currentPageSize) || 1;
-  const startIndex = (currentPage - 1) * currentPageSize;
+    const query = search.toLowerCase();
+    return data.filter((item) => {
+      if (!item) return false;
+      if (searchKey) {
+        const val = item[searchKey as keyof T];
+        if (typeof val === "string") return val.toLowerCase().includes(query);
+        if (typeof val === "number") return String(val).includes(query);
+        return false;
+      }
+      return Object.values(item).some((val) => {
+        if (typeof val === "string") return val.toLowerCase().includes(query);
+        if (typeof val === "number") return String(val).includes(query);
+        return false;
+      });
+    });
+  }, [data, search, searchKey]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / currentPageSize));
+  const effectiveCurrentPage = Math.min(currentPage, totalPages);
+  const startIndex = (effectiveCurrentPage - 1) * currentPageSize;
   const pageData = filtered.slice(startIndex, startIndex + currentPageSize);
   const startItem = filtered.length === 0 ? 0 : startIndex + 1;
   const endItem = Math.min(startIndex + currentPageSize, filtered.length);
 
+  // Compute page buttons (1, 2, ..., totalPages)
+  const paginationButtons = useMemo(() => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (effectiveCurrentPage <= 3) {
+        pages.push(1, 2, 3, 4, "…", totalPages);
+      } else if (effectiveCurrentPage >= totalPages - 2) {
+        pages.push(1, "…", totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        pages.push(1, "…", effectiveCurrentPage - 1, effectiveCurrentPage, effectiveCurrentPage + 1, "…", totalPages);
+      }
+    }
+    return pages;
+  }, [effectiveCurrentPage, totalPages]);
+
   return (
     <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
       {/* Search & page size toolbar */}
-      {searchKey && (
-        <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
-          <div className="relative w-full max-w-sm">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <Input
-              type="text"
-              placeholder={searchPlaceholder}
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="pl-9 h-8"
-            />
-          </div>
-          <div className="flex items-center gap-3">
+      <div className="p-3 sm:p-4 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="relative w-full sm:max-w-xs md:max-w-sm">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Input
+            type="text"
+            placeholder={searchPlaceholder}
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="pl-9 h-9 text-xs sm:text-sm bg-slate-50 dark:bg-slate-950"
+          />
+        </div>
+
+        <div className="flex items-center justify-between sm:justify-end gap-3">
+          {!disablePagination && (
             <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
               <span>Rows per page:</span>
               <select
@@ -89,27 +133,31 @@ export function DataTable<T extends Record<string, any>>({
                   setCurrentPageSize(Number(e.target.value));
                   setCurrentPage(1);
                 }}
-                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md px-2 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-[#A30B0B] cursor-pointer"
               >
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
+                {pageSizeOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt} rows
+                  </option>
+                ))}
               </select>
             </div>
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap hidden sm:inline">
-              Showing {startItem}-{endItem} of {filtered.length}
-            </span>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* shadcn UI Table */}
+          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap hidden sm:inline">
+            Showing <strong className="text-slate-900 dark:text-white font-mono">{startItem}–{endItem}</strong> of{" "}
+            <strong className="text-slate-900 dark:text-white font-mono">{filtered.length}</strong> records
+          </span>
+        </div>
+      </div>
+
+      {/* Table Container */}
       <Table>
         <TableHeader>
           <TableRow>
             {columns.map((col, idx) => (
               <TableHead key={idx} className={col.className}>
-                {col.header}
+                {typeof col.header === "string" ? col.header : col.header}
               </TableHead>
             ))}
           </TableRow>
@@ -139,37 +187,99 @@ export function DataTable<T extends Record<string, any>>({
         </TableBody>
       </Table>
 
-      {/* Pagination Footer */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-        <span>
-          Showing {startItem} to {endItem} of {filtered.length} entries (Page {currentPage} of {totalPages})
-        </span>
-        {totalPages > 1 && (
-          <div className="flex items-center gap-1.5">
+      {/* Rich Pagination Footer */}
+      {!disablePagination && (
+        <div className="p-3 sm:p-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          {/* Pagination Navigation */}
+          <div className="flex flex-wrap items-center gap-1.5 justify-center sm:justify-start">
+            {/* First Page */}
             <Button
               variant="outline"
               size="icon"
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              disabled={currentPage === 1}
-              className="h-8 w-8"
+              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40"
+              onClick={() => setCurrentPage(1)}
+              disabled={effectiveCurrentPage <= 1}
+              title="First page"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronsLeft className="h-4 w-4" />
             </Button>
-            <span className="px-2 font-mono font-semibold text-slate-700 dark:text-slate-300">
-              {currentPage} / {totalPages}
-            </span>
+
+            {/* Previous Page */}
             <Button
               variant="outline"
               size="icon"
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="h-8 w-8"
+              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40"
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={effectiveCurrentPage <= 1}
+              title="Previous page"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+
+            {/* Dynamic Numeric Page Buttons */}
+            <div className="flex items-center gap-1">
+              {paginationButtons.map((page, idx) => {
+                if (typeof page === "string") {
+                  return (
+                    <span
+                      key={`ellipsis-${idx}`}
+                      className="px-1 text-xs text-slate-400 dark:text-slate-500 font-mono select-none"
+                    >
+                      …
+                    </span>
+                  );
+                }
+                const isCurrent = effectiveCurrentPage === page;
+                return (
+                  <Button
+                    key={page}
+                    variant={isCurrent ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentPage(page)}
+                    className={`h-8 min-w-[32px] px-2 rounded-lg text-xs font-bold tabular-nums transition-colors cursor-pointer ${
+                      isCurrent
+                        ? "bg-[#A30B0B] hover:bg-[#850909] text-white shadow-xs border-[#A30B0B]"
+                        : "border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+                    }`}
+                  >
+                    {page}
+                  </Button>
+                );
+              })}
+            </div>
+
+            {/* Next Page */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40"
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={effectiveCurrentPage >= totalPages}
+              title="Next page"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+
+            {/* Last Page */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40"
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={effectiveCurrentPage >= totalPages}
+              title="Last page"
+            >
+              <ChevronsRight className="h-4 w-4" />
             </Button>
           </div>
-        )}
-      </div>
+
+          {/* Record Count Information */}
+          <div className="text-xs text-slate-500 dark:text-slate-400 text-center sm:text-right font-medium">
+            Showing <strong className="text-slate-900 dark:text-white tabular-nums font-mono">{startItem}–{endItem}</strong> of{" "}
+            <strong className="text-slate-900 dark:text-white tabular-nums font-mono">{filtered.length}</strong> records
+          </div>
+        </div>
+      )}
     </div>
   );
 }

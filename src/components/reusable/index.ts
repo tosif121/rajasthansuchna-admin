@@ -6,3 +6,4 @@ export * from './DeleteConfirmationModal';
 export * from './DataTable';
 export * from './ToggleSwitch';
 export * from './FormattedTimestamp';
+export * from './DatePicker';
