@@ -3,7 +3,7 @@
 import * as React from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Calendar as CalendarIcon, X } from 'lucide-react';
+import { Calendar as CalendarIcon, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export interface DatePickerProps {
@@ -78,6 +78,25 @@ const CustomDateInput = React.forwardRef<HTMLInputElement, CustomInputProps>(
 );
 CustomDateInput.displayName = 'CustomDateInput';
 
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
+// Generate years covering past 5 years to next 15 years
+const CURRENT_YEAR = new Date().getFullYear();
+const YEARS = Array.from({ length: 25 }, (_, i) => CURRENT_YEAR - 5 + i);
+
 export function DatePicker({
   date,
   setDate,
@@ -117,7 +136,7 @@ export function DatePicker({
         const year = newDate.getFullYear();
         const month = String(newDate.getMonth() + 1).padStart(2, '0');
         const day = String(newDate.getDate()).padStart(2, '0');
-        const dateStr = `${year}-${month}-${day}`;
+        const dateStr = [year, month, day].join('-');
         onChange(dateStr, newDate);
       } else {
         onChange('', null);
@@ -143,6 +162,65 @@ export function DatePicker({
         showTimeSelect={showTimeSelect}
         popperPlacement="bottom-start"
         popperClassName="react-datepicker-popper"
+        renderCustomHeader={({
+          date,
+          changeYear,
+          changeMonth,
+          decreaseMonth,
+          increaseMonth,
+          prevMonthButtonDisabled,
+          nextMonthButtonDisabled,
+        }) => (
+          <div className="flex items-center justify-between px-2 py-1 gap-1.5 bg-card">
+            <button
+              type="button"
+              onClick={decreaseMonth}
+              disabled={prevMonthButtonDisabled}
+              className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+              aria-label="Previous Month"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-1.5">
+              {/* Month Dropdown */}
+              <select
+                value={MONTHS[date.getMonth()]}
+                onChange={({ target: { value } }) => changeMonth(MONTHS.indexOf(value))}
+                className="h-7 text-xs font-semibold bg-background text-foreground border border-input rounded-md px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-[#A30B0B] cursor-pointer"
+              >
+                {MONTHS.map((month) => (
+                  <option key={month} value={month} className="bg-card text-foreground">
+                    {month}
+                  </option>
+                ))}
+              </select>
+
+              {/* Year Dropdown */}
+              <select
+                value={date.getFullYear()}
+                onChange={({ target: { value } }) => changeYear(Number(value))}
+                className="h-7 text-xs font-semibold bg-background text-foreground border border-input rounded-md px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-[#A30B0B] cursor-pointer"
+              >
+                {YEARS.map((year) => (
+                  <option key={year} value={year} className="bg-card text-foreground">
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="button"
+              onClick={increaseMonth}
+              disabled={nextMonthButtonDisabled}
+              className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+              aria-label="Next Month"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
         customInput={
           <CustomDateInput
             id={id}
