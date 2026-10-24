@@ -18,6 +18,13 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 import { EmptyState } from "./EmptyState";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 
@@ -179,19 +186,26 @@ export function DataTable<T extends Record<string, any>>({
 
         <div className="flex items-center justify-between sm:justify-end gap-3">
           {!disablePagination && (
-            <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-              <span>Rows per page:</span>
-              <select
-                value={currentPageSize}
-                onChange={(e) => handlePageSizeSelect(Number(e.target.value))}
-                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-[#A30B0B] cursor-pointer"
+            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+              <span className="whitespace-nowrap font-medium">Rows per page:</span>
+              <Select
+                value={currentPageSize.toString()}
+                onValueChange={(val) => handlePageSizeSelect(Number(val))}
               >
-                {pageSizeOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt} rows
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger 
+                  size="sm"
+                  className="h-8 w-[100px] text-xs bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 focus:ring-1 focus:ring-[#A30B0B] font-medium"
+                >
+                  <SelectValue placeholder={`${currentPageSize} rows`} />
+                </SelectTrigger>
+                <SelectContent align="end" className="min-w-[100px] z-50">
+                  {pageSizeOptions.map((opt) => (
+                    <SelectItem key={opt} value={opt.toString()} className="text-xs cursor-pointer">
+                      {opt} rows
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           )}
 
