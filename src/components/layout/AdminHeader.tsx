@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Bell, Search, UserCheck, Sun, Moon } from 'lucide-react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Bell, Search, UserCheck, Sun, Moon, LogOut, User, ChevronDown } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
 
 interface AdminHeaderProps {
@@ -10,7 +11,14 @@ interface AdminHeaderProps {
 }
 
 export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
+  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('rs_auth_user');
+    router.push('/login');
+  };
 
   return (
     <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-6 flex items-center justify-between sticky top-0 z-20 transition-colors">
@@ -19,18 +27,18 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
         <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
         <input
           type="text"
-          placeholder="Search notices, agencies, or circulars..."
-          className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-red-600 dark:focus:border-red-500 transition-colors"
+          placeholder="Search circulars, agencies, or recruitment posts..."
+          className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#A30B0B] transition-colors"
         />
       </div>
 
       {/* Right Actions & Controls */}
       <div className="flex items-center gap-3">
-        {/* Light / Dark Mode Toggle */}
+        {/* Light / Dark Mode Toggle Button */}
         <button
           onClick={toggleTheme}
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors"
         >
           {theme === 'dark' ? (
             <>
@@ -45,7 +53,7 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
           )}
         </button>
 
-        {/* Role Switcher to test Self-Approval Policy */}
+        {/* Role Switcher (Simulate Testing Roles) */}
         <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-lg text-xs">
           <UserCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
           <span className="text-slate-500 dark:text-slate-400">Testing as:</span>
@@ -54,10 +62,10 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
             onChange={(e) => onRoleChange(e.target.value)}
             className="bg-transparent text-amber-700 dark:text-amber-300 font-semibold focus:outline-none cursor-pointer"
           >
-            <option value="reviewer" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Reviewer / Approver</option>
-            <option value="editor" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Submitting Editor (usr_editor_1)</option>
+            <option value="reviewer" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Senior Reviewer</option>
+            <option value="editor" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Editor (usr_editor_1)</option>
             <option value="publisher" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Publisher</option>
-            <option value="administrator" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Super Administrator</option>
+            <option value="administrator" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Administrator</option>
           </select>
         </div>
 
@@ -66,6 +74,46 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
           <Bell className="w-4 h-4" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-600 ring-2 ring-white dark:ring-slate-950"></span>
         </button>
+
+        {/* User Account Dropdown with Logout */}
+        <div className="relative">
+          <button
+            onClick={() => setShowUserMenu(!showUserMenu)}
+            className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+          >
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#A30B0B] to-[#7A0606] text-white flex items-center justify-center font-bold text-xs">
+              VS
+            </div>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+          </button>
+
+          {showUserMenu && (
+            <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl py-2 z-30 text-xs">
+              <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800">
+                <p className="font-bold text-slate-900 dark:text-white">Vikram Sharma</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">vikram@rajasthansuchna.gov.in</p>
+              </div>
+
+              <div className="px-2 py-1 space-y-1">
+                <button
+                  onClick={() => { toggleTheme(); setShowUserMenu(false); }}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors text-left"
+                >
+                  {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
+                  <span>Switch to {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-lg transition-colors text-left font-semibold"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Sign Out (Logout)</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

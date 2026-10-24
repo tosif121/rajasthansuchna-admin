@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
+import { PageHeader, StatCard } from '@/components/reusable';
 import { 
   FileCheck2, 
   Clock, 
@@ -45,9 +46,9 @@ export default function AdminDashboardPage() {
   const [inspectNotice, setInspectNotice] = useState<NoticeItem | null>(null);
 
   // Form states
-  const [formTitleHi, setFormTitleHi] = useState('');
   const [formTitleEn, setFormTitleEn] = useState('');
-  const [formAgency, setFormAgency] = useState('RSMSSB (कर्मचारी चयन बोर्ड)');
+  const [formTitleHi, setFormTitleHi] = useState('');
+  const [formAgency, setFormAgency] = useState('RSMSSB (Staff Selection Board)');
   const [formPosts, setFormPosts] = useState('1500');
   const [formDeadline, setFormDeadline] = useState('2026-12-15');
   const [formQual, setFormQual] = useState('12th Pass / CET Qualified');
@@ -105,27 +106,27 @@ export default function AdminDashboardPage() {
           'x-actor-name': currentRole === 'editor' ? 'Vikram Sharma (Editor)' : 'Sunita Meena (Reviewer)'
         },
         body: JSON.stringify({
-          titleHi: formTitleHi,
           titleEn: formTitleEn,
+          titleHi: formTitleHi || formTitleEn,
           agencyName: formAgency,
           facts: {
             postsCount: parseInt(formPosts, 10) || 500,
             applicationEnd: formDeadline,
             qualification: formQual,
-            selectionProcess: 'लिखित परीक्षा एवं दस्तावेज सत्यापन',
+            selectionProcess: 'Written Exam and Document Verification',
             sourceUrl: 'https://rajasthan.gov.in',
             sourceDate: new Date().toISOString().split('T')[0],
             verifiedAt: new Date().toISOString().split('T')[0],
-            verifiedBy: 'Rajasthan Suchna Ops'
+            verifiedBy: 'Rajasthan Suchna Operations'
           }
         })
       });
       const data = await res.json();
       if (data.success) {
-        setFeedback({ message: 'New draft notice created.', type: 'success' });
+        setFeedback({ message: 'New draft notice created successfully.', type: 'success' });
         setShowCreateModal(false);
-        setFormTitleHi('');
         setFormTitleEn('');
+        setFormTitleHi('');
         fetchNotices();
       }
     } catch {
@@ -142,41 +143,35 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
-      {/* Sidebar */}
       <AdminSidebar />
 
-      {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
 
         <main className="p-8 max-w-7xl w-full mx-auto space-y-6">
-          {/* Top Bar / Actions */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                संपादकीय डैशबोर्ड <span className="text-[#A30B0B] dark:text-amber-400 text-lg">· Publishing Center</span>
-              </h2>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                Draft ➔ Review ➔ Approve ➔ Publish workflow with strict self-approval prevention.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                onClick={fetchNotices}
-                title="Refresh"
-                className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm"
-              >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-              </button>
-              <button
-                onClick={() => setShowCreateModal(true)}
-                className="flex items-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-md shadow-red-950/20 transition-all"
-              >
-                <Plus className="w-4 h-4" /> New Recruitment Draft
-              </button>
-            </div>
-          </div>
+          {/* Reusable PageHeader */}
+          <PageHeader
+            eyebrow="Publishing Center"
+            title="Editorial Dashboard"
+            description="Manage recruitment notices, conduct editorial reviews, and publish verified circulars to the Rajasthan Suchna Flutter app."
+            actions={
+              <>
+                <button
+                  onClick={fetchNotices}
+                  title="Refresh notices"
+                  className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors shadow-sm"
+                >
+                  <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                </button>
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className="flex items-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-md shadow-red-950/20 transition-all"
+                >
+                  <Plus className="w-4 h-4" /> New Recruitment Draft
+                </button>
+              </>
+            }
+          />
 
           {/* Feedback Banner */}
           {feedback && (
@@ -204,51 +199,36 @@ export default function AdminDashboardPage() {
             </div>
           )}
 
-          {/* Metrics Overview Cards */}
+          {/* Reusable StatCards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
-                <span className="text-xs font-semibold uppercase tracking-wider">Live in Flutter Feed</span>
-                <Globe className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              </div>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.published}</span>
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">Published</span>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
-                <span className="text-xs font-semibold uppercase tracking-wider">Pending Review</span>
-                <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              </div>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-amber-600 dark:text-amber-400">{stats.inReview}</span>
-                <span className="text-[11px] text-amber-700 dark:text-amber-400/90 font-medium">Requires Approval</span>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
-                <span className="text-xs font-semibold uppercase tracking-wider">Drafts in Progress</span>
-                <FileEdit className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-              </div>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.drafts}</span>
-                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Unsubmitted</span>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
-                <span className="text-xs font-semibold uppercase tracking-wider">Registered Agencies</span>
-                <Building className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-              </div>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.agencies}</span>
-                <span className="text-[11px] text-purple-600 dark:text-purple-400 font-medium">RSSB, RPSC, etc.</span>
-              </div>
-            </div>
+            <StatCard
+              title="Live in Flutter Feed"
+              value={stats.published}
+              description="Active Circulars"
+              icon={<Globe className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+              borderColor="border-l-emerald-500"
+            />
+            <StatCard
+              title="Pending Review"
+              value={stats.inReview}
+              description="Requires Approval"
+              icon={<Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />}
+              borderColor="border-l-amber-500"
+            />
+            <StatCard
+              title="Drafts in Progress"
+              value={stats.drafts}
+              description="Unsubmitted"
+              icon={<FileEdit className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+              borderColor="border-l-blue-500"
+            />
+            <StatCard
+              title="Registered Agencies"
+              value={stats.agencies}
+              description="RSSB, RPSC, etc."
+              icon={<Building className="w-4 h-4 text-purple-600 dark:text-purple-400" />}
+              borderColor="border-l-purple-500"
+            />
           </div>
 
           {/* Workflow Pipeline Table */}
@@ -257,10 +237,10 @@ export default function AdminDashboardPage() {
               <div>
                 <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
                   <FileCheck2 className="w-4 h-4 text-[#A30B0B]" />
-                  Recruitment Publication Queue (समीक्षा एवं प्रकाशन सूची)
+                  Recruitment Publication Queue
                 </h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                  Enforces role-based gates. Only approved items reach the public Flutter API.
+                  Enforces role-based gates. Only approved notices reach the public Flutter mobile feed.
                 </p>
               </div>
             </div>
@@ -270,7 +250,7 @@ export default function AdminDashboardPage() {
                 <thead className="bg-slate-100/80 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 uppercase text-[10px] tracking-wider">
                   <tr>
                     <th className="py-3 px-4">Recruitment Title / Agency</th>
-                    <th className="py-3 px-4">Posts</th>
+                    <th className="py-3 px-4">Vacancies</th>
                     <th className="py-3 px-4">Application Deadline</th>
                     <th className="py-3 px-4">Status</th>
                     <th className="py-3 px-4">Author / Revision</th>
@@ -287,8 +267,7 @@ export default function AdminDashboardPage() {
                     return (
                       <tr key={notice.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
                         <td className="py-3.5 px-4">
-                          <p className="font-semibold text-slate-900 dark:text-white text-xs">{notice.titleHi}</p>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-sans">{notice.titleEn}</p>
+                          <p className="font-semibold text-slate-900 dark:text-white text-xs">{notice.titleEn || notice.titleHi}</p>
                           <span className="inline-block mt-1 text-[10px] text-amber-800 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-900/50">
                             {notice.agencyName}
                           </span>
@@ -396,19 +375,7 @@ export default function AdminDashboardPage() {
 
             <form onSubmit={handleCreateNotice} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (Hindi - देवनागरी)</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. राजस्थान कृषि पर्यवेक्षक भर्ती 2026"
-                  value={formTitleHi}
-                  onChange={(e) => setFormTitleHi(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (English)</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Title (English)</label>
                 <input
                   type="text"
                   required
@@ -419,18 +386,29 @@ export default function AdminDashboardPage() {
                 />
               </div>
 
+              <div>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (Devanagari - Optional)</label>
+                <input
+                  type="text"
+                  placeholder="e.g. राजस्थान कृषि पर्यवेक्षक भर्ती 2026"
+                  value={formTitleHi}
+                  onChange={(e) => setFormTitleHi(e.target.value)}
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Agency</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Commission</label>
                   <select
                     value={formAgency}
                     onChange={(e) => setFormAgency(e.target.value)}
                     className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
                   >
-                    <option value="RSMSSB (कर्मचारी चयन बोर्ड)">RSMSSB</option>
-                    <option value="RPSC (लोक सेवा आयोग)">RPSC</option>
-                    <option value="राजस्थान पुलिस मुख्यालय">Rajasthan Police</option>
-                    <option value="SSC (कर्मचारी चयन आयोग)">SSC (Central)</option>
+                    <option value="RSMSSB (Staff Selection Board)">RSMSSB</option>
+                    <option value="RPSC (Public Service Commission)">RPSC</option>
+                    <option value="Rajasthan Police Headquarters">Rajasthan Police</option>
+                    <option value="SSC (Staff Selection Commission)">SSC (Central)</option>
                   </select>
                 </div>
 
@@ -457,7 +435,7 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Qualification</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Minimum Qualification</label>
                   <input
                     type="text"
                     value={formQual}
@@ -479,7 +457,7 @@ export default function AdminDashboardPage() {
                   type="submit"
                   className="px-4 py-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold rounded-lg shadow-md"
                 >
-                  Save Draft
+                  Save Draft Notice
                 </button>
               </div>
             </form>

@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
+import { PageHeader, EmptyState } from '@/components/reusable';
 import { 
   FileText, 
   Search, 
-  Filter, 
   Plus, 
   Clock, 
   CheckCircle2, 
@@ -108,27 +108,21 @@ export default function NoticesPage() {
         <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
 
         <main className="p-8 max-w-7xl w-full mx-auto space-y-6">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                <FileText className="w-6 h-6 text-[#A30B0B] dark:text-amber-400" />
-                सभी भर्तियां एवं सूचनाएं <span className="text-sm font-normal text-slate-500 dark:text-slate-400">· All Notices</span>
-              </h2>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                Manage government recruitment circulars, revise application windows, and audit verification states.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3">
+          {/* Reusable PageHeader */}
+          <PageHeader
+            eyebrow="Recruitment Management"
+            title="All Notices"
+            description="Manage government recruitment circulars, revise application windows, and audit verification states."
+            actions={
               <button
                 onClick={fetchNotices}
+                title="Refresh notices"
                 className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors shadow-sm"
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </button>
-            </div>
-          </div>
+            }
+          />
 
           {/* Feedback */}
           {feedback && (
@@ -157,9 +151,9 @@ export default function NoticesPage() {
             <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
               {[
                 { label: 'All Notices', value: 'all', count: notices.length },
-                { label: 'Published (लाइव)', value: 'published', count: notices.filter(n => n.status === 'published').length },
-                { label: 'In Review (समीक्षा)', value: 'in_review', count: notices.filter(n => n.status === 'in_review').length },
-                { label: 'Drafts (ड्राफ्ट)', value: 'draft', count: notices.filter(n => n.status === 'draft').length },
+                { label: 'Published', value: 'published', count: notices.filter(n => n.status === 'published').length },
+                { label: 'In Review', value: 'in_review', count: notices.filter(n => n.status === 'in_review').length },
+                { label: 'Drafts', value: 'draft', count: notices.filter(n => n.status === 'draft').length },
               ].map(tab => (
                 <button
                   key={tab.value}
@@ -197,7 +191,7 @@ export default function NoticesPage() {
           <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-100 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 uppercase text-[10px] tracking-wider">
+                <thead className="bg-slate-100 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 uppercase text-[10px] tracking-wider font-semibold">
                   <tr>
                     <th className="py-3 px-4">Title & Agency</th>
                     <th className="py-3 px-4">Vacancies</th>
@@ -210,8 +204,11 @@ export default function NoticesPage() {
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                   {filteredNotices.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="py-12 text-center text-slate-400">
-                        No recruitment notices found matching the filter.
+                      <td colSpan={6} className="py-8">
+                        <EmptyState
+                          title="No notices found"
+                          description="No recruitment circulars match the selected status or query."
+                        />
                       </td>
                     </tr>
                   ) : (
@@ -224,8 +221,7 @@ export default function NoticesPage() {
                       return (
                         <tr key={notice.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
                           <td className="py-3.5 px-4 max-w-sm">
-                            <p className="font-semibold text-slate-900 dark:text-white text-xs">{notice.titleHi}</p>
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{notice.titleEn}</p>
+                            <p className="font-semibold text-slate-900 dark:text-white text-xs">{notice.titleEn || notice.titleHi}</p>
                             <span className="inline-block mt-1 text-[10px] text-amber-800 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-900/50">
                               {notice.agencyName}
                             </span>
