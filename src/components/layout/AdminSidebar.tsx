@@ -128,8 +128,8 @@ export function AdminSidebar() {
             VS
           </div>
           <div className="min-w-0">
-            <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">Vikram Sharma</p>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">Senior Reviewer</p>
+            <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">Admin</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">Administrator</p>
           </div>
         </div>
 

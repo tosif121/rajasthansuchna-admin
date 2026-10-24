@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Bell, Search, UserCheck, Sun, Moon, LogOut, User, ChevronDown } from 'lucide-react';
-import { useTheme } from '@/components/theme/ThemeProvider';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Search, Sun, Moon, LogOut, ChevronDown } from "lucide-react";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface AdminHeaderProps {
-  currentRole: string;
-  onRoleChange: (role: string) => void;
+  currentRole?: string;
+  onRoleChange?: (role: string) => void;
 }
 
 export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
@@ -16,8 +16,8 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('rs_auth_user');
-    router.push('/login');
+    localStorage.removeItem("rs_auth_user");
+    router.push("/login");
   };
 
   return (
@@ -37,10 +37,10 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
         {/* Light / Dark Mode Toggle Button */}
         <button
           onClick={toggleTheme}
-          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors"
+          title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors cursor-pointer"
         >
-          {theme === 'dark' ? (
+          {theme === "dark" ? (
             <>
               <Sun className="w-3.5 h-3.5 text-amber-400" />
               <span>Light</span>
@@ -53,59 +53,38 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
           )}
         </button>
 
-        {/* Role Switcher (Simulate Testing Roles) */}
-        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-lg text-xs">
-          <UserCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-          <span className="text-slate-500 dark:text-slate-400">Testing as:</span>
-          <select
-            value={currentRole}
-            onChange={(e) => onRoleChange(e.target.value)}
-            className="bg-transparent text-amber-700 dark:text-amber-300 font-semibold focus:outline-none cursor-pointer"
-          >
-            <option value="reviewer" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Senior Reviewer</option>
-            <option value="editor" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Editor (usr_editor_1)</option>
-            <option value="publisher" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Publisher</option>
-            <option value="administrator" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Administrator</option>
-          </select>
-        </div>
-
-        {/* Notifications */}
-        <button className="relative p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors">
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-600 ring-2 ring-white dark:ring-slate-950"></span>
-        </button>
-
         {/* User Account Dropdown with Logout */}
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+            className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors cursor-pointer"
           >
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#A30B0B] to-[#7A0606] text-white flex items-center justify-center font-bold text-xs">
-              VS
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#A30B0B] to-[#7A0606] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+              AD
             </div>
+            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 hidden sm:inline-block">Admin</span>
             <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
           </button>
 
           {showUserMenu && (
             <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl py-2 z-30 text-xs">
               <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800">
-                <p className="font-bold text-slate-900 dark:text-white">Vikram Sharma</p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">vikram@rajasthansuchna.gov.in</p>
+                <p className="font-bold text-slate-900 dark:text-white">Admin</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">admin@rajasthansuchna.gov.in</p>
               </div>
 
               <div className="px-2 py-1 space-y-1">
                 <button
                   onClick={() => { toggleTheme(); setShowUserMenu(false); }}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors text-left"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors text-left cursor-pointer"
                 >
-                  {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
-                  <span>Switch to {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                  {theme === "dark" ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
+                  <span>Switch to {theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
                 </button>
 
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-lg transition-colors text-left font-semibold"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-lg transition-colors text-left font-semibold cursor-pointer"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span>Sign Out (Logout)</span>

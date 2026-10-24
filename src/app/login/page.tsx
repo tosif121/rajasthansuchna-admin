@@ -20,7 +20,7 @@ export default function LoginPage() {
     setTimeout(() => {
       localStorage.setItem('rs_auth_user', JSON.stringify({
         email,
-        name: email.includes('editor') ? 'Vikram Sharma' : 'Administrator',
+        name: email.includes('editor') ? 'Admin' : 'Administrator',
         role
       }));
       router.push('/dashboard');

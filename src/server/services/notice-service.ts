@@ -98,7 +98,7 @@ let memoryNotices: AdminNoticeRecord[] = [
       { label: 'ऑनलाइन आवेदन करें (SSO)', url: 'https://sso.rajasthan.gov.in', kind: 'applyOnline' }
     ],
     editorId: 'usr_editor_1',
-    editorName: 'Vikram Sharma (Editor)',
+    editorName: 'Admin',
     publishedAt: '2026-10-02T10:00:00Z',
     updatedAt: '2026-10-05T14:30:00Z'
   },
@@ -135,7 +135,7 @@ let memoryNotices: AdminNoticeRecord[] = [
       { label: 'विज्ञप्ति डाउनलोड करें', url: 'https://rsmssb.rajasthan.gov.in/patwari-2026.pdf', kind: 'notificationPdf' }
     ],
     editorId: 'usr_editor_1',
-    editorName: 'Vikram Sharma (Editor)',
+    editorName: 'Admin',
     updatedAt: '2026-10-23T09:15:00Z'
   },
   {
@@ -300,6 +300,15 @@ export class NoticeService {
   /**
    * Transforms an AdminNoticeRecord into the exact Flutter model format
    */
+  static async deleteNotice(id: string): Promise<boolean> {
+    const idx = memoryNotices.findIndex((n) => n.id === id);
+    if (idx !== -1) {
+      memoryNotices.splice(idx, 1);
+      return true;
+    }
+    return false;
+  }
+
   static toFlutterVacancy(n: AdminNoticeRecord) {
     return {
       id: n.id,

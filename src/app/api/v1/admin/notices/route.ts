@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const actorId = req.headers.get('x-actor-id') || 'usr_editor_1';
-    const actorName = req.headers.get('x-actor-name') || 'Vikram Sharma (Editor)';
+    const actorName = req.headers.get('x-actor-name') || 'Admin';
 
     const created = await NoticeService.createNotice(body, actorId, actorName);
     return NextResponse.json({ success: true, data: created }, { status: 201 });

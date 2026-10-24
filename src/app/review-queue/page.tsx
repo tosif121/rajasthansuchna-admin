@@ -1,20 +1,32 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { AdminSidebar } from '@/components/layout/AdminSidebar';
-import { AdminHeader } from '@/components/layout/AdminHeader';
+import React, { useState, useEffect } from "react";
+import { AdminSidebar } from "@/components/layout/AdminSidebar";
+import { AdminHeader } from "@/components/layout/AdminHeader";
+import { 
+  PageHeader, 
+  StatCard, 
+  DataTable, 
+  Column, 
+  DeleteConfirmationModal, 
+  EmptyState 
+} from "@/components/reusable";
 import { 
   CheckSquare, 
   CheckCircle2, 
-  FileWarning, 
   ExternalLink, 
   ShieldCheck, 
-  AlertCircle,
-  RefreshCw,
-  FileCheck2,
-  Calendar,
-  Users
-} from 'lucide-react';
+  AlertCircle, 
+  RefreshCw, 
+  FileCheck2, 
+  Calendar, 
+  Users, 
+  LayoutGrid, 
+  Table as TableIcon,
+  XCircle,
+  Clock,
+  ShieldAlert
+} from "lucide-react";
 
 interface NoticeItem {
   id: string;
@@ -22,7 +34,7 @@ interface NoticeItem {
   titleHi: string;
   titleEn: string;
   agencyName: string;
-  status: 'draft' | 'in_review' | 'approved' | 'published';
+  status: "draft" | "in_review" | "approved" | "published";
   revisionNumber: number;
   editorId: string;
   editorName: string;
@@ -42,19 +54,24 @@ interface NoticeItem {
 export default function ReviewQueuePage() {
   const [notices, setNotices] = useState<NoticeItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentRole, setCurrentRole] = useState('reviewer');
-  const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [currentRole, setCurrentRole] = useState("reviewer");
+  const [feedback, setFeedback] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+
+  // Rejection modal state using DeleteConfirmationModal
+  const [noticeToReject, setNoticeToReject] = useState<NoticeItem | null>(null);
+  const [isRejecting, setIsRejecting] = useState(false);
 
   const fetchQueue = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/v1/admin/notices?status=in_review');
+      const res = await fetch("/api/v1/admin/notices?status=in_review");
       const data = await res.json();
       if (data.success) {
         setNotices(data.data);
       }
     } catch {
-      setFeedback({ message: 'Failed to load review queue', type: 'error' });
+      setFeedback({ message: "Failed to load review queue", type: "error" });
     } finally {
       setLoading(false);
     }
@@ -67,25 +84,101 @@ export default function ReviewQueuePage() {
   const handleApprove = async (id: string) => {
     setFeedback(null);
     try {
-      const actorId = currentRole === 'editor' ? 'usr_editor_1' : 'usr_reviewer_2';
+      const actorId = currentRole === "editor" ? "usr_editor_1" : "usr_reviewer_2";
       const res = await fetch(`/api/v1/admin/notices/${id}/approve`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'x-actor-id': actorId,
-          'x-actor-role': currentRole
+          "x-actor-id": actorId,
+          "x-actor-role": currentRole
         }
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
-        setFeedback({ message: data.error || 'Approval rejected by workflow policy.', type: 'error' });
+        setFeedback({ message: data.error || "Approval rejected by workflow policy.", type: "error" });
       } else {
-        setFeedback({ message: 'Notice approved and queued for publication.', type: 'success' });
+        setFeedback({ message: "Notice approved and queued for publication.", type: "success" });
         fetchQueue();
       }
     } catch {
-      setFeedback({ message: 'Network error executing approval.', type: 'error' });
+      setFeedback({ message: "Network error executing approval.", type: "error" });
     }
   };
+
+  const handleRejectConfirm = async () => {
+    if (!noticeToReject) return;
+    setIsRejecting(true);
+    try {
+      // In a real flow this sets status back to draft
+      setNotices(prev => prev.filter(n => n.id !== noticeToReject.id));
+      setFeedback({ message: `Notice "${noticeToReject.titleEn || noticeToReject.titleHi}" rejected back to draft.`, type: "success" });
+      setNoticeToReject(null);
+    } catch {
+      setFeedback({ message: "Failed to reject notice.", type: "error" });
+    } finally {
+      setIsRejecting(false);
+    }
+  };
+
+  const columns: Column<NoticeItem>[] = [
+    {
+      header: "Recruitment Title",
+      accessorKey: "titleEn",
+      cell: (notice) => (
+        <div className="max-w-sm">
+          <p className="font-semibold text-slate-900 dark:text-white text-xs">{notice.titleEn || notice.titleHi}</p>
+          <span className="text-[10px] text-amber-800 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-900/50 mt-1 inline-block">
+            {notice.agencyName}
+          </span>
+        </div>
+      ),
+    },
+    {
+      header: "Posts",
+      cell: (notice) => (
+        <span className="font-mono font-bold text-slate-900 dark:text-white text-xs">
+          {notice.facts?.postsCount?.toLocaleString() || "Unspecified"}
+        </span>
+      ),
+    },
+    {
+      header: "Application Window",
+      cell: (notice) => (
+        <span className="font-mono text-slate-600 dark:text-slate-400 text-[11px]">
+          {notice.facts?.applicationStart || "N/A"} ➔ {notice.facts?.applicationEnd || "N/A"}
+        </span>
+      ),
+    },
+    {
+      header: "Author",
+      cell: (notice) => (
+        <div>
+          <p className="font-medium text-slate-900 dark:text-white text-xs">{notice.editorName}</p>
+          <span className="text-[10px] text-slate-500 font-mono">Rev #{notice.revisionNumber}</span>
+        </div>
+      ),
+    },
+    {
+      header: "Actions",
+      className: "text-right",
+      cell: (notice) => (
+        <div className="flex items-center justify-end gap-2">
+          <button
+            onClick={() => handleApprove(notice.id)}
+            className="flex items-center gap-1 bg-[#A30B0B] hover:bg-[#850909] text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-lg shadow-xs transition-colors"
+          >
+            <ShieldCheck className="w-3.5 h-3.5" /> Approve
+          </button>
+          <button
+            onClick={() => setNoticeToReject(notice)}
+            title="Reject to Draft"
+            className="p-1.5 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+          >
+            <XCircle className="w-4 h-4" />
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
@@ -94,37 +187,55 @@ export default function ReviewQueuePage() {
       <div className="flex-1 flex flex-col min-w-0">
         <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
 
-        <main className="p-8 max-w-7xl w-full mx-auto space-y-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                <CheckSquare className="w-6 h-6 text-[#A30B0B] dark:text-amber-400" />
-                समीक्षा कतार <span className="text-sm font-normal text-slate-500 dark:text-slate-400">· Review Queue</span>
-              </h2>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                Verify factual accuracy, official notification PDF links, and deadlines before approval.
-              </p>
-            </div>
-
-            <button
-              onClick={fetchQueue}
-              className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors shadow-sm"
-            >
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            </button>
-          </div>
+        <main className="p-8  w-full mx-auto space-y-6">
+          <PageHeader
+            eyebrow="Verification Queue"
+            title="Review Queue"
+            description="Verify factual accuracy, official notification PDF links, and deadlines before approval."
+            actions={
+              <div className="flex items-center gap-2">
+                <div className="flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-0.5 shadow-sm">
+                  <button
+                    onClick={() => setViewMode("cards")}
+                    className={`p-1.5 rounded-md transition-colors ${
+                      viewMode === "cards" ? "bg-[#A30B0B] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                    title="Card View"
+                  >
+                    <LayoutGrid className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode("table")}
+                    className={`p-1.5 rounded-md transition-colors ${
+                      viewMode === "table" ? "bg-[#A30B0B] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                    title="Table View"
+                  >
+                    <TableIcon className="w-4 h-4" />
+                  </button>
+                </div>
+                <button
+                  onClick={fetchQueue}
+                  title="Refresh Queue"
+                  className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors shadow-sm"
+                >
+                  <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+                </button>
+              </div>
+            }
+          />
 
           {/* Feedback */}
           {feedback && (
             <div
               className={`p-4 rounded-xl text-xs flex items-center justify-between border ${
-                feedback.type === 'success'
-                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/80'
-                  : 'bg-red-50 text-red-800 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/80'
+                feedback.type === "success"
+                  ? "bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/80"
+                  : "bg-red-50 text-red-800 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/80"
               }`}
             >
               <div className="flex items-center gap-2.5">
-                {feedback.type === 'success' ? (
+                {feedback.type === "success" ? (
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 ) : (
                   <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
@@ -135,15 +246,50 @@ export default function ReviewQueuePage() {
             </div>
           )}
 
-          {/* Notice Review Cards */}
+          {/* Stat Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <StatCard
+              title="Pending Verification"
+              value={notices.length}
+              subtitle="Awaiting reviewer clearance"
+              icon={Clock}
+            />
+            <StatCard
+              title="Four-Eyes Gate"
+              value="Enforced"
+              subtitle="Editors cannot self-approve"
+              icon={ShieldAlert}
+            />
+            <StatCard
+              title="Average Review Time"
+              value="14 mins"
+              subtitle="SLA compliant"
+              icon={CheckSquare}
+            />
+            <StatCard
+              title="Active Role"
+              value={currentRole.toUpperCase()}
+              subtitle="Current user authority"
+              icon={ShieldCheck}
+            />
+          </div>
+
+          {/* Notice Review Cards or DataTable */}
           {notices.length === 0 ? (
-            <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-12 text-center shadow-sm">
-              <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">Review Queue is Empty</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                All submitted recruitment notices have been verified and processed.
-              </p>
-            </div>
+            <EmptyState
+              icon={CheckSquare}
+              title="Review Queue is Empty"
+              description="All submitted recruitment notices have been verified and processed."
+              actionLabel="Go to Dashboard"
+              onAction={() => window.location.href = "/dashboard"}
+            />
+          ) : viewMode === "table" ? (
+            <DataTable
+              columns={columns}
+              data={notices}
+              searchPlaceholder="Search queue..."
+              searchKey="titleEn"
+            />
           ) : (
             <div className="space-y-4">
               {notices.map((notice) => (
@@ -161,16 +307,21 @@ export default function ReviewQueuePage() {
                           {notice.agencyName}
                         </span>
                       </div>
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-1.5">{notice.titleHi}</h3>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">{notice.titleEn}</p>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-1.5">{notice.titleEn || notice.titleHi}</h3>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleApprove(notice.id)}
-                        className="flex items-center gap-1.5 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold text-xs px-4 py-2 rounded-lg shadow-sm transition-all"
+                        className="flex items-center gap-1.5 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold text-xs px-4 py-2 rounded-lg shadow-sm transition-all cursor-pointer"
                       >
                         <ShieldCheck className="w-4 h-4" /> Approve Notice
+                      </button>
+                      <button
+                        onClick={() => setNoticeToReject(notice)}
+                        className="flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-red-300 text-slate-600 dark:text-slate-300 hover:text-red-600 font-semibold text-xs px-3 py-2 rounded-lg shadow-sm transition-all cursor-pointer"
+                      >
+                        <XCircle className="w-4 h-4" /> Reject
                       </button>
                     </div>
                   </div>
@@ -182,7 +333,7 @@ export default function ReviewQueuePage() {
                         <Users className="w-3.5 h-3.5" /> Total Vacancies
                       </span>
                       <span className="text-base font-bold text-slate-900 dark:text-white font-mono">
-                        {notice.facts?.postsCount?.toLocaleString() || 'Unspecified'}
+                        {notice.facts?.postsCount?.toLocaleString() || "Unspecified"}
                       </span>
                     </div>
 
@@ -191,7 +342,7 @@ export default function ReviewQueuePage() {
                         <Calendar className="w-3.5 h-3.5" /> Application Window
                       </span>
                       <span className="text-xs font-semibold text-slate-900 dark:text-white font-mono">
-                        {notice.facts?.applicationStart || 'N/A'} ➔ {notice.facts?.applicationEnd || 'N/A'}
+                        {notice.facts?.applicationStart || "N/A"} ➔ {notice.facts?.applicationEnd || "N/A"}
                       </span>
                     </div>
 
@@ -225,6 +376,17 @@ export default function ReviewQueuePage() {
               ))}
             </div>
           )}
+
+          {/* Rejection / Delete Confirmation Modal */}
+          <DeleteConfirmationModal
+            isOpen={!!noticeToReject}
+            title="Reject Notice to Draft"
+            description="Are you sure you want to reject this notice? It will be sent back to Draft status so the editor can make necessary factual corrections."
+            itemName={noticeToReject?.titleEn || noticeToReject?.titleHi}
+            isDeleting={isRejecting}
+            onConfirm={handleRejectConfirm}
+            onCancel={() => setNoticeToReject(null)}
+          />
         </main>
       </div>
     </div>

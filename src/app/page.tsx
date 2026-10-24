@@ -3,9 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
-import { PageHeader, StatCard } from '@/components/reusable';
 import { 
-  FileCheck2, 
+  PageHeader, 
+  StatCard, 
+  DataTable, 
+  Column, 
+  DeleteConfirmationModal, 
+  ToggleSwitch 
+} from '@/components/reusable';
+import { 
   Clock, 
   FileEdit, 
   Building, 
@@ -16,7 +22,8 @@ import {
   AlertCircle,
   ExternalLink,
   RefreshCw,
-  Eye
+  Eye,
+  Trash2
 } from 'lucide-react';
 
 interface NoticeItem {
@@ -44,6 +51,11 @@ export default function AdminDashboardPage() {
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [inspectNotice, setInspectNotice] = useState<NoticeItem | null>(null);
+  const [autoRefresh, setAutoRefresh] = useState(true);
+
+  // Delete modal state
+  const [noticeToDelete, setNoticeToDelete] = useState<NoticeItem | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Form states
   const [formTitleEn, setFormTitleEn] = useState('');
@@ -95,6 +107,28 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const handleDeleteConfirm = async () => {
+    if (!noticeToDelete) return;
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/v1/admin/notices/${noticeToDelete.id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success) {
+        setFeedback({ message: 'Notice retracted/deleted successfully.', type: 'success' });
+        setNoticeToDelete(null);
+        fetchNotices();
+      } else {
+        setFeedback({ message: data.error || 'Failed to delete notice.', type: 'error' });
+      }
+    } catch {
+      setFeedback({ message: 'Error deleting notice.', type: 'error' });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const handleCreateNotice = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -103,7 +137,7 @@ export default function AdminDashboardPage() {
         headers: {
           'Content-Type': 'application/json',
           'x-actor-id': currentRole === 'editor' ? 'usr_editor_1' : 'usr_reviewer_2',
-          'x-actor-name': currentRole === 'editor' ? 'Vikram Sharma (Editor)' : 'Sunita Meena (Reviewer)'
+          'x-actor-name': currentRole === 'editor' ? 'Admin' : 'Sunita Meena (Reviewer)'
         },
         body: JSON.stringify({
           titleEn: formTitleEn,
@@ -141,6 +175,151 @@ export default function AdminDashboardPage() {
     agencies: 8
   };
 
+  // Reusable DataTable Columns for Dashboard
+  const tableColumns: Column<NoticeItem>[] = [
+    {
+      header: 'Recruitment Title / Commission',
+      cell: (notice) => (
+        <div>
+          <p className="font-semibold text-slate-900 dark:text-white text-xs">{notice.titleEn || notice.titleHi}</p>
+          <span className="inline-block mt-1 text-[10px] text-amber-800 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-900/50">
+            {notice.agencyName}
+          </span>
+        </div>
+      ),
+    },
+    {
+      header: 'Posts',
+      cell: (notice) => (
+        <span className="font-mono font-bold text-slate-700 dark:text-slate-300">
+          {notice.facts?.postsCount?.toLocaleString() || 'N/A'}
+        </span>
+      ),
+    },
+    {
+      header: 'Deadline',
+      cell: (notice) => (
+        <span className="text-slate-600 dark:text-slate-300 font-mono text-[11px]">
+          {notice.facts?.applicationEnd || 'To be announced'}
+        </span>
+      ),
+    },
+    {
+      header: 'Status',
+      cell: (notice) => {
+        const isDraft = notice.status === 'draft';
+        const isInReview = notice.status === 'in_review';
+        const isApproved = notice.status === 'approved';
+        const isPublished = notice.status === 'published';
+
+        if (isPublished) {
+          return (
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-700/50 flex items-center gap-1 w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              PUBLISHED
+            </span>
+          );
+        }
+        if (isInReview) {
+          return (
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50 flex items-center gap-1 w-fit">
+              <Clock className="w-3 h-3" /> IN REVIEW
+            </span>
+          );
+        }
+        if (isApproved) {
+          return (
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-700/50 flex items-center gap-1 w-fit">
+              <CheckCircle2 className="w-3 h-3" /> APPROVED
+            </span>
+          );
+        }
+        return (
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 flex items-center gap-1 w-fit">
+            DRAFT
+          </span>
+        );
+      },
+    },
+    {
+      header: 'Author / Rev',
+      cell: (notice) => (
+        <div className="text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="text-slate-700 dark:text-slate-300 font-medium">{notice.editorName}</p>
+          <p className="text-[10px]">Rev #{notice.revisionNumber}</p>
+        </div>
+      ),
+    },
+    {
+      header: 'Workflow Action',
+      className: 'text-right',
+      cell: (notice) => {
+        const isDraft = notice.status === 'draft';
+        const isInReview = notice.status === 'in_review';
+        const isApproved = notice.status === 'approved';
+        const isPublished = notice.status === 'published';
+
+        return (
+          <div className="flex items-center justify-end gap-1.5">
+            <button
+              onClick={() => setInspectNotice(notice)}
+              title="Inspect Flutter Model"
+              className="p-1.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            >
+              <Eye className="w-3.5 h-3.5" />
+            </button>
+
+            {isDraft && (
+              <button
+                onClick={() => handleWorkflowAction(notice.id, 'submit')}
+                className="flex items-center gap-1 text-[11px] font-semibold bg-amber-50 dark:bg-amber-600/20 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40 hover:bg-amber-100 dark:hover:bg-amber-600/30 px-2 py-1 rounded transition-colors"
+              >
+                <Send className="w-3 h-3" /> Submit
+              </button>
+            )}
+
+            {isInReview && (
+              <button
+                onClick={() => handleWorkflowAction(notice.id, 'approve')}
+                className="flex items-center gap-1 text-[11px] font-semibold bg-blue-50 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40 hover:bg-blue-100 dark:hover:bg-blue-600/30 px-2 py-1 rounded transition-colors"
+              >
+                <CheckCircle2 className="w-3 h-3" /> Approve
+              </button>
+            )}
+
+            {isApproved && (
+              <button
+                onClick={() => handleWorkflowAction(notice.id, 'publish')}
+                className="flex items-center gap-1 text-[11px] font-semibold bg-[#A30B0B] hover:bg-[#850909] text-white px-2.5 py-1 rounded shadow-xs transition-colors"
+              >
+                <Globe className="w-3 h-3" /> Publish
+              </button>
+            )}
+
+            {isPublished && (
+              <a
+                href={`/api/v1/notices/${notice.slug}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors px-1"
+              >
+                Live <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+
+            <button
+              onClick={() => setNoticeToDelete(notice)}
+              title="Delete or Archive Notice"
+              className="p-1.5 rounded text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
+
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
       <AdminSidebar />
@@ -148,14 +327,22 @@ export default function AdminDashboardPage() {
       <div className="flex-1 flex flex-col min-w-0">
         <AdminHeader currentRole={currentRole} onRoleChange={setCurrentRole} />
 
-        <main className="p-8 max-w-7xl w-full mx-auto space-y-6">
+        <main className="p-8  w-full mx-auto space-y-6">
           {/* Reusable PageHeader */}
           <PageHeader
             eyebrow="Publishing Center"
             title="Editorial Dashboard"
             description="Manage recruitment notices, conduct editorial reviews, and publish verified circulars to the Rajasthan Suchna Flutter app."
             actions={
-              <>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-lg text-xs">
+                  <span className="text-slate-500 dark:text-slate-400">Live Sync:</span>
+                  <ToggleSwitch
+                    checked={autoRefresh}
+                    onCheckedChange={setAutoRefresh}
+                    label="Auto Sync"
+                  />
+                </div>
                 <button
                   onClick={fetchNotices}
                   title="Refresh notices"
@@ -169,7 +356,7 @@ export default function AdminDashboardPage() {
                 >
                   <Plus className="w-4 h-4" /> New Recruitment Draft
                 </button>
-              </>
+              </div>
             }
           />
 
@@ -231,138 +418,35 @@ export default function AdminDashboardPage() {
             />
           </div>
 
-          {/* Workflow Pipeline Table */}
-          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-                  <FileCheck2 className="w-4 h-4 text-[#A30B0B]" />
-                  Recruitment Publication Queue
-                </h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                  Enforces role-based gates. Only approved notices reach the public Flutter mobile feed.
-                </p>
-              </div>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-slate-100/80 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 uppercase text-[10px] tracking-wider">
-                  <tr>
-                    <th className="py-3 px-4">Recruitment Title / Agency</th>
-                    <th className="py-3 px-4">Vacancies</th>
-                    <th className="py-3 px-4">Application Deadline</th>
-                    <th className="py-3 px-4">Status</th>
-                    <th className="py-3 px-4">Author / Revision</th>
-                    <th className="py-3 px-4 text-right">Workflow Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
-                  {notices.map((notice) => {
-                    const isDraft = notice.status === 'draft';
-                    const isInReview = notice.status === 'in_review';
-                    const isApproved = notice.status === 'approved';
-                    const isPublished = notice.status === 'published';
-
-                    return (
-                      <tr key={notice.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                        <td className="py-3.5 px-4">
-                          <p className="font-semibold text-slate-900 dark:text-white text-xs">{notice.titleEn || notice.titleHi}</p>
-                          <span className="inline-block mt-1 text-[10px] text-amber-800 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-900/50">
-                            {notice.agencyName}
-                          </span>
-                        </td>
-                        <td className="py-3.5 px-4 font-mono font-bold text-slate-700 dark:text-slate-300">
-                          {notice.facts?.postsCount?.toLocaleString() || 'N/A'}
-                        </td>
-                        <td className="py-3.5 px-4 text-slate-600 dark:text-slate-300 font-mono">
-                          {notice.facts?.applicationEnd || 'To be announced'}
-                        </td>
-                        <td className="py-3.5 px-4">
-                          {isPublished && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-700/50 flex items-center gap-1 w-fit">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                              PUBLISHED
-                            </span>
-                          )}
-                          {isInReview && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50 flex items-center gap-1 w-fit">
-                              <Clock className="w-3 h-3" /> IN REVIEW
-                            </span>
-                          )}
-                          {isApproved && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-700/50 flex items-center gap-1 w-fit">
-                              <CheckCircle2 className="w-3 h-3" /> APPROVED
-                            </span>
-                          )}
-                          {isDraft && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 flex items-center gap-1 w-fit">
-                              DRAFT
-                            </span>
-                          )}
-                        </td>
-                        <td className="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-[11px]">
-                          <p className="text-slate-700 dark:text-slate-300 font-medium">{notice.editorName}</p>
-                          <p className="text-[10px]">Rev #{notice.revisionNumber}</p>
-                        </td>
-                        <td className="py-3.5 px-4 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            <button
-                              onClick={() => setInspectNotice(notice)}
-                              title="Inspect Flutter Model"
-                              className="p-1.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                            >
-                              <Eye className="w-3.5 h-3.5" />
-                            </button>
-
-                            {isDraft && (
-                              <button
-                                onClick={() => handleWorkflowAction(notice.id, 'submit')}
-                                className="flex items-center gap-1 text-[11px] font-semibold bg-amber-50 dark:bg-amber-600/20 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40 hover:bg-amber-100 dark:hover:bg-amber-600/30 px-2.5 py-1 rounded transition-colors"
-                              >
-                                <Send className="w-3 h-3" /> Submit
-                              </button>
-                            )}
-
-                            {isInReview && (
-                              <button
-                                onClick={() => handleWorkflowAction(notice.id, 'approve')}
-                                className="flex items-center gap-1 text-[11px] font-semibold bg-blue-50 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40 hover:bg-blue-100 dark:hover:bg-blue-600/30 px-2.5 py-1 rounded transition-colors"
-                              >
-                                <CheckCircle2 className="w-3 h-3" /> Approve
-                              </button>
-                            )}
-
-                            {isApproved && (
-                              <button
-                                onClick={() => handleWorkflowAction(notice.id, 'publish')}
-                                className="flex items-center gap-1 text-[11px] font-semibold bg-[#A30B0B] hover:bg-[#850909] text-white px-2.5 py-1 rounded shadow-sm transition-colors"
-                              >
-                                <Globe className="w-3 h-3" /> Publish
-                              </button>
-                            )}
-
-                            {isPublished && (
-                              <a
-                                href={`/api/v1/notices/${notice.slug}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
-                              >
-                                Live API <ExternalLink className="w-3 h-3" />
-                              </a>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+          {/* Reusable DataTable for Recruitment Publication Queue */}
+          <div className="space-y-3">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white">
+              Recruitment Publication Queue
+            </h3>
+            <DataTable
+              columns={tableColumns}
+              data={notices}
+              isLoading={loading}
+              searchKey="titleEn"
+              searchPlaceholder="Filter publication queue by recruitment name..."
+              pageSize={6}
+              emptyTitle="No notices in publication queue"
+              emptyDescription="Create a new recruitment draft to start the publishing pipeline."
+            />
           </div>
         </main>
       </div>
+
+      {/* Reusable DeleteConfirmationModal */}
+      <DeleteConfirmationModal
+        isOpen={!!noticeToDelete}
+        title="Retract / Delete Notice"
+        description="Are you sure you want to delete this recruitment notice? It will be removed immediately from the queue and API."
+        itemName={noticeToDelete?.titleEn || noticeToDelete?.titleHi}
+        isDeleting={isDeleting}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => setNoticeToDelete(null)}
+      />
 
       {/* Create Draft Notice Modal */}
       {showCreateModal && (
