@@ -2,6 +2,16 @@
 
 import React, { useState } from "react";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { 
+  Table, 
+  TableHeader, 
+  TableBody, 
+  TableHead, 
+  TableRow, 
+  TableCell 
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { EmptyState } from "./EmptyState";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 
@@ -54,12 +64,12 @@ export function DataTable<T extends Record<string, any>>({
 
   return (
     <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-      {/* Search toolbar */}
+      {/* Search & page size toolbar */}
       {searchKey && (
         <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
           <div className="relative w-full max-w-sm">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
+            <Input
               type="text"
               placeholder={searchPlaceholder}
               value={search}
@@ -67,7 +77,7 @@ export function DataTable<T extends Record<string, any>>({
                 setSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-[#A30B0B]"
+              className="pl-9 h-8"
             />
           </div>
           <div className="flex items-center gap-3">
@@ -93,43 +103,41 @@ export function DataTable<T extends Record<string, any>>({
         </div>
       )}
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs">
-          <thead className="bg-slate-100 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 uppercase text-[10px] tracking-wider font-semibold">
-            <tr>
-              {columns.map((col, idx) => (
-                <th key={idx} className={`py-3 px-4 ${col.className || ""}`}>
-                  {col.header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
-            {isLoading ? (
-              Array.from({ length: 5 }).map((_, i) => (
-                <LoadingSkeleton key={i} type="table-row" />
-              ))
-            ) : pageData.length === 0 ? (
-              <tr>
-                <td colSpan={columns.length} className="py-8">
-                  <EmptyState title={emptyTitle} description={emptyDescription} />
-                </td>
-              </tr>
-            ) : (
-              pageData.map((row, rowIdx) => (
-                <tr key={rowIdx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                  {columns.map((col, colIdx) => (
-                    <td key={colIdx} className={`py-3.5 px-4 ${col.className || ""}`}>
-                      {col.cell ? col.cell(row) : (col.accessorKey ? String(row[col.accessorKey] ?? "") : null)}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      {/* shadcn UI Table */}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {columns.map((col, idx) => (
+              <TableHead key={idx} className={col.className}>
+                {col.header}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {isLoading ? (
+            Array.from({ length: 5 }).map((_, i) => (
+              <LoadingSkeleton key={i} type="table-row" />
+            ))
+          ) : pageData.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="py-8">
+                <EmptyState title={emptyTitle} description={emptyDescription} />
+              </TableCell>
+            </TableRow>
+          ) : (
+            pageData.map((row, rowIdx) => (
+              <TableRow key={rowIdx}>
+                {columns.map((col, colIdx) => (
+                  <TableCell key={colIdx} className={col.className}>
+                    {col.cell ? col.cell(row) : (col.accessorKey ? String(row[col.accessorKey] ?? "") : null)}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
 
       {/* Pagination Footer */}
       <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
@@ -138,23 +146,27 @@ export function DataTable<T extends Record<string, any>>({
         </span>
         {totalPages > 1 && (
           <div className="flex items-center gap-1.5">
-            <button
+            <Button
+              variant="outline"
+              size="icon"
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 transition-colors cursor-pointer"
+              className="h-8 w-8"
             >
               <ChevronLeft className="w-4 h-4" />
-            </button>
+            </Button>
             <span className="px-2 font-mono font-semibold text-slate-700 dark:text-slate-300">
               {currentPage} / {totalPages}
             </span>
-            <button
+            <Button
+              variant="outline"
+              size="icon"
               onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 transition-colors cursor-pointer"
+              className="h-8 w-8"
             >
               <ChevronRight className="w-4 h-4" />
-            </button>
+            </Button>
           </div>
         )}
       </div>

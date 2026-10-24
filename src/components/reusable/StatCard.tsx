@@ -2,6 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
 
 export interface SubStat {
   label: string;
@@ -46,10 +47,10 @@ export const StatCard: React.FC<StatCardProps> = ({
   };
 
   return (
-    <div
+    <Card
       onClick={onClick}
       className={cn(
-        "bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 border-l-4 rounded-xl p-5 shadow-sm transition-all",
+        "border-l-4 p-5 transition-all",
         borderColor,
         isClickable && "cursor-pointer hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700 active:scale-[0.99]",
         className
@@ -78,7 +79,7 @@ export const StatCard: React.FC<StatCardProps> = ({
           ))}
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 
