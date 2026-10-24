@@ -18,7 +18,8 @@ import {
   ExternalLink, 
   Globe, 
   ShieldCheck, 
-  Trash2, 
+  Trash2,
+  Pencil, 
   LayoutGrid, 
   Table as TableIcon,
   CheckCircle2,
@@ -161,6 +162,12 @@ export default function AgenciesPage() {
           >
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
+          <button
+            title="Edit Agency"
+            className="p-1.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+          >
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
           <button
             onClick={() => setAgencyToDelete(agency)}
             title="Delete Agency"
