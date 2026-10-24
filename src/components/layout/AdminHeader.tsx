@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Sun, Moon, LogOut, ChevronDown } from "lucide-react";
+import { Sun, Moon, LogOut, ChevronDown } from "lucide-react";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface AdminHeaderProps {
@@ -21,17 +21,7 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
   };
 
   return (
-    <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-6 flex items-center justify-between sticky top-0 z-20 transition-colors">
-      {/* Search Input */}
-      <div className="relative w-80">
-        <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
-        <input
-          type="text"
-          placeholder="Search circulars, agencies, or recruitment posts..."
-          className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#A30B0B] transition-colors"
-        />
-      </div>
-
+    <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-6 flex items-center justify-end sticky top-0 z-20 transition-colors">
       {/* Right Actions & Controls */}
       <div className="flex items-center gap-3">
         {/* User Account Dropdown with Logout and Theme Toggle */}
