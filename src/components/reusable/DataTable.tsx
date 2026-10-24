@@ -209,10 +209,7 @@ export function DataTable<T extends Record<string, any>>({
             </div>
           )}
 
-          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap hidden sm:inline">
-            Showing <strong className="text-slate-900 dark:text-white font-mono">{startItem}–{endItem}</strong> of{" "}
-            <strong className="text-slate-900 dark:text-white font-mono">{totalItems}</strong> records
-          </span>
+
         </div>
       </div>
 
