@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { 
@@ -447,38 +449,24 @@ export default function CategoriesPage() {
         </main>
       </div>
 
-      {/* Add / Edit Category Modal with Click-Outside Closure */}
-      {isModalOpen && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150 cursor-pointer"
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div 
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 cursor-default"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/50 text-[#A30B0B] dark:text-red-400 flex items-center justify-center shrink-0">
-                  <Tag className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 dark:text-white text-base sm:text-lg">
-                    {editingCategory ? "Edit Category" : "Add New Category"}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Upload a custom logo, pick an icon, and toggle status.
-                  </p>
-                </div>
+      {/* Add / Edit Category Modal using shadcn Dialog */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-lg p-6 space-y-4">
+          <DialogHeader className="border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/50 text-[#A30B0B] dark:text-red-400 flex items-center justify-center shrink-0">
+                <Tag className="w-5 h-5" />
               </div>
-              <button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div>
+                <DialogTitle className="font-bold text-slate-900 dark:text-white text-base sm:text-lg">
+                  {editingCategory ? "Edit Category" : "Add New Category"}
+                </DialogTitle>
+                <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
+                  Upload a custom logo, pick an icon, and toggle status.
+                </DialogDescription>
+              </div>
             </div>
+          </DialogHeader>
 
             <form onSubmit={handleSaveCategory} className="space-y-4">
               {/* Category Logo Upload & Preview */}
@@ -586,7 +574,7 @@ export default function CategoriesPage() {
                     Category Name (Hindi)
                   </label>
                   <Input
-                    placeholder="e.g. पुलिस एवं सुरक्षा"
+                    placeholder="e.g. Police and Security"
                     value={nameHi}
                     onChange={(e) => setNameHi(e.target.value)}
                   />
@@ -611,14 +599,18 @@ export default function CategoriesPage() {
                   <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
                     Status
                   </label>
-                  <select
+                  <Select
                     value={isActive ? "active" : "inactive"}
-                    onChange={(e) => setIsActive(e.target.value === "active")}
-                    className="w-full h-9 rounded-xl border border-input bg-background px-3 py-1 text-xs sm:text-sm shadow-2xs outline-none focus:ring-1 focus:ring-ring"
+                    onValueChange={(val) => setIsActive(val === "active")}
                   >
-                    <option value="active">Active (Visible in App)</option>
-                    <option value="inactive">Inactive (Hidden)</option>
-                  </select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">Active (Visible in App)</SelectItem>
+                      <SelectItem value="inactive">Inactive (Hidden)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
@@ -639,9 +631,8 @@ export default function CategoriesPage() {
                 </Button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
 
       {/* Delete Confirmation Modal (Radix Dialog with Click-Outside support) */}
       <DeleteConfirmationModal

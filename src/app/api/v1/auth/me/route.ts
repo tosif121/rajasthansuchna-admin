@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     success: true,
     user: {
       id: 'usr_me',
-      name: 'सत्यापित अभ्यर्थी',
+      name: 'Verified Candidate',
       email: 'student@rajasthansuchna.in',
       targetExam: 'CET / Rajasthan Police / REET',
       isLoggedIn: true,

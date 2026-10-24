@@ -4,6 +4,22 @@ import React, { useState, useEffect } from "react";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { PageHeader, StatCard, DeleteConfirmationModal } from "@/components/reusable";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription 
+} from "@/components/ui/dialog";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 import { 
   Bell, 
   Send, 
@@ -11,10 +27,10 @@ import {
   Smartphone, 
   CheckCircle2, 
   Clock, 
-  X,
-  Search,
-  Filter,
-  Sparkles
+  Search, 
+  Filter, 
+  Sparkles,
+  Plus
 } from "lucide-react";
 
 interface NotificationItem {
@@ -58,7 +74,7 @@ export default function NotificationsPage() {
     type: "newVacancy" as NotificationItem["type"],
     noticeId: "",
     noticeSlug: "",
-    agencyName: "राजस्थान सूचना",
+    agencyName: "Rajasthan Suchna",
   });
 
   // Fetch Notifications
@@ -99,18 +115,6 @@ export default function NotificationsPage() {
     loadNotifications();
     loadNotices();
   }, []);
-
-  // Escape key closes modal
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (isModalOpen) setIsModalOpen(false);
-        if (deleteModalState.isOpen) setDeleteModalState({ isOpen: false, id: "", title: "" });
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isModalOpen, deleteModalState]);
 
   // Notice dropdown selection
   const handleNoticeSelect = (noticeId: string) => {
@@ -160,11 +164,11 @@ export default function NotificationsPage() {
           type: "newVacancy",
           noticeId: "",
           noticeSlug: "",
-          agencyName: "राजस्थान सूचना",
+          agencyName: "Rajasthan Suchna",
         });
         await loadNotifications();
       } else {
-        alert(json.error || "सूचना भेजने में विफल");
+        alert(json.error || "Failed to broadcast notification");
       }
     } catch (err: any) {
       alert("Error: " + err?.message);
@@ -202,17 +206,17 @@ export default function NotificationsPage() {
   const getTypeBadge = (type: NotificationItem["type"]) => {
     switch (type) {
       case "newVacancy":
-        return { label: "नई विज्ञप्ति (New Vacancy)", bg: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" };
+        return { label: "New Vacancy", bg: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" };
       case "admitCard":
-        return { label: "एडमिट कार्ड (Admit Card)", bg: "bg-blue-500/10 text-blue-600 border-blue-500/20" };
+        return { label: "Admit Card", bg: "bg-blue-500/10 text-blue-600 border-blue-500/20" };
       case "result":
-        return { label: "परिणाम (Result)", bg: "bg-purple-500/10 text-purple-600 border-purple-500/20" };
+        return { label: "Result", bg: "bg-purple-500/10 text-purple-600 border-purple-500/20" };
       case "closingSoon":
-        return { label: "अंतिम तिथि (Closing Soon)", bg: "bg-red-500/10 text-red-600 border-red-500/20" };
+        return { label: "Closing Soon", bg: "bg-red-500/10 text-red-600 border-red-500/20" };
       case "correction":
-        return { label: "त्रुटि सुधार (Correction)", bg: "bg-amber-500/10 text-amber-600 border-amber-500/20" };
+        return { label: "Correction Window", bg: "bg-amber-500/10 text-amber-600 border-amber-500/20" };
       default:
-        return { label: "सूचना (Alert)", bg: "bg-slate-500/10 text-slate-600 border-slate-500/20" };
+        return { label: "Alert", bg: "bg-slate-500/10 text-slate-600 border-slate-500/20" };
     }
   };
 
@@ -229,15 +233,15 @@ export default function NotificationsPage() {
             <PageHeader
               eyebrow="STUDENT ENGAGEMENT & ALERTS"
               title="App Push Notifications"
-              description="विद्यार्थियों को नई भर्ती, एडमिट कार्ड व परीक्षा अपडेट्स के लिए सीधे मोबाइल पुश और इन-ऐप नोटिफिकेशन प्रसारित करें।"
+              description="Broadcast instant mobile push notifications and in-app alerts directly to student devices for recruitments, admit cards, and exam deadlines."
             />
-            <button
+            <Button
               onClick={() => setIsModalOpen(true)}
               className="flex items-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md transition-all duration-200 hover:shadow-lg cursor-pointer shrink-0"
             >
-              <Send className="w-4 h-4" />
-              नई सूचना भेजें (Broadcast)
-            </button>
+              <Plus className="w-4 h-4" />
+              Broadcast Notification
+            </Button>
           </div>
 
           {/* Metric Cards */}
@@ -245,25 +249,25 @@ export default function NotificationsPage() {
             <StatCard
               title="Total Broadcasts"
               value={notifications.length}
-              subtitle="कुल प्रसारित सूचनाएं"
+              subtitle="All sent notifications"
               icon={<Bell className="w-5 h-5 text-red-600" />}
             />
             <StatCard
               title="New Vacancy Alerts"
               value={notifications.filter((n) => n.type === "newVacancy").length}
-              subtitle="भर्ती विज्ञप्ति अलर्ट्स"
+              subtitle="Recruitment releases"
               icon={<CheckCircle2 className="w-5 h-5 text-emerald-600" />}
             />
             <StatCard
               title="Admit Card & Exam"
               value={notifications.filter((n) => n.type === "admitCard" || n.type === "closingSoon").length}
-              subtitle="प्रवेश पत्र व अंतिम तिथि"
+              subtitle="Hall tickets & deadlines"
               icon={<Clock className="w-5 h-5 text-blue-600" />}
             />
             <StatCard
               title="Push Engine Status"
               value="Active"
-              subtitle="FCM + In-App Live Sync"
+              subtitle="FCM & in-app live sync"
               icon={<Sparkles className="w-5 h-5 text-amber-600" />}
             />
           </div>
@@ -272,29 +276,33 @@ export default function NotificationsPage() {
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between">
             <div className="relative w-full sm:w-80">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
+              <Input
                 type="text"
-                placeholder="सूचना या एजेंसी खोजें..."
+                placeholder="Search notification title, message, or agency..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full pl-9"
               />
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <Filter className="w-4 h-4 text-slate-400 shrink-0" />
-              <select
+              <Select
                 value={selectedTypeFilter}
-                onChange={(e) => setSelectedTypeFilter(e.target.value)}
-                className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 w-full sm:w-auto"
+                onValueChange={(val) => setSelectedTypeFilter(val)}
               >
-                <option value="all">सभी प्रकार (All Types)</option>
-                <option value="newVacancy">नई विज्ञप्ति (New Vacancy)</option>
-                <option value="admitCard">एडमिट कार्ड (Admit Card)</option>
-                <option value="result">परिणाम (Result)</option>
-                <option value="closingSoon">अंतिम तिथि (Closing Soon)</option>
-                <option value="correction">त्रुटि सुधार (Correction)</option>
-              </select>
+                <SelectTrigger className="w-full sm:w-[220px]">
+                  <SelectValue placeholder="All Notification Types" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Notification Types</SelectItem>
+                  <SelectItem value="newVacancy">New Vacancy</SelectItem>
+                  <SelectItem value="admitCard">Admit Card</SelectItem>
+                  <SelectItem value="result">Result</SelectItem>
+                  <SelectItem value="closingSoon">Closing Soon</SelectItem>
+                  <SelectItem value="correction">Correction Window</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -303,30 +311,30 @@ export default function NotificationsPage() {
             <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
               <h2 className="font-semibold text-slate-800 dark:text-white flex items-center gap-2">
                 <Bell className="w-4 h-4 text-[#A30B0B]" />
-                हालिया सूचना इतिहास ({filteredNotifications.length})
+                Recent Broadcast History ({filteredNotifications.length})
               </h2>
             </div>
 
             {isLoading ? (
-              <div className="p-8 text-center text-slate-500">सूचनाएं लोड हो रही हैं...</div>
+              <div className="p-8 text-center text-slate-500">Loading notifications...</div>
             ) : filteredNotifications.length === 0 ? (
               <div className="p-12 text-center">
                 <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mx-auto mb-3">
                   <Bell className="w-6 h-6 text-slate-400" />
                 </div>
-                <h3 className="text-base font-semibold text-slate-700 dark:text-slate-200">कोई सूचना नहीं मिली</h3>
-                <p className="text-xs text-slate-500 mt-1">नई सूचना प्रसारित करने के लिए ऊपर दिए बटन पर क्लिक करें।</p>
+                <h3 className="text-base font-semibold text-slate-700 dark:text-slate-200">No notifications found</h3>
+                <p className="text-xs text-slate-500 mt-1">Click "Broadcast Notification" above to send a new alert to students.</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead className="bg-slate-50/80 dark:bg-slate-900/80 text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
                     <tr>
-                      <th className="py-3.5 px-4">प्रकार (Type)</th>
-                      <th className="py-3.5 px-4">शीर्षक व विवरण (Title & Message)</th>
-                      <th className="py-3.5 px-4">एजेंसी / लिंक (Target Notice)</th>
-                      <th className="py-3.5 px-4">समय (Sent Date)</th>
-                      <th className="py-3.5 px-4 text-right">कार्रवाई (Action)</th>
+                      <th className="py-3.5 px-4">Type</th>
+                      <th className="py-3.5 px-4">Title & Content</th>
+                      <th className="py-3.5 px-4">Target Agency / Notice</th>
+                      <th className="py-3.5 px-4">Sent Date</th>
+                      <th className="py-3.5 px-4 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
@@ -350,7 +358,7 @@ export default function NotificationsPage() {
                             </div>
                           </td>
                           <td className="py-3.5 px-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400">
-                            {new Date(notif.createdAt).toLocaleDateString("hi-IN", {
+                            {new Date(notif.createdAt).toLocaleDateString("en-IN", {
                               day: "numeric",
                               month: "short",
                               year: "numeric",
@@ -362,7 +370,7 @@ export default function NotificationsPage() {
                             <button
                               onClick={() => setDeleteModalState({ isOpen: true, id: notif.id, title: notif.title })}
                               className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
-                              title="हटाएं"
+                              title="Delete notification"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -378,192 +386,189 @@ export default function NotificationsPage() {
         </main>
       </div>
 
-      {/* Broadcast Modal with Mobile Push Live Preview */}
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200"
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div
-            className="bg-white dark:bg-slate-900 rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-2xl p-6 md:p-8"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 flex items-center justify-center text-[#A30B0B]">
-                  <Send className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg text-slate-900 dark:text-white">
-                    नई अधिसूचना प्रसारित करें (Send Broadcast Alert)
-                  </h3>
-                  <p className="text-xs text-slate-500">सभी पंजीकृत विद्यार्थियों को तुरंत मोबाइल सूचना प्राप्त होगी।</p>
-                </div>
+      {/* shadcn Dialog: Broadcast Push Notification */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto p-6 md:p-8">
+          <DialogHeader className="pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 flex items-center justify-center text-[#A30B0B]">
+                <Send className="w-5 h-5" />
               </div>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div>
+                <DialogTitle className="font-bold text-lg text-slate-900 dark:text-white">
+                  Broadcast Push Notification
+                </DialogTitle>
+                <DialogDescription className="text-xs text-slate-500">
+                  Send instant recruitment updates directly to all active mobile app users.
+                </DialogDescription>
+              </div>
             </div>
+          </DialogHeader>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
-              {/* Form Input Section */}
-              <form onSubmit={handleSendNotification} className="lg:col-span-7 space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                    सूचना प्रकार (Notification Type) *
-                  </label>
-                  <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-                  >
-                    <option value="newVacancy">नई भर्ती विज्ञप्ति (New Vacancy)</option>
-                    <option value="admitCard">एडमिट कार्ड जारी (Admit Card)</option>
-                    <option value="result">परीक्षा परिणाम (Result Announcement)</option>
-                    <option value="closingSoon">अंतिम तिथि चेतावनी (Application Deadline Alert)</option>
-                    <option value="correction">ऑनलाइन त्रुटि सुधार (Correction Window)</option>
-                  </select>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4">
+            {/* Form Input Section */}
+            <form onSubmit={handleSendNotification} className="lg:col-span-7 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                  Notification Type *
+                </label>
+                <Select
+                  value={formData.type}
+                  onValueChange={(val) => setFormData({ ...formData, type: val as any })}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Notification Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newVacancy">New Vacancy (Recruitment Notification)</SelectItem>
+                    <SelectItem value="admitCard">Admit Card Released (Hall Ticket)</SelectItem>
+                    <SelectItem value="result">Exam Result Announcement</SelectItem>
+                    <SelectItem value="closingSoon">Application Deadline Alert (Closing Soon)</SelectItem>
+                    <SelectItem value="correction">Correction Window Open</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                    संबंधित विज्ञप्ति चुनें (Link Target Vacancy)
-                  </label>
-                  <select
-                    value={formData.noticeId}
-                    onChange={(e) => handleNoticeSelect(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-                  >
-                    <option value="">-- सामान्य सूचना (General Alert without direct link) --</option>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                  Link Target Vacancy (Optional)
+                </label>
+                <Select
+                  value={formData.noticeId || "general"}
+                  onValueChange={(val) => handleNoticeSelect(val === "general" ? "" : val)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="General Announcement (No link)" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="general">-- General Announcement (No specific notice link) --</SelectItem>
                     {notices.map((n) => (
-                      <option key={n.id} value={n.id}>
+                      <SelectItem key={n.id} value={n.id}>
                         [{n.agencyId}] {n.titleHi}
-                      </option>
+                      </SelectItem>
                     ))}
-                  </select>
-                </div>
+                  </SelectContent>
+                </Select>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                    अधिसूचना शीर्षक (Title in Hindi / English) *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="उदा. राजस्थान पटवारी भर्ती 2026: 2998 पदों पर विज्ञप्ति जारी"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                  Notification Title *
+                </label>
+                <Input
+                  type="text"
+                  required
+                  placeholder="e.g. Rajasthan Patwari Recruitment 2026: 2998 Posts Notification Released"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full"
+                />
+              </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                    विस्तृत संदेश (Message Body) *
-                  </label>
-                  <textarea
-                    rows={3}
-                    required
-                    placeholder="उदा. राजस्व विभाग द्वारा ऑनलाइन आवेदन पोर्टल सक्रिय कर दिया गया है। अंतिम तिथि से पहले आवेदन करें।"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                  Notification Message Body *
+                </label>
+                <textarea
+                  rows={3}
+                  required
+                  placeholder="e.g. Online application portal is now active on SSO Rajasthan. Apply before last date."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 resize-none text-slate-900 dark:text-slate-100"
+                />
+              </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                    एजेंसी नाम (Display Agency / Authority)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.agencyName}
-                    onChange={(e) => setFormData({ ...formData, agencyName: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                  Issuing Agency / Authority Name
+                </label>
+                <Input
+                  type="text"
+                  value={formData.agencyName}
+                  onChange={(e) => setFormData({ ...formData, agencyName: e.target.value })}
+                  className="w-full"
+                />
+              </div>
 
-                <div className="pt-2 flex items-center justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium cursor-pointer"
-                  >
-                    रद्द करें (Cancel)
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isSending}
-                    className="flex items-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-md transition-all cursor-pointer disabled:opacity-50"
-                  >
-                    <Send className="w-4 h-4" />
-                    {isSending ? "भेजा जा रहा है..." : "अभी भेजें (Broadcast Now)"}
-                  </button>
-                </div>
-              </form>
+              <div className="pt-2 flex items-center justify-end gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsModalOpen(false)}
+                  className="cursor-pointer"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isSending}
+                  className="flex items-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white cursor-pointer disabled:opacity-50"
+                >
+                  <Send className="w-4 h-4" />
+                  {isSending ? "Sending Broadcast..." : "Broadcast Now"}
+                </Button>
+              </div>
+            </form>
 
-              {/* Realistic Smartphone Live Push Notification Preview */}
-              <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-950/80 rounded-2xl border border-slate-200 dark:border-slate-800">
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">
-                  <Smartphone className="w-4 h-4 text-[#A30B0B]" /> Live Mobile Push Preview
-                </div>
+            {/* Realistic Smartphone Live Push Notification Preview */}
+            <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-950/80 rounded-2xl border border-slate-200 dark:border-slate-800">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">
+                <Smartphone className="w-4 h-4 text-[#A30B0B]" /> Live Mobile Push Preview
+              </div>
 
-                {/* Phone Mockup Window */}
-                <div className="w-full max-w-[310px] bg-slate-900 text-white rounded-3xl p-3.5 shadow-2xl border-4 border-slate-800 relative">
-                  {/* Status Bar */}
-                  <div className="flex items-center justify-between text-[11px] text-slate-300 px-2 pt-1 pb-3">
-                    <span className="font-semibold">09:41</span>
-                    <div className="flex items-center gap-1 text-[10px]">
-                      <span>5G</span>
-                      <span>100%</span>
-                    </div>
+              {/* Phone Mockup Window */}
+              <div className="w-full max-w-[310px] bg-slate-900 text-white rounded-3xl p-3.5 shadow-2xl border-4 border-slate-800 relative">
+                {/* Status Bar */}
+                <div className="flex items-center justify-between text-[11px] text-slate-300 px-2 pt-1 pb-3">
+                  <span className="font-semibold">09:41</span>
+                  <div className="flex items-center gap-1 text-[10px]">
+                    <span>5G</span>
+                    <span>100%</span>
                   </div>
+                </div>
 
-                  {/* Android / iOS Push Notification Banner Card */}
-                  <div className="bg-slate-800/95 backdrop-blur-md text-white rounded-2xl p-3.5 border border-slate-700/60 shadow-lg animate-in slide-in-from-top duration-300">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-md bg-[#A30B0B] flex items-center justify-center text-[10px] font-bold text-white shadow-xs">
-                          RS
-                        </div>
-                        <span className="text-xs font-semibold tracking-wide text-slate-200">
-                          राजस्थान सूचना
-                        </span>
+                {/* Android / iOS Push Notification Banner Card */}
+                <div className="bg-slate-800/95 backdrop-blur-md text-white rounded-2xl p-3.5 border border-slate-700/60 shadow-lg animate-in slide-in-from-top duration-300">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-md bg-[#A30B0B] flex items-center justify-center text-[10px] font-bold text-white shadow-xs">
+                        RS
                       </div>
-                      <span className="text-[10px] text-slate-400">अभी-अभी</span>
+                      <span className="text-xs font-semibold tracking-wide text-slate-200">
+                        Rajasthan Suchna
+                      </span>
                     </div>
-
-                    <p className="text-xs font-bold text-white leading-snug line-clamp-2">
-                      {formData.title || "अधिसूचना का शीर्षक यहाँ दिखेगा"}
-                    </p>
-
-                    <p className="text-[11px] text-slate-300 mt-1 line-clamp-3 leading-normal">
-                      {formData.message || "आपके संदेश का विवरण यहाँ लाइव दिखेगा जैसा विद्यार्थी को स्क्रीन पर प्राप्त होगा।"}
-                    </p>
-
-                    <div className="mt-2.5 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[10px] text-amber-400">
-                      <span>{formData.agencyName || "राजस्थान सूचना मंच"}</span>
-                      <span className="text-slate-400 font-mono">टैप करके खोलें →</span>
-                    </div>
+                    <span className="text-[10px] text-slate-400">Just now</span>
                   </div>
 
-                  {/* Phone Notch / Indicator */}
-                  <div className="w-24 h-1 bg-slate-700 rounded-full mx-auto mt-6" />
+                  <p className="text-xs font-bold text-white leading-snug line-clamp-2">
+                    {formData.title || "Notification headline will appear here"}
+                  </p>
+
+                  <p className="text-[11px] text-slate-300 mt-1 line-clamp-3 leading-normal">
+                    {formData.message || "Your notification message preview will render here in real-time as seen by students."}
+                  </p>
+
+                  <div className="mt-2.5 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[10px] text-amber-400">
+                    <span>{formData.agencyName || "Rajasthan Suchna Portal"}</span>
+                    <span className="text-slate-400 font-mono">Tap to open →</span>
+                  </div>
                 </div>
+
+                {/* Phone Notch / Indicator */}
+                <div className="w-24 h-1 bg-slate-700 rounded-full mx-auto mt-6" />
               </div>
             </div>
           </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
 
       {/* Delete Confirmation Modal */}
       <DeleteConfirmationModal
         isOpen={deleteModalState.isOpen}
-        title="अधिसूचना हटाएं?"
-        description={`क्या आप सुनिश्चित हैं कि आप "${deleteModalState.title}" को हटाना चाहते हैं? यह सभी विद्यार्थियों की सूची से हट जाएगी।`}
+        title="Delete Notification"
+        description={`Are you sure you want to delete "${deleteModalState.title}"? It will be removed from all student device feeds.`}
         onConfirm={handleDelete}
         onCancel={() => setDeleteModalState({ isOpen: false, id: "", title: "" })}
       />

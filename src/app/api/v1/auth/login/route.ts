@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Default demo student credentials or any valid length student
-    let studentName = 'अभ्यर्थी (Student)';
+    let studentName = 'Student';
     if (input.includes('admin')) {
-      studentName = 'प्रशासक (Admin)';
+      studentName = 'Administrator';
     } else if (input.includes('@')) {
       studentName = input.split('@')[0].toUpperCase();
     } else if (/^\d+$/.test(input)) {

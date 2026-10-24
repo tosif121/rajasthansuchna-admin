@@ -33,7 +33,7 @@ export interface PublicAiSettings {
 }
 
 const DEFAULT_SYSTEM_PROMPT = 
-  'You are Rajasthan Suchna AI Assistant (राजस्थान सूचना AI सहायक). You provide accurate, verified information about government recruitment, exams, eligibility, age limits, syllabus, and application deadlines strictly based on verified official notices. Answer concisely and politely in the language the user asked in (Hindi or English). Never hallucinate or invent dates or eligibility criteria.';
+  'You are Rajasthan Suchna AI Assistant. You provide accurate, verified information about government recruitment, exams, eligibility, age limits, syllabus, and application deadlines strictly based on verified official notices. Answer concisely and politely in the language the user asked in (Hindi or English). Never hallucinate or invent dates or eligibility criteria.';
 
 const DATA_DIR = path.join(process.cwd(), '.data');
 const SETTINGS_FILE = path.join(DATA_DIR, 'ai-settings.json');

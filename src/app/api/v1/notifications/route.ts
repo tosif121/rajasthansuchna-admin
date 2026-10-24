@@ -31,14 +31,14 @@ export async function POST(req: NextRequest) {
 
     if (!title || typeof title !== 'string' || !title.trim()) {
       return NextResponse.json(
-        { success: false, error: 'शीर्षक (Title) अनिवार्य है' },
+        { success: false, error: 'Title is required' },
         { status: 400 }
       );
     }
 
     if (!message || typeof message !== 'string' || !message.trim()) {
       return NextResponse.json(
-        { success: false, error: 'संदेश (Message) अनिवार्य है' },
+        { success: false, error: 'Message is required' },
         { status: 400 }
       );
     }
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: 'अधिसूचना सफलतापूर्वक प्रसारित कर दी गई है',
+        message: 'Notification broadcasted successfully',
         data: created,
       },
       { status: 201 }

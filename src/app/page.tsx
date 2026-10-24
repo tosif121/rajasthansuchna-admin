@@ -440,7 +440,7 @@ export default function AdminDashboardPage() {
               <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (Devanagari - Optional)</label>
               <Input
                 type="text"
-                placeholder="e.g. राजस्थान कृषि पर्यवेक्षक भर्ती 2026"
+                placeholder="e.g. Rajasthan Krishi Paryavekshak Bharti 2026"
                 value={formTitleHi}
                 onChange={(e) => setFormTitleHi(e.target.value)}
               />
