@@ -1,5 +1,9 @@
-'use client';
+"use client";
 
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import React, { useState, useEffect } from 'react';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
@@ -213,30 +217,30 @@ export default function AdminDashboardPage() {
 
         if (isPublished) {
           return (
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-700/50 flex items-center gap-1 w-fit">
+            <Badge variant="success" className="gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               PUBLISHED
-            </span>
+            </Badge>
           );
         }
         if (isInReview) {
           return (
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50 flex items-center gap-1 w-fit">
+            <Badge variant="warning" className="gap-1">
               <Clock className="w-3 h-3" /> IN REVIEW
-            </span>
+            </Badge>
           );
         }
         if (isApproved) {
           return (
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-700/50 flex items-center gap-1 w-fit">
+            <Badge className="bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-700/50 gap-1">
               <CheckCircle2 className="w-3 h-3" /> APPROVED
-            </span>
+            </Badge>
           );
         }
         return (
-          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 flex items-center gap-1 w-fit">
+          <Badge variant="secondary">
             DRAFT
-          </span>
+          </Badge>
         );
       },
     },
@@ -342,19 +346,20 @@ export default function AdminDashboardPage() {
                     label="Auto Sync"
                   />
                 </div>
-                <button
+                <Button
+                  variant="outline"
+                  size="icon"
                   onClick={fetchNotices}
                   title="Refresh notices"
-                  className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors shadow-sm"
                 >
                   <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => setShowCreateModal(true)}
-                  className="flex items-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-md shadow-red-950/20 transition-all"
+                  className="gap-2"
                 >
                   <Plus className="w-4 h-4" /> New Recruitment Draft
-                </button>
+                </Button>
               </div>
             }
           />
@@ -447,134 +452,123 @@ export default function AdminDashboardPage() {
         onCancel={() => setNoticeToDelete(null)}
       />
 
-      {/* Create Draft Notice Modal */}
-      {showCreateModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-              <h3 className="font-bold text-base text-slate-900 dark:text-white">Create Recruitment Draft</h3>
-              <button onClick={() => setShowCreateModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-white font-bold">✕</button>
+      {/* Create Draft Notice Modal (shadcn Dialog) */}
+      <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Create Recruitment Draft</DialogTitle>
+            <DialogDescription>
+              Enter initial circular details. Editors cannot approve their own drafts.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleCreateNotice} className="space-y-3.5 text-xs">
+            <div>
+              <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Title (English)</label>
+              <Input
+                type="text"
+                required
+                placeholder="e.g. Rajasthan Agriculture Supervisor Recruitment 2026"
+                value={formTitleEn}
+                onChange={(e) => setFormTitleEn(e.target.value)}
+              />
             </div>
 
-            <form onSubmit={handleCreateNotice} className="space-y-3.5 text-xs">
+            <div>
+              <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (Devanagari - Optional)</label>
+              <Input
+                type="text"
+                placeholder="e.g. राजस्थान कृषि पर्यवेक्षक भर्ती 2026"
+                value={formTitleHi}
+                onChange={(e) => setFormTitleHi(e.target.value)}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Title (English)</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Rajasthan Agriculture Supervisor Recruitment 2026"
-                  value={formTitleEn}
-                  onChange={(e) => setFormTitleEn(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Commission</label>
+                <select
+                  value={formAgency}
+                  onChange={(e) => setFormAgency(e.target.value)}
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
+                >
+                  <option value="RSMSSB (Staff Selection Board)">RSMSSB</option>
+                  <option value="RPSC (Public Service Commission)">RPSC</option>
+                  <option value="Rajasthan Police Headquarters">Rajasthan Police</option>
+                  <option value="SSC (Staff Selection Commission)">SSC (Central)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Total Posts</label>
+                <Input
+                  type="number"
+                  value={formPosts}
+                  onChange={(e) => setFormPosts(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Application Deadline</label>
+                <Input
+                  type="date"
+                  value={formDeadline}
+                  onChange={(e) => setFormDeadline(e.target.value)}
                 />
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (Devanagari - Optional)</label>
-                <input
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Minimum Qualification</label>
+                <Input
                   type="text"
-                  placeholder="e.g. राजस्थान कृषि पर्यवेक्षक भर्ती 2026"
-                  value={formTitleHi}
-                  onChange={(e) => setFormTitleHi(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
+                  value={formQual}
+                  onChange={(e) => setFormQual(e.target.value)}
                 />
               </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Commission</label>
-                  <select
-                    value={formAgency}
-                    onChange={(e) => setFormAgency(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
-                  >
-                    <option value="RSMSSB (Staff Selection Board)">RSMSSB</option>
-                    <option value="RPSC (Public Service Commission)">RPSC</option>
-                    <option value="Rajasthan Police Headquarters">Rajasthan Police</option>
-                    <option value="SSC (Staff Selection Commission)">SSC (Central)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Total Posts</label>
-                  <input
-                    type="number"
-                    value={formPosts}
-                    onChange={(e) => setFormPosts(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Application Deadline</label>
-                  <input
-                    type="date"
-                    value={formDeadline}
-                    onChange={(e) => setFormDeadline(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Minimum Qualification</label>
-                  <input
-                    type="text"
-                    value={formQual}
-                    onChange={(e) => setFormQual(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
-                  />
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold rounded-lg shadow-md"
-                >
-                  Save Draft Notice
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Inspect Notice Modal */}
-      {inspectNotice && (
-        <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-              <div>
-                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Flutter API Contract Preview</h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">Live JSON serialized for Flutter Vacancy model</p>
-              </div>
-              <button onClick={() => setInspectNotice(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-white font-bold">✕</button>
             </div>
 
-            <pre className="bg-slate-900 p-4 rounded-xl text-[11px] font-mono text-amber-400 dark:text-amber-300 overflow-x-auto max-h-96 border border-slate-800">
-              {JSON.stringify(inspectNotice, null, 2)}
-            </pre>
-
-            <div className="flex justify-end">
-              <button
-                onClick={() => setInspectNotice(null)}
-                className="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs"
+            <DialogFooter className="mt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowCreateModal(false)}
               >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+                Cancel
+              </Button>
+              <Button type="submit">
+                Save Draft Notice
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Inspect Notice Modal (shadcn Dialog) */}
+      <Dialog open={!!inspectNotice} onOpenChange={(open) => { if (!open) setInspectNotice(null); }}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Flutter API Contract Preview</DialogTitle>
+            <DialogDescription>
+              Live JSON serialized for mobile client Vacancy model
+            </DialogDescription>
+          </DialogHeader>
+
+          <pre className="bg-slate-900 p-4 rounded-xl text-[11px] font-mono text-amber-400 dark:text-amber-300 overflow-x-auto max-h-96 border border-slate-800">
+            {JSON.stringify(inspectNotice, null, 2)}
+          </pre>
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setInspectNotice(null)}
+            >
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

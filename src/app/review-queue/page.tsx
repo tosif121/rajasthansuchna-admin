@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import React, { useState, useEffect } from "react";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
@@ -304,9 +306,7 @@ export default function ReviewQueuePage() {
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800/80 pb-4">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50">
-                          PENDING APPROVAL
-                        </span>
+                        <Badge variant="warning">PENDING APPROVAL</Badge>
                         <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                           {notice.agencyName}
                         </span>

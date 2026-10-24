@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import React, { useState } from "react";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
@@ -169,13 +171,9 @@ export default function AuditLogsPage() {
       header: "Gate Result",
       cell: (log) => (
         log.status === "SUCCESS" ? (
-          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-700/50">
-            ALLOWED
-          </span>
+          <Badge variant="success">ALLOWED</Badge>
         ) : (
-          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-50 dark:bg-red-950/70 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-700/50">
-            POLICY BLOCKED
-          </span>
+          <Badge variant="destructive">POLICY BLOCKED</Badge>
         )
       ),
     },
@@ -209,13 +207,15 @@ export default function AuditLogsPage() {
             title="Audit Logs"
             description="Immutable chronological record of administrative actions, policy violations, and publishing transitions."
             actions={
-              <button
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => setLogToDelete(logs)}
                 disabled={logs.length === 0}
-                className="flex items-center gap-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-300 dark:hover:border-red-900/60 text-slate-700 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 text-xs font-semibold px-3 py-2 rounded-lg shadow-sm transition-colors cursor-pointer"
+                className="text-slate-700 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 hover:border-red-300"
               >
                 <Trash2 className="w-3.5 h-3.5" /> Purge Logs
-              </button>
+              </Button>
             }
           />
 

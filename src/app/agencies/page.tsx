@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import React, { useState } from "react";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
@@ -87,13 +89,13 @@ export default function AgenciesPage() {
     {
       header: "Jurisdiction",
       cell: (agency) => (
-        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-          agency.parentGroup === "rajasthan"
-            ? "bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50"
-            : "bg-blue-50 dark:bg-blue-950/70 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-700/50"
-        }`}>
-          {agency.parentGroup === "rajasthan" ? "Rajasthan Govt" : "Central Govt"}
-        </span>
+        agency.parentGroup === "rajasthan" ? (
+          <Badge variant="warning">Rajasthan Govt</Badge>
+        ) : (
+          <Badge className="bg-blue-50 dark:bg-blue-950/70 text-blue-800 dark:text-blue-400 border-blue-200 dark:border-blue-700/50">
+            Central Govt
+          </Badge>
+        )
       ),
     },
     {

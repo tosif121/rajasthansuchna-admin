@@ -1,5 +1,8 @@
-'use client';
+"use client";
 
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import React, { useState, useEffect } from 'react';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
@@ -171,30 +174,30 @@ export default function NoticesPage() {
 
         if (isPublished) {
           return (
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-700/50 flex items-center gap-1 w-fit">
+            <Badge variant="success" className="gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               PUBLISHED
-            </span>
+            </Badge>
           );
         }
         if (isInReview) {
           return (
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50 flex items-center gap-1 w-fit">
+            <Badge variant="warning" className="gap-1">
               <Clock className="w-3 h-3" /> IN REVIEW
-            </span>
+            </Badge>
           );
         }
         if (isApproved) {
           return (
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-700/50 flex items-center gap-1 w-fit">
+            <Badge className="bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-700/50 gap-1">
               <CheckCircle2 className="w-3 h-3" /> APPROVED
-            </span>
+            </Badge>
           );
         }
         return (
-          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 flex items-center gap-1 w-fit">
+          <Badge variant="secondary">
             DRAFT
-          </span>
+          </Badge>
         );
       },
     },
