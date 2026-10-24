@@ -24,7 +24,6 @@ import {
   Bell, 
   Send, 
   Trash2, 
-  Smartphone, 
   CheckCircle2, 
   Clock, 
   Search, 
@@ -388,7 +387,7 @@ export default function NotificationsPage() {
 
       {/* shadcn Dialog: Broadcast Push Notification */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto p-6 md:p-8">
+        <DialogContent className="max-w-xl max-h-[92vh] overflow-y-auto p-6">
           <DialogHeader className="pb-4 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 flex items-center justify-center text-[#A30B0B]">
@@ -405,9 +404,7 @@ export default function NotificationsPage() {
             </div>
           </DialogHeader>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4">
-            {/* Form Input Section */}
-            <form onSubmit={handleSendNotification} className="lg:col-span-7 space-y-4">
+          <form onSubmit={handleSendNotification} className="space-y-4 mt-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                   Notification Type *
@@ -511,56 +508,6 @@ export default function NotificationsPage() {
               </div>
             </form>
 
-            {/* Realistic Smartphone Live Push Notification Preview */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-950/80 rounded-2xl border border-slate-200 dark:border-slate-800">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">
-                <Smartphone className="w-4 h-4 text-[#A30B0B]" /> Live Mobile Push Preview
-              </div>
-
-              {/* Phone Mockup Window */}
-              <div className="w-full max-w-[310px] bg-slate-900 text-white rounded-3xl p-3.5 shadow-2xl border-4 border-slate-800 relative">
-                {/* Status Bar */}
-                <div className="flex items-center justify-between text-[11px] text-slate-300 px-2 pt-1 pb-3">
-                  <span className="font-semibold">09:41</span>
-                  <div className="flex items-center gap-1 text-[10px]">
-                    <span>5G</span>
-                    <span>100%</span>
-                  </div>
-                </div>
-
-                {/* Android / iOS Push Notification Banner Card */}
-                <div className="bg-slate-800/95 backdrop-blur-md text-white rounded-2xl p-3.5 border border-slate-700/60 shadow-lg animate-in slide-in-from-top duration-300">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-md bg-[#A30B0B] flex items-center justify-center text-[10px] font-bold text-white shadow-xs">
-                        RS
-                      </div>
-                      <span className="text-xs font-semibold tracking-wide text-slate-200">
-                        Rajasthan Suchna
-                      </span>
-                    </div>
-                    <span className="text-[10px] text-slate-400">Just now</span>
-                  </div>
-
-                  <p className="text-xs font-bold text-white leading-snug line-clamp-2">
-                    {formData.title || "Notification headline will appear here"}
-                  </p>
-
-                  <p className="text-[11px] text-slate-300 mt-1 line-clamp-3 leading-normal">
-                    {formData.message || "Your notification message preview will render here in real-time as seen by students."}
-                  </p>
-
-                  <div className="mt-2.5 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[10px] text-amber-400">
-                    <span>{formData.agencyName || "Rajasthan Suchna Portal"}</span>
-                    <span className="text-slate-400 font-mono">Tap to open →</span>
-                  </div>
-                </div>
-
-                {/* Phone Notch / Indicator */}
-                <div className="w-24 h-1 bg-slate-700 rounded-full mx-auto mt-6" />
-              </div>
-            </div>
-          </div>
         </DialogContent>
       </Dialog>
 
