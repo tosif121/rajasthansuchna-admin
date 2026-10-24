@@ -173,7 +173,14 @@ export function DataTable<T extends Record<string, any>>({
         <div className="relative w-full sm:max-w-xs md:max-w-sm">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <Input
-            type="text"
+            type="search"
+            name="table-search-query"
+            id={`table-search-${String(searchKey || "query")}`}
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            data-lpignore="true"
+            data-1p-ignore="true"
             placeholder={searchPlaceholder}
             value={search}
             onChange={(e) => {
