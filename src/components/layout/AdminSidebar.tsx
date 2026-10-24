@@ -11,12 +11,8 @@ import {
   History, 
   LogOut,
   ExternalLink,
-  ShieldCheck,
-  Sun,
-  Moon
+  ShieldCheck
 } from 'lucide-react';
-import { useTheme } from '@/components/theme/ThemeProvider';
-
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'All Notices', href: '/notices', icon: FileText },
@@ -28,8 +24,6 @@ const navigation = [
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
-
   const handleLogout = () => {
     localStorage.removeItem('rs_auth_user');
     router.push('/login');
@@ -84,20 +78,6 @@ export function AdminSidebar() {
           );
         })}
       </nav>
-
-      {/* Theme Switcher Quick Card */}
-      <div className="px-3 pb-2">
-        <button
-          onClick={toggleTheme}
-          className="w-full flex items-center justify-between px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors"
-        >
-          <span className="flex items-center gap-2">
-            {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
-            <span>Theme Mode</span>
-          </span>
-          <span className="capitalize text-[11px] text-slate-500 dark:text-slate-400">{theme}</span>
-        </button>
-      </div>
 
       {/* Live Flutter App API Status */}
       <div className="p-3.5 m-3 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-xs">
