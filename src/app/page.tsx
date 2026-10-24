@@ -429,7 +429,7 @@ export default function AdminDashboardPage() {
               isLoading={loading}
               searchKey="titleEn"
               searchPlaceholder="Filter publication queue by recruitment name..."
-              pageSize={6}
+              pageSize={10}
               emptyTitle="No notices in publication queue"
               emptyDescription="Create a new recruitment draft to start the publishing pipeline."
             />

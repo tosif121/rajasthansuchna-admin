@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
-import { EmptyState } from './EmptyState';
-import { LoadingSkeleton } from './LoadingSkeleton';
+import React, { useState } from "react";
+import { Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { EmptyState } from "./EmptyState";
+import { LoadingSkeleton } from "./LoadingSkeleton";
 
 export interface Column<T> {
   header: string;
@@ -27,27 +27,30 @@ export function DataTable<T extends Record<string, any>>({
   columns,
   data,
   isLoading = false,
-  searchPlaceholder = 'Search records...',
+  searchPlaceholder = "Search records...",
   searchKey,
   pageSize = 10,
-  emptyTitle = 'No records found',
-  emptyDescription = 'Try adjusting your search query or filters.',
+  emptyTitle = "No records found",
+  emptyDescription = "Try adjusting your search query or filters.",
 }: DataTableProps<T>) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize || 10);
 
   const filtered = data.filter((item) => {
     if (!search || !searchKey) return true;
     const val = item[searchKey];
-    if (typeof val === 'string') {
+    if (typeof val === "string") {
       return val.toLowerCase().includes(search.toLowerCase());
     }
     return true;
   });
 
-  const totalPages = Math.ceil(filtered.length / pageSize) || 1;
-  const startIndex = (currentPage - 1) * pageSize;
-  const pageData = filtered.slice(startIndex, startIndex + pageSize);
+  const totalPages = Math.ceil(filtered.length / currentPageSize) || 1;
+  const startIndex = (currentPage - 1) * currentPageSize;
+  const pageData = filtered.slice(startIndex, startIndex + currentPageSize);
+  const startItem = filtered.length === 0 ? 0 : startIndex + 1;
+  const endItem = Math.min(startIndex + currentPageSize, filtered.length);
 
   return (
     <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
@@ -67,9 +70,26 @@ export function DataTable<T extends Record<string, any>>({
               className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-[#A30B0B]"
             />
           </div>
-          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
-            Showing {filtered.length} entries
-          </span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+              <span>Rows per page:</span>
+              <select
+                value={currentPageSize}
+                onChange={(e) => {
+                  setCurrentPageSize(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md px-2 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </select>
+            </div>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap hidden sm:inline">
+              Showing {startItem}-{endItem} of {filtered.length}
+            </span>
+          </div>
         </div>
       )}
 
@@ -79,7 +99,7 @@ export function DataTable<T extends Record<string, any>>({
           <thead className="bg-slate-100 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 uppercase text-[10px] tracking-wider font-semibold">
             <tr>
               {columns.map((col, idx) => (
-                <th key={idx} className={`py-3 px-4 ${col.className || ''}`}>
+                <th key={idx} className={`py-3 px-4 ${col.className || ""}`}>
                   {col.header}
                 </th>
               ))}
@@ -100,8 +120,8 @@ export function DataTable<T extends Record<string, any>>({
               pageData.map((row, rowIdx) => (
                 <tr key={rowIdx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
                   {columns.map((col, colIdx) => (
-                    <td key={colIdx} className={`py-3.5 px-4 ${col.className || ''}`}>
-                      {col.cell ? col.cell(row) : (col.accessorKey ? String(row[col.accessorKey] ?? '') : null)}
+                    <td key={colIdx} className={`py-3.5 px-4 ${col.className || ""}`}>
+                      {col.cell ? col.cell(row) : (col.accessorKey ? String(row[col.accessorKey] ?? "") : null)}
                     </td>
                   ))}
                 </tr>
@@ -112,29 +132,32 @@ export function DataTable<T extends Record<string, any>>({
       </div>
 
       {/* Pagination Footer */}
-      {totalPages > 1 && (
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-          <span>
-            Page {currentPage} of {totalPages}
-          </span>
+      <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <span>
+          Showing {startItem} to {endItem} of {filtered.length} entries (Page {currentPage} of {totalPages})
+        </span>
+        {totalPages > 1 && (
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 transition-colors"
+              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 transition-colors cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
+            <span className="px-2 font-mono font-semibold text-slate-700 dark:text-slate-300">
+              {currentPage} / {totalPages}
+            </span>
             <button
               onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 transition-colors"
+              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 transition-colors cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

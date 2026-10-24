@@ -349,7 +349,7 @@ export default function NoticesPage() {
             isLoading={loading}
             searchKey="titleEn"
             searchPlaceholder="Search notices by title, qualification, or circular..."
-            pageSize={8}
+            pageSize={10}
             emptyTitle="No recruitment notices found"
             emptyDescription="No circulars match your current filter or search criteria."
           />
