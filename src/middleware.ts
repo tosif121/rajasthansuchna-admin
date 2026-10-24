@@ -50,6 +50,7 @@ export const config = {
     '/agencies/:path*',
     '/audit-logs/:path*',
     '/review-queue/:path*',
+    '/settings',
     '/settings/:path*',
     '/login',
     '/api/v1/admin/:path*'

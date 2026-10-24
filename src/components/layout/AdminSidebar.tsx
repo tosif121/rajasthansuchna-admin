@@ -7,7 +7,6 @@ import {
   LayoutDashboard, 
   FileText, 
   Building2, 
-  History, 
   ShieldCheck,
   Sparkles,
   X
@@ -18,8 +17,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "All Notices", href: "/notices", icon: FileText },
   { name: "Agencies", href: "/agencies", icon: Building2 },
-  { name: "Audit Logs", href: "/audit-logs", icon: History },
-  { name: "AI Settings", href: "/settings/ai", icon: Sparkles },
+  { name: "Settings", href: "/settings", icon: Sparkles },
 ];
 
 export function AdminSidebar() {
