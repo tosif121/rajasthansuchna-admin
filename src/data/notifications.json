@@ -1,0 +1,42 @@
+[
+  {
+    "id": "notif_init_1",
+    "title": "राजस्थान पटवारी भर्ती 2026: 2998 पदों पर विज्ञप्ति जारी",
+    "message": "राजस्व विभाग राजस्थान द्वारा पटवारी के 2998 पदों के लिए ऑनलाइन आवेदन आमंत्रित किए गए हैं। विस्तृत विवरण देखें।",
+    "vacancyId": "vac_patwari",
+    "vacancySlug": "rajasthan-patwari-recruitment-sample",
+    "agencyName": "RSSB Jaipur",
+    "type": "newVacancy",
+    "createdAt": "2026-10-24T21:06:38.700Z"
+  },
+  {
+    "id": "notif_init_2",
+    "title": "राजस्थान चतुर्थ श्रेणी भर्ती 2026: आवेदन पोर्टल सक्रिय",
+    "message": "माध्यमिक शिक्षा बोर्ड व अधीनस्थ कार्यालयों में चतुर्थ श्रेणी कर्मचारियों हेतु ऑनलाइन फॉर्म शुरू हो चुके हैं।",
+    "vacancyId": "vac_01",
+    "vacancySlug": "rajasthan-4th-grade-recruitment-sample",
+    "agencyName": "RSSB Portal",
+    "type": "newVacancy",
+    "createdAt": "2026-10-24T20:06:38.700Z"
+  },
+  {
+    "id": "notif_init_3",
+    "title": "RPSC RAS/RTS 2026: प्रारंभिक परीक्षा एडमिट कार्ड जारी",
+    "message": "राजस्थान प्रशासनिक सेवा प्री-परीक्षा का ई-प्रवेश पत्र आयोग की वेबसाइट पर अपलोड कर दिया गया है।",
+    "vacancyId": "vac_03",
+    "vacancySlug": "rpsc-ras-rts-exam-sample",
+    "agencyName": "RPSC Ajmer",
+    "type": "admitCard",
+    "createdAt": "2026-10-24T19:06:38.700Z"
+  },
+  {
+    "id": "notif_init_4",
+    "title": "राजस्थान पुलिस कांस्टेबल भर्ती: अंतिम तिथि नजदीक",
+    "message": "कांस्टेबल पदों हेतु आवेदन करने के लिए केवल 3 दिन शेष हैं। कृपया समय पर आवेदन पूर्ण करें।",
+    "vacancyId": "vac_04",
+    "vacancySlug": "rajasthan-police-constable-sample",
+    "agencyName": "Rajasthan Police",
+    "type": "closingSoon",
+    "createdAt": "2026-10-24T17:06:38.700Z"
+  }
+]

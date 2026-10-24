@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Sparkles,
   FolderTree,
+  Bell,
   X
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
@@ -19,6 +20,7 @@ const navigation = [
   { name: "All Notices", href: "/notices", icon: FileText },
   { name: "Agencies", href: "/agencies", icon: Building2 },
   { name: "Categories", href: "/categories", icon: FolderTree },
+  { name: "Notifications", href: "/notifications", icon: Bell },
   { name: "Settings", href: "/settings", icon: Sparkles },
 ];
 

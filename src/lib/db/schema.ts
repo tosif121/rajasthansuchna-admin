@@ -156,3 +156,16 @@ export const revisionsRelations = relations(noticeRevisions, ({ one, many }) => 
   creator: one(adminUsers, { fields: [noticeRevisions.createdBy], references: [adminUsers.id] }),
   dates: many(noticeDates),
 }));
+
+// 10. Notifications (Broadcast & Push)
+export const notifications = pgTable('notifications', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  title: text('title').notNull(),
+  message: text('message').notNull(),
+  noticeId: uuid('notice_id').references(() => notices.id, { onDelete: 'set null' }),
+  noticeSlug: text('notice_slug'),
+  agencyName: text('agency_name'),
+  notificationType: text('notification_type').default('newVacancy').notNull(), // 'newVacancy' | 'admitCard' | 'result' | 'correction' | 'closingSoon'
+  sentAt: timestamp('sent_at', { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+});
