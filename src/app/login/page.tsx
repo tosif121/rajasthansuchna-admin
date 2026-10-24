@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, Lock, Mail, ArrowRight, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -93,16 +94,17 @@ export default function LoginPage() {
 
           <div>
             <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Active Role</label>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
-            >
-              <option value="reviewer">Senior Reviewer & Approver</option>
-              <option value="editor">Content Editor</option>
-              <option value="publisher">Production Publisher</option>
-              <option value="administrator">System Administrator</option>
-            </select>
+            <Select value={role} onValueChange={setRole}>
+              <SelectTrigger className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-xs sm:text-sm font-medium focus:ring-1 focus:ring-[#A30B0B]">
+                <SelectValue placeholder="Select active role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="reviewer">Senior Reviewer & Approver</SelectItem>
+                <SelectItem value="editor">Content Editor</SelectItem>
+                <SelectItem value="publisher">Production Publisher</SelectItem>
+                <SelectItem value="administrator">System Administrator</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <button

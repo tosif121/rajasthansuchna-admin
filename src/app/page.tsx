@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React, { useState, useEffect } from 'react';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
@@ -480,16 +481,20 @@ export default function AdminDashboardPage() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Commission</label>
-                <select
+                <Select
                   value={formAgency}
-                  onChange={(e) => setFormAgency(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
+                  onValueChange={setFormAgency}
                 >
-                  <option value="RSMSSB (Staff Selection Board)">RSMSSB</option>
-                  <option value="RPSC (Public Service Commission)">RPSC</option>
-                  <option value="Rajasthan Police Headquarters">Rajasthan Police</option>
-                  <option value="SSC (Staff Selection Commission)">SSC (Central)</option>
-                </select>
+                  <SelectTrigger className="w-full h-9 bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-xs sm:text-sm font-medium focus:ring-1 focus:ring-[#A30B0B]">
+                    <SelectValue placeholder="Select commission" />
+                  </SelectTrigger>
+                  <SelectContent className="z-[80]">
+                    <SelectItem value="RSMSSB (Staff Selection Board)">RSMSSB</SelectItem>
+                    <SelectItem value="RPSC (Public Service Commission)">RPSC</SelectItem>
+                    <SelectItem value="Rajasthan Police Headquarters">Rajasthan Police</SelectItem>
+                    <SelectItem value="SSC (Staff Selection Commission)">SSC (Central)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
