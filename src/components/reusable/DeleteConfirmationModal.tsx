@@ -1,73 +1,116 @@
 "use client";
 
 import React from "react";
-import { AlertTriangle, Trash2 } from "lucide-react";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogDescription, 
-  DialogFooter 
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
+import { Loader2, Trash2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export interface DeleteConfirmationModalProps {
-  isOpen: boolean;
+  open?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  onDelete?: () => void;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+  isDeleting?: boolean;
+  displayName?: string;
+  itemName?: string;
   title?: string;
   description?: string;
-  itemName?: string;
-  isDeleting?: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
+  actionLabel?: string;
+  deletingLabel?: string;
+  icon?: React.ReactNode;
+  variant?: "destructive" | "warning";
 }
 
 export function DeleteConfirmationModal({
+  open,
   isOpen,
-  title = "Delete Item",
-  description = "Are you sure you want to delete this record? This action cannot be undone.",
-  itemName,
-  isDeleting = false,
+  onOpenChange,
+  onDelete,
   onConfirm,
   onCancel,
+  isDeleting = false,
+  displayName,
+  itemName,
+  title = "Are you sure?",
+  description,
+  actionLabel = "Delete",
+  deletingLabel,
+  icon,
+  variant = "destructive",
 }: DeleteConfirmationModalProps) {
+  const isModalOpen = open !== undefined ? open : (isOpen ?? false);
+  const handleClose = () => {
+    if (onOpenChange) onOpenChange(false);
+    if (onCancel) onCancel();
+  };
+  const handleAction = () => {
+    if (onDelete) onDelete();
+    if (onConfirm) onConfirm();
+  };
+
+  const name = displayName || itemName;
+  const isWarning = variant === "warning";
+  const defaultDeletingLabel = deletingLabel || (actionLabel.endsWith("e") ? `${actionLabel.slice(0, -1)}ing...` : `${actionLabel}ing...`);
+
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onCancel(); }}>
-      <DialogContent>
-        <DialogHeader>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
-              <AlertTriangle className="w-5 h-5" />
-            </div>
-            <div>
-              <DialogTitle>{title}</DialogTitle>
-              {itemName && (
-                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate max-w-xs mt-1">
-                  {itemName}
-                </p>
-              )}
-            </div>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
+      <DialogContent className="rounded-2xl sm:max-w-sm bg-card border border-border shadow-xl p-6">
+        <DialogHeader className="items-center text-center gap-1 pt-2">
+          <div
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-1 border ${
+              isWarning
+                ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                : "bg-destructive/10 text-destructive border-destructive/20"
+            }`}
+          >
+            {icon || (isWarning ? <AlertTriangle size={22} /> : <Trash2 size={22} />)}
           </div>
-          <DialogDescription className="mt-3">
-            {description}
-          </DialogDescription>
+          <DialogTitle className="text-lg font-bold text-foreground">{title}</DialogTitle>
+          <div className="text-xs text-muted-foreground text-center mt-1">
+            {description ? (
+              <p>{description}</p>
+            ) : (
+              <p>
+                Do you really want to delete{" "}
+                <span className="font-semibold text-destructive">&quot;{name || "this item"}&quot;</span>? This action cannot be undone.
+              </p>
+            )}
+          </div>
         </DialogHeader>
 
-        <DialogFooter>
+        <DialogFooter className="mt-4 gap-2 flex-row justify-end">
           <Button
+            type="button"
             variant="outline"
-            onClick={onCancel}
+            onClick={handleClose}
             disabled={isDeleting}
+            className="flex-1 rounded-xl border-border/60"
           >
             Cancel
           </Button>
           <Button
-            variant="destructive"
-            onClick={onConfirm}
+            onClick={handleAction}
             disabled={isDeleting}
+            className={`flex-1 rounded-xl text-white ${
+              isWarning ? "bg-amber-600 hover:bg-amber-700" : "bg-red-600 hover:bg-red-700"
+            }`}
           >
-            <Trash2 className="w-3.5 h-3.5" />
-            <span>{isDeleting ? "Deleting..." : "Delete Permanently"}</span>
+            {isDeleting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {defaultDeletingLabel}
+              </>
+            ) : (
+              actionLabel
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
