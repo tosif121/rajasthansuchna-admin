@@ -39,12 +39,12 @@ interface NoticeItem {
 export default function AdminDashboardPage() {
   const [notices, setNotices] = useState<NoticeItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentRole, setCurrentRole] = useState('reviewer'); // 'reviewer' | 'editor' | 'publisher' | 'administrator'
+  const [currentRole, setCurrentRole] = useState('reviewer');
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [inspectNotice, setInspectNotice] = useState<NoticeItem | null>(null);
 
-  // New notice form state
+  // Form states
   const [formTitleHi, setFormTitleHi] = useState('');
   const [formTitleEn, setFormTitleEn] = useState('');
   const [formAgency, setFormAgency] = useState('RSMSSB (कर्मचारी चयन बोर्ड)');
@@ -74,7 +74,6 @@ export default function AdminDashboardPage() {
   const handleWorkflowAction = async (noticeId: string, action: 'submit' | 'approve' | 'publish') => {
     setFeedback(null);
     try {
-      // Pass role and actor in headers to test state-machine policies
       const actorId = currentRole === 'editor' ? 'usr_editor_1' : 'usr_reviewer_2';
       const res = await fetch(`/api/v1/admin/notices/${noticeId}/${action}`, {
         method: 'POST',
@@ -142,7 +141,7 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100 font-sans">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
       {/* Sidebar */}
       <AdminSidebar />
 
@@ -154,11 +153,11 @@ export default function AdminDashboardPage() {
           {/* Top Bar / Actions */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-                संपादकीय डैशबोर्ड <span className="text-amber-400 text-lg">· Publishing Center</span>
+              <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                संपादकीय डैशबोर्ड <span className="text-[#A30B0B] dark:text-amber-400 text-lg">· Publishing Center</span>
               </h2>
-              <p className="text-xs text-slate-400 mt-1">
-                Draft ➔ Review ➔ Approve ➔ Publish workflow pipeline with strict self-approval prevention.
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                Draft ➔ Review ➔ Approve ➔ Publish workflow with strict self-approval prevention.
               </p>
             </div>
 
@@ -166,13 +165,13 @@ export default function AdminDashboardPage() {
               <button
                 onClick={fetchNotices}
                 title="Refresh"
-                className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
+                className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm"
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </button>
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="flex items-center gap-2 bg-red-700 hover:bg-red-600 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-lg shadow-red-950/50 transition-all"
+                className="flex items-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-md shadow-red-950/20 transition-all"
               >
                 <Plus className="w-4 h-4" /> New Recruitment Draft
               </button>
@@ -184,21 +183,21 @@ export default function AdminDashboardPage() {
             <div
               className={`p-4 rounded-xl text-xs flex items-center justify-between border ${
                 feedback.type === 'success'
-                  ? 'bg-emerald-950/40 text-emerald-300 border-emerald-800/80'
-                  : 'bg-red-950/60 text-red-300 border-red-800/80'
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/80'
+                  : 'bg-red-50 text-red-800 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/80'
               }`}
             >
               <div className="flex items-center gap-2.5">
                 {feedback.type === 'success' ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 ) : (
-                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
                 )}
-                <span className="font-medium">{feedback.message}</span>
+                <span className="font-semibold">{feedback.message}</span>
               </div>
               <button
                 onClick={() => setFeedback(null)}
-                className="text-slate-400 hover:text-slate-200 text-xs font-bold px-2 py-0.5"
+                className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 text-xs font-bold px-2 py-0.5"
               >
                 ✕
               </button>
@@ -207,60 +206,60 @@ export default function AdminDashboardPage() {
 
           {/* Metrics Overview Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-slate-900/80 border border-slate-800/80 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-400">
+            <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 rounded-xl p-5 shadow-sm">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                 <span className="text-xs font-semibold uppercase tracking-wider">Live in Flutter Feed</span>
-                <Globe className="w-4 h-4 text-emerald-400" />
+                <Globe className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-white">{stats.published}</span>
-                <span className="text-[11px] text-emerald-400 font-medium">Published</span>
+                <span className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.published}</span>
+                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">Published</span>
               </div>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800/80 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-400">
+            <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 rounded-xl p-5 shadow-sm">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                 <span className="text-xs font-semibold uppercase tracking-wider">Pending Review</span>
-                <Clock className="w-4 h-4 text-amber-400" />
+                <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-amber-400">{stats.inReview}</span>
-                <span className="text-[11px] text-amber-400/90 font-medium">Requires Approval</span>
+                <span className="text-3xl font-extrabold text-amber-600 dark:text-amber-400">{stats.inReview}</span>
+                <span className="text-[11px] text-amber-700 dark:text-amber-400/90 font-medium">Requires Approval</span>
               </div>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800/80 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-400">
+            <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 rounded-xl p-5 shadow-sm">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                 <span className="text-xs font-semibold uppercase tracking-wider">Drafts in Progress</span>
-                <FileEdit className="w-4 h-4 text-blue-400" />
+                <FileEdit className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-white">{stats.drafts}</span>
-                <span className="text-[11px] text-slate-400 font-medium">Unsubmitted</span>
+                <span className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.drafts}</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Unsubmitted</span>
               </div>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800/80 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-400">
+            <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 rounded-xl p-5 shadow-sm">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                 <span className="text-xs font-semibold uppercase tracking-wider">Registered Agencies</span>
-                <Building className="w-4 h-4 text-purple-400" />
+                <Building className="w-4 h-4 text-purple-600 dark:text-purple-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-white">{stats.agencies}</span>
-                <span className="text-[11px] text-purple-400 font-medium">RSSB, RPSC, etc.</span>
+                <span className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.agencies}</span>
+                <span className="text-[11px] text-purple-600 dark:text-purple-400 font-medium">RSSB, RPSC, etc.</span>
               </div>
             </div>
           </div>
 
           {/* Workflow Pipeline Table */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden shadow-md">
-            <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                  <FileCheck2 className="w-4 h-4 text-red-500" />
+                <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                  <FileCheck2 className="w-4 h-4 text-[#A30B0B]" />
                   Recruitment Publication Queue (समीक्षा एवं प्रकाशन सूची)
                 </h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   Enforces role-based gates. Only approved items reach the public Flutter API.
                 </p>
               </div>
@@ -268,7 +267,7 @@ export default function AdminDashboardPage() {
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-950/80 text-slate-400 border-b border-slate-800 uppercase text-[10px] tracking-wider">
+                <thead className="bg-slate-100/80 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 uppercase text-[10px] tracking-wider">
                   <tr>
                     <th className="py-3 px-4">Recruitment Title / Agency</th>
                     <th className="py-3 px-4">Posts</th>
@@ -278,7 +277,7 @@ export default function AdminDashboardPage() {
                     <th className="py-3 px-4 text-right">Workflow Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 text-slate-200">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                   {notices.map((notice) => {
                     const isDraft = notice.status === 'draft';
                     const isInReview = notice.status === 'in_review';
@@ -286,45 +285,45 @@ export default function AdminDashboardPage() {
                     const isPublished = notice.status === 'published';
 
                     return (
-                      <tr key={notice.id} className="hover:bg-slate-800/30 transition-colors">
+                      <tr key={notice.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
                         <td className="py-3.5 px-4">
-                          <p className="font-semibold text-white text-xs">{notice.titleHi}</p>
-                          <p className="text-[11px] text-slate-400 font-sans">{notice.titleEn}</p>
-                          <span className="inline-block mt-1 text-[10px] text-amber-400/90 font-medium bg-amber-950/40 px-2 py-0.5 rounded border border-amber-900/50">
+                          <p className="font-semibold text-slate-900 dark:text-white text-xs">{notice.titleHi}</p>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-sans">{notice.titleEn}</p>
+                          <span className="inline-block mt-1 text-[10px] text-amber-800 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-900/50">
                             {notice.agencyName}
                           </span>
                         </td>
-                        <td className="py-3.5 px-4 font-mono font-bold text-slate-300">
+                        <td className="py-3.5 px-4 font-mono font-bold text-slate-700 dark:text-slate-300">
                           {notice.facts?.postsCount?.toLocaleString() || 'N/A'}
                         </td>
-                        <td className="py-3.5 px-4 text-slate-300 font-mono">
+                        <td className="py-3.5 px-4 text-slate-600 dark:text-slate-300 font-mono">
                           {notice.facts?.applicationEnd || 'To be announced'}
                         </td>
                         <td className="py-3.5 px-4">
                           {isPublished && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-950/70 text-emerald-400 border border-emerald-700/50 flex items-center gap-1 w-fit">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-700/50 flex items-center gap-1 w-fit">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                               PUBLISHED
                             </span>
                           )}
                           {isInReview && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-950/70 text-amber-400 border border-amber-700/50 flex items-center gap-1 w-fit">
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50 flex items-center gap-1 w-fit">
                               <Clock className="w-3 h-3" /> IN REVIEW
                             </span>
                           )}
                           {isApproved && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-950/70 text-blue-400 border border-blue-700/50 flex items-center gap-1 w-fit">
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-700/50 flex items-center gap-1 w-fit">
                               <CheckCircle2 className="w-3 h-3" /> APPROVED
                             </span>
                           )}
                           {isDraft && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1 w-fit">
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 flex items-center gap-1 w-fit">
                               DRAFT
                             </span>
                           )}
                         </td>
-                        <td className="py-3.5 px-4 text-slate-400 text-[11px]">
-                          <p className="text-slate-300">{notice.editorName}</p>
+                        <td className="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-[11px]">
+                          <p className="text-slate-700 dark:text-slate-300 font-medium">{notice.editorName}</p>
                           <p className="text-[10px]">Rev #{notice.revisionNumber}</p>
                         </td>
                         <td className="py-3.5 px-4 text-right">
@@ -332,7 +331,7 @@ export default function AdminDashboardPage() {
                             <button
                               onClick={() => setInspectNotice(notice)}
                               title="Inspect Flutter Model"
-                              className="p-1.5 rounded bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+                              className="p-1.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                             >
                               <Eye className="w-3.5 h-3.5" />
                             </button>
@@ -340,7 +339,7 @@ export default function AdminDashboardPage() {
                             {isDraft && (
                               <button
                                 onClick={() => handleWorkflowAction(notice.id, 'submit')}
-                                className="flex items-center gap-1 text-[11px] font-semibold bg-amber-600/20 text-amber-300 border border-amber-500/40 hover:bg-amber-600/30 px-2.5 py-1 rounded transition-colors"
+                                className="flex items-center gap-1 text-[11px] font-semibold bg-amber-50 dark:bg-amber-600/20 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40 hover:bg-amber-100 dark:hover:bg-amber-600/30 px-2.5 py-1 rounded transition-colors"
                               >
                                 <Send className="w-3 h-3" /> Submit
                               </button>
@@ -349,7 +348,7 @@ export default function AdminDashboardPage() {
                             {isInReview && (
                               <button
                                 onClick={() => handleWorkflowAction(notice.id, 'approve')}
-                                className="flex items-center gap-1 text-[11px] font-semibold bg-blue-600/20 text-blue-300 border border-blue-500/40 hover:bg-blue-600/30 px-2.5 py-1 rounded transition-colors"
+                                className="flex items-center gap-1 text-[11px] font-semibold bg-blue-50 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40 hover:bg-blue-100 dark:hover:bg-blue-600/30 px-2.5 py-1 rounded transition-colors"
                               >
                                 <CheckCircle2 className="w-3 h-3" /> Approve
                               </button>
@@ -358,7 +357,7 @@ export default function AdminDashboardPage() {
                             {isApproved && (
                               <button
                                 onClick={() => handleWorkflowAction(notice.id, 'publish')}
-                                className="flex items-center gap-1 text-[11px] font-semibold bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded shadow transition-colors"
+                                className="flex items-center gap-1 text-[11px] font-semibold bg-[#A30B0B] hover:bg-[#850909] text-white px-2.5 py-1 rounded shadow-sm transition-colors"
                               >
                                 <Globe className="w-3 h-3" /> Publish
                               </button>
@@ -369,7 +368,7 @@ export default function AdminDashboardPage() {
                                 href={`/api/v1/notices/${notice.slug}`}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+                                className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
                               >
                                 Live API <ExternalLink className="w-3 h-3" />
                               </a>
@@ -388,45 +387,45 @@ export default function AdminDashboardPage() {
 
       {/* Create Draft Notice Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-bold text-base text-white">Create Recruitment Draft</h3>
-              <button onClick={() => setShowCreateModal(false)} className="text-slate-400 hover:text-white">✕</button>
+        <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/80 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Create Recruitment Draft</h3>
+              <button onClick={() => setShowCreateModal(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-white font-bold">✕</button>
             </div>
 
             <form onSubmit={handleCreateNotice} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Title (Hindi - देवनागरी)</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (Hindi - देवनागरी)</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. राजस्थान कृषि पर्यवेक्षक भर्ती 2026"
                   value={formTitleHi}
                   onChange={(e) => setFormTitleHi(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Title (English)</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (English)</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Rajasthan Agriculture Supervisor Recruitment 2026"
                   value={formTitleEn}
                   onChange={(e) => setFormTitleEn(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Recruitment Agency</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Agency</label>
                   <select
                     value={formAgency}
                     onChange={(e) => setFormAgency(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
                   >
                     <option value="RSMSSB (कर्मचारी चयन बोर्ड)">RSMSSB</option>
                     <option value="RPSC (लोक सेवा आयोग)">RPSC</option>
@@ -436,49 +435,49 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Total Posts</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Total Posts</label>
                   <input
                     type="number"
                     value={formPosts}
                     onChange={(e) => setFormPosts(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Application Deadline</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Application Deadline</label>
                   <input
                     type="date"
                     value={formDeadline}
                     onChange={(e) => setFormDeadline(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Qualification</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Qualification</label>
                   <input
                     type="text"
                     value={formQual}
                     onChange={(e) => setFormQual(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B]"
                   />
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-800 flex justify-end gap-2">
+              <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg"
+                  className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-red-700 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md"
+                  className="px-4 py-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold rounded-lg shadow-md"
                 >
                   Save Draft
                 </button>
@@ -490,24 +489,24 @@ export default function AdminDashboardPage() {
 
       {/* Inspect Notice Modal */}
       {inspectNotice && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/80 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <div>
-                <h3 className="font-bold text-sm text-white">Flutter API Contract Preview</h3>
-                <p className="text-[11px] text-slate-400">Live JSON serialized for Flutter Vacancy model</p>
+                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Flutter API Contract Preview</h3>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">Live JSON serialized for Flutter Vacancy model</p>
               </div>
-              <button onClick={() => setInspectNotice(null)} className="text-slate-400 hover:text-white">✕</button>
+              <button onClick={() => setInspectNotice(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-white font-bold">✕</button>
             </div>
 
-            <pre className="bg-slate-950 p-4 rounded-xl text-[11px] font-mono text-amber-300 overflow-x-auto max-h-96 border border-slate-800">
+            <pre className="bg-slate-900 p-4 rounded-xl text-[11px] font-mono text-amber-400 dark:text-amber-300 overflow-x-auto max-h-96 border border-slate-800">
               {JSON.stringify(inspectNotice, null, 2)}
             </pre>
 
             <div className="flex justify-end">
               <button
                 onClick={() => setInspectNotice(null)}
-                className="px-4 py-1.5 bg-slate-800 text-slate-300 rounded-lg text-xs"
+                className="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs"
               >
                 Close
               </button>
