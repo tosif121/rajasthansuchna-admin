@@ -34,26 +34,7 @@ export function AdminHeader({ currentRole, onRoleChange }: AdminHeaderProps) {
 
       {/* Right Actions & Controls */}
       <div className="flex items-center gap-3">
-        {/* Light / Dark Mode Toggle Button */}
-        <button
-          onClick={toggleTheme}
-          title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors cursor-pointer"
-        >
-          {theme === "dark" ? (
-            <>
-              <Sun className="w-3.5 h-3.5 text-amber-400" />
-              <span>Light</span>
-            </>
-          ) : (
-            <>
-              <Moon className="w-3.5 h-3.5 text-slate-600" />
-              <span>Dark</span>
-            </>
-          )}
-        </button>
-
-        {/* User Account Dropdown with Logout */}
+        {/* User Account Dropdown with Logout and Theme Toggle */}
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
