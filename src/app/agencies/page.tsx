@@ -47,13 +47,29 @@ export default function AgenciesPage() {
   const [agencies, setAgencies] = useState<Agency[]>(initialAgencies);
 
   useEffect(() => {
-    apiGet<{ success: boolean; data: any[] }>("/api/v1/admin/notices", { ttlSeconds: 5 }).then(res => {
-      if (res?.success && Array.isArray(res.data)) {
-        setAgencies(prev => prev.map(a => ({
-          ...a,
-          activeNotices: res.data.filter(n => n.status === "active" && (n.agencyId === a.id || (n.agencyName && n.agencyName.toLowerCase().includes(a.code.toLowerCase())))).length
-        })));
-      }
+    Promise.all([
+      fetch("/api/v1/agencies").then(r => r.json()).catch(() => ({ data: [] })),
+      apiGet<{ success: boolean; data: any[] }>("/api/v1/admin/notices", { ttlSeconds: 5 }),
+    ]).then(([agenciesRes, noticesRes]) => {
+      const liveAgencies = agenciesRes?.success && Array.isArray(agenciesRes.data) && agenciesRes.data.length > 0 
+        ? agenciesRes.data 
+        : initialAgencies;
+      const notices = noticesRes?.success && Array.isArray(noticesRes.data) ? noticesRes.data : [];
+
+      setAgencies(liveAgencies.map((a: any) => ({
+        id: a.id || a.slug,
+        nameEn: a.nameEn,
+        code: a.code || (a.slug || a.id).toUpperCase(),
+        parentGroup: a.parentGroup === "central" ? "central" : "rajasthan",
+        officialUrl: a.officialUrl || "https://rajasthan.gov.in",
+        activeNotices: notices.filter((n: any) => 
+          n.status === "active" && (
+            n.agencyId === a.id || 
+            n.agencyId === a.slug || 
+            (n.agencyName && a.code && n.agencyName.toLowerCase().includes(a.code.toLowerCase()))
+          )
+        ).length
+      })));
     }).catch(() => {});
   }, []);
   const [filterGroup, setFilterGroup] = useState<"all" | "rajasthan" | "central">("all");

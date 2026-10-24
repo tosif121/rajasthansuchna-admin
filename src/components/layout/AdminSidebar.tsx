@@ -9,6 +9,7 @@ import {
   Building2, 
   ShieldCheck,
   Sparkles,
+  FolderTree,
   X
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
@@ -17,6 +18,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "All Notices", href: "/notices", icon: FileText },
   { name: "Agencies", href: "/agencies", icon: Building2 },
+  { name: "Categories", href: "/categories", icon: FolderTree },
   { name: "Settings", href: "/settings", icon: Sparkles },
 ];
 
