@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import React from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, 
   FileText, 
@@ -10,23 +10,24 @@ import {
   Building2, 
   History, 
   LogOut,
-  ExternalLink,
   ShieldCheck
-} from 'lucide-react';
+} from "lucide-react";
+
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'All Notices', href: '/notices', icon: FileText },
-  { name: 'Review Queue', href: '/review-queue', icon: CheckSquare, badge: '1' },
-  { name: 'Agencies', href: '/agencies', icon: Building2 },
-  { name: 'Audit Logs', href: '/audit-logs', icon: History },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "All Notices", href: "/notices", icon: FileText },
+  { name: "Review Queue", href: "/review-queue", icon: CheckSquare, badge: "1" },
+  { name: "Agencies", href: "/agencies", icon: Building2 },
+  { name: "Audit Logs", href: "/audit-logs", icon: History },
 ];
 
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
+
   const handleLogout = () => {
-    localStorage.removeItem('rs_auth_user');
-    router.push('/login');
+    localStorage.removeItem("rs_auth_user");
+    router.push("/login");
   };
 
   return (
@@ -51,7 +52,7 @@ export function AdminSidebar() {
       {/* Navigation Links */}
       <nav className="flex-1 p-3 space-y-1">
         {navigation.map((item) => {
-          const isActive = pathname === item.href || (item.href === '/dashboard' && pathname === '/');
+          const isActive = pathname === item.href || (item.href === "/dashboard" && pathname === "/");
           const Icon = item.icon;
           return (
             <Link
@@ -59,17 +60,17 @@ export function AdminSidebar() {
               href={item.href}
               className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-[#A30B0B] text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900'
+                  ? "bg-[#A30B0B] text-white shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900"
               }`}
             >
               <div className="flex items-center gap-3">
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-slate-500 dark:text-slate-400"}`} />
                 <span>{item.name}</span>
               </div>
               {item.badge && (
                 <span className={`px-2 py-0.5 text-xs rounded-full font-bold ${
-                  isActive ? 'bg-white text-[#A30B0B]' : 'bg-red-100 dark:bg-red-600/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/30'
+                  isActive ? "bg-white text-[#A30B0B]" : "bg-red-100 dark:bg-red-600/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/30"
                 }`}>
                   {item.badge}
                 </span>
@@ -78,28 +79,6 @@ export function AdminSidebar() {
           );
         })}
       </nav>
-
-      {/* Live Flutter App API Status */}
-      <div className="p-3.5 m-3 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-xs">
-        <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1.5 font-semibold">
-          <span>MOBILE FLUTTER API</span>
-          <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            CONNECTED
-          </span>
-        </div>
-        <p className="text-slate-600 dark:text-slate-400 text-[11px] mb-2 leading-relaxed">
-          Versioned /api/v1 endpoints feeding live notices.
-        </p>
-        <a
-          href="/api/v1/notices"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1.5 text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 font-semibold transition-colors"
-        >
-          Inspect API JSON <ExternalLink className="w-3 h-3" />
-        </a>
-      </div>
 
       {/* Admin User Footer with Logout */}
       <div className="p-3.5 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50/80 dark:bg-slate-950 flex items-center justify-between">
@@ -116,7 +95,7 @@ export function AdminSidebar() {
         <button
           onClick={handleLogout}
           title="Sign Out"
-          className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 hover:bg-slate-200 dark:hover:bg-slate-900 transition-colors"
+          className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 hover:bg-slate-200 dark:hover:bg-slate-900 transition-colors cursor-pointer"
         >
           <LogOut className="w-4 h-4" />
         </button>
