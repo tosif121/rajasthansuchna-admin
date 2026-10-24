@@ -15,7 +15,6 @@ import {
   Column, 
   DeleteConfirmationModal,
   FormattedTimestamp, 
-  ToggleSwitch,
   DatePicker
 } from '@/components/reusable';
 import { 
@@ -58,8 +57,6 @@ export default function AdminDashboardPage() {
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [inspectNotice, setInspectNotice] = useState<NoticeItem | null>(null);
-  const [autoRefresh, setAutoRefresh] = useState(true);
-
   // Delete modal state
   const [noticeToDelete, setNoticeToDelete] = useState<NoticeItem | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -342,14 +339,6 @@ export default function AdminDashboardPage() {
             description="Manage recruitment notices, conduct editorial reviews, and publish verified circulars to the Rajasthan Suchna Flutter app."
             actions={
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-lg text-xs">
-                  <span className="text-slate-500 dark:text-slate-400">Live Sync:</span>
-                  <ToggleSwitch
-                    checked={autoRefresh}
-                    onCheckedChange={setAutoRefresh}
-                    label="Auto Sync"
-                  />
-                </div>
                 <Button
                   variant="outline"
                   size="icon"
