@@ -1,0 +1,1930 @@
+{
+  "agencies": [
+    {
+      "id": "rssb",
+      "nameHi": "राजस्थान कर्मचारी चयन बोर्ड (RSSB)",
+      "nameEn": "RSMSSB / RSSB",
+      "fullName": "Rajasthan Staff Selection Board, Jaipur",
+      "parentGroup": "state"
+    },
+    {
+      "id": "rpsc",
+      "nameHi": "राजस्थान लोक सेवा आयोग (RPSC)",
+      "nameEn": "RPSC Ajmer",
+      "fullName": "Rajasthan Public Service Commission, Ajmer",
+      "parentGroup": "state"
+    },
+    {
+      "id": "police",
+      "nameHi": "राजस्थान पुलिस विभाग",
+      "nameEn": "Rajasthan Police",
+      "fullName": "Rajasthan Police Recruitment Board, Jaipur",
+      "parentGroup": "state"
+    },
+    {
+      "id": "reet",
+      "nameHi": "माध्यमिक शिक्षा बोर्ड राजस्थान (REET)",
+      "nameEn": "REET / RBSE",
+      "fullName": "Board of Secondary Education Rajasthan, Ajmer",
+      "parentGroup": "state"
+    },
+    {
+      "id": "hcraj",
+      "nameHi": "राजस्थान उच्च न्यायालय",
+      "nameEn": "Rajasthan High Court",
+      "fullName": "High Court of Judicature for Rajasthan, Jodhpur",
+      "parentGroup": "state"
+    },
+    {
+      "id": "raj_dept",
+      "nameHi": "राजस्थान राज्य सरकार विभाग",
+      "nameEn": "Rajasthan Govt Depts",
+      "fullName": "Government of Rajasthan Autonomous Departments",
+      "parentGroup": "state"
+    },
+    {
+      "id": "ssc",
+      "nameHi": "कर्मचारी चयन आयोग (SSC)",
+      "nameEn": "Staff Selection Commission (SSC)",
+      "fullName": "Staff Selection Commission, New Delhi",
+      "parentGroup": "central"
+    },
+    {
+      "id": "upsc",
+      "nameHi": "संघ लोक सेवा आयोग (UPSC)",
+      "nameEn": "UPSC New Delhi",
+      "fullName": "Union Public Service Commission, New Delhi",
+      "parentGroup": "central"
+    },
+    {
+      "id": "railway",
+      "nameHi": "रेलवे भर्ती बोर्ड (RRB)",
+      "nameEn": "Railway Recruitment Board (RRB)",
+      "fullName": "Railway Recruitment Control Board, Ministry of Railways",
+      "parentGroup": "central"
+    },
+    {
+      "id": "banking",
+      "nameHi": "बैंकिंग भर्ती संस्थान (IBPS/SBI)",
+      "nameEn": "Banking (IBPS / SBI)",
+      "fullName": "Institute of Banking Personnel Selection & Public Banks",
+      "parentGroup": "central"
+    },
+    {
+      "id": "defence",
+      "nameHi": "भारतीय सेना / रक्षा बल (Defence)",
+      "nameEn": "Indian Armed Forces (Army/Navy/Air Force)",
+      "fullName": "Ministry of Defence, Government of India",
+      "parentGroup": "central"
+    },
+    {
+      "id": "teaching",
+      "nameHi": "केंद्रीय विद्यालय व नवोदय (KVS/NVS)",
+      "nameEn": "Central Schools (KVS / NVS / EMRS)",
+      "fullName": "Kendriya Vidyalaya Sangathan & Navodaya Samiti",
+      "parentGroup": "central"
+    },
+    {
+      "id": "private",
+      "nameHi": "निजी संस्थान / कॉर्पोरेट",
+      "nameEn": "Private Employers",
+      "fullName": "Private Sector Opportunities (Unverified)",
+      "parentGroup": "state"
+    }
+  ],
+  "categories": [
+    {
+      "id": "all",
+      "nameHi": "सभी",
+      "nameEn": "All",
+      "sortOrder": 0
+    },
+    {
+      "id": "latest",
+      "nameHi": "ताज़ा खबरें",
+      "nameEn": "Latest News",
+      "sortOrder": 1
+    },
+    {
+      "id": "rajasthan",
+      "nameHi": "राजस्थान",
+      "nameEn": "Rajasthan",
+      "sortOrder": 2
+    },
+    {
+      "id": "central",
+      "nameHi": "केन्द्र सरकार",
+      "nameEn": "Central Govt",
+      "sortOrder": 3
+    },
+    {
+      "id": "admit_card",
+      "nameHi": "एडमिट कार्ड",
+      "nameEn": "Admit Card",
+      "sortOrder": 4
+    },
+    {
+      "id": "result",
+      "nameHi": "रिजल्ट",
+      "nameEn": "Result",
+      "sortOrder": 5
+    },
+    {
+      "id": "answer_key",
+      "nameHi": "उत्तर कुंजी",
+      "nameEn": "Answer Key",
+      "sortOrder": 6
+    },
+    {
+      "id": "schemes",
+      "nameHi": "योजनाएं",
+      "nameEn": "Govt Schemes",
+      "sortOrder": 7
+    },
+    {
+      "id": "private_jobs",
+      "nameHi": "प्राइवेट जॉब्स",
+      "nameEn": "Private Jobs",
+      "sortOrder": 8
+    }
+  ],
+  "vacancies": [
+    {
+      "id": "vac_01",
+      "slug": "rajasthan-4th-grade-recruitment-sample",
+      "titleHi": "राजस्थान चतुर्थ श्रेणी (4th Grade) कर्मचारी भर्ती 2026 (SAMPLE)",
+      "titleEn": "Rajasthan 4th Grade Employee Recruitment 2026 (SAMPLE)",
+      "categoryId": "rajasthan",
+      "agencyId": "rssb",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड द्वारा 1,000 चतुर्थ श्रेणी पदों पर सीधी भर्ती हेतु विज्ञप्ति जारी। 10वीं पास करें आवेदन।",
+      "summaryEn": "RSSB notification released for 1,000 4th Grade employee posts. 10th pass candidates eligible to apply.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-24T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-22T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 1000,
+        "applicationStart": "2026-10-23T01:07:03.835017",
+        "applicationEnd": "2026-11-22T01:07:03.835017",
+        "feeEndDate": "2026-11-22T01:07:03.835017",
+        "examDate": "2027-01-23T01:07:03.835017",
+        "feeGeneralObc": "₹ 600",
+        "feeScSt": "₹ 400",
+        "qualification": "मान्यता प्राप्त बोर्ड से 10वीं (Secondary) उत्तीर्ण एवं देवनागरी लिपि का ज्ञान",
+        "ageMin": 18,
+        "ageMax": 40,
+        "selectionProcess": "लिखित बहुविकल्पीय परीक्षा (OMR) एवं दस्तावेज सत्यापन",
+        "sourceUrl": "https://example.org/rssb-4th-grade-notice-001",
+        "sourceDate": "2026-10-24T01:07:03.835017",
+        "verifiedAt": "2026-10-24T21:07:03.835017",
+        "verifiedBy": "Rajasthan Suchna Fact-Check Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "भर्ती का संक्षिप्त विवरण",
+          "body": "राजस्थान कर्मचारी चयन बोर्ड, जयपुर द्वारा विभिन्न सरकारी विभागों में चतुर्थ श्रेणी कर्मचारियों के कुल 1,000 रिक्त पदों पर भर्ती का विज्ञापन जारी किया गया है। यह भर्ती राज्य सेवा नियमों के तहत आयोजित की जाएगी।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 1-2"
+        },
+        {
+          "key": "importantDates",
+          "title": "महत्वपूर्ण तिथियाँ",
+          "body": "ऑनलाइन आवेदन प्रारंभ: विज्ञप्ति जारी होने के साथ। अंतिम तिथि तक शुल्क जमा करना अनिवार्य है।",
+          "rows": {
+            "आवेदन शुरू": "हाल ही में",
+            "अंतिम तिथि": "28 दिन बाद",
+            "परीक्षा माह": "आगामी 3 माह में संभावित"
+          },
+          "pageRef": "अधिसूचना पृष्ठ 3"
+        },
+        {
+          "key": "vacancyDetails",
+          "title": "रिक्त पदों का वर्गीकरण",
+          "body": "गैर-अनुसूचित क्षेत्र (NTSP): 850 पद, अनुसूचित क्षेत्र (TSP): 150 पद। श्रेणीवार आरक्षण राज्य सरकार के नवीनतम नियमों के अनुरूप देय होगा।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 4"
+        },
+        {
+          "key": "eligibility",
+          "title": "शैक्षणिक योग्यता व पात्रता",
+          "body": "अभ्यर्थी भारत में विधि द्वारा स्थापित किसी मान्यता प्राप्त बोर्ड से माध्यमिक (10वीं) या इसके समतुल्य परीक्षा उत्तीर्ण होना चाहिए। साथ ही देवनागरी लिपि में लिखी हिंदी में कार्य करने का व्यावहारिक ज्ञान व राजस्थान की संस्कृति का ज्ञान होना अनिवार्य है।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 5"
+        },
+        {
+          "key": "ageLimit",
+          "title": "आयु सीमा व छूट",
+          "body": "न्यूनतम आयु 18 वर्ष तथा अधिकतम 40 वर्ष। आरक्षित श्रेणियों (SC/ST/OBC/EWS/महिला) को राज्य सरकार के नियमानुसार 5 से 10 वर्ष तक की अधिकतम आयु में छूट प्रदान की जाएगी।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 6"
+        },
+        {
+          "key": "fee",
+          "title": "आवेदन शुल्क",
+          "body": "सामान्य व क्रीमीलेयर पिछड़ा वर्ग: ₹600। राजस्थान के नॉन-क्रीमीलेयर OBC/EWS/SC/ST तथा दिव्यांगजन: ₹400। शुल्क ऑनलाइन माध्यम (ई-मित्र/नेट बैंकिंग/UPI) से जमा किया जाएगा।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 7"
+        },
+        {
+          "key": "selectionProcess",
+          "title": "चयन प्रक्रिया",
+          "body": "1. वस्तुनिष्ठ लिखित परीक्षा (100 अंक)\n2. मेरिट सूची निर्धारण\n3. मूल दस्तावेज सत्यापन (DV)\n4. अंतिम पदस्थापन",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 8"
+        },
+        {
+          "key": "howToApply",
+          "title": "आवेदन कैसे करें",
+          "body": "1. राजस्थान SSO पोर्टल (sso.rajasthan.gov.in) पर लॉगिन करें।\n2. Recruitment Portal विकल्प का चयन करें।\n3. One Time Registration (OTR) पूर्ण करें।\n4. संबंधित पद हेतु फॉर्म भरकर शुल्क भुगतान करें।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 9-10"
+        },
+        {
+          "key": "importantLinks",
+          "title": "आधिकारिक लिंक्स व दस्तावेज",
+          "body": "कृपया आवेदन से पूर्व आधिकारिक पीडीएफ अधिसूचना का भली-भांति अध्ययन करें।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 11"
+        }
+      ],
+      "links": [
+        {
+          "label": "ऑफिशियल नोटिफिकेशन डाउनलोड (PDF)",
+          "url": "https://example.org/rssb-4th-grade.pdf",
+          "kind": "notificationPdf"
+        },
+        {
+          "label": "ऑनलाइन आवेदन करें (SSO Portal)",
+          "url": "https://example.org/apply-sso",
+          "kind": "applyOnline"
+        },
+        {
+          "label": "RSSB आधिकारिक वेबसाइट",
+          "url": "https://example.org/rssb-official",
+          "kind": "officialSite"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": true,
+      "isBreaking": true
+    },
+    {
+      "id": "vac_02",
+      "slug": "rajasthan-patwari-recruitment-sample",
+      "titleHi": "राजस्थान पटवारी सीधी भर्ती 2026 (SAMPLE)",
+      "titleEn": "Rajasthan Patwari Direct Recruitment 2026 (SAMPLE)",
+      "categoryId": "rajasthan",
+      "agencyId": "rssb",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "पटवारी के 2,500 पदों पर आवेदन की अंतिम तिथि में केवल 3 दिन शेष हैं। तुरंत आवेदन करें।",
+      "summaryEn": "Only 3 days remaining to apply for 2,500 Rajasthan Patwari posts. Apply immediately.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-09-30T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-28T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 2500,
+        "applicationStart": "2026-09-30T01:07:03.835017",
+        "applicationEnd": "2026-10-28T01:07:03.835017",
+        "feeEndDate": "2026-10-28T01:07:03.835017",
+        "examDate": "2026-12-24T01:07:03.835017",
+        "feeGeneralObc": "₹ 600",
+        "feeScSt": "₹ 400",
+        "qualification": "स्नातक (Graduation) किसी भी विषय में + RSCIT / कंप्यूटर डिप्लोमा",
+        "ageMin": 18,
+        "ageMax": 40,
+        "selectionProcess": "लिखित परीक्षा (300 अंक) एवं दस्तावेज सत्यापन",
+        "sourceUrl": "https://example.org/rssb-patwari-sample",
+        "sourceDate": "2026-09-30T01:07:03.835017",
+        "verifiedAt": "2026-10-24T13:07:03.835017",
+        "verifiedBy": "Rajasthan Suchna Verification Team"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "अवलोकन",
+          "body": "राजस्व विभाग राजस्थान में पटवारियों के रिक्त पदों पर भर्ती प्रक्रिया अंतिम चरण में है। समय रहते आवेदन पत्र सबमिट करें।",
+          "rows": null,
+          "pageRef": "पृष्ठ 1"
+        },
+        {
+          "key": "importantDates",
+          "title": "महत्वपूर्ण तिथियाँ",
+          "body": "अंतिम तिथि नज़दीक है, सर्वर लोड से बचने हेतु आज ही फॉर्म भरें।",
+          "rows": {
+            "अंतिम तिथि": "3 दिन शेष",
+            "परीक्षा संभावित": "आगामी 2 माह में"
+          },
+          "pageRef": "पृष्ठ 2"
+        },
+        {
+          "key": "eligibility",
+          "title": "पात्रता",
+          "body": "किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक उपाधि तथा आरएससीआईटी (RSCIT) या समकक्ष कंप्यूटर योग्यता प्रमाण पत्र।",
+          "rows": null,
+          "pageRef": "पृष्ठ 3"
+        },
+        {
+          "key": "fee",
+          "title": "आवेदन शुल्क",
+          "body": "सामान्य / OBC क्रीमीलेयर: ₹600, SC / ST / दिव्यांग: ₹400।",
+          "rows": null,
+          "pageRef": "पृष्ठ 4"
+        }
+      ],
+      "links": [
+        {
+          "label": "ऑफिशियल नोटिफिकेशन (PDF)",
+          "url": "https://example.org/patwari-notice.pdf",
+          "kind": "notificationPdf"
+        },
+        {
+          "label": "ऑनलाइन आवेदन लिंक",
+          "url": "https://example.org/apply-patwari",
+          "kind": "applyOnline"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": true,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_03",
+      "slug": "rajasthan-police-constable-sample",
+      "titleHi": "राजस्थान पुलिस कांस्टेबल भर्ती 2026 (SAMPLE)",
+      "titleEn": "Rajasthan Police Constable Recruitment 2026 (SAMPLE)",
+      "categoryId": "rajasthan",
+      "agencyId": "police",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "राजस्थान पुलिस विभाग में 3,500 कांस्टेबल (जीडी/चालक/बैंड) पदों पर ऑनलाइन आवेदन जारी।",
+      "summaryEn": "Online applications invited for 3,500 Police Constable posts in Rajasthan Police Department.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-20T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-14T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 3500,
+        "applicationStart": "2026-10-20T01:07:03.835017",
+        "applicationEnd": "2026-11-14T01:07:03.835017",
+        "feeEndDate": "2026-11-14T01:07:03.835017",
+        "examDate": "2027-01-08T01:07:03.835017",
+        "feeGeneralObc": "₹ 500",
+        "feeScSt": "₹ 400",
+        "qualification": "12वीं कक्षा (Senior Secondary) उत्तीर्ण + CET (समान पात्रता परीक्षा) उत्तीर्ण",
+        "ageMin": 18,
+        "ageMax": 24,
+        "selectionProcess": "शारीरिक दक्षता परीक्षा (PET/PST), कंप्यूटर आधारित लिखित परीक्षा (CBT), दक्षता जांच",
+        "sourceUrl": "https://example.org/rajpolice-notice",
+        "sourceDate": "2026-10-20T01:07:03.835017",
+        "verifiedAt": "2026-10-24T01:07:03.835017",
+        "verifiedBy": "Rajasthan Suchna Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "कांस्टेबल भर्ती विवरण",
+          "body": "राजस्थान पुलिस मुख्यालय द्वारा विभिन्न जिला पुलिस व बटालियनों में कांस्टेबल पद हेतु आवेदन मांगे गए हैं।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 1-4"
+        },
+        {
+          "key": "eligibility",
+          "title": "शारीरिक मापदंड व योग्यता",
+          "body": "पुरुष: न्यूनतम ऊंचाई 168 सेमी, सीना 81-86 सेमी। महिला: न्यूनतम ऊंचाई 152 सेमी, वजन न्यूनतम 47.5 किग्रा।",
+          "rows": null,
+          "pageRef": "अधिसूचना पृष्ठ 5"
+        }
+      ],
+      "links": [
+        {
+          "label": "ऑफिशियल विज्ञप्ति (PDF)",
+          "url": "https://example.org/police-constable.pdf",
+          "kind": "notificationPdf"
+        },
+        {
+          "label": "ऑनलाइन आवेदन करें",
+          "url": "https://example.org/police-apply",
+          "kind": "applyOnline"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_04",
+      "slug": "reet-sample-last-date-extended",
+      "titleHi": "राजस्थान अध्यापक पात्रता परीक्षा REET 2026 (SAMPLE) - अंतिम तिथि विस्तारित",
+      "titleEn": "REET 2026 Eligibility Exam (SAMPLE) - Last Date Extended",
+      "categoryId": "rajasthan",
+      "agencyId": "reet",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "माध्यमिक शिक्षा बोर्ड द्वारा REET परीक्षा के लिए ऑनलाइन आवेदन की अंतिम तिथि 10 दिन आगे बढ़ा दी गई है।",
+      "summaryEn": "RBSE extends online registration deadline for REET exam by 10 days.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-11T01:07:03.835017",
+      "updatedAt": "2026-10-24T07:07:03.835017",
+      "expiresAt": "2026-11-04T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": null,
+        "applicationStart": "2026-10-11T01:07:03.835017",
+        "applicationEnd": "2026-11-04T01:07:03.835017",
+        "feeEndDate": "2026-11-04T01:07:03.835017",
+        "examDate": "2026-12-14T01:07:03.835017",
+        "feeGeneralObc": "₹ 550 (Level 1) / ₹ 750 (Both)",
+        "feeScSt": "₹ 550 (Level 1) / ₹ 750 (Both)",
+        "qualification": "D.El.Ed / B.Ed / BSTC उत्तीर्ण या अंतिम वर्ष में अध्ययनरत",
+        "ageMin": 18,
+        "ageMax": null,
+        "selectionProcess": "REET पात्रता परीक्षा (150 अंक, कोई नकारात्मक अंकन नहीं)",
+        "sourceUrl": "https://example.org/reet-extension-corrigendum",
+        "sourceDate": "2026-10-24T07:07:03.835017",
+        "verifiedAt": "2026-10-24T23:07:03.835017",
+        "verifiedBy": "Senior Fact Checker"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "अंतिम तिथि विस्तार सूचना",
+          "body": "माध्यमिक शिक्षा बोर्ड राजस्थान, अजमेर द्वारा जारी संशोधित सूचना के अनुसार REET Level-1 एवं Level-2 दोनों के लिए आवेदन तिथि बढ़ाई गई है।",
+          "rows": null,
+          "pageRef": "संशोधन पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "संशोधन आदेश डाउनलोड (PDF)",
+          "url": "https://example.org/reet-extension.pdf",
+          "kind": "notificationPdf"
+        },
+        {
+          "label": "REET आधिकारिक पोर्टल",
+          "url": "https://example.org/reet-official",
+          "kind": "officialSite"
+        }
+      ],
+      "revisionHistory": [
+        {
+          "date": "2026-10-24T07:07:03.835017",
+          "title": "संशोधन आदेश संख्या 42: अंतिम तिथि में विस्तार",
+          "description": "छात्र हित में बोर्ड द्वारा ऑनलाइन आवेदन व चालान शुल्क की अंतिम तिथि विस्तारित की गई।"
+        },
+        {
+          "date": "2026-10-11T01:07:03.835017",
+          "title": "मूल विज्ञप्ति जारी",
+          "description": "REET 2026 का मूल विज्ञापन जारी हुआ।"
+        }
+      ],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_05",
+      "slug": "rajasthan-vdo-recruitment-sample",
+      "titleHi": "राजस्थान ग्राम विकास अधिकारी (VDO) भर्ती (SAMPLE)",
+      "titleEn": "Rajasthan Village Development Officer (VDO) Recruitment (SAMPLE)",
+      "categoryId": "rajasthan",
+      "agencyId": "rssb",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "ग्राम विकास अधिकारी के 3,896 पदों पर आवेदन की अंतिम तिथि समाप्त हो चुकी है। यह एक डेमो क्लोज्ड पोस्ट है।",
+      "summaryEn": "Applications closed for 3,896 VDO posts. This is an expired demo post.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-09-10T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-20T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 3896,
+        "applicationStart": "2026-09-10T01:07:03.835017",
+        "applicationEnd": "2026-10-20T01:07:03.835017",
+        "feeEndDate": "2026-10-20T01:07:03.835017",
+        "examDate": "2026-11-24T01:07:03.835017",
+        "feeGeneralObc": "₹ 450",
+        "feeScSt": "₹ 250",
+        "qualification": "स्नातक उपाधि + आरएससीआईटी (RSCIT)",
+        "ageMin": 18,
+        "ageMax": 40,
+        "selectionProcess": "प्रारंभिक परीक्षा एवं मुख्य परीक्षा",
+        "sourceUrl": "https://example.org/vdo-expired-notice",
+        "sourceDate": "2026-09-10T01:07:03.835017",
+        "verifiedAt": "2026-10-20T01:07:03.835017",
+        "verifiedBy": "Rajasthan Suchna Archive"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "अवलोकन (आवेदन प्रक्रिया बंद)",
+          "body": "इस भर्ती के लिए ऑनलाइन आवेदन प्रक्रिया आधिकारिक रूप से समाप्त हो चुकी है। अब बोर्ड द्वारा परीक्षा प्रवेश पत्र जारी किए जाएंगे।",
+          "rows": null,
+          "pageRef": "विज्ञप्ति पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "पुरानी विज्ञप्ति (PDF)",
+          "url": "https://example.org/vdo-old.pdf",
+          "kind": "notificationPdf"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_06",
+      "slug": "rpsc-1st-grade-result-sample",
+      "titleHi": "RPSC स्कूल व्याख्याता (1st Grade) हिन्दी विषय मुख्य रिजल्ट घोषित (SAMPLE)",
+      "titleEn": "RPSC School Lecturer (1st Grade) Hindi Main Result Declared (SAMPLE)",
+      "categoryId": "result",
+      "agencyId": "rpsc",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "आरपीएससी ने स्कूल व्याख्याता प्रतियोगी परीक्षा 2025 हिन्दी विषय का अंतिम परिणाम एवं कट ऑफ मार्क्स जारी किए।",
+      "summaryEn": "RPSC declared final result and cut-off marks for School Lecturer Hindi subject.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-24T19:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": null,
+      "type": "result",
+      "facts": {
+        "postsCount": 1462,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "पोस्ट ग्रेजुएशन + बी.एड.",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "लिखित परीक्षा एवं काउंसलिंग",
+        "sourceUrl": "https://example.org/rpsc-1st-grade-result.pdf",
+        "sourceDate": "2026-10-24T19:07:03.835017",
+        "verifiedAt": "2026-10-25T00:07:03.835017",
+        "verifiedBy": "RPSC Section Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "रिजल्ट का मुख्य विवरण",
+          "body": "राजस्थान लोक सेवा आयोग अजमेर द्वारा माध्यमिक शिक्षा विभाग हेतु आयोजित प्राध्यापक (स्कूल शिक्षा) प्रतियोगी परीक्षा का मुख्य परिणाम रोल नंबर सूची सहित घोषित किया गया है।",
+          "rows": {
+            "सामान्य (GEN) कट ऑफ": "312.44 अंक",
+            "ओबीसी (OBC) कट ऑफ": "304.18 अंक",
+            "ईडब्ल्यूएस (EWS)": "298.50 अंक",
+            "एससी (SC)": "271.20 अंक",
+            "एसटी (ST)": "250.10 अंक"
+          },
+          "pageRef": "परिणाम पृष्ठ 1-3"
+        }
+      ],
+      "links": [
+        {
+          "label": "रिजल्ट मेरिट लिस्ट (PDF)",
+          "url": "https://example.org/rpsc-result-hindi.pdf",
+          "kind": "result"
+        },
+        {
+          "label": "RPSC परिणाम पोर्टल",
+          "url": "https://example.org/rpsc-results",
+          "kind": "officialSite"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_07",
+      "slug": "reet-admit-card-sample",
+      "titleHi": "REET 2026 परीक्षा प्रवेश पत्र (Admit Card) जारी (SAMPLE)",
+      "titleEn": "REET 2026 Examination Admit Card Released (SAMPLE)",
+      "categoryId": "admit_card",
+      "agencyId": "reet",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "आरईईटी परीक्षा के प्रवेश पत्र जारी। रोल नंबर और जन्म तिथि से अपना एडमिट कार्ड व परीक्षा केंद्र चेक करें।",
+      "summaryEn": "REET Exam Admit Card released. Check your test center and download using Roll No/DOB.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-24T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-09T01:07:03.835017",
+      "type": "admitCard",
+      "facts": {
+        "postsCount": null,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": "2026-11-04T01:07:03.835017",
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "D.El.Ed / B.Ed",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "पात्रता परीक्षा",
+        "sourceUrl": "https://example.org/reet-admitcard-sample",
+        "sourceDate": "2026-10-24T01:07:03.835017",
+        "verifiedAt": "2026-10-24T22:07:03.835017",
+        "verifiedBy": "RBSE Board Monitor"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "एडमिट कार्ड कैसे डाउनलोड करें",
+          "body": "1. माध्यमिक शिक्षा बोर्ड की वेबसाइट पर जाएं।\n2. REET 2026 Admit Card लिंक पर क्लिक करें।\n3. रजिस्ट्रेशन नंबर एवं जन्म तिथि दर्ज करें।\n4. प्रवेश पत्र प्रिंट करें व दिशा-निर्देश पढ़ें।",
+          "rows": null,
+          "pageRef": "वेबसाइट सूचना"
+        }
+      ],
+      "links": [
+        {
+          "label": "एडमिट कार्ड डाउनलोड लिंक",
+          "url": "https://example.org/download-reet-card",
+          "kind": "admitCard"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_08",
+      "slug": "ssc-gd-admit-card-sample",
+      "titleHi": "SSC GD कांस्टेबल परीक्षा प्रवेश पत्र एवं सिटी इंटीमेशन स्लिप (SAMPLE)",
+      "titleEn": "SSC GD Constable Admit Card & City Intimation Slip (SAMPLE)",
+      "categoryId": "admit_card",
+      "agencyId": "ssc",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "कर्मचारी चयन आयोग (SSC) ने जीडी कांस्टेबल भर्ती परीक्षा 2026 के लिए परीक्षा शहर व प्रवेश पत्र जारी किए।",
+      "summaryEn": "SSC released City Intimation & Admit Cards for GD Constable Recruitment Examination 2026.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-23T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-12T01:07:03.835017",
+      "type": "admitCard",
+      "facts": {
+        "postsCount": 26146,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": "2026-11-06T01:07:03.835017",
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "10वीं (Matriculation)",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "Computer Based Test (CBT)",
+        "sourceUrl": "https://example.org/ssc-gd-card",
+        "sourceDate": "2026-10-23T01:07:03.835017",
+        "verifiedAt": "2026-10-24T20:07:03.835017",
+        "verifiedBy": "Central SSC Monitoring Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "परीक्षा शहर एवं प्रवेश पत्र सूचना",
+          "body": "उम्मीदवार अपने संबंधित रीजनल पोर्टल (NWR, NR, CR आदि) से अपना परीक्षा शहर देख सकते हैं। परीक्षा से 4 दिन पूर्व मूल प्रवेश पत्र डाउनलोड होगा।",
+          "rows": null,
+          "pageRef": "एसएससी आधिकारिक विज्ञप्ति"
+        }
+      ],
+      "links": [
+        {
+          "label": "SSC Admit Card Portal",
+          "url": "https://example.org/ssc-admit-card",
+          "kind": "admitCard"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_09",
+      "slug": "railway-rrb-alp-recruitment-sample",
+      "titleHi": "रेलवे RRB सहायक लोको पायलट (ALP) 5,696 पदों पर भर्ती (SAMPLE)",
+      "titleEn": "Railway RRB Assistant Loco Pilot (ALP) 5,696 Posts (SAMPLE)",
+      "categoryId": "central",
+      "agencyId": "railway",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "रेलवे भर्ती बोर्ड द्वारा देशभर के सभी जोनों में सहायक लोको पायलट पदों पर आवेदन आमंत्रित। ITI / Diploma आवश्यक।",
+      "summaryEn": "Railway Recruitment Boards invite applications for 5,696 Assistant Loco Pilot posts across all zones.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-17T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-16T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 5696,
+        "applicationStart": "2026-10-17T01:07:03.835017",
+        "applicationEnd": "2026-11-16T01:07:03.835017",
+        "feeEndDate": "2026-11-16T01:07:03.835017",
+        "examDate": "2027-01-18T01:07:03.835017",
+        "feeGeneralObc": "₹ 500 (₹400 रिफंडेबल CBT-1 उपस्थिति पर)",
+        "feeScSt": "₹ 250 (पूर्ण रिफंडेबल)",
+        "qualification": "10वीं + ITI (Fitter/Electrician आदि) या Engineering Diploma/Degree",
+        "ageMin": 18,
+        "ageMax": 30,
+        "selectionProcess": "CBT 1, CBT 2, कम्प्यूटर आधारित अभिक्षमता परीक्षण (CBAT), दस्तावेज सत्यापन",
+        "sourceUrl": "https://example.org/rrb-cen-01-2026",
+        "sourceDate": "2026-10-17T01:07:03.835017",
+        "verifiedAt": "2026-10-23T01:07:03.835017",
+        "verifiedBy": "Railway Information Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "आरआरबी एएलपी भर्ती 2026",
+          "body": "भारतीय रेल के विभिन्न जोनल रेलवे में सहायक लोको पायलट के पदों पर केंद्रीकृत रोजगार सूचना CEN 01/2026 जारी की गई है।",
+          "rows": null,
+          "pageRef": "CEN पृष्ठ 1-15"
+        },
+        {
+          "key": "fee",
+          "title": "फीस रिफंड नियम",
+          "body": "प्रथम चरण सीबीटी (CBT-1) में उपस्थित होने वाले अभ्यर्थियों को बैंक शुल्क काटकर शेष शुल्क उनके खाते में वापस लौटाया जाएगा।",
+          "rows": null,
+          "pageRef": "CEN पृष्ठ 6"
+        }
+      ],
+      "links": [
+        {
+          "label": "RRB Official CEN PDF",
+          "url": "https://example.org/rrb-alp.pdf",
+          "kind": "notificationPdf"
+        },
+        {
+          "label": "Apply Online RRB Apply",
+          "url": "https://example.org/rrb-apply",
+          "kind": "applyOnline"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_10",
+      "slug": "private-bank-relationship-manager-sample",
+      "titleHi": "निजी बैंक रिलेशनशिप मैनेजर एवं कस्टमर सर्विस एग्जीक्यूटिव (SAMPLE)",
+      "titleEn": "Private Bank Relationship Manager & CSE Jaipur (SAMPLE)",
+      "categoryId": "private_jobs",
+      "agencyId": "private",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "जयपुर, जोधपुर और कोटा में निजी वित्तीय संस्थान में 120 पदों पर वॉक-इन इंटरव्यू। ध्यान दें: यह निजी भर्ती है।",
+      "summaryEn": "Private corporate jobs in Jaipur, Jodhpur & Kota. Note: Unverified private employer.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-21T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-08T01:07:03.835017",
+      "type": "privateJob",
+      "facts": {
+        "postsCount": 120,
+        "applicationStart": "2026-10-21T01:07:03.835017",
+        "applicationEnd": "2026-11-08T01:07:03.835017",
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": "निःशुल्क (कोई शुल्क न दें / Never pay any fee)",
+        "feeScSt": "निःशुल्क",
+        "qualification": "स्नातक (Graduate) किसी भी संकाय में, संप्रेषण कौशल",
+        "ageMin": 21,
+        "ageMax": 32,
+        "selectionProcess": "साक्षात्कार एवं ग्रुप डिस्कशन (Walk-in Interview)",
+        "sourceUrl": "https://example.org/private-employer-notice",
+        "sourceDate": "2026-10-21T01:07:03.835017",
+        "verifiedAt": "2026-10-24T01:07:03.835017",
+        "verifiedBy": "Community Submissions Desk (Unverified Employer)"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "निजी नौकरी चेतावनी व विवरण",
+          "body": "महत्वपूर्ण चेतावनी: यह एक निजी भर्ती है और किसी सरकारी बोर्ड द्वारा आयोजित नहीं है। अभ्यर्थी किसी भी व्यक्ति को नौकरी के नाम पर कोई राशि न दें।",
+          "rows": null,
+          "pageRef": "निजी विज्ञापन"
+        }
+      ],
+      "links": [
+        {
+          "label": "निजी नियोक्ता वेबसाइट",
+          "url": "https://example.org/private-job-portal",
+          "kind": "officialSite"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_11",
+      "slug": "anuprati-coaching-scheme-sample",
+      "titleHi": "मुख्यमंत्री अनुप्रति कोचिंग योजना 2026: निःशुल्क कोचिंग ऑनलाइन आवेदन (SAMPLE)",
+      "titleEn": "Mukhyamantri Anuprati Coaching Scheme 2026 (SAMPLE)",
+      "categoryId": "schemes",
+      "agencyId": "raj_dept",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "राजस्थान सरकार द्वारा विभिन्न प्रतियोगी परीक्षाओं (RAS, REET, Constable, UPSC) की तैयारी हेतु 30,000 विद्यार्थियों को निःशुल्क कोचिंग।",
+      "summaryEn": "Rajasthan Govt scheme providing free competitive exam coaching to 30,000 eligible students.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-15T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-14T01:07:03.835017",
+      "type": "scheme",
+      "facts": {
+        "postsCount": 30000,
+        "applicationStart": "2026-10-15T01:07:03.835017",
+        "applicationEnd": "2026-11-14T01:07:03.835017",
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": "पूर्णतः निःशुल्क योजना (Free)",
+        "feeScSt": "पूर्णतः निःशुल्क योजना (Free)",
+        "qualification": "10वीं / 12वीं में न्यूनतम अंक + पारिवारिक आय ₹8 लाख से कम",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "कक्षा 10वीं व 12वीं के अंकों की मेरिट के आधार पर चयन",
+        "sourceUrl": "https://example.org/sje-anuprati-scheme",
+        "sourceDate": "2026-10-15T01:07:03.835017",
+        "verifiedAt": "2026-10-23T01:07:03.835017",
+        "verifiedBy": "Welfare Schemes Verification Cell"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "योजना का उद्देश्य एवं लाभ",
+          "body": "सामाजिक न्याय एवं अधिकारिता विभाग द्वारा प्रतिभावान पात्र विद्यार्थियों को प्रतिष्ठित कोचिंग संस्थानों के माध्यम से विभिन्न प्रोफेशनल कोर्सेज एवं प्रतियोगी परीक्षाओं की तैयारी हेतु आर्थिक सहायता दी जाती है।",
+          "rows": null,
+          "pageRef": "योजना दिशा-निर्देश पृष्ठ 1"
+        },
+        {
+          "key": "howToApply",
+          "title": "आवेदन कैसे करें",
+          "body": "एसएसओ पोर्टल (SSO Portal) में SJMS SMS पोर्टल के जरिए जन आधार कार्ड द्वारा ऑनलाइन आवेदन करना होगा।",
+          "rows": null,
+          "pageRef": "पोर्टल गाइड"
+        }
+      ],
+      "links": [
+        {
+          "label": "योजना दिशानिर्देश (PDF)",
+          "url": "https://example.org/anuprati-guidelines.pdf",
+          "kind": "notificationPdf"
+        },
+        {
+          "label": "ऑनलाइन आवेदन SSO पोर्टल",
+          "url": "https://example.org/apply-anuprati",
+          "kind": "applyOnline"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_12",
+      "slug": "high-court-jja-recruitment-sample",
+      "titleHi": "राजस्थान उच्च न्यायालय कनिष्ठ न्यायिक सहायक भर्ती (SAMPLE)",
+      "titleEn": "Rajasthan High Court Junior Judicial Assistant Recruitment (SAMPLE)",
+      "categoryId": "rajasthan",
+      "agencyId": "hcraj",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "राजस्थान उच्च न्यायालय जोधपुर में कनिष्ठ न्यायिक सहायक पदों पर संक्षिप्त विज्ञापन जारी। परीक्षा तिथि एवं शुल्क का विवरण विस्तृत विज्ञप्ति में घोषित होगा।",
+      "summaryEn": "Short notice for High Court JJA posts. Exam date and fee details are not specified in the short notice.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-23T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-10T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 320,
+        "applicationStart": "2026-10-23T01:07:03.835017",
+        "applicationEnd": "2026-11-10T01:07:03.835017",
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "विधि द्वारा स्थापित विश्वविद्यालय से स्नातक (Graduation) उपाधि",
+        "ageMin": 18,
+        "ageMax": 40,
+        "selectionProcess": "लिखित परीक्षा एवं कंप्यूटर टाइपिंग गति परीक्षण",
+        "sourceUrl": "https://example.org/hcraj-short-notice-320",
+        "sourceDate": "2026-10-23T01:07:03.835017",
+        "verifiedAt": "2026-10-24T17:07:03.835017",
+        "verifiedBy": "High Court Bureau"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "संक्षिप्त विज्ञप्ति सूचना",
+          "body": "यह राजस्थान उच्च न्यायालय द्वारा जारी संक्षिप्त भर्ती विज्ञापन है। विस्तृत विज्ञापन, परीक्षा तिथि व शुल्क संरचना पृथक से जारी की जाएगी।",
+          "rows": null,
+          "pageRef": "संक्षिप्त नोटिस पृष्ठ 1"
+        },
+        {
+          "key": "importantDates",
+          "title": "तिथियाँ",
+          "body": "आवेदन शुरू हो चुके हैं। परीक्षा तिथि अभी निर्धारित नहीं है और बाद में घोषित होगी।",
+          "rows": {
+            "परीक्षा तिथि": "जल्द घोषित होगी / To be announced"
+          },
+          "pageRef": "पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "संक्षिप्त नोटिस (PDF)",
+          "url": "https://example.org/hcraj-short.pdf",
+          "kind": "notificationPdf"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_13",
+      "slug": "ssc-cgl-examination-2026-sample",
+      "titleHi": "SSC संयुक्त स्नातक स्तरीय CGL परीक्षा 2026 (SAMPLE)",
+      "titleEn": "SSC Combined Graduate Level CGL 2026 (SAMPLE)",
+      "categoryId": "central",
+      "agencyId": "ssc",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "एसएससी सीजीएल के 14,000 पदों पर आवेदन की अंतिम तिथि में केवल 2 दिन शेष।",
+      "summaryEn": "Only 2 days left to register for 14,000 SSC CGL vacancies across central departments.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-09-27T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-27T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 14000,
+        "applicationStart": "2026-09-27T01:07:03.835017",
+        "applicationEnd": "2026-10-27T01:07:03.835017",
+        "feeEndDate": "2026-10-27T01:07:03.835017",
+        "examDate": "2027-01-03T01:07:03.835017",
+        "feeGeneralObc": "₹ 100",
+        "feeScSt": "₹ 0 (महिला व SC/ST निःशुल्क)",
+        "qualification": "किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक (Graduation)",
+        "ageMin": 18,
+        "ageMax": 32,
+        "selectionProcess": "Tier-1 CBT, Tier-2 CBT, कंप्यूटर ज्ञान एवं डाटा एंट्री टेस्ट",
+        "sourceUrl": "https://example.org/ssc-cgl-notice",
+        "sourceDate": "2026-09-27T01:07:03.835017",
+        "verifiedAt": "2026-10-24T15:07:03.835017",
+        "verifiedBy": "SSC Central Cell"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "सीजीएल 2026 अंतिम तिथि अलर्ट",
+          "body": "अंतिम घंटों में सर्वर पर अधिक दबाव के कारण देरी हो सकती है। तुरंत ऑनलाइन फॉर्म पूरा करें।",
+          "rows": null,
+          "pageRef": "विज्ञप्ति पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "SSC CGL Notification PDF",
+          "url": "https://example.org/cgl.pdf",
+          "kind": "notificationPdf"
+        },
+        {
+          "label": "SSC Official Portal",
+          "url": "https://example.org/ssc-portal",
+          "kind": "applyOnline"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_14",
+      "slug": "high-court-system-assistant-sample",
+      "titleHi": "राजस्थान उच्च न्यायालय सिस्टम असिस्टेंट भर्ती 2026 (SAMPLE)",
+      "titleEn": "Rajasthan High Court System Assistant Recruitment (SAMPLE)",
+      "categoryId": "rajasthan",
+      "agencyId": "hcraj",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "सिस्टम असिस्टेंट के 230 पदों पर ऑनलाइन आवेदन में 5 दिन शेष। बीसीए / बीटेक अभ्यर्थी पात्र।",
+      "summaryEn": "5 days remaining to apply for 230 High Court System Assistant technical posts.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-05T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-30T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 230,
+        "applicationStart": "2026-10-05T01:07:03.835017",
+        "applicationEnd": "2026-10-30T01:07:03.835017",
+        "feeEndDate": "2026-10-30T01:07:03.835017",
+        "examDate": "2026-12-09T01:07:03.835017",
+        "feeGeneralObc": "₹ 750",
+        "feeScSt": "₹ 450",
+        "qualification": "BCA / B.Sc (Computer Science/IT) / B.E. / B.Tech",
+        "ageMin": 18,
+        "ageMax": 40,
+        "selectionProcess": "लिखित परीक्षा (100 अंक), कंप्यूटर टाइपिंग टेस्ट (80 अंक), साक्षात्कार",
+        "sourceUrl": "https://example.org/hcraj-system-asst",
+        "sourceDate": "2026-10-05T01:07:03.835017",
+        "verifiedAt": "2026-10-24T01:07:03.835017",
+        "verifiedBy": "High Court Cell"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "सिस्टम असिस्टेंट भर्ती",
+          "body": "न्यायालयों में कम्प्यूटरीकरण एवं तकनीकी रखरखाव हेतु तकनीकी पदों पर सीधी भर्ती।",
+          "rows": null,
+          "pageRef": "पृष्ठ 1-5"
+        }
+      ],
+      "links": [
+        {
+          "label": "विज्ञप्ति पीडीएफ",
+          "url": "https://example.org/hc-sa.pdf",
+          "kind": "notificationPdf"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_15",
+      "slug": "junior-accountant-recruitment-sample",
+      "titleHi": "राजस्थान कनिष्ठ लेखाकार (Junior Accountant) भर्ती (SAMPLE)",
+      "titleEn": "Rajasthan Junior Accountant Recruitment (SAMPLE)",
+      "categoryId": "rajasthan",
+      "agencyId": "rssb",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "5,388 कनिष्ठ लेखाकार व तहसील राजस्व लेखाकार पदों की आवेदन अवधि समाप्त हो चुकी है।",
+      "summaryEn": "Application window expired for 5,388 Junior Accountant posts.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-08-26T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-13T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 5388,
+        "applicationStart": "2026-08-26T01:07:03.835017",
+        "applicationEnd": "2026-10-13T01:07:03.835017",
+        "feeEndDate": "2026-10-13T01:07:03.835017",
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "B.Com / ग्रेजुएशन + कंप्यूटर डिप्लोमा",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "लिखित परीक्षा (Paper 1 व Paper 2)",
+        "sourceUrl": "https://example.org/ja-closed",
+        "sourceDate": "2026-08-26T01:07:03.835017",
+        "verifiedAt": "2026-10-13T01:07:03.835017",
+        "verifiedBy": "RSSB Archive"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "आवेदन समाप्त",
+          "body": "इस भर्ती की आवेदन प्रक्रिया पूर्ण हो चुकी है। अब मुख्य परीक्षा का परिणाम प्रतीक्षित है।",
+          "rows": null,
+          "pageRef": "पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "विज्ञप्ति (PDF)",
+          "url": "https://example.org/ja.pdf",
+          "kind": "notificationPdf"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_16",
+      "slug": "cet-graduation-level-sample",
+      "titleHi": "राजस्थान समान पात्रता परीक्षा (CET स्नातक स्तर) (SAMPLE)",
+      "titleEn": "Rajasthan Common Eligibility Test (CET Graduate Level) (SAMPLE)",
+      "categoryId": "rajasthan",
+      "agencyId": "rssb",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "सीईटी स्नातक स्तर के लिए आवेदन की प्रक्रिया पूर्ण हो चुकी है। परीक्षा तिथियां पूर्व में घोषित की जा चुकी हैं।",
+      "summaryEn": "Application closed for CET Graduation level exam. Test scheduled soon.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-09-15T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-17T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": null,
+        "applicationStart": "2026-09-15T01:07:03.835017",
+        "applicationEnd": "2026-10-17T01:07:03.835017",
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "स्नातक (Graduation)",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "लिखित परीक्षा (300 अंक)",
+        "sourceUrl": "https://example.org/cet-notice",
+        "sourceDate": "2026-09-15T01:07:03.835017",
+        "verifiedAt": "2026-10-17T01:07:03.835017",
+        "verifiedBy": "RSSB Exam Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "सीईटी पात्रता परीक्षा",
+          "body": "यह राजस्थान की विभिन्न अधीनस्थ सेवाओं में भर्ती हेतु अनिवार्य पात्रता परीक्षा है।",
+          "rows": null,
+          "pageRef": "पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "CET Notification",
+          "url": "https://example.org/cet.pdf",
+          "kind": "notificationPdf"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_17",
+      "slug": "ibps-po-recruitment-updated-sample",
+      "titleHi": "IBPS प्रोबेशनरी ऑफिसर (PO/MT) भर्ती 2026 - रिक्तियों में वृद्धि (SAMPLE)",
+      "titleEn": "IBPS Probationary Officer (PO) 2026 - Vacancies Increased (SAMPLE)",
+      "categoryId": "central",
+      "agencyId": "banking",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "आईबीपीएस ने विभिन्न सार्वजनिक क्षेत्र के बैंकों में पीओ पदों की संख्या 3,000 से बढ़ाकर 4,455 की।",
+      "summaryEn": "IBPS revised PO vacancies from 3,000 to 4,455 across participating banks.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-10T01:07:03.835017",
+      "updatedAt": "2026-10-24T11:07:03.835017",
+      "expiresAt": "2026-11-06T01:07:03.835017",
+      "type": "vacancy",
+      "facts": {
+        "postsCount": 4455,
+        "applicationStart": "2026-10-10T01:07:03.835017",
+        "applicationEnd": "2026-11-06T01:07:03.835017",
+        "feeEndDate": "2026-11-06T01:07:03.835017",
+        "examDate": "2026-12-19T01:07:03.835017",
+        "feeGeneralObc": "₹ 850",
+        "feeScSt": "₹ 175",
+        "qualification": "स्नातक उपाधि (Graduation) किसी भी मान्यता प्राप्त विश्वविद्यालय से",
+        "ageMin": 20,
+        "ageMax": 30,
+        "selectionProcess": "प्रारंभिक परीक्षा (Prelims), मुख्य परीक्षा (Mains) एवं साक्षात्कार (Interview)",
+        "sourceUrl": "https://example.org/ibps-po-revised",
+        "sourceDate": "2026-10-24T11:07:03.835017",
+        "verifiedAt": "2026-10-24T23:07:03.835017",
+        "verifiedBy": "Banking Expert Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "संशोधित पद विवरण",
+          "body": "प्रतिभागी बैंकों द्वारा अपनी रिक्तियों का नया ब्योरा उपलब्ध कराया गया है, जिससे कुल पदों की संख्या में 1,455 की वृद्धि हुई है।",
+          "rows": null,
+          "pageRef": "संशोधन पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "Revised Notice PDF",
+          "url": "https://example.org/ibps-revised.pdf",
+          "kind": "notificationPdf"
+        }
+      ],
+      "revisionHistory": [
+        {
+          "date": "2026-10-24T11:07:03.835017",
+          "title": "कोरिगेंडम: रिक्त पदों में वृद्धि",
+          "description": "केनरा बैंक और बैंक ऑफ बड़ौदा द्वारा अतिरिक्त मांग पत्र भेजे जाने के बाद पद बढ़ाकर 4,455 किए गए।"
+        }
+      ],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_18",
+      "slug": "hcraj-ldc-admit-card-sample",
+      "titleHi": "राजस्थान हाईकोर्ट लिपिक ग्रेड-II (LDC) परीक्षा प्रवेश पत्र (SAMPLE)",
+      "titleEn": "Rajasthan High Court Clerk Grade-II (LDC) Admit Card (SAMPLE)",
+      "categoryId": "admit_card",
+      "agencyId": "hcraj",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "हाईकोर्ट एलडीसी एवं कनिष्ठ सहायक लिखित परीक्षा 2026 के प्रवेश पत्र जारी। सीधा लिंक यहाँ उपलब्ध है।",
+      "summaryEn": "High Court LDC and Junior Assistant written exam admit cards issued.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-24T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-03T01:07:03.835017",
+      "type": "admitCard",
+      "facts": {
+        "postsCount": null,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": "2026-11-02T01:07:03.835017",
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "Graduation + Computer",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "लिखित परीक्षा एवं टाइप टेस्ट",
+        "sourceUrl": "https://example.org/hcraj-admit-ldc",
+        "sourceDate": "2026-10-24T01:07:03.835017",
+        "verifiedAt": "2026-10-24T21:07:03.835017",
+        "verifiedBy": "High Court Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "प्रवेश पत्र डाउनलोड निर्देश",
+          "body": "उम्मीदवार अपना यूजर आईडी और पासवर्ड डालकर एडमिट कार्ड का प्रिंट निकालें। परीक्षा केंद्र पर मूल पहचान पत्र अवश्य ले जाएं।",
+          "rows": null,
+          "pageRef": "निर्देश पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "Download Admit Card",
+          "url": "https://example.org/hcraj-ldc-card",
+          "kind": "admitCard"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_19",
+      "slug": "upsc-cse-prelims-admit-card-sample",
+      "titleHi": "UPSC सिविल सेवा प्रारंभिक परीक्षा (CSE Prelims) 2026 एडमिट कार्ड (SAMPLE)",
+      "titleEn": "UPSC Civil Services Prelims (CSE) 2026 e-Admit Card (SAMPLE)",
+      "categoryId": "admit_card",
+      "agencyId": "upsc",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "संघ लोक सेवा आयोग द्वारा सिविल सेवा प्रारंभिक परीक्षा 2026 का ई-एडमिट कार्ड आधिकारिक वेबसाइट पर उपलब्ध।",
+      "summaryEn": "UPSC releases e-Admit card for Civil Services Preliminary Examination 2026.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-22T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-14T01:07:03.835017",
+      "type": "admitCard",
+      "facts": {
+        "postsCount": null,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": "2026-11-12T01:07:03.835017",
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "Graduation",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "Prelims, Mains, Interview",
+        "sourceUrl": "https://example.org/upsc-admit-cse",
+        "sourceDate": "2026-10-22T01:07:03.835017",
+        "verifiedAt": "2026-10-24T01:07:03.835017",
+        "verifiedBy": "UPSC Cell"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "ई-प्रवेश पत्र व दिशा-निर्देश",
+          "body": "परीक्षा भवन में प्रवेश परीक्षा प्रारंभ होने से 30 मिनट पूर्व बंद कर दिया जाएगा। ई-एडमिट कार्ड का स्पष्ट प्रिंट ले जाएं।",
+          "rows": null,
+          "pageRef": "यूपीएससी गाइडलाइन"
+        }
+      ],
+      "links": [
+        {
+          "label": "UPSC e-Admit Card Portal",
+          "url": "https://example.org/upsc-e-card",
+          "kind": "admitCard"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_20",
+      "slug": "rrb-technician-hall-ticket-sample",
+      "titleHi": "रेलवे RRB तकनीशियन (Technician) CBT-1 परीक्षा हॉल टिकट (SAMPLE)",
+      "titleEn": "Railway RRB Technician CBT-1 Hall Ticket (SAMPLE)",
+      "categoryId": "admit_card",
+      "agencyId": "railway",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "रेलवे भर्ती बोर्ड द्वारा तकनीशियन ग्रेड-I और ग्रेड-III परीक्षा के लिए हॉल टिकट जारी।",
+      "summaryEn": "RRB issues hall tickets for Technician Grade-I & III computer based tests.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-23T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-08T01:07:03.835017",
+      "type": "admitCard",
+      "facts": {
+        "postsCount": null,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": "2026-11-05T01:07:03.835017",
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "ITI / Matric / Diploma",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "CBT 1 व दस्तावेज सत्यापन",
+        "sourceUrl": "https://example.org/rrb-tech-admit",
+        "sourceDate": "2026-10-23T01:07:03.835017",
+        "verifiedAt": "2026-10-24T19:07:03.835017",
+        "verifiedBy": "Railway Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "परीक्षा निर्देश",
+          "body": "उम्मीदवार अपने पंजीकृत मोबाइल नंबर व जन्म तिथि से लॉगिन कर ई-कॉल लेटर डाउनलोड कर सकते हैं।",
+          "rows": null,
+          "pageRef": "आरआरबी नोटिस"
+        }
+      ],
+      "links": [
+        {
+          "label": "RRB E-Call Letter",
+          "url": "https://example.org/rrb-tech-call",
+          "kind": "admitCard"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_21",
+      "slug": "rssb-animal-attendant-result-sample",
+      "titleHi": "राजस्थान पशु परिचर (Animal Attendant) भर्ती परीक्षा रिजल्ट जारी (SAMPLE)",
+      "titleEn": "Rajasthan Animal Attendant Exam Result Declared (SAMPLE)",
+      "categoryId": "result",
+      "agencyId": "rssb",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड ने 5,934 पदों पर आयोजित पशु परिचर भर्ती का परिणाम एवं कट-ऑफ जारी किया।",
+      "summaryEn": "RSSB declared written examination results and merit list for 5,934 Animal Attendant posts.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-24T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": null,
+      "type": "result",
+      "facts": {
+        "postsCount": 5934,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "10वीं कक्षा उत्तीर्ण",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "लिखित परीक्षा",
+        "sourceUrl": "https://example.org/animal-attendant-result.pdf",
+        "sourceDate": "2026-10-24T01:07:03.835017",
+        "verifiedAt": "2026-10-24T21:07:03.835017",
+        "verifiedBy": "RSSB Fact Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "परिणाम व दस्तावेज सत्यापन सूची",
+          "body": "लिखित परीक्षा में सफल अभ्यर्थियों की पात्रता जांच एवं दस्तावेज सत्यापन हेतु 2 गुना अभ्यर्थियों की सूची जारी की गई है।",
+          "rows": null,
+          "pageRef": "विज्ञप्ति पृष्ठ 1-10"
+        }
+      ],
+      "links": [
+        {
+          "label": "रिजल्ट मेरिट पीडीएफ",
+          "url": "https://example.org/animal-attendant-res.pdf",
+          "kind": "result"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_22",
+      "slug": "rajasthan-police-si-final-result-sample",
+      "titleHi": "राजस्थान उप-निरीक्षक (SI) संयुक्त भर्ती अंतिम चयन परिणाम (SAMPLE)",
+      "titleEn": "Rajasthan Police Sub-Inspector (SI) Final Merit Result (SAMPLE)",
+      "categoryId": "result",
+      "agencyId": "rpsc",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "आरपीएससी ने साक्षात्कार एवं शारीरिक दक्षता परीक्षा के पश्चात पुलिस सब-इंस्पेक्टर के 859 पदों का अंतिम चयन परिणाम जारी किया।",
+      "summaryEn": "RPSC declared final merit list for 859 Sub Inspector posts following interviews.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-22T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": null,
+      "type": "result",
+      "facts": {
+        "postsCount": 859,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "स्नातक (Graduation)",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "लिखित परीक्षा, शारीरिक माप/दक्षता, साक्षात्कार",
+        "sourceUrl": "https://example.org/rpsc-si-result.pdf",
+        "sourceDate": "2026-10-22T01:07:03.835017",
+        "verifiedAt": "2026-10-24T01:07:03.835017",
+        "verifiedBy": "Police Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "अंतिम चयन सूची",
+          "body": "आयोग द्वारा आयोजित विस्तृत साक्षात्कार प्रक्रिया के बाद चयनित अभ्यर्थियों के रोल नंबर और मेरिट क्रमांक जारी किए गए हैं।",
+          "rows": null,
+          "pageRef": "परिणाम पृष्ठ 1-4"
+        }
+      ],
+      "links": [
+        {
+          "label": "SI Final Merit List (PDF)",
+          "url": "https://example.org/si-merit.pdf",
+          "kind": "result"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_23",
+      "slug": "ssc-cpo-si-paper-1-result-sample",
+      "titleHi": "SSC दिल्ली पुलिस एवं CAPF सब-इंस्पेक्टर पेपर-1 रिजल्ट घोषित (SAMPLE)",
+      "titleEn": "SSC CPO SI Paper-1 Result & Cut-off Marks (SAMPLE)",
+      "categoryId": "result",
+      "agencyId": "ssc",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "कर्मचारी चयन आयोग ने सीपीओ एसआई पेपर-1 परीक्षा का रिजल्ट और PET/PST हेतु क्वालिफाइड उम्मीदवारों की सूची जारी की।",
+      "summaryEn": "SSC announced CPO SI Paper 1 results and cut-off list for physical tests.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-21T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": null,
+      "type": "result",
+      "facts": {
+        "postsCount": 4187,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "Graduation",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "Paper-1, PET/PST, Paper-2, Medical",
+        "sourceUrl": "https://example.org/ssc-cpo-result",
+        "sourceDate": "2026-10-21T01:07:03.835017",
+        "verifiedAt": "2026-10-23T01:07:03.835017",
+        "verifiedBy": "SSC Team"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "कट-ऑफ अंक विवरण",
+          "body": "पुरुष एवं महिला अभ्यर्थियों हेतु अलग-अलग कट-ऑफ अंक जारी किए गए हैं। सफल अभ्यर्थी अब शारीरिक दक्षता परीक्षा में शामिल होंगे।",
+          "rows": null,
+          "pageRef": "नोटिस पृष्ठ 1-2"
+        }
+      ],
+      "links": [
+        {
+          "label": "SSC CPO Result PDF",
+          "url": "https://example.org/ssc-cpo.pdf",
+          "kind": "result"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_24",
+      "slug": "upsc-nda-final-result-sample",
+      "titleHi": "UPSC राष्ट्रीय रक्षा अकादमी (NDA) अंतिम परिणाम घोषित (SAMPLE)",
+      "titleEn": "UPSC National Defence Academy (NDA) Final Merit List (SAMPLE)",
+      "categoryId": "result",
+      "agencyId": "upsc",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "संघ लोक सेवा आयोग ने थल सेना, नौसेना एवं वायु सेना में 400 पदों हेतु एनडीए अंतिम मेरिट सूची जारी की।",
+      "summaryEn": "UPSC declared final merit list for admission to Army, Navy and Air Force wings of NDA.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-20T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": null,
+      "type": "result",
+      "facts": {
+        "postsCount": 400,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "12th Pass (Physics & Math for Navy/Air Force)",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "लिखित परीक्षा एवं SSB साक्षात्कार",
+        "sourceUrl": "https://example.org/upsc-nda-result.pdf",
+        "sourceDate": "2026-10-20T01:07:03.835017",
+        "verifiedAt": "2026-10-23T01:07:03.835017",
+        "verifiedBy": "Defence Cell"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "एनडीए अंतिम चयन विवरण",
+          "body": "लिखित परीक्षा एवं सेवा चयन बोर्ड (SSB) द्वारा लिए गए साक्षात्कारों के आधार पर कुल सफल अभ्यर्थियों की मेरिट क्रमबद्ध सूची।",
+          "rows": null,
+          "pageRef": "यूपीएससी प्रेस नोट"
+        }
+      ],
+      "links": [
+        {
+          "label": "UPSC NDA Merit List (PDF)",
+          "url": "https://example.org/nda-merit.pdf",
+          "kind": "result"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_25",
+      "slug": "rpsc-ras-prelims-answer-key-sample",
+      "titleHi": "RPSC आरएएस (RAS/RTS) प्रारंभिक परीक्षा मॉडल उत्तर कुंजी एवं आपत्ति (SAMPLE)",
+      "titleEn": "RPSC RAS Prelims Model Answer Key & Objection Portal (SAMPLE)",
+      "categoryId": "answer_key",
+      "agencyId": "rpsc",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "आरपीएससी ने राजस्थान राज्य एवं अधीनस्थ सेवाएं संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा की मॉडल उत्तर कुंजी जारी की।",
+      "summaryEn": "RPSC released official model answer key and invited online objections for RAS Prelims exam.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-24T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-31T01:07:03.835017",
+      "type": "answerKey",
+      "facts": {
+        "postsCount": 905,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "Graduation",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "RAS Pre, Mains, Interview",
+        "sourceUrl": "https://example.org/rpsc-ras-key.pdf",
+        "sourceDate": "2026-10-24T01:07:03.835017",
+        "verifiedAt": "2026-10-24T22:07:03.835017",
+        "verifiedBy": "RPSC Monitor"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "आपत्ति दर्ज कराने की प्रक्रिया",
+          "body": "अभ्यर्थी 3 दिन के भीतर एसएसओ पोर्टल के माध्यम से प्रति प्रश्न ₹100 शुल्क देकर प्रामाणिक पुस्तकों के संदर्भ सहित ऑनलाइन आपत्ति दर्ज करवा सकते हैं।",
+          "rows": null,
+          "pageRef": "नोटिस पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "Model Answer Key (PDF)",
+          "url": "https://example.org/ras-key.pdf",
+          "kind": "result"
+        },
+        {
+          "label": "Objection Portal SSO",
+          "url": "https://example.org/sso-objection",
+          "kind": "applyOnline"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_26",
+      "slug": "rssb-computor-answer-key-sample",
+      "titleHi": "राजस्थान संगणक (Computor) भर्ती परीक्षा प्रोविजनल उत्तर कुंजी (SAMPLE)",
+      "titleEn": "Rajasthan Computor Direct Recruitment Provisional Answer Key (SAMPLE)",
+      "categoryId": "answer_key",
+      "agencyId": "rssb",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "कर्मचारी चयन बोर्ड द्वारा संगणक सीधी भर्ती परीक्षा 2025 का मास्टर प्रश्न पत्र और प्रोविजनल उत्तर कुंजी जारी।",
+      "summaryEn": "RSSB published Master Question Paper and provisional key for Computor exam.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-23T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-30T01:07:03.835017",
+      "type": "answerKey",
+      "facts": {
+        "postsCount": 583,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "गणित/सांख्यिकी/अर्थशास्त्र में स्नातक + कंप्यूटर डिप्लोमा",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "लिखित परीक्षा",
+        "sourceUrl": "https://example.org/computor-key.pdf",
+        "sourceDate": "2026-10-23T01:07:03.835017",
+        "verifiedAt": "2026-10-24T18:07:03.835017",
+        "verifiedBy": "RSSB Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "उत्तर कुंजी व मास्टर प्रश्न पत्र",
+          "body": "अभ्यर्थी बोर्ड की आधिकारिक वेबसाइट से मास्टर प्रश्न पत्र डाउनलोड करके उसके प्रश्नों के क्रम के अनुसार उत्तर कुंजी का मिलान करें।",
+          "rows": null,
+          "pageRef": "प्रेस विज्ञप्ति"
+        }
+      ],
+      "links": [
+        {
+          "label": "Answer Key PDF",
+          "url": "https://example.org/computor-key.pdf",
+          "kind": "result"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_27",
+      "slug": "ssc-chsl-tier-1-answer-key-sample",
+      "titleHi": "SSC CHSL 10+2 टियर-1 परीक्षा उत्तर कुंजी व रिस्पांस शीट जारी (SAMPLE)",
+      "titleEn": "SSC CHSL Tier-1 Tentative Answer Key & Candidate Response Sheet (SAMPLE)",
+      "categoryId": "answer_key",
+      "agencyId": "ssc",
+      "state": "central",
+      "language": "hi",
+      "summaryHi": "एसएससी सीएचएसएल टियर-1 परीक्षा की अनंतिम उत्तर कुंजी एवं उम्मीदवारों की रिस्पांस शीट जारी कर दी गई है।",
+      "summaryEn": "SSC released tentative answer keys along with candidate response sheets for CHSL 10+2 Tier 1 exam.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-22T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-10-29T01:07:03.835017",
+      "type": "answerKey",
+      "facts": {
+        "postsCount": 3712,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "12वीं (10+2) उत्तीर्ण",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "Tier-1 CBT, Tier-2 CBT",
+        "sourceUrl": "https://example.org/ssc-chsl-key",
+        "sourceDate": "2026-10-22T01:07:03.835017",
+        "verifiedAt": "2026-10-24T01:07:03.835017",
+        "verifiedBy": "SSC Answer Key Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "रिस्पांस शीट डाउनलोड",
+          "body": "उम्मीदवार अपने रोल नंबर और पासवर्ड से लॉगिन करके अपनी रिस्पांस शीट देख सकते हैं और किसी भी प्रश्न पर आपत्ति प्रस्तुत कर सकते हैं।",
+          "rows": null,
+          "pageRef": "नोटिस पृष्ठ 1"
+        }
+      ],
+      "links": [
+        {
+          "label": "SSC Key & Response Portal",
+          "url": "https://example.org/ssc-key-login",
+          "kind": "result"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_28",
+      "slug": "annapurna-rasoi-yojana-sample",
+      "titleHi": "श्री अन्नपूर्णा रसोई योजना राजस्थान: ₹8 में पौष्टिक भोजन (SAMPLE)",
+      "titleEn": "Shri Annapurna Rasoi Yojana Rajasthan (SAMPLE)",
+      "categoryId": "schemes",
+      "agencyId": "raj_dept",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "राजस्थान सरकार द्वारा संचालित श्री अन्नपूर्णा रसोई योजना के तहत सभी जरूरतमंदों को मात्र ₹8 में शुद्ध व पौष्टिक थाली।",
+      "summaryEn": "Rajasthan state welfare scheme providing nutritious food plates at subsidized ₹8.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-07T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": null,
+      "type": "scheme",
+      "facts": {
+        "postsCount": null,
+        "applicationStart": null,
+        "applicationEnd": null,
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": null,
+        "feeScSt": null,
+        "qualification": "राज्य के सभी नागरिक लाभान्वित",
+        "ageMin": null,
+        "ageMax": null,
+        "selectionProcess": "सीधा लाभ (Direct Benefit)",
+        "sourceUrl": "https://example.org/annapurna-rasoi-scheme",
+        "sourceDate": "2026-10-07T01:07:03.835017",
+        "verifiedAt": "2026-10-22T01:07:03.835017",
+        "verifiedBy": "Social Welfare Desk"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "योजना के मुख्य बिंदु",
+          "body": "कोई भी भूखा न सोए संकल्प के तहत प्रदेशभर के सभी नगरीय एवं ग्रामीण निकायों में 1,000+ रसोई केंद्रों का संचालन।",
+          "rows": null,
+          "pageRef": "योजना विवरण"
+        }
+      ],
+      "links": [
+        {
+          "label": "आधिकारिक पोर्टल",
+          "url": "https://example.org/annapurna-portal",
+          "kind": "officialSite"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_29",
+      "slug": "private-solar-supervisor-sample",
+      "titleHi": "निजी सौर ऊर्जा कंपनी साइट सुपरवाइजर व इलेक्ट्रीशियन (SAMPLE)",
+      "titleEn": "Private Solar Energy Site Supervisor & Electrician Jodhpur (SAMPLE)",
+      "categoryId": "private_jobs",
+      "agencyId": "private",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "जोधपुर व बाड़मेर सोलर पार्क हेतु 60 पदों पर निजी कंपनी में नियुक्ति। सत्यापन स्वयं करें।",
+      "summaryEn": "Private renewable energy contractor vacancies in Jodhpur. Verify employer directly.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-22T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-09T01:07:03.835017",
+      "type": "privateJob",
+      "facts": {
+        "postsCount": 60,
+        "applicationStart": "2026-10-22T01:07:03.835017",
+        "applicationEnd": "2026-11-09T01:07:03.835017",
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": "निःशुल्क (Never pay money for jobs)",
+        "feeScSt": "निःशुल्क",
+        "qualification": "ITI Electrician / Diploma Electrical",
+        "ageMin": 20,
+        "ageMax": 35,
+        "selectionProcess": "इंटरव्यू व कार्य अनुभव",
+        "sourceUrl": "https://example.org/solar-jobs-sample",
+        "sourceDate": "2026-10-22T01:07:03.835017",
+        "verifiedAt": "2026-10-24T01:07:03.835017",
+        "verifiedBy": "Private Jobs Moderation (Unverified Employer)"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "निजी नौकरी डिस्क्लेमर",
+          "body": "यह भर्ती निजी क्षेत्र की है। किसी भी प्रकार के अग्रिम शुल्क या प्रोसेसिंग फीस की मांग पर कभी भी भुगतान न करें।",
+          "rows": null,
+          "pageRef": "निजी नोटिस"
+        }
+      ],
+      "links": [
+        {
+          "label": "कंपनी जॉब्स पोर्टल",
+          "url": "https://example.org/private-solar",
+          "kind": "officialSite"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    },
+    {
+      "id": "vac_30",
+      "slug": "private-hospital-nursing-staff-sample",
+      "titleHi": "निजी मल्टीस्पेशलिटी अस्पताल नर्सिंग स्टाफ व लैब तकनीशियन (SAMPLE)",
+      "titleEn": "Private Hospital Nursing Staff & Lab Technician Udaipur (SAMPLE)",
+      "categoryId": "private_jobs",
+      "agencyId": "private",
+      "state": "rajasthan",
+      "language": "hi",
+      "summaryHi": "उदयपुर के निजी अस्पताल में 45 स्टाफ नर्स एवं डीटीएलएम पदों पर वॉक-इन भर्ती। सत्यापन स्वयं करें।",
+      "summaryEn": "Private healthcare center positions in Udaipur. Private unverified employer.",
+      "thumbnailAsset": null,
+      "publishedAt": "2026-10-20T01:07:03.835017",
+      "updatedAt": null,
+      "expiresAt": "2026-11-04T01:07:03.835017",
+      "type": "privateJob",
+      "facts": {
+        "postsCount": 45,
+        "applicationStart": "2026-10-20T01:07:03.835017",
+        "applicationEnd": "2026-11-04T01:07:03.835017",
+        "feeEndDate": null,
+        "examDate": null,
+        "feeGeneralObc": "निःशुल्क",
+        "feeScSt": "निःशुल्क",
+        "qualification": "GNM / B.Sc Nursing / DMLT",
+        "ageMin": 21,
+        "ageMax": 38,
+        "selectionProcess": "दस्तावेज जांच एवं साक्षात्कार",
+        "sourceUrl": "https://example.org/hospital-jobs-sample",
+        "sourceDate": "2026-10-20T01:07:03.835017",
+        "verifiedAt": "2026-10-23T01:07:03.835017",
+        "verifiedBy": "Private Jobs Listing"
+      },
+      "sections": [
+        {
+          "key": "overview",
+          "title": "निजी भर्ती विवरण",
+          "body": "अनुभवी एवं फ्रेशर दोनों उम्मीदवार बायोडाटा लेकर अस्पताल कार्यालय में संपर्क कर सकते हैं।",
+          "rows": null,
+          "pageRef": "अस्पताल विज्ञापन"
+        }
+      ],
+      "links": [
+        {
+          "label": "अस्पताल संपर्क विवरण",
+          "url": "https://example.org/private-hospital",
+          "kind": "officialSite"
+        }
+      ],
+      "revisionHistory": [],
+      "isFeatured": false,
+      "isBreaking": false
+    }
+  ]
+}

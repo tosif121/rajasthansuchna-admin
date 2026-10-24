@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { AuditService } from './audit-service';
 
 export type NoticeStatus = 'active' | 'inactive';
@@ -58,8 +60,44 @@ export interface AdminNoticeRecord {
   updatedAt: string;
 }
 
-// Live in-memory repository (initialized clean with zero mock notices)
-let memoryNotices: AdminNoticeRecord[] = [];
+function initMemoryNotices(): AdminNoticeRecord[] {
+  try {
+    const seedPath = path.join(process.cwd(), "src", "data", "seed-data.json");
+    if (fs.existsSync(seedPath)) {
+      const data = JSON.parse(fs.readFileSync(seedPath, "utf8"));
+      if (Array.isArray(data.vacancies)) {
+        return data.vacancies.map((v: any) => ({
+          id: v.id,
+          slug: v.slug,
+          titleHi: v.titleHi,
+          titleEn: v.titleEn,
+          agencyId: v.agencyId,
+          agencyName: (v.agencyId || "").toUpperCase(),
+          categoryId: v.categoryId,
+          categoryName: v.categoryId || "General",
+          state: v.state === "central" ? "central" : "rajasthan",
+          noticeType: v.type || "vacancy",
+          status: "active" as NoticeStatus,
+          revisionNumber: 1,
+          summaryHi: v.summaryHi || "",
+          summaryEn: v.summaryEn || "",
+          facts: v.facts || {},
+          sections: v.sections || [],
+          links: v.links || [],
+          editorId: "admin",
+          editorName: "Administrator",
+          publishedAt: v.publishedAt,
+          updatedAt: v.updatedAt || v.publishedAt || new Date().toISOString(),
+        }));
+      }
+    }
+  } catch (err) {
+    console.error("Failed to initialize memory notices from seed data:", err);
+  }
+  return [];
+}
+
+let memoryNotices: AdminNoticeRecord[] = initMemoryNotices();
 
 export class NoticeService {
   static async getNotices(filter?: { status?: string; query?: string; agencyId?: string }): Promise<AdminNoticeRecord[]> {
