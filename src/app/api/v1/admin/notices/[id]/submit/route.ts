@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { NoticeService } from '@/server/services/notice-service';
+import { invalidateNoticeCache } from '@/server/cache';
 
 export async function POST(
   req: NextRequest,
@@ -13,5 +14,6 @@ export async function POST(
   if (!res.success) {
     return NextResponse.json({ success: false, error: res.error }, { status: 400 });
   }
-  return NextResponse.json({ success: true, message: 'Notice submitted for review.' });
+  invalidateNoticeCache();
+  return NextResponse.json({ success: true, message: 'Notice submitted to reviewer queue.' });
 }

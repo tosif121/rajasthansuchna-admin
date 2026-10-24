@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { NoticeService } from '@/server/services/notice-service';
+import { invalidateNoticeCache } from '@/server/cache';
 
 export async function DELETE(
   _req: NextRequest,
@@ -10,5 +11,6 @@ export async function DELETE(
   if (!deleted) {
     return NextResponse.json({ success: false, error: 'Notice not found.' }, { status: 404 });
   }
+  invalidateNoticeCache();
   return NextResponse.json({ success: true, message: 'Notice deleted successfully.' });
 }

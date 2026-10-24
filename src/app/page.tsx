@@ -1,5 +1,6 @@
 "use client";
 
+import { apiGet, invalidateClientApiCache } from "@/lib/api-client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -74,8 +75,7 @@ export default function AdminDashboardPage() {
   const fetchNotices = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/v1/admin/notices');
-      const data = await res.json();
+      const data = await apiGet<{ success: boolean; data: NoticeItem[] }>('/api/v1/admin/notices', { ttlSeconds: 10 });
       if (data.success) {
         setNotices(data.data);
       }
@@ -94,6 +94,7 @@ export default function AdminDashboardPage() {
     setFeedback(null);
     try {
       const actorId = currentRole === 'editor' ? 'usr_editor_1' : 'usr_reviewer_2';
+      invalidateClientApiCache('/api/v1/admin/notices');
       const res = await fetch(`/api/v1/admin/notices/${noticeId}/${action}`, {
         method: 'POST',
         headers: {
@@ -117,6 +118,7 @@ export default function AdminDashboardPage() {
     if (!noticeToDelete) return;
     setIsDeleting(true);
     try {
+      invalidateClientApiCache('/api/v1/admin/notices');
       const res = await fetch(`/api/v1/admin/notices/${noticeToDelete.id}`, {
         method: 'DELETE',
       });
@@ -138,6 +140,7 @@ export default function AdminDashboardPage() {
   const handleCreateNotice = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      invalidateClientApiCache('/api/v1/admin/notices');
       const res = await fetch('/api/v1/admin/notices', {
         method: 'POST',
         headers: {

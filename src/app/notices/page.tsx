@@ -1,5 +1,6 @@
 "use client";
 
+import { apiGet, invalidateClientApiCache } from "@/lib/api-client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
@@ -64,8 +65,7 @@ export default function NoticesPage() {
   const fetchNotices = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/v1/admin/notices');
-      const data = await res.json();
+      const data = await apiGet<{ success: boolean; data: NoticeItem[] }>('/api/v1/admin/notices', { ttlSeconds: 10 });
       if (data.success) {
         setNotices(data.data);
       }
@@ -84,6 +84,7 @@ export default function NoticesPage() {
     setFeedback(null);
     try {
       const actorId = currentRole === 'editor' ? 'usr_editor_1' : 'usr_reviewer_2';
+      invalidateClientApiCache('/api/v1/admin/notices');
       const res = await fetch(`/api/v1/admin/notices/${noticeId}/${action}`, {
         method: 'POST',
         headers: {
@@ -107,6 +108,7 @@ export default function NoticesPage() {
     if (!noticeToDelete) return;
     setIsDeleting(true);
     try {
+      invalidateClientApiCache('/api/v1/admin/notices');
       const res = await fetch(`/api/v1/admin/notices/${noticeToDelete.id}`, {
         method: 'DELETE',
       });

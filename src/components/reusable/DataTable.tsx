@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { 
   Search, 
   ChevronLeft, 
@@ -41,6 +41,14 @@ export interface DataTableProps<T = any> {
   emptyTitle?: string;
   emptyDescription?: string;
   disablePagination?: boolean;
+
+  // Server-side dynamic pagination support
+  serverSide?: boolean;
+  totalRecords?: number;
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
+  onPageSizeChange?: (pageSize: number) => void;
+  onSearchChange?: (searchQuery: string) => void;
 }
 
 export function DataTable<T extends Record<string, any>>({
@@ -55,12 +63,32 @@ export function DataTable<T extends Record<string, any>>({
   emptyTitle = "No records found",
   emptyDescription = "Try adjusting your search query or filters.",
   disablePagination = false,
+  serverSide = false,
+  totalRecords,
+  currentPage: externalPage,
+  onPageChange,
+  onPageSizeChange,
+  onSearchChange,
 }: DataTableProps<T>) {
   const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [internalCurrentPage, setInternalCurrentPage] = useState(1);
   const [currentPageSize, setCurrentPageSize] = useState(pageSize || initialPageSize || 10);
 
-  const filtered = useMemo(() => {
+  const activePage = serverSide && externalPage !== undefined ? externalPage : internalCurrentPage;
+
+  // Debounced server search dispatch
+  useEffect(() => {
+    if (serverSide && onSearchChange) {
+      const timer = setTimeout(() => {
+        onSearchChange(search);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [search, serverSide, onSearchChange]);
+
+  // Client-side filtering (only active when NOT in server-side mode)
+  const clientFiltered = useMemo(() => {
+    if (serverSide) return data;
     if (!data || !Array.isArray(data)) return [];
     if (!search.trim()) return data;
 
@@ -79,16 +107,42 @@ export function DataTable<T extends Record<string, any>>({
         return false;
       });
     });
-  }, [data, search, searchKey]);
+  }, [data, search, searchKey, serverSide]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / currentPageSize));
-  const effectiveCurrentPage = Math.min(currentPage, totalPages);
-  const startIndex = (effectiveCurrentPage - 1) * currentPageSize;
-  const pageData = filtered.slice(startIndex, startIndex + currentPageSize);
-  const startItem = filtered.length === 0 ? 0 : startIndex + 1;
-  const endItem = Math.min(startIndex + currentPageSize, filtered.length);
+  // Total record count calculation
+  const totalItems = serverSide && totalRecords !== undefined ? totalRecords : clientFiltered.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / currentPageSize));
+  const effectiveCurrentPage = Math.min(activePage, totalPages);
 
-  // Compute page buttons (1, 2, ..., totalPages)
+  // Sliced page data (in serverSide mode, data is already sliced for the active page)
+  const pageData = useMemo(() => {
+    if (serverSide) return data;
+    const startIndex = (effectiveCurrentPage - 1) * currentPageSize;
+    return clientFiltered.slice(startIndex, startIndex + currentPageSize);
+  }, [serverSide, data, clientFiltered, effectiveCurrentPage, currentPageSize]);
+
+  const startItem = totalItems === 0 ? 0 : (effectiveCurrentPage - 1) * currentPageSize + 1;
+  const endItem = Math.min(effectiveCurrentPage * currentPageSize, totalItems);
+
+  const handlePageSelect = (newPage: number) => {
+    const clamped = Math.max(1, Math.min(newPage, totalPages));
+    if (serverSide && onPageChange) {
+      onPageChange(clamped);
+    } else {
+      setInternalCurrentPage(clamped);
+    }
+  };
+
+  const handlePageSizeSelect = (newSize: number) => {
+    setCurrentPageSize(newSize);
+    if (serverSide && onPageSizeChange) {
+      onPageSizeChange(newSize);
+    } else {
+      setInternalCurrentPage(1);
+    }
+  };
+
+  // Compute page numbers with ellipses
   const paginationButtons = useMemo(() => {
     const pages: (number | string)[] = [];
     if (totalPages <= 5) {
@@ -117,7 +171,7 @@ export function DataTable<T extends Record<string, any>>({
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
-              setCurrentPage(1);
+              if (!serverSide) setInternalCurrentPage(1);
             }}
             className="pl-9 h-9 text-xs sm:text-sm bg-slate-50 dark:bg-slate-950"
           />
@@ -129,10 +183,7 @@ export function DataTable<T extends Record<string, any>>({
               <span>Rows per page:</span>
               <select
                 value={currentPageSize}
-                onChange={(e) => {
-                  setCurrentPageSize(Number(e.target.value));
-                  setCurrentPage(1);
-                }}
+                onChange={(e) => handlePageSizeSelect(Number(e.target.value))}
                 className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-[#A30B0B] cursor-pointer"
               >
                 {pageSizeOptions.map((opt) => (
@@ -146,7 +197,7 @@ export function DataTable<T extends Record<string, any>>({
 
           <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap hidden sm:inline">
             Showing <strong className="text-slate-900 dark:text-white font-mono">{startItem}–{endItem}</strong> of{" "}
-            <strong className="text-slate-900 dark:text-white font-mono">{filtered.length}</strong> records
+            <strong className="text-slate-900 dark:text-white font-mono">{totalItems}</strong> records
           </span>
         </div>
       </div>
@@ -196,8 +247,8 @@ export function DataTable<T extends Record<string, any>>({
             <Button
               variant="outline"
               size="icon"
-              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40"
-              onClick={() => setCurrentPage(1)}
+              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40 cursor-pointer"
+              onClick={() => handlePageSelect(1)}
               disabled={effectiveCurrentPage <= 1}
               title="First page"
             >
@@ -208,8 +259,8 @@ export function DataTable<T extends Record<string, any>>({
             <Button
               variant="outline"
               size="icon"
-              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40"
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40 cursor-pointer"
+              onClick={() => handlePageSelect(effectiveCurrentPage - 1)}
               disabled={effectiveCurrentPage <= 1}
               title="Previous page"
             >
@@ -235,7 +286,7 @@ export function DataTable<T extends Record<string, any>>({
                     key={page}
                     variant={isCurrent ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setCurrentPage(page)}
+                    onClick={() => handlePageSelect(page)}
                     className={`h-8 min-w-[32px] px-2 rounded-lg text-xs font-bold tabular-nums transition-colors cursor-pointer ${
                       isCurrent
                         ? "bg-[#A30B0B] hover:bg-[#850909] text-white shadow-xs border-[#A30B0B]"
@@ -252,8 +303,8 @@ export function DataTable<T extends Record<string, any>>({
             <Button
               variant="outline"
               size="icon"
-              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40"
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40 cursor-pointer"
+              onClick={() => handlePageSelect(effectiveCurrentPage + 1)}
               disabled={effectiveCurrentPage >= totalPages}
               title="Next page"
             >
@@ -264,8 +315,8 @@ export function DataTable<T extends Record<string, any>>({
             <Button
               variant="outline"
               size="icon"
-              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40"
-              onClick={() => setCurrentPage(totalPages)}
+              className="h-8 w-8 min-h-[32px] min-w-[32px] rounded-lg border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-40 cursor-pointer"
+              onClick={() => handlePageSelect(totalPages)}
               disabled={effectiveCurrentPage >= totalPages}
               title="Last page"
             >
@@ -276,7 +327,7 @@ export function DataTable<T extends Record<string, any>>({
           {/* Record Count Information */}
           <div className="text-xs text-slate-500 dark:text-slate-400 text-center sm:text-right font-medium">
             Showing <strong className="text-slate-900 dark:text-white tabular-nums font-mono">{startItem}–{endItem}</strong> of{" "}
-            <strong className="text-slate-900 dark:text-white tabular-nums font-mono">{filtered.length}</strong> records
+            <strong className="text-slate-900 dark:text-white tabular-nums font-mono">{totalItems}</strong> records
           </div>
         </div>
       )}
