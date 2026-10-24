@@ -125,7 +125,7 @@ export function AdminSidebar() {
       <div className="p-3.5 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50/80 dark:bg-slate-950 flex items-center justify-between">
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-500/30 flex items-center justify-center text-amber-800 dark:text-amber-400 font-bold text-xs shrink-0">
-            VS
+            A
           </div>
           <div className="min-w-0">
             <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">Admin</p>
