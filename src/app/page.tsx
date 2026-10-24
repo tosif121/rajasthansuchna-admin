@@ -8,7 +8,8 @@ import {
   StatCard, 
   DataTable, 
   Column, 
-  DeleteConfirmationModal, 
+  DeleteConfirmationModal,
+  FormattedTimestamp, 
   ToggleSwitch 
 } from '@/components/reusable';
 import { 
@@ -199,9 +200,7 @@ export default function AdminDashboardPage() {
     {
       header: 'Deadline',
       cell: (notice) => (
-        <span className="text-slate-600 dark:text-slate-300 font-mono text-[11px]">
-          {notice.facts?.applicationEnd || 'To be announced'}
-        </span>
+        <FormattedTimestamp value={notice.facts?.applicationEnd || ""} fallback="To be announced" />
       ),
     },
     {

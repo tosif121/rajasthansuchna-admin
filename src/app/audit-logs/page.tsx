@@ -8,7 +8,8 @@ import {
   StatCard, 
   DataTable, 
   Column, 
-  DeleteConfirmationModal 
+  DeleteConfirmationModal,
+  FormattedTimestamp 
 } from "@/components/reusable";
 import { 
   History, 
@@ -120,12 +121,10 @@ export default function AuditLogsPage() {
 
   const columns: Column<AuditLogEntry>[] = [
     {
-      header: "Timestamp (UTC)",
+      header: "Timestamp",
       accessorKey: "timestamp",
       cell: (log) => (
-        <span className="font-mono text-slate-600 dark:text-slate-400 text-[11px] whitespace-nowrap">
-          {log.timestamp}
-        </span>
+        <FormattedTimestamp value={log.timestamp} />
       ),
     },
     {
