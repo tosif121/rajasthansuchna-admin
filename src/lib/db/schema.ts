@@ -48,6 +48,7 @@ export const categories = pgTable('categories', {
   nameEn: text('name_en').notNull(),
   parentId: uuid('parent_id'),
   icon: text('icon'),
+  isActive: boolean('is_active').default(true).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 

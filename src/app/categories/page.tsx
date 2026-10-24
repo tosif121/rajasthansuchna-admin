@@ -24,7 +24,6 @@ import {
   AlertCircle,
   Tag,
   Upload,
-  Image as ImageIcon,
   X,
   Shield,
   Landmark,
@@ -43,6 +42,7 @@ interface CategoryItem {
   nameHi: string;
   nameEn: string;
   icon?: string | null;
+  isActive?: boolean;
   activeNotices?: number;
 }
 
@@ -75,16 +75,29 @@ export default function CategoriesPage() {
   const [nameEn, setNameEn] = useState("");
   const [nameHi, setNameHi] = useState("");
   const [slug, setSlug] = useState("");
+  const [isActive, setIsActive] = useState(true);
   const [selectedPresetIcon, setSelectedPresetIcon] = useState("tag");
   const [logoImage, setLogoImage] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Close modals on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (isModalOpen) setIsModalOpen(false);
+        if (categoryToDelete) setCategoryToDelete(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isModalOpen, categoryToDelete]);
+
   const loadData = async () => {
     try {
       setLoading(true);
       const [catRes, noticesRes] = await Promise.all([
-        fetch("/api/v1/categories").then(r => r.json()),
+        fetch("/api/v1/categories?all=true").then(r => r.json()),
         fetch("/api/v1/notices?limit=100").then(r => r.json()).catch(() => ({ data: [] })),
       ]);
 
@@ -93,6 +106,7 @@ export default function CategoriesPage() {
 
       const mapped = catList.map(cat => ({
         ...cat,
+        isActive: cat.isActive !== false,
         activeNotices: notices.filter(n => n.categoryId === cat.id || n.categoryId === cat.slug).length,
       }));
 
@@ -113,6 +127,7 @@ export default function CategoriesPage() {
     setNameEn("");
     setNameHi("");
     setSlug("");
+    setIsActive(true);
     setSelectedPresetIcon("tag");
     setLogoImage(null);
     setIsModalOpen(true);
@@ -123,6 +138,7 @@ export default function CategoriesPage() {
     setNameEn(cat.nameEn);
     setNameHi(cat.nameHi || "");
     setSlug(cat.slug || cat.id);
+    setIsActive(cat.isActive !== false);
     if (cat.icon?.startsWith("data:image") || cat.icon?.startsWith("http")) {
       setLogoImage(cat.icon);
       setSelectedPresetIcon("tag");
@@ -131,6 +147,34 @@ export default function CategoriesPage() {
       setSelectedPresetIcon(cat.icon || "tag");
     }
     setIsModalOpen(true);
+  };
+
+  const handleToggleStatus = async (cat: CategoryItem) => {
+    const nextStatus = !cat.isActive;
+    // Optimistic UI update
+    setCategories(prev => prev.map(c => c.id === cat.id ? { ...c, isActive: nextStatus } : c));
+
+    try {
+      const res = await fetch("/api/v1/categories", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: cat.slug || cat.id, isActive: nextStatus }),
+      }).then(r => r.json());
+
+      if (res.success) {
+        setFeedback({
+          message: `Category "${cat.nameEn}" is now ${nextStatus ? "ACTIVE" : "INACTIVE"}.`,
+          type: "success"
+        });
+      } else {
+        // Revert on failure
+        setCategories(prev => prev.map(c => c.id === cat.id ? { ...c, isActive: !nextStatus } : c));
+        setFeedback({ message: res.error || "Failed to update category status", type: "error" });
+      }
+    } catch (e: any) {
+      setCategories(prev => prev.map(c => c.id === cat.id ? { ...c, isActive: !nextStatus } : c));
+      setFeedback({ message: e.message || "Failed to update status", type: "error" });
+    }
   };
 
   const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,6 +209,7 @@ export default function CategoriesPage() {
           nameHi: nameHi.trim() || nameEn.trim(),
           slug: slug.trim() || undefined,
           icon: iconValue,
+          isActive: isActive,
         }),
       }).then(r => r.json());
 
@@ -195,6 +240,7 @@ export default function CategoriesPage() {
   };
 
   const totalNotices = categories.reduce((acc, curr) => acc + (curr.activeNotices || 0), 0);
+  const activeCategoriesCount = categories.filter(c => c.isActive !== false).length;
 
   const renderCategoryIcon = (iconValue?: string | null, name?: string) => {
     if (iconValue?.startsWith("data:image") || iconValue?.startsWith("http")) {
@@ -250,6 +296,25 @@ export default function CategoriesPage() {
       ),
     },
     {
+      header: "Status",
+      cell: (cat) => {
+        const isCatActive = cat.isActive !== false;
+        return (
+          <Badge 
+            variant="secondary"
+            className={`font-bold text-[10px] gap-1.5 px-2 py-0.5 border ${
+              isCatActive
+                ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800"
+                : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700"
+            }`}
+          >
+            <span className={`w-1.5 h-1.5 rounded-full ${isCatActive ? "bg-emerald-500" : "bg-slate-400"}`}></span>
+            {isCatActive ? "ACTIVE" : "INACTIVE"}
+          </Badge>
+        );
+      },
+    },
+    {
       header: "Live Notices",
       cell: (cat) => (
         <Badge variant={cat.activeNotices ? "default" : "outline"} className={cat.activeNotices ? "bg-red-700 text-white font-medium" : "text-slate-500"}>
@@ -259,28 +324,48 @@ export default function CategoriesPage() {
     },
     {
       header: "Actions",
-      cell: (cat) => (
-        <div className="flex items-center gap-1">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => openEditModal(cat)}
-            className="h-8 w-8 p-0 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
-            title="Edit category"
-          >
-            <Pencil className="w-4 h-4 text-slate-600 dark:text-slate-300" />
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setCategoryToDelete(cat)}
-            className="h-8 w-8 p-0 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer"
-            title="Delete category"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
-        </div>
-      ),
+      cell: (cat) => {
+        const isCatActive = cat.isActive !== false;
+        return (
+          <div className="flex items-center gap-1.5">
+            {/* Status Toggle Button */}
+            <button
+              type="button"
+              onClick={() => handleToggleStatus(cat)}
+              className={`flex items-center gap-1 text-[11px] font-semibold px-2 py-1 rounded transition-colors cursor-pointer border ${
+                isCatActive
+                  ? "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700"
+                  : "bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800"
+              }`}
+              title={isCatActive ? "Deactivate category" : "Activate category"}
+            >
+              {isCatActive ? "Deactivate" : <><CheckCircle2 className="w-3 h-3" /> Activate</>}
+            </button>
+
+            {/* Edit Button */}
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => openEditModal(cat)}
+              className="h-8 w-8 p-0 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+              title="Edit category"
+            >
+              <Pencil className="w-4 h-4 text-slate-600 dark:text-slate-300" />
+            </Button>
+
+            {/* Delete Button */}
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setCategoryToDelete(cat)}
+              className="h-8 w-8 p-0 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer"
+              title="Delete category"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+        );
+      },
     },
   ];
 
@@ -297,7 +382,7 @@ export default function CategoriesPage() {
             <PageHeader
               eyebrow="TAXONOMY & EXAM CLASSIFICATION"
               title="Recruitment Categories"
-              description="Manage exam categories, upload logos/icons, and organize live recruitment notices."
+              description="Manage exam categories, toggle active status, upload logos/icons, and organize live notices."
             />
             <Button
               onClick={openAddModal}
@@ -333,7 +418,7 @@ export default function CategoriesPage() {
             <StatCard
               title="Total Categories"
               value={categories.length}
-              subtitle="Active job filters in Mobile App"
+              subtitle={`${activeCategoriesCount} Active / ${categories.length - activeCategoriesCount} Inactive`}
               icon={FolderTree}
             />
             <StatCard
@@ -362,10 +447,16 @@ export default function CategoriesPage() {
         </main>
       </div>
 
-      {/* Add / Edit Category Modal */}
+      {/* Add / Edit Category Modal with Click-Outside Closure */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5">
+        <div 
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150 cursor-pointer"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div 
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/50 text-[#A30B0B] dark:text-red-400 flex items-center justify-center shrink-0">
@@ -376,14 +467,14 @@ export default function CategoriesPage() {
                     {editingCategory ? "Edit Category" : "Add New Category"}
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Upload a custom logo or pick an icon for mobile app category tabs.
+                    Upload a custom logo, pick an icon, and toggle status.
                   </p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -446,7 +537,7 @@ export default function CategoriesPage() {
                 </div>
               </div>
 
-              {/* Or Preset Icon Picker */}
+              {/* Preset Icon Picker */}
               {!logoImage && (
                 <div>
                   <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">
@@ -502,16 +593,33 @@ export default function CategoriesPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                  Unique Code / Slug (Optional)
-                </label>
-                <Input
-                  placeholder="e.g. police_defence"
-                  value={slug}
-                  disabled={Boolean(editingCategory)}
-                  onChange={(e) => setSlug(e.target.value)}
-                />
+              {/* Slug & Status */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                    Unique Code / Slug (Optional)
+                  </label>
+                  <Input
+                    placeholder="e.g. police_defence"
+                    value={slug}
+                    disabled={Boolean(editingCategory)}
+                    onChange={(e) => setSlug(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                    Status
+                  </label>
+                  <select
+                    value={isActive ? "active" : "inactive"}
+                    onChange={(e) => setIsActive(e.target.value === "active")}
+                    className="w-full h-9 rounded-xl border border-input bg-background px-3 py-1 text-xs sm:text-sm shadow-2xs outline-none focus:ring-1 focus:ring-ring"
+                  >
+                    <option value="active">Active (Visible in App)</option>
+                    <option value="inactive">Inactive (Hidden)</option>
+                  </select>
+                </div>
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
@@ -535,7 +643,7 @@ export default function CategoriesPage() {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Confirmation Modal (Radix Dialog with Click-Outside support) */}
       <DeleteConfirmationModal
         isOpen={Boolean(categoryToDelete)}
         title="Delete Category"
