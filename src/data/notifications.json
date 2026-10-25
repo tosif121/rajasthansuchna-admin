@@ -1,14 +1,14 @@
 [
   {
-    "id": "bcd21fbf-a3ff-40b2-b798-1caf5b952894",
-    "title": "AppNotification",
-    "message": "{\n  \"project_info\": {\n    \"project_number\": \"531918683769\",\n    \"project_id\": \"rajsuchnaa-9f50a\",\n    \"storage_bucket\": \"rajsuchnaa-9f50a.firebasestorage.app\"\n  },\n  \"client\": [\n    {\n      \"client_info\": {\n        \"mobilesdk_app_id\": \"1:531918683769:android:419c2b98f685e938e11ea8\",\n        \"android_client_info\": {\n          \"package_name\": \"com.rajasthansuchna\"\n        }\n      },\n      \"oauth_client\": [],\n      \"api_key\": [\n        {\n          \"current_key\": \"AIzaSyAPl6LUmhiR7138wOSEkxFbADhvSToy3kM\"\n        }\n      ],\n      \"services\": {\n        \"appinvite_service\": {\n          \"other_platform_oauth_client\": []\n        }\n      }\n    }\n  ],\n  \"configuration_version\": \"1\"\n}",
-    "vacancyId": "vac_01",
-    "vacancySlug": "sample-slug",
-    "agencyName": "Rajasthan Suchna",
+    "id": "c9dadcf6-13b9-4944-868e-b6536bcff586",
+    "title": "Rajasthan Police SI Recruitment 2026: 859 Posts Announced",
+    "message": "Rajasthan Public Service Commission (RPSC) has officially announced Sub Inspector (SI) & Platoon Commander recruitment. Check syllabus, physical standards, and online apply link now in the app.",
+    "vacancyId": "vac_police_si_2026",
+    "vacancySlug": "rajasthan-police-sub-inspector-recruitment-2026",
+    "agencyName": "RPSC Ajmer",
     "type": "newVacancy",
-    "createdAt": "2026-10-24T21:20:24.485Z",
-    "sentAt": "2026-10-24T21:20:24.485Z"
+    "createdAt": "2026-10-25T18:07:47.177Z",
+    "sentAt": "2026-10-25T18:07:47.177Z"
   },
   {
     "id": "notif_init_1",
