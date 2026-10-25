@@ -41,6 +41,7 @@ interface NotificationItem {
   agencyName: string;
   type: "newVacancy" | "admitCard" | "result" | "correction" | "closingSoon";
   createdAt: string;
+  fcmStatus?: "sent" | "skipped_no_credentials" | "failed";
 }
 
 interface NoticeOption {
@@ -332,6 +333,7 @@ export default function NotificationsPage() {
                       <th className="py-3.5 px-4">Type</th>
                       <th className="py-3.5 px-4">Title & Content</th>
                       <th className="py-3.5 px-4">Target Agency / Notice</th>
+                      <th className="py-3.5 px-4">FCM Push</th>
                       <th className="py-3.5 px-4">Sent Date</th>
                       <th className="py-3.5 px-4 text-right">Actions</th>
                     </tr>
@@ -355,6 +357,12 @@ export default function NotificationsPage() {
                               <span className="font-medium text-slate-800 dark:text-slate-200">{notif.agencyName}</span>
                               <span className="text-xs text-slate-400 font-mono truncate max-w-[180px]">{notif.vacancySlug}</span>
                             </div>
+                          </td>
+                          <td className="py-3.5 px-4 whitespace-nowrap">
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border ${notif.fcmStatus === "sent" ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" : "bg-slate-500/10 text-slate-500 border-slate-500/20"}`}>
+                              {notif.fcmStatus === "sent" ? "FCM Delivered" : "In-App Live"}
+                            </span>
+                              
                           </td>
                           <td className="py-3.5 px-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400">
                             {new Date(notif.createdAt).toLocaleDateString("en-IN", {

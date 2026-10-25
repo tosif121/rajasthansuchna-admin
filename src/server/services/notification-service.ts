@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { neon } from '@neondatabase/serverless';
 import { randomUUID } from 'crypto';
+import { sendFcmBroadcast } from './fcm-admin-service';
 
 export type NotificationType = 'newVacancy' | 'admitCard' | 'result' | 'correction' | 'closingSoon';
 
@@ -15,6 +16,8 @@ export interface AdminNotificationRecord {
   type: NotificationType;
   createdAt: string;
   sentAt?: string;
+  fcmStatus?: 'sent' | 'skipped_no_credentials' | 'failed';
+  fcmMessageId?: string;
 }
 
 const notificationsFilePath = path.join(process.cwd(), 'src', 'data', 'notifications.json');
@@ -149,7 +152,26 @@ export class NotificationService {
       sentAt: new Date().toISOString(),
     };
 
-    // 1. Save to local/memory immediately
+    // 1. Dispatch real-time Push Notification via Firebase Cloud Messaging (FCM)
+    try {
+      const fcmRes = await sendFcmBroadcast({
+        title: newRecord.title,
+        body: newRecord.message,
+        vacancyId: newRecord.vacancyId,
+        vacancySlug: newRecord.vacancySlug,
+        type: newRecord.type,
+        agencyName: newRecord.agencyName,
+      });
+      newRecord.fcmStatus = fcmRes.status;
+      if (fcmRes.messageId) {
+        newRecord.fcmMessageId = fcmRes.messageId;
+      }
+    } catch (fcmErr) {
+      console.warn('[NotificationService] FCM push error:', fcmErr);
+      newRecord.fcmStatus = 'failed';
+    }
+
+    // 2. Save to local/memory immediately
     memoryNotifications.unshift(newRecord);
     saveLocalNotifications(memoryNotifications);
 
