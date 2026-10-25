@@ -29,11 +29,24 @@ function initFirebaseAdmin(): boolean {
     }
 
     // 2. Try file paths
+    // Read project details from google-services.json
+    let extractedProjectId = 'rajsuchnaa-9f50a';
+    try {
+      const gsPath = path.join(process.cwd(), 'src', 'data', 'google-services.json');
+      if (fs.existsSync(gsPath)) {
+        const gsData = JSON.parse(fs.readFileSync(gsPath, 'utf-8'));
+        if (gsData?.project_info?.project_id) {
+          extractedProjectId = gsData.project_info.project_id;
+        }
+      }
+    } catch (_) {}
+
     const candidatePaths = [
       process.env.FIREBASE_SERVICE_ACCOUNT_PATH,
       path.join(process.cwd(), 'firebase-service-account.json'),
       path.join(process.cwd(), 'src', 'server', 'firebase-service-account.json'),
       path.join(process.cwd(), '..', 'rajasthan-suchna', 'firebase-service-account.json'),
+      path.join(process.cwd(), '..', 'rajasthan-suchna', 'android', 'app', 'google-services.json'),
       '/Users/tosif/Downloads/rajsuchnaa-firebase-adminsdk.json',
     ].filter(Boolean) as string[];
 
