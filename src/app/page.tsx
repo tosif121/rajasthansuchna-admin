@@ -4,6 +4,7 @@ import { apiGet, invalidateClientApiCache } from "@/lib/api-client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React, { useState, useEffect } from 'react';
@@ -426,7 +427,7 @@ export default function AdminDashboardPage() {
 
           <form onSubmit={handleCreateNotice} className="space-y-3.5 text-xs">
             <div>
-              <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Title (English)</label>
+              <Label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Title (English)</Label>
               <Input
                 type="text"
                 required
@@ -437,7 +438,7 @@ export default function AdminDashboardPage() {
             </div>
 
             <div>
-              <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (Devanagari - Optional)</label>
+              <Label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Title (Devanagari - Optional)</Label>
               <Input
                 type="text"
                 placeholder="e.g. Rajasthan Krishi Paryavekshak Bharti 2026"
@@ -448,7 +449,7 @@ export default function AdminDashboardPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Commission</label>
+                <Label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Recruitment Commission</Label>
                 <Select
                   value={formAgency}
                   onValueChange={setFormAgency}
@@ -466,7 +467,7 @@ export default function AdminDashboardPage() {
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Total Posts</label>
+                <Label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Total Posts</Label>
                 <Input
                   type="number"
                   value={formPosts}
@@ -477,7 +478,7 @@ export default function AdminDashboardPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Application Deadline</label>
+                <Label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Application Deadline</Label>
                 <DatePicker
                   date={formDeadline}
                   onChange={(dateStr) => setFormDeadline(dateStr)}
@@ -486,7 +487,7 @@ export default function AdminDashboardPage() {
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Minimum Qualification</label>
+                <Label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Minimum Qualification</Label>
                 <Input
                   type="text"
                   value={formQual}

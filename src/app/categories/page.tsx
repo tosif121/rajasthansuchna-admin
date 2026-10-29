@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
@@ -442,10 +443,8 @@ export default function CategoriesPage() {
 
             <form onSubmit={handleSaveCategory} className="space-y-4">
               {/* Category Logo Upload & Preview */}
-              <div>
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">
-                  Category Logo / Image (Optional)
-                </label>
+              <div className="space-y-1.5">
+                <Label>Category Logo / Image (Optional)</Label>
                 
                 <div className="flex items-center gap-4 p-3 bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl">
                   {/* Current Preview */}
@@ -499,10 +498,8 @@ export default function CategoriesPage() {
 
               {/* Preset Icon Picker */}
               {!logoImage && (
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">
-                    Or Select Preset Icon
-                  </label>
+                <div className="space-y-1.5">
+                  <Label>Or Select Preset Icon</Label>
                   <div className="grid grid-cols-5 gap-2">
                     {PRESET_ICONS.map((p) => {
                       const Icon = p.Icon;
@@ -529,10 +526,8 @@ export default function CategoriesPage() {
 
               {/* Names */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                    Category Name (English) *
-                  </label>
+                <div className="space-y-1.5">
+                  <Label required>Category Name (English)</Label>
                   <Input
                     required
                     placeholder="e.g. Police & Defence"
@@ -541,12 +536,10 @@ export default function CategoriesPage() {
                   />
                 </div>
 
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                    Category Name (Hindi)
-                  </label>
+                <div className="space-y-1.5">
+                  <Label>Category Name (Hindi)</Label>
                   <Input
-                    placeholder="e.g. Police and Security"
+                    placeholder="e.g. पुलिस एवं सुरक्षा"
                     value={nameHi}
                     onChange={(e) => setNameHi(e.target.value)}
                   />
@@ -555,10 +548,8 @@ export default function CategoriesPage() {
 
               {/* Slug & Status */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                    Unique Code / Slug (Optional)
-                  </label>
+                <div className="space-y-1.5">
+                  <Label>Unique Code / Slug (Optional)</Label>
                   <Input
                     placeholder="e.g. police_defence"
                     value={slug}
@@ -567,10 +558,8 @@ export default function CategoriesPage() {
                   />
                 </div>
 
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                    Status
-                  </label>
+                <div className="space-y-1.5">
+                  <Label>Status</Label>
                   <Select
                     value={isActive ? "active" : "inactive"}
                     onValueChange={(val) => setIsActive(val === "active")}

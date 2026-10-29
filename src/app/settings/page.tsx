@@ -5,6 +5,10 @@ import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
 import { PageHeader } from '@/components/reusable/PageHeader';
 import { ToggleSwitch } from '@/components/reusable/ToggleSwitch';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Sparkles,
   KeyRound,
@@ -329,18 +333,18 @@ export default function SettingsPage() {
 
         {/* API Key Input with Eye Toggle */}
         <div className="space-y-1.5">
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+          <Label className="text-xs font-bold text-slate-700 dark:text-slate-300">
             {hasExistingKey ? 'Update API Key (Leave empty to keep current)' : 'Enter Gemini API Key'}
-          </label>
+          </Label>
           <div className="relative flex items-center">
-            <input
+            <Input
               type={showKey ? 'text' : 'password'}
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder={hasExistingKey ? 'Enter new AIzaSy... to overwrite' : 'AIzaSy...'}
-              className="w-full px-4 py-2.5 pr-24 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 text-sm font-mono focus:outline-hidden focus:ring-2 focus:ring-[#A30B0B]"
+              className="w-full pr-12 font-mono text-sm"
             />
-            <div className="absolute right-2 flex items-center gap-1">
+            <div className="absolute right-2 flex items-center">
               <button
                 type="button"
                 onClick={() => setShowKey(!showKey)}
@@ -355,15 +359,17 @@ export default function SettingsPage() {
 
         {/* Test Connection Button & Result */}
         <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="sm"
             onClick={handleTestConnection}
             disabled={testing || (!hasExistingKey && !apiKey.trim())}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold transition-colors disabled:opacity-50 cursor-pointer w-fit"
+            className="inline-flex items-center gap-2 cursor-pointer w-fit text-xs font-bold"
           >
             {testing ? <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#A30B0B]" /> : <Zap className="w-3.5 h-3.5 text-amber-500" />}
             {testing ? 'Testing with Google API...' : 'Test Connection'}
-          </button>
+          </Button>
 
           {testResult && (
             <div
@@ -540,12 +546,12 @@ export default function SettingsPage() {
           </button>
         </div>
 
-        <textarea
+        <Textarea
           rows={4}
           value={systemPrompt}
           onChange={(e) => setSystemPrompt(e.target.value)}
           placeholder="System prompt instructions..."
-          className="w-full p-3.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-xs font-mono leading-relaxed focus:outline-hidden focus:ring-2 focus:ring-[#A30B0B]"
+          className="w-full font-mono text-xs leading-relaxed"
         />
       </div>
 
@@ -566,22 +572,22 @@ export default function SettingsPage() {
         </div>
 
         <div className="flex gap-2">
-          <input
+          <Input
             type="text"
             value={testPrompt}
             onChange={(e) => setTestPrompt(e.target.value)}
             placeholder="Type a sample question..."
-            className="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-hidden focus:ring-2 focus:ring-[#A30B0B]"
+            className="flex-1"
           />
-          <button
+          <Button
             type="button"
             onClick={handleRunPlayground}
             disabled={generating || !testPrompt.trim() || !hasExistingKey}
-            className="px-4 py-2.5 rounded-xl bg-[#A30B0B] text-white text-xs font-bold hover:bg-[#850909] disabled:opacity-50 cursor-pointer flex items-center gap-1.5 shrink-0"
+            className="bg-[#A30B0B] hover:bg-[#850909] text-white cursor-pointer shrink-0"
           >
             {generating ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
             {generating ? 'Querying...' : 'Ask Gemini'}
-          </button>
+          </Button>
         </div>
 
         {playgroundOutput && (

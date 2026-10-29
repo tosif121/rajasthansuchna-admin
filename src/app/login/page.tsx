@@ -2,6 +2,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
@@ -71,36 +74,36 @@ export default function LoginPage() {
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div>
-            <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Admin Email or Username</label>
+            <Label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1.5">Admin Email or Username</Label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 z-10 pointer-events-none" />
+              <Input
                 type="text"
                 required
                 placeholder="admin@rajasthansuchna.gov.in"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg pl-9 pr-3 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B] text-xs font-medium"
+                className="pl-9 pr-3 h-10 bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs font-medium"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Admin Password</label>
+            <Label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1.5">Admin Password</Label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 z-10 pointer-events-none" />
+              <Input
                 type={showPassword ? 'text' : 'password'}
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg pl-9 pr-10 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:border-[#A30B0B] text-xs font-medium"
+                className="pl-9 pr-10 h-10 bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs font-medium"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer p-0.5 focus:outline-none"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer p-0.5 focus:outline-none z-10"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -108,14 +111,14 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
-            className="w-full mt-3 flex items-center justify-center gap-2 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold py-2.5 rounded-lg shadow-md transition-colors cursor-pointer min-h-[44px] disabled:opacity-50"
+            className="w-full mt-3 h-11 bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold shadow-md transition-colors cursor-pointer"
           >
             {loading ? 'Verifying Admin Access...' : 'Sign In as Admin'}
-            <ArrowRight className="w-4 h-4" />
-          </button>
+            <ArrowRight className="w-4 h-4 ml-1.5" />
+          </Button>
         </form>
 
         <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-center">

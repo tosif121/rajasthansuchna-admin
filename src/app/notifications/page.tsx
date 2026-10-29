@@ -3,9 +3,18 @@
 import React, { useState, useEffect } from "react";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
-import { PageHeader, StatCard, DeleteConfirmationModal } from "@/components/reusable";
+import { 
+  PageHeader, 
+  StatCard, 
+  DeleteConfirmationModal,
+  DataTable,
+  Column,
+  FormattedTimestamp 
+} from "@/components/reusable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   Dialog, 
   DialogContent, 
@@ -220,6 +229,67 @@ export default function NotificationsPage() {
     }
   };
 
+  const columns: Column<NotificationItem>[] = [
+    {
+      header: "Type",
+      cell: (notif) => {
+        const badge = getTypeBadge(notif.type);
+        return (
+          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${badge.bg}`}>
+            {badge.label}
+          </span>
+        );
+      },
+    },
+    {
+      header: "Title & Content",
+      cell: (notif) => (
+        <div className="max-w-md">
+          <p className="font-semibold text-slate-900 dark:text-white leading-snug">{notif.title}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">{notif.message}</p>
+        </div>
+      ),
+    },
+    {
+      header: "Target Agency / Notice",
+      cell: (notif) => (
+        <div className="flex flex-col">
+          <span className="font-medium text-slate-800 dark:text-slate-200">{notif.agencyName}</span>
+          <span className="text-xs text-slate-400 font-mono truncate max-w-[180px]">{notif.vacancySlug}</span>
+        </div>
+      ),
+    },
+    {
+      header: "FCM Push",
+      cell: (notif) => (
+        <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border ${notif.fcmStatus === "sent" ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" : "bg-slate-500/10 text-slate-500 border-slate-500/20"}`}>
+          {notif.fcmStatus === "sent" ? "FCM Delivered" : "In-App Live"}
+        </span>
+      ),
+    },
+    {
+      header: "Sent Date",
+      cell: (notif) => (
+        <FormattedTimestamp value={notif.createdAt} />
+      ),
+    },
+    {
+      header: "Actions",
+      className: "text-right",
+      cell: (notif) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setDeleteModalState({ isOpen: true, id: notif.id, title: notif.title })}
+          className="p-1.5 h-8 w-8 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+          title="Delete notification"
+        >
+          <Trash2 className="w-4 h-4" />
+        </Button>
+      ),
+    },
+  ];
+
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       <AdminSidebar />
@@ -306,90 +376,17 @@ export default function NotificationsPage() {
             </div>
           </div>
 
-          {/* Notifications Table */}
-          <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-            <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <h2 className="font-semibold text-slate-800 dark:text-white flex items-center gap-2">
-                <Bell className="w-4 h-4 text-[#A30B0B]" />
-                Recent Broadcast History ({filteredNotifications.length})
-              </h2>
-            </div>
-
-            {isLoading ? (
-              <div className="p-8 text-center text-slate-500">Loading notifications...</div>
-            ) : filteredNotifications.length === 0 ? (
-              <div className="p-12 text-center">
-                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center mx-auto mb-3">
-                  <Bell className="w-6 h-6 text-slate-400" />
-                </div>
-                <h3 className="text-base font-semibold text-slate-700 dark:text-slate-200">No notifications found</h3>
-                <p className="text-xs text-slate-500 mt-1">Click "Broadcast Notification" above to send a new alert to students.</p>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-slate-50/80 dark:bg-slate-900/80 text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
-                    <tr>
-                      <th className="py-3.5 px-4">Type</th>
-                      <th className="py-3.5 px-4">Title & Content</th>
-                      <th className="py-3.5 px-4">Target Agency / Notice</th>
-                      <th className="py-3.5 px-4">FCM Push</th>
-                      <th className="py-3.5 px-4">Sent Date</th>
-                      <th className="py-3.5 px-4 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
-                    {filteredNotifications.map((notif) => {
-                      const badge = getTypeBadge(notif.type);
-                      return (
-                        <tr key={notif.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-900/40 transition-colors">
-                          <td className="py-3.5 px-4 whitespace-nowrap">
-                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${badge.bg}`}>
-                              {badge.label}
-                            </span>
-                          </td>
-                          <td className="py-3.5 px-4 max-w-md">
-                            <p className="font-semibold text-slate-900 dark:text-white leading-snug">{notif.title}</p>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">{notif.message}</p>
-                          </td>
-                          <td className="py-3.5 px-4 whitespace-nowrap">
-                            <div className="flex flex-col">
-                              <span className="font-medium text-slate-800 dark:text-slate-200">{notif.agencyName}</span>
-                              <span className="text-xs text-slate-400 font-mono truncate max-w-[180px]">{notif.vacancySlug}</span>
-                            </div>
-                          </td>
-                          <td className="py-3.5 px-4 whitespace-nowrap">
-                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border ${notif.fcmStatus === "sent" ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" : "bg-slate-500/10 text-slate-500 border-slate-500/20"}`}>
-                              {notif.fcmStatus === "sent" ? "FCM Delivered" : "In-App Live"}
-                            </span>
-                              
-                          </td>
-                          <td className="py-3.5 px-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400">
-                            {new Date(notif.createdAt).toLocaleDateString("en-IN", {
-                              day: "numeric",
-                              month: "short",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </td>
-                          <td className="py-3.5 px-4 whitespace-nowrap text-right">
-                            <button
-                              onClick={() => setDeleteModalState({ isOpen: true, id: notif.id, title: notif.title })}
-                              className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
-                              title="Delete notification"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+          {/* Notifications DataTable */}
+          <DataTable
+            columns={columns}
+            data={filteredNotifications}
+            isLoading={isLoading}
+            searchKey="title"
+            searchPlaceholder="Search broadcasts by title or message..."
+            pageSize={10}
+            emptyTitle="No notifications found"
+            emptyDescription="Click 'Broadcast Notification' above to send a new alert to students."
+          />
         </main>
       </div>
 
@@ -413,10 +410,8 @@ export default function NotificationsPage() {
           </DialogHeader>
 
           <form onSubmit={handleSendNotification} className="space-y-4 mt-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Notification Type *
-                </label>
+              <div className="space-y-1.5">
+                <Label required>Notification Type</Label>
                 <Select
                   value={formData.type}
                   onValueChange={(val) => setFormData({ ...formData, type: val as any })}
@@ -434,10 +429,8 @@ export default function NotificationsPage() {
                 </Select>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Link Target Vacancy (Optional)
-                </label>
+              <div className="space-y-1.5">
+                <Label>Link Target Vacancy (Optional)</Label>
                 <Select
                   value={formData.noticeId || "general"}
                   onValueChange={(val) => handleNoticeSelect(val === "general" ? "" : val)}
@@ -456,10 +449,8 @@ export default function NotificationsPage() {
                 </Select>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Notification Title *
-                </label>
+              <div className="space-y-1.5">
+                <Label required>Notification Title</Label>
                 <Input
                   type="text"
                   required
@@ -470,24 +461,20 @@ export default function NotificationsPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Notification Message Body *
-                </label>
-                <textarea
+              <div className="space-y-1.5">
+                <Label required>Notification Message Body</Label>
+                <Textarea
                   rows={3}
                   required
                   placeholder="e.g. Online application portal is now active on SSO Rajasthan. Apply before last date."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 resize-none text-slate-900 dark:text-slate-100"
+                  className="w-full"
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Issuing Agency / Authority Name
-                </label>
+              <div className="space-y-1.5">
+                <Label>Issuing Agency / Authority Name</Label>
                 <Input
                   type="text"
                   value={formData.agencyName}

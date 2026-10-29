@@ -3,6 +3,17 @@
 import { apiGet, invalidateClientApiCache } from "@/lib/api-client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import React, { useState, useEffect } from 'react';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
@@ -12,7 +23,8 @@ import {
   DataTable,
   Column,
   DeleteConfirmationModal,
-  FormattedTimestamp
+  FormattedTimestamp,
+  DatePicker,
 } from '@/components/reusable';
 import {
   CheckCircle2,
@@ -707,141 +719,260 @@ export default function NoticesPage() {
 
           <div className="space-y-4 py-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Field label="Title (English) *">
-                <input className={inputClass} value={form.titleEn} onChange={(e) => updateForm('titleEn', e.target.value)} placeholder="Rajasthan Patwari Recruitment 2026" />
-              </Field>
-              <Field label="Title (Hindi) *">
-                <input className={inputClass} value={form.titleHi} onChange={(e) => updateForm('titleHi', e.target.value)} placeholder="राजस्थान पटवारी भर्ती 2026" />
-              </Field>
+              <FormField label="Title (English)" required>
+                <Input
+                  value={form.titleEn}
+                  onChange={(e) => updateForm('titleEn', e.target.value)}
+                  placeholder="Rajasthan Patwari Recruitment 2026"
+                />
+              </FormField>
+              <FormField label="Title (Hindi)" required>
+                <Input
+                  value={form.titleHi}
+                  onChange={(e) => updateForm('titleHi', e.target.value)}
+                  placeholder="राजस्थान पटवारी भर्ती 2026"
+                />
+              </FormField>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Field label="Summary (English)">
-                <textarea rows={3} className={inputClass} value={form.summaryEn} onChange={(e) => updateForm('summaryEn', e.target.value)} />
-              </Field>
-              <Field label="Summary (Hindi)">
-                <textarea rows={3} className={inputClass} value={form.summaryHi} onChange={(e) => updateForm('summaryHi', e.target.value)} />
-              </Field>
+              <FormField label="Summary (English)">
+                <Textarea
+                  rows={3}
+                  value={form.summaryEn}
+                  onChange={(e) => updateForm('summaryEn', e.target.value)}
+                  placeholder="Brief recruitment summary in English..."
+                />
+              </FormField>
+              <FormField label="Summary (Hindi)">
+                <Textarea
+                  rows={3}
+                  value={form.summaryHi}
+                  onChange={(e) => updateForm('summaryHi', e.target.value)}
+                  placeholder="संक्षिप्त विवरण हिन्दी में..."
+                />
+              </FormField>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <Field label="Agency *">
-                <select className={inputClass} value={form.agencyId} onChange={(e) => updateForm('agencyId', e.target.value)}>
-                  <option value="">Select agency</option>
-                  {agencyOptions.map((a) => (
-                    <option key={a.id} value={a.id}>{a.nameEn}</option>
-                  ))}
-                </select>
-              </Field>
-              <Field label="Category *">
-                <select className={inputClass} value={form.categoryId} onChange={(e) => updateForm('categoryId', e.target.value)}>
-                  <option value="">Select category</option>
-                  {categoryOptions.map((c) => (
-                    <option key={c.id} value={c.id}>{c.nameEn}</option>
-                  ))}
-                </select>
-              </Field>
-              <Field label="Jurisdiction">
-                <select className={inputClass} value={form.state} onChange={(e) => updateForm('state', e.target.value as NoticeForm['state'])}>
-                  <option value="rajasthan">Rajasthan</option>
-                  <option value="central">Central</option>
-                </select>
-              </Field>
-              <Field label="Notice Type">
-                <select className={inputClass} value={form.noticeType} onChange={(e) => updateForm('noticeType', e.target.value)}>
-                  {NOTICE_TYPES.map((t) => (
-                    <option key={t.value} value={t.value}>{t.label}</option>
-                  ))}
-                </select>
-              </Field>
+              <FormField label="Agency" required>
+                <Select value={form.agencyId} onValueChange={(val) => updateForm('agencyId', val)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select agency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {agencyOptions.map((a) => (
+                      <SelectItem key={a.id} value={a.id}>{a.nameEn}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormField>
+              <FormField label="Category" required>
+                <Select value={form.categoryId} onValueChange={(val) => updateForm('categoryId', val)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categoryOptions.map((c) => (
+                      <SelectItem key={c.id} value={c.id}>{c.nameEn}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormField>
+              <FormField label="Jurisdiction">
+                <Select value={form.state} onValueChange={(val) => updateForm('state', val as NoticeForm['state'])}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Jurisdiction" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rajasthan">Rajasthan</SelectItem>
+                    <SelectItem value="central">Central</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormField>
+              <FormField label="Notice Type">
+                <Select value={form.noticeType} onValueChange={(val) => updateForm('noticeType', val)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Notice type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {NOTICE_TYPES.map((t) => (
+                      <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormField>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <Field label="Status">
-                <select className={inputClass} value={form.status} onChange={(e) => updateForm('status', e.target.value as NoticeForm['status'])}>
-                  <option value="active">Active (live)</option>
-                  <option value="inactive">Inactive (hidden)</option>
-                </select>
-              </Field>
-              <Field label="Expires On">
-                <input type="date" className={inputClass} value={form.expiresAt} onChange={(e) => updateForm('expiresAt', e.target.value)} />
-              </Field>
-              <CheckField label="Featured" checked={form.isFeatured} onChange={(v) => updateForm('isFeatured', v)} />
-              <CheckField label="Breaking" checked={form.isBreaking} onChange={(v) => updateForm('isBreaking', v)} />
+              <FormField label="Status">
+                <Select value={form.status} onValueChange={(val) => updateForm('status', val as NoticeForm['status'])}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="active">Active (live)</SelectItem>
+                    <SelectItem value="inactive">Inactive (hidden)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormField>
+              <FormField label="Expires On">
+                <DatePicker
+                  date={form.expiresAt}
+                  onChange={(val) => updateForm('expiresAt', val)}
+                  placeholder="Select expiry date"
+                />
+              </FormField>
+              <FormCheckbox label="Featured" checked={form.isFeatured} onChange={(v) => updateForm('isFeatured', v)} />
+              <FormCheckbox label="Breaking" checked={form.isBreaking} onChange={(v) => updateForm('isBreaking', v)} />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Field label="Total Posts">
-                <input type="number" className={inputClass} value={form.postsCount} onChange={(e) => updateForm('postsCount', e.target.value)} placeholder="2998" />
-              </Field>
-              <Field label="Age Min">
-                <input type="number" className={inputClass} value={form.ageMin} onChange={(e) => updateForm('ageMin', e.target.value)} placeholder="18" />
-              </Field>
-              <Field label="Age Max">
-                <input type="number" className={inputClass} value={form.ageMax} onChange={(e) => updateForm('ageMax', e.target.value)} placeholder="40" />
-              </Field>
+              <FormField label="Total Posts">
+                <Input
+                  type="number"
+                  value={form.postsCount}
+                  onChange={(e) => updateForm('postsCount', e.target.value)}
+                  placeholder="2998"
+                />
+              </FormField>
+              <FormField label="Age Min">
+                <Input
+                  type="number"
+                  value={form.ageMin}
+                  onChange={(e) => updateForm('ageMin', e.target.value)}
+                  placeholder="18"
+                />
+              </FormField>
+              <FormField label="Age Max">
+                <Input
+                  type="number"
+                  value={form.ageMax}
+                  onChange={(e) => updateForm('ageMax', e.target.value)}
+                  placeholder="40"
+                />
+              </FormField>
             </div>
 
-            <Field label="Qualification">
-              <input className={inputClass} value={form.qualification} onChange={(e) => updateForm('qualification', e.target.value)} placeholder="Graduate / 12th Pass" />
-            </Field>
+            <FormField label="Qualification">
+              <Input
+                value={form.qualification}
+                onChange={(e) => updateForm('qualification', e.target.value)}
+                placeholder="Graduate / 12th Pass"
+              />
+            </FormField>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <Field label="Application Start">
-                <input type="date" className={inputClass} value={form.applicationStart} onChange={(e) => updateForm('applicationStart', e.target.value)} />
-              </Field>
-              <Field label="Application Last Date">
-                <input type="date" className={inputClass} value={form.applicationEnd} onChange={(e) => updateForm('applicationEnd', e.target.value)} />
-              </Field>
-              <Field label="Fee Last Date">
-                <input type="date" className={inputClass} value={form.feeEndDate} onChange={(e) => updateForm('feeEndDate', e.target.value)} />
-              </Field>
-              <Field label="Exam Date">
-                <input type="date" className={inputClass} value={form.examDate} onChange={(e) => updateForm('examDate', e.target.value)} />
-              </Field>
+              <FormField label="Application Start">
+                <DatePicker
+                  date={form.applicationStart}
+                  onChange={(val) => updateForm('applicationStart', val)}
+                  placeholder="Application start date"
+                />
+              </FormField>
+              <FormField label="Application Last Date">
+                <DatePicker
+                  date={form.applicationEnd}
+                  onChange={(val) => updateForm('applicationEnd', val)}
+                  placeholder="Application end date"
+                />
+              </FormField>
+              <FormField label="Fee Last Date">
+                <DatePicker
+                  date={form.feeEndDate}
+                  onChange={(val) => updateForm('feeEndDate', val)}
+                  placeholder="Fee last date"
+                />
+              </FormField>
+              <FormField label="Exam Date">
+                <DatePicker
+                  date={form.examDate}
+                  onChange={(val) => updateForm('examDate', val)}
+                  placeholder="Exam date"
+                />
+              </FormField>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Field label="Fee - General / OBC">
-                <input className={inputClass} value={form.feeGeneralObc} onChange={(e) => updateForm('feeGeneralObc', e.target.value)} placeholder="₹600" />
-              </Field>
-              <Field label="Fee - SC / ST">
-                <input className={inputClass} value={form.feeScSt} onChange={(e) => updateForm('feeScSt', e.target.value)} placeholder="₹400" />
-              </Field>
+              <FormField label="Fee - General / OBC">
+                <Input
+                  value={form.feeGeneralObc}
+                  onChange={(e) => updateForm('feeGeneralObc', e.target.value)}
+                  placeholder="₹600"
+                />
+              </FormField>
+              <FormField label="Fee - SC / ST">
+                <Input
+                  value={form.feeScSt}
+                  onChange={(e) => updateForm('feeScSt', e.target.value)}
+                  placeholder="₹400"
+                />
+              </FormField>
             </div>
 
-            <Field label="Selection Process">
-              <input className={inputClass} value={form.selectionProcess} onChange={(e) => updateForm('selectionProcess', e.target.value)} placeholder="Written Exam, Interview & Document Verification" />
-            </Field>
+            <FormField label="Selection Process">
+              <Input
+                value={form.selectionProcess}
+                onChange={(e) => updateForm('selectionProcess', e.target.value)}
+                placeholder="Written Exam, Interview & Document Verification"
+              />
+            </FormField>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Field label="Official Notification PDF URL">
-                <input className={inputClass} value={form.notificationPdfUrl} onChange={(e) => updateForm('notificationPdfUrl', e.target.value)} placeholder="https://..." />
-              </Field>
-              <Field label="Apply Online URL">
-                <input className={inputClass} value={form.applyOnlineUrl} onChange={(e) => updateForm('applyOnlineUrl', e.target.value)} placeholder="https://..." />
-              </Field>
+              <FormField label="Official Notification PDF URL">
+                <Input
+                  value={form.notificationPdfUrl}
+                  onChange={(e) => updateForm('notificationPdfUrl', e.target.value)}
+                  placeholder="https://..."
+                />
+              </FormField>
+              <FormField label="Apply Online URL">
+                <Input
+                  value={form.applyOnlineUrl}
+                  onChange={(e) => updateForm('applyOnlineUrl', e.target.value)}
+                  placeholder="https://..."
+                />
+              </FormField>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Field label="Official Website URL">
-                <input className={inputClass} value={form.officialSiteUrl} onChange={(e) => updateForm('officialSiteUrl', e.target.value)} placeholder="https://..." />
-              </Field>
-              <Field label="Source URL (used for AI citations)">
-                <input className={inputClass} value={form.sourceUrl} onChange={(e) => updateForm('sourceUrl', e.target.value)} placeholder="https://..." />
-              </Field>
+              <FormField label="Official Website URL">
+                <Input
+                  value={form.officialSiteUrl}
+                  onChange={(e) => updateForm('officialSiteUrl', e.target.value)}
+                  placeholder="https://..."
+                />
+              </FormField>
+              <FormField label="Source URL (used for AI citations)">
+                <Input
+                  value={form.sourceUrl}
+                  onChange={(e) => updateForm('sourceUrl', e.target.value)}
+                  placeholder="https://..."
+                />
+              </FormField>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Field label="Source Date">
-                <input type="date" className={inputClass} value={form.sourceDate} onChange={(e) => updateForm('sourceDate', e.target.value)} />
-              </Field>
-              <Field label="Verified On">
-                <input type="date" className={inputClass} value={form.verifiedAt} onChange={(e) => updateForm('verifiedAt', e.target.value)} />
-              </Field>
-              <Field label="Verified By">
-                <input className={inputClass} value={form.verifiedBy} onChange={(e) => updateForm('verifiedBy', e.target.value)} />
-              </Field>
+              <FormField label="Source Date">
+                <DatePicker
+                  date={form.sourceDate}
+                  onChange={(val) => updateForm('sourceDate', val)}
+                  placeholder="Source date"
+                />
+              </FormField>
+              <FormField label="Verified On">
+                <DatePicker
+                  date={form.verifiedAt}
+                  onChange={(val) => updateForm('verifiedAt', val)}
+                  placeholder="Verified date"
+                />
+              </FormField>
+              <FormField label="Verified By">
+                <Input
+                  value={form.verifiedBy}
+                  onChange={(e) => updateForm('verifiedBy', e.target.value)}
+                />
+              </FormField>
             </div>
           </div>
 
@@ -884,23 +1015,47 @@ export default function NoticesPage() {
   );
 }
 
-const inputClass =
-  'w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-xs focus:outline-hidden focus:ring-2 focus:ring-[#A30B0B]';
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function FormField({
+  label,
+  required,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <label className="block space-y-1">
-      <span className="block text-[11px] font-bold text-slate-700 dark:text-slate-300">{label}</span>
+    <div className="space-y-1.5">
+      <Label required={required} className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+        {label}
+      </Label>
       {children}
-    </label>
+    </div>
   );
 }
 
-function CheckField({ label, checked, onChange }: { label: string; checked: boolean; onChange: (value: boolean) => void }) {
+function FormCheckbox({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: (value: boolean) => void;
+}) {
   return (
-    <label className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer h-[38px] self-end">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="accent-[#A30B0B]" />
-      {label}
-    </label>
+    <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-input bg-background text-xs font-semibold text-foreground h-9 self-end">
+      <Checkbox
+        id={`notice-check-${label.toLowerCase()}`}
+        checked={checked}
+        onCheckedChange={(val) => onChange(Boolean(val))}
+      />
+      <label
+        htmlFor={`notice-check-${label.toLowerCase()}`}
+        className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none"
+      >
+        {label}
+      </label>
+    </div>
   );
 }

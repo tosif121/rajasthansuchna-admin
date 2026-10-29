@@ -5,6 +5,10 @@ import { AdminHeader } from "@/components/layout/AdminHeader";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -69,9 +73,6 @@ interface TestForm {
   questions: McqQuestion[];
 }
 
-const inputClass =
-  "w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-900 dark:text-white outline-none focus:border-[#A30B0B] focus:ring-1 focus:ring-[#A30B0B]/30";
-
 const emptyOptions = (): McqOption[] => [
   { hi: "", en: "" },
   { hi: "", en: "" },
@@ -98,12 +99,12 @@ const emptyForm = (): TestForm => ({
   questions: [emptyQuestion()],
 });
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function FormField({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="block space-y-1.5">
-      <span className="text-[11px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">{label}</span>
+    <div className="space-y-1.5">
+      <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">{label}</Label>
       {children}
-    </label>
+    </div>
   );
 }
 
@@ -428,36 +429,58 @@ export default function McqTestsPage() {
 
           <div className="space-y-4 py-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Field label="Title (English) *">
-                <input className={inputClass} value={form.titleEn} onChange={(e) => setForm((prev) => ({ ...prev, titleEn: e.target.value }))} placeholder="Rajasthan GK - Set 1" />
-              </Field>
-              <Field label="Title (Hindi) *">
-                <input className={inputClass} value={form.titleHi} onChange={(e) => setForm((prev) => ({ ...prev, titleHi: e.target.value }))} placeholder="राजस्थान सामान्य ज्ञान - सेट 1" />
-              </Field>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Field label="Description (English)">
-                <textarea rows={2} className={inputClass} value={form.descriptionEn} onChange={(e) => setForm((prev) => ({ ...prev, descriptionEn: e.target.value }))} />
-              </Field>
-              <Field label="Description (Hindi)">
-                <textarea rows={2} className={inputClass} value={form.descriptionHi} onChange={(e) => setForm((prev) => ({ ...prev, descriptionHi: e.target.value }))} />
-              </Field>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Field label="Duration (minutes)">
-                <input type="number" min={1} className={inputClass} value={form.durationMinutes} onChange={(e) => setForm((prev) => ({ ...prev, durationMinutes: e.target.value }))} />
-              </Field>
-              <label className="flex items-center gap-2 pt-6 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                <input
-                  type="checkbox"
-                  checked={form.isActive}
-                  onChange={(e) => setForm((prev) => ({ ...prev, isActive: e.target.checked }))}
-                  className="h-4 w-4 accent-[#A30B0B]"
+              <FormField label="Title (English) *">
+                <Input
+                  value={form.titleEn}
+                  onChange={(e) => setForm((prev) => ({ ...prev, titleEn: e.target.value }))}
+                  placeholder="Rajasthan GK - Set 1"
                 />
-                Active (show in mobile app)
-              </label>
+              </FormField>
+              <FormField label="Title (Hindi) *">
+                <Input
+                  value={form.titleHi}
+                  onChange={(e) => setForm((prev) => ({ ...prev, titleHi: e.target.value }))}
+                  placeholder="राजस्थान सामान्य ज्ञान - सेट 1"
+                />
+              </FormField>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <FormField label="Description (English)">
+                <Textarea
+                  rows={2}
+                  value={form.descriptionEn}
+                  onChange={(e) => setForm((prev) => ({ ...prev, descriptionEn: e.target.value }))}
+                />
+              </FormField>
+              <FormField label="Description (Hindi)">
+                <Textarea
+                  rows={2}
+                  value={form.descriptionHi}
+                  onChange={(e) => setForm((prev) => ({ ...prev, descriptionHi: e.target.value }))}
+                />
+              </FormField>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+              <FormField label="Duration (minutes)">
+                <Input
+                  type="number"
+                  min={1}
+                  value={form.durationMinutes}
+                  onChange={(e) => setForm((prev) => ({ ...prev, durationMinutes: e.target.value }))}
+                />
+              </FormField>
+              <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-input bg-background h-9">
+                <Checkbox
+                  id="mcq-active"
+                  checked={form.isActive}
+                  onCheckedChange={(val) => setForm((prev) => ({ ...prev, isActive: Boolean(val) }))}
+                />
+                <label htmlFor="mcq-active" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none">
+                  Active (show in mobile app)
+                </label>
+              </div>
             </div>
 
             <div className="space-y-4 border-t border-slate-200 dark:border-slate-800 pt-4">
@@ -489,12 +512,20 @@ export default function McqTestsPage() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Field label="Question (English)">
-                      <textarea rows={2} className={inputClass} value={question.questionEn} onChange={(e) => updateQuestion(questionIndex, "questionEn", e.target.value)} />
-                    </Field>
-                    <Field label="Question (Hindi)">
-                      <textarea rows={2} className={inputClass} value={question.questionHi} onChange={(e) => updateQuestion(questionIndex, "questionHi", e.target.value)} />
-                    </Field>
+                    <FormField label="Question (English)">
+                      <Textarea
+                        rows={2}
+                        value={question.questionEn}
+                        onChange={(e) => updateQuestion(questionIndex, "questionEn", e.target.value)}
+                      />
+                    </FormField>
+                    <FormField label="Question (Hindi)">
+                      <Textarea
+                        rows={2}
+                        value={question.questionHi}
+                        onChange={(e) => updateQuestion(questionIndex, "questionHi", e.target.value)}
+                      />
+                    </FormField>
                   </div>
 
                   <div className="space-y-2">
@@ -506,22 +537,36 @@ export default function McqTestsPage() {
                           name={`correct-${questionIndex}`}
                           checked={question.correctOption === optionIndex}
                           onChange={() => updateQuestion(questionIndex, "correctOption", optionIndex)}
-                          className="h-4 w-4 accent-[#A30B0B]"
+                          className="h-4 w-4 accent-[#A30B0B] cursor-pointer"
                           title="Mark as correct answer"
                         />
-                        <input className={inputClass} value={option.en} onChange={(e) => updateOption(questionIndex, optionIndex, "en", e.target.value)} placeholder={`Option ${optionIndex + 1} (English)`} />
-                        <input className={inputClass} value={option.hi} onChange={(e) => updateOption(questionIndex, optionIndex, "hi", e.target.value)} placeholder={`विकल्प ${optionIndex + 1} (Hindi)`} />
+                        <Input
+                          value={option.en}
+                          onChange={(e) => updateOption(questionIndex, optionIndex, "en", e.target.value)}
+                          placeholder={`Option ${optionIndex + 1} (English)`}
+                        />
+                        <Input
+                          value={option.hi}
+                          onChange={(e) => updateOption(questionIndex, optionIndex, "hi", e.target.value)}
+                          placeholder={`विकल्प ${optionIndex + 1} (Hindi)`}
+                        />
                       </div>
                     ))}
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Field label="Explanation (English)">
-                      <input className={inputClass} value={question.explanationEn} onChange={(e) => updateQuestion(questionIndex, "explanationEn", e.target.value)} />
-                    </Field>
-                    <Field label="Explanation (Hindi)">
-                      <input className={inputClass} value={question.explanationHi} onChange={(e) => updateQuestion(questionIndex, "explanationHi", e.target.value)} />
-                    </Field>
+                    <FormField label="Explanation (English)">
+                      <Input
+                        value={question.explanationEn}
+                        onChange={(e) => updateQuestion(questionIndex, "explanationEn", e.target.value)}
+                      />
+                    </FormField>
+                    <FormField label="Explanation (Hindi)">
+                      <Input
+                        value={question.explanationHi}
+                        onChange={(e) => updateQuestion(questionIndex, "explanationHi", e.target.value)}
+                      />
+                    </FormField>
                   </div>
                 </div>
               ))}
