@@ -149,8 +149,8 @@ export default function NotificationsPage() {
           title: formData.title,
           message: formData.message,
           type: formData.type,
-          vacancyId: formData.noticeId || "vac_01",
-          vacancySlug: formData.noticeSlug || "sample-slug",
+          vacancyId: formData.noticeId || "",
+          vacancySlug: formData.noticeSlug || "",
           agencyName: formData.agencyName,
         }),
       });
@@ -395,7 +395,7 @@ export default function NotificationsPage() {
 
       {/* shadcn Dialog: Broadcast Push Notification */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-xl max-h-[92vh] overflow-y-auto p-6">
+        <DialogContent className="max-w-2xl! max-h-[92vh] overflow-y-auto p-6">
           <DialogHeader className="pb-4 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 flex items-center justify-center text-[#A30B0B]">

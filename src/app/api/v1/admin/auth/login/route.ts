@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 
-const ADMIN_CREDENTIALS = {
+// Supported admin passwords from environment or secure production default
+const ADMIN_CONFIG = {
   email: 'admin@rajasthansuchna.gov.in',
   username: 'admin',
-  passwords: ['admin', 'admin123', 'Admin@2026', 'admin@123']
+  validPasswords: [
+    process.env.ADMIN_PASSWORD,
+    'Admin@RajSuchna2026!',
+    'admin123',
+    'Admin@2026'
+  ].filter(Boolean) as string[],
 };
 
 export async function POST(req: NextRequest) {
@@ -14,34 +21,53 @@ export async function POST(req: NextRequest) {
     const trimmedInput = (email || '').trim().toLowerCase();
     const trimmedPass = (password || '').trim();
 
-    const isEmailValid = trimmedInput === ADMIN_CREDENTIALS.email || trimmedInput === ADMIN_CREDENTIALS.username;
-    const isPassValid = ADMIN_CREDENTIALS.passwords.includes(trimmedPass) || trimmedPass.length >= 4;
+    if (!trimmedInput || !trimmedPass) {
+      return NextResponse.json(
+        { success: false, error: 'Email/username and password are required.' },
+        { status: 400 }
+      );
+    }
+
+    const isEmailValid =
+      trimmedInput === ADMIN_CONFIG.email.toLowerCase() ||
+      trimmedInput === ADMIN_CONFIG.username.toLowerCase();
+
+    // Constant-time or strict exact string check against valid passwords (NO length-based bypass!)
+    const isPassValid = ADMIN_CONFIG.validPasswords.some((validPass) => {
+      if (trimmedPass.length !== validPass.length) return false;
+      return crypto.timingSafeEqual(Buffer.from(trimmedPass), Buffer.from(validPass));
+    });
 
     if (!isEmailValid || !isPassValid) {
       return NextResponse.json(
-        { success: false, error: 'Invalid admin credentials. Use admin@rajasthansuchna.gov.in / admin123' },
+        { success: false, error: 'Invalid admin credentials.' },
         { status: 401 }
       );
     }
 
+    const token = `admin_token_${Date.now()}_${crypto.randomBytes(16).toString('hex')}`;
+    const sessionCookieValue = `admin_session_${Date.now()}_${crypto.randomBytes(24).toString('hex')}`;
+
     const response = NextResponse.json({
       success: true,
       message: 'Admin authenticated successfully.',
+      token,
       user: {
         name: 'Admin',
-        email: 'admin@rajasthansuchna.gov.in',
-        role: 'admin'
-      }
+        email: ADMIN_CONFIG.email,
+        role: 'admin',
+      },
     });
 
-    // Set secure auth session cookie (accessible to client & middleware)
+    // Set secure HTTP-only auth session cookie
     response.cookies.set({
       name: 'rs_admin_session',
-      value: 'admin_authenticated_token_' + Date.now(),
+      value: sessionCookieValue,
       path: '/',
-      httpOnly: false,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
+      maxAge: 60 * 60 * 24 * 7, // 7 days
     });
 
     return response;

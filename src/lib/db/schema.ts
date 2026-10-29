@@ -1,32 +1,7 @@
-import { pgTable, uuid, text, boolean, integer, timestamp, date, jsonb, index, uniqueIndex } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, boolean, integer, timestamp, jsonb, index, uniqueIndex } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-// 1. Admin Users & Roles
-export const adminUsers = pgTable('admin_users', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  authSubject: text('auth_subject'),
-  name: text('name').notNull(),
-  email: text('email').notNull().unique(),
-  passwordHash: text('password_hash').notNull(),
-  isActive: boolean('is_active').default(true).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-});
-
-export const adminRoles = pgTable('admin_roles', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name').notNull().unique(), // 'administrator' | 'editor' | 'reviewer' | 'publisher'
-  description: text('description'),
-});
-
-export const adminUserRoles = pgTable('admin_user_roles', {
-  userId: uuid('user_id').notNull().references(() => adminUsers.id, { onDelete: 'cascade' }),
-  roleId: uuid('role_id').notNull().references(() => adminRoles.id, { onDelete: 'cascade' }),
-}, (table) => ({
-  pk: uniqueIndex('admin_user_roles_pk').on(table.userId, table.roleId),
-}));
-
-// 2. Agencies
+// 1. Agencies
 export const agencies = pgTable('agencies', {
   id: uuid('id').primaryKey().defaultRandom(),
   slug: text('slug').notNull().unique(),
@@ -40,7 +15,7 @@ export const agencies = pgTable('agencies', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
-// 3. Categories
+// 2. Categories
 export const categories = pgTable('categories', {
   id: uuid('id').primaryKey().defaultRandom(),
   slug: text('slug').notNull().unique(),
@@ -52,7 +27,7 @@ export const categories = pgTable('categories', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
-// 4. Notices
+// 3. Notices
 export const notices = pgTable('notices', {
   id: uuid('id').primaryKey().defaultRandom(),
   slug: text('slug').notNull().unique(),
@@ -75,7 +50,7 @@ export const notices = pgTable('notices', {
   categoryIdx: index('notices_category_idx').on(table.categoryId),
 }));
 
-// 5. Notice Revisions (Immutable Snapshots)
+// 4. Notice Revisions (Immutable Snapshots)
 export const noticeRevisions = pgTable('notice_revisions', {
   id: uuid('id').primaryKey().defaultRandom(),
   noticeId: uuid('notice_id').notNull().references(() => notices.id, { onDelete: 'cascade' }),
@@ -88,59 +63,47 @@ export const noticeRevisions = pgTable('notice_revisions', {
   sectionsJson: jsonb('sections_json').notNull(), // Array of ArticleSection
   linksJson: jsonb('links_json').notNull(), // Array of OfficialLink
   revisionNotes: text('revision_notes'),
-  createdBy: uuid('created_by').references(() => adminUsers.id),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 }, (table) => ({
   noticeRevisionIdx: uniqueIndex('notice_revision_unique').on(table.noticeId, table.revisionNumber),
 }));
 
-// 6. Structured Dates for Notice Deadlines
-export const noticeDates = pgTable('notice_dates', {
+// 6. MCQ Tests
+export const mcqTests = pgTable('mcq_tests', {
   id: uuid('id').primaryKey().defaultRandom(),
-  revisionId: uuid('revision_id').notNull().references(() => noticeRevisions.id, { onDelete: 'cascade' }),
-  dateType: text('date_type').notNull(), // 'applicationStart' | 'applicationEnd' | 'feeEndDate' | 'examDate'
-  eventDate: date('event_date').notNull(),
-  timezone: text('timezone').default('Asia/Kolkata').notNull(),
-});
-
-// 7. Official Document Attachments
-export const documents = pgTable('documents', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  storageKey: text('storage_key').notNull(),
-  fileName: text('file_name').notNull(),
-  mimeType: text('mime_type').notNull(),
-  sizeBytes: integer('size_bytes').notNull(),
-  checksum: text('checksum'),
-  visibility: text('visibility').default('public').notNull(),
-  uploadedBy: uuid('uploaded_by').references(() => adminUsers.id),
+  slug: text('slug').notNull().unique(),
+  titleHi: text('title_hi').notNull(),
+  titleEn: text('title_en').notNull(),
+  descriptionHi: text('description_hi').default('').notNull(),
+  descriptionEn: text('description_en').default('').notNull(),
+  durationMinutes: integer('duration_minutes').default(10).notNull(),
+  isActive: boolean('is_active').default(true).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
-// 8. Workflow Events
-export const workflowEvents = pgTable('workflow_events', {
+// 7. MCQ Questions
+export const mcqQuestions = pgTable('mcq_questions', {
   id: uuid('id').primaryKey().defaultRandom(),
-  noticeId: uuid('notice_id').notNull().references(() => notices.id, { onDelete: 'cascade' }),
-  revisionId: uuid('revision_id').references(() => noticeRevisions.id),
-  actorId: uuid('actor_id').references(() => adminUsers.id),
-  action: text('action').notNull(), // 'created_draft' | 'submitted_review' | 'changes_requested' | 'approved' | 'published' | 'archived'
-  reason: text('reason'),
+  testId: uuid('test_id').notNull().references(() => mcqTests.id, { onDelete: 'cascade' }),
+  questionHi: text('question_hi').notNull(),
+  questionEn: text('question_en').notNull(),
+  optionsJson: jsonb('options_json').notNull(),
+  correctOption: integer('correct_option').default(0).notNull(),
+  explanationHi: text('explanation_hi').default('').notNull(),
+  explanationEn: text('explanation_en').default('').notNull(),
+  orderIndex: integer('order_index').default(0).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 }, (table) => ({
-  noticeWorkflowIdx: index('workflow_notice_idx').on(table.noticeId),
+  mcqTestIdx: index('mcq_questions_test_idx').on(table.testId),
 }));
 
-// 9. Audit Logs
-export const auditLogs = pgTable('audit_logs', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  actorId: uuid('actor_id').references(() => adminUsers.id),
-  action: text('action').notNull(),
-  entityType: text('entity_type').notNull(),
-  entityId: text('entity_id').notNull(),
-  metadataJson: jsonb('metadata_json'),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-}, (table) => ({
-  entityIdx: index('audit_entity_idx').on(table.entityType, table.entityId),
-  createdIdx: index('audit_created_idx').on(table.createdAt),
+export const mcqTestsRelations = relations(mcqTests, ({ many }) => ({
+  questions: many(mcqQuestions),
+}));
+
+export const mcqQuestionsRelations = relations(mcqQuestions, ({ one }) => ({
+  test: one(mcqTests, { fields: [mcqQuestions.testId], references: [mcqTests.id] }),
 }));
 
 // Relations
@@ -148,16 +111,13 @@ export const noticesRelations = relations(notices, ({ one, many }) => ({
   agency: one(agencies, { fields: [notices.agencyId], references: [agencies.id] }),
   category: one(categories, { fields: [notices.categoryId], references: [categories.id] }),
   revisions: many(noticeRevisions),
-  workflowEvents: many(workflowEvents),
 }));
 
-export const revisionsRelations = relations(noticeRevisions, ({ one, many }) => ({
+export const revisionsRelations = relations(noticeRevisions, ({ one }) => ({
   notice: one(notices, { fields: [noticeRevisions.noticeId], references: [notices.id] }),
-  creator: one(adminUsers, { fields: [noticeRevisions.createdBy], references: [adminUsers.id] }),
-  dates: many(noticeDates),
 }));
 
-// 10. Notifications (Broadcast & Push)
+// 5. Notifications (Broadcast & Push)
 export const notifications = pgTable('notifications', {
   id: uuid('id').primaryKey().defaultRandom(),
   title: text('title').notNull(),
@@ -169,3 +129,16 @@ export const notifications = pgTable('notifications', {
   sentAt: timestamp('sent_at', { withTimezone: true }).defaultNow().notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
+
+// 6. Push Devices (Registered device tokens)
+export const pushDevices = pgTable('push_devices', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull(),
+  token: text('token').notNull().unique(),
+  platform: text('platform').default('android').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  lastSeenAt: timestamp('last_seen_at', { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index('idx_push_devices_user_id').on(table.userId),
+}));

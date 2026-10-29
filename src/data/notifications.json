@@ -8,8 +8,7 @@
     "agencyName": "RSSB Jaipur",
     "type": "newVacancy",
     "createdAt": "2026-10-25T18:13:29.026Z",
-    "sentAt": "2026-10-25T18:13:29.026Z",
-    "fcmStatus": "skipped_no_credentials"
+    "sentAt": "2026-10-25T18:13:29.026Z"
   },
   {
     "id": "c9dadcf6-13b9-4944-868e-b6536bcff586",
@@ -23,43 +22,23 @@
     "sentAt": "2026-10-25T18:07:47.177Z"
   },
   {
-    "id": "notif_init_1",
+    "id": "notif_patwari_2026",
     "title": "Rajasthan Patwari Recruitment 2026: 2,998 Posts Notification Released",
     "message": "Revenue Department of Rajasthan invites online applications for 2,998 Patwari posts. Check full eligibility and syllabus.",
-    "vacancyId": "vac_patwari",
-    "vacancySlug": "rajasthan-patwari-recruitment-sample",
+    "vacancyId": "vac_patwari_2026",
+    "vacancySlug": "rajasthan-patwari-recruitment-2026",
     "agencyName": "RSSB Jaipur",
     "type": "newVacancy",
     "createdAt": "2026-10-24T21:06:38.700Z"
   },
   {
-    "id": "notif_init_2",
-    "title": "Rajasthan 4th Grade Recruitment 2026: Online Portal Active",
-    "message": "Online registration portal has opened for 4th grade positions across Rajasthan government departments.",
-    "vacancyId": "vac_01",
-    "vacancySlug": "rajasthan-4th-grade-recruitment-sample",
-    "agencyName": "RSSB Portal",
-    "type": "newVacancy",
-    "createdAt": "2026-10-24T20:06:38.700Z"
-  },
-  {
-    "id": "notif_init_3",
-    "title": "RPSC RAS/RTS 2026: Preliminary Exam Admit Cards Released",
-    "message": "E-Admit cards for Rajasthan State and Subordinate Services (RAS Pre 2026) are now available for download.",
-    "vacancyId": "vac_03",
-    "vacancySlug": "rpsc-ras-rts-exam-sample",
+    "id": "notif_ras_2026",
+    "title": "RPSC RAS / RTS Exam 2026: Official Notification & Exam Scheme",
+    "message": "Rajasthan State and Subordinate Combined Competitive Services Examination 2026 notification published by RPSC Ajmer.",
+    "vacancyId": "vac_ras_2026",
+    "vacancySlug": "rpsc-ras-rts-exam-2026",
     "agencyName": "RPSC Ajmer",
-    "type": "admitCard",
+    "type": "newVacancy",
     "createdAt": "2026-10-24T19:06:38.700Z"
-  },
-  {
-    "id": "notif_init_4",
-    "title": "Rajasthan Police Constable Recruitment: Application Deadline Approaching",
-    "message": "Only 3 days remaining to submit online applications for Rajasthan Police Constable vacancies. Complete registration before portal closes.",
-    "vacancyId": "vac_04",
-    "vacancySlug": "rajasthan-police-constable-sample",
-    "agencyName": "Rajasthan Police",
-    "type": "closingSoon",
-    "createdAt": "2026-10-24T17:06:38.700Z"
   }
 ]

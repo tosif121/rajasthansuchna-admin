@@ -38,11 +38,20 @@ if (!fs.existsSync(seedDataPath)) {
 
 const seedData = JSON.parse(fs.readFileSync(seedDataPath, 'utf-8'));
 const { agencies, categories, vacancies } = seedData;
+const seedSampleNotices = process.env.SEED_SAMPLE_NOTICES === 'true';
+const seedableVacancies = seedSampleNotices
+  ? vacancies
+  : vacancies.filter((v) => !/sample/i.test(`${v.titleEn || ''} ${v.titleHi || ''} ${v.slug || ''}`));
+
+const mcqSeedPath = path.join(rootDir, 'src', 'data', 'mcq-tests.json');
+const mcqTests = fs.existsSync(mcqSeedPath)
+  ? JSON.parse(fs.readFileSync(mcqSeedPath, 'utf-8'))
+  : [];
 
 console.log(`📦 Loaded seed data:`);
 console.log(`   - ${agencies.length} Government Agencies`);
 console.log(`   - ${categories.length} Categories`);
-console.log(`   - ${vacancies.length} Recruitment Vacancies`);
+console.log(`   - ${seedableVacancies.length} Recruitment Vacancies (sample notices ${seedSampleNotices ? 'enabled' : 'skipped'})`);
 
 if (!databaseUrl || databaseUrl.includes('ep-sample')) {
   console.log('\n⚠️  NO VALID NEON DATABASE_URL FOUND');
@@ -62,19 +71,6 @@ async function runSeed() {
   try {
     // Step 1: Create tables if not exists
     console.log('\n🔨 Step 1: Creating database schema tables...');
-
-    await sql`
-      CREATE TABLE IF NOT EXISTS admin_users (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        auth_subject TEXT,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL,
-        is_active BOOLEAN DEFAULT true NOT NULL,
-        created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-        updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
-      );
-    `;
 
     await sql`
       CREATE TABLE IF NOT EXISTS agencies (
@@ -123,6 +119,36 @@ async function runSeed() {
     `;
 
     await sql`
+      CREATE TABLE IF NOT EXISTS mcq_tests (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        slug TEXT NOT NULL UNIQUE,
+        title_hi TEXT NOT NULL,
+        title_en TEXT NOT NULL,
+        description_hi TEXT DEFAULT '' NOT NULL,
+        description_en TEXT DEFAULT '' NOT NULL,
+        duration_minutes INTEGER DEFAULT 10 NOT NULL,
+        is_active BOOLEAN DEFAULT true NOT NULL,
+        created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+        updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
+      );
+    `;
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS mcq_questions (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        test_id UUID NOT NULL REFERENCES mcq_tests(id) ON DELETE CASCADE,
+        question_hi TEXT NOT NULL,
+        question_en TEXT NOT NULL,
+        options_json JSONB NOT NULL,
+        correct_option INTEGER DEFAULT 0 NOT NULL,
+        explanation_hi TEXT DEFAULT '' NOT NULL,
+        explanation_en TEXT DEFAULT '' NOT NULL,
+        order_index INTEGER DEFAULT 0 NOT NULL,
+        created_at TIMESTAMPTZ DEFAULT now() NOT NULL
+      );
+    `;
+
+    await sql`
       CREATE TABLE IF NOT EXISTS notice_revisions (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         notice_id UUID NOT NULL REFERENCES notices(id) ON DELETE CASCADE,
@@ -135,51 +161,15 @@ async function runSeed() {
         sections_json JSONB NOT NULL,
         links_json JSONB NOT NULL,
         revision_notes TEXT,
-        created_by UUID REFERENCES admin_users(id),
         created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
         CONSTRAINT notice_revision_unique UNIQUE (notice_id, revision_number)
       );
     `;
 
-    await sql`
-      CREATE TABLE IF NOT EXISTS notice_dates (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        revision_id UUID NOT NULL REFERENCES notice_revisions(id) ON DELETE CASCADE,
-        date_type TEXT NOT NULL,
-        event_date DATE NOT NULL,
-        timezone TEXT DEFAULT 'Asia/Kolkata' NOT NULL
-      );
-    `;
-
-    await sql`
-      CREATE TABLE IF NOT EXISTS audit_logs (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        actor_id UUID REFERENCES admin_users(id),
-        action TEXT NOT NULL,
-        entity_type TEXT NOT NULL,
-        entity_id TEXT NOT NULL,
-        metadata_json JSONB,
-        created_at TIMESTAMPTZ DEFAULT now() NOT NULL
-      );
-    `;
-
     console.log('   ✓ Schema tables verified and ready.');
 
-    // Step 2: Seed Admin User
-    console.log('\n👤 Step 2: Seeding default Administrator account...');
-    // BCrypt hash for "Admin@2026"
-    const passwordHash = '$2b$10$w81j7b6YcOqP4WqKk/7m/e61v02yqV55Yj2Lq2w4u1bHq0Yj0q1e';
-    const [adminUser] = await sql`
-      INSERT INTO admin_users (name, email, password_hash, is_active)
-      VALUES ('Super Admin', 'admin@rajasthan-suchna.gov.in', ${passwordHash}, true)
-      ON CONFLICT (email) DO UPDATE SET updated_at = now()
-      RETURNING id;
-    `;
-    const adminId = adminUser.id;
-    console.log(`   ✓ Admin user verified (ID: ${adminId})`);
-
-    // Step 3: Seed Agencies
-    console.log(`\n🏛️ Step 3: Seeding ${agencies.length} agencies...`);
+    // Step 2: Seed Agencies
+    console.log(`\n🏛️ Step 2: Seeding ${agencies.length} agencies...`);
     const agencyMap = {};
     for (const a of agencies) {
       const parentGroup = a.parentGroup === 'central' ? 'central' : 'rajasthan';
@@ -191,20 +181,22 @@ async function runSeed() {
           ${a.nameEn},
           ${a.id.toUpperCase()},
           ${parentGroup},
-          'https://rajasthan.gov.in',
+          ${a.officialUrl || 'https://rajasthan.gov.in'},
           true
         )
         ON CONFLICT (slug) DO UPDATE SET
           name_hi = EXCLUDED.name_hi,
-          name_en = EXCLUDED.name_en
+          name_en = EXCLUDED.name_en,
+          parent_group = EXCLUDED.parent_group,
+          official_url = EXCLUDED.official_url
         RETURNING id, slug;
       `;
       agencyMap[inserted.slug] = inserted.id;
     }
     console.log(`   ✓ Inserted/Updated ${Object.keys(agencyMap).length} agencies.`);
 
-    // Step 4: Seed Categories
-    console.log(`\n📂 Step 4: Seeding ${categories.length} categories...`);
+    // Step 3: Seed Categories
+    console.log(`\n📂 Step 3: Seeding ${categories.length} categories...`);
     const categoryMap = {};
     for (const c of categories) {
       const [inserted] = await sql`
@@ -223,10 +215,10 @@ async function runSeed() {
     }
     console.log(`   ✓ Inserted/Updated ${Object.keys(categoryMap).length} categories.`);
 
-    // Step 5: Seed Vacancies & Revisions
-    console.log(`\n📄 Step 5: Seeding ${vacancies.length} recruitment notices and revisions...`);
+    // Step 4: Seed Vacancies & Revisions
+    console.log(`\n📄 Step 4: Seeding ${seedableVacancies.length} recruitment notices and revisions...`);
     let noticeCount = 0;
-    for (const v of vacancies) {
+    for (const v of seedableVacancies) {
       const agencyId = agencyMap[v.agencyId] || agencyMap['rssb'] || Object.values(agencyMap)[0];
       const categoryId = categoryMap[v.categoryId] || categoryMap['all'] || Object.values(categoryMap)[0];
 
@@ -263,7 +255,7 @@ async function runSeed() {
       const [rev] = await sql`
         INSERT INTO notice_revisions (
           notice_id, revision_number, title_hi, title_en, summary_hi, summary_en,
-          facts_json, sections_json, links_json, revision_notes, created_by
+          facts_json, sections_json, links_json, revision_notes
         )
         VALUES (
           ${notice.id},
@@ -275,8 +267,7 @@ async function runSeed() {
           ${JSON.stringify(v.facts || {})},
           ${JSON.stringify(v.sections || [])},
           ${JSON.stringify(v.links || [])},
-          'Initial import from verified government releases',
-          ${adminId}
+          'Initial import from verified government releases'
         )
         ON CONFLICT (notice_id, revision_number) DO UPDATE SET
           title_hi = EXCLUDED.title_hi,
@@ -298,6 +289,47 @@ async function runSeed() {
     }
 
     console.log(`   ✓ Successfully seeded ${noticeCount} notices into Neon DB!`);
+
+    console.log(`\n📝 Step 5: Seeding ${mcqTests.length} MCQ tests...`);
+    for (const test of mcqTests) {
+      const [savedTest] = await sql`
+        INSERT INTO mcq_tests (
+          slug, title_hi, title_en, description_hi, description_en,
+          duration_minutes, is_active, updated_at
+        )
+        VALUES (
+          ${test.slug}, ${test.titleHi}, ${test.titleEn},
+          ${test.descriptionHi || ''}, ${test.descriptionEn || ''},
+          ${test.durationMinutes || 10}, ${test.isActive !== false}, now()
+        )
+        ON CONFLICT (slug) DO UPDATE SET
+          title_hi = EXCLUDED.title_hi,
+          title_en = EXCLUDED.title_en,
+          description_hi = EXCLUDED.description_hi,
+          description_en = EXCLUDED.description_en,
+          duration_minutes = EXCLUDED.duration_minutes,
+          is_active = EXCLUDED.is_active,
+          updated_at = now()
+        RETURNING id;
+      `;
+
+      await sql`DELETE FROM mcq_questions WHERE test_id = ${savedTest.id};`;
+      for (let index = 0; index < (test.questions || []).length; index++) {
+        const question = test.questions[index];
+        await sql`
+          INSERT INTO mcq_questions (
+            test_id, question_hi, question_en, options_json, correct_option,
+            explanation_hi, explanation_en, order_index
+          )
+          VALUES (
+            ${savedTest.id}, ${question.questionHi}, ${question.questionEn},
+            ${JSON.stringify(question.options || [])}, ${question.correctOption || 0},
+            ${question.explanationHi || ''}, ${question.explanationEn || ''}, ${index}
+          );
+        `;
+      }
+    }
+    console.log(`   ✓ Successfully seeded ${mcqTests.length} MCQ tests!`);
 
     console.log('\n' + '='.repeat(60));
     console.log('🎉 SEED COMPLETED SUCCESSFULLY!');

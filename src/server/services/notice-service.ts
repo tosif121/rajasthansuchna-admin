@@ -58,7 +58,57 @@ export interface AdminNoticeRecord {
   editorId: string;
   editorName: string;
   publishedAt?: string;
+  expiresAt?: string;
+  isFeatured: boolean;
+  isBreaking: boolean;
+  revisionNotes?: string;
   updatedAt: string;
+}
+
+interface SeedVacancy {
+  id: string;
+  slug: string;
+  titleHi?: string;
+  titleEn?: string;
+  agencyId?: string;
+  categoryId?: string;
+  state?: string;
+  type?: string;
+  summaryHi?: string;
+  summaryEn?: string;
+  facts?: FlutterRecruitmentFacts;
+  sections?: FlutterArticleSection[];
+  links?: FlutterOfficialLink[];
+  publishedAt?: string;
+  expiresAt?: string;
+  isFeatured?: boolean;
+  isBreaking?: boolean;
+  updatedAt?: string;
+}
+
+interface NoticeRow {
+  id: string;
+  slug: string;
+  titleHi?: string | null;
+  titleEn?: string | null;
+  agencyId?: string;
+  agencyName?: string | null;
+  categoryId: string;
+  categoryName?: string | null;
+  state?: string | null;
+  noticeType?: string | null;
+  status?: string | null;
+  revisionNumber?: number | null;
+  summaryHi?: string | null;
+  summaryEn?: string | null;
+  facts?: FlutterRecruitmentFacts | null;
+  sections?: FlutterArticleSection[] | null;
+  links?: FlutterOfficialLink[] | null;
+  publishedAt?: string | Date | null;
+  expiresAt?: string | Date | null;
+  isFeatured?: boolean | null;
+  isBreaking?: boolean | null;
+  updatedAt?: string | Date | null;
 }
 
 function initMemoryNotices(): AdminNoticeRecord[] {
@@ -67,12 +117,14 @@ function initMemoryNotices(): AdminNoticeRecord[] {
     if (fs.existsSync(seedPath)) {
       const data = JSON.parse(fs.readFileSync(seedPath, "utf8"));
       if (Array.isArray(data.vacancies)) {
-        return data.vacancies.map((v: any) => ({
+        return data.vacancies
+          .filter((v: SeedVacancy) => !/sample/i.test(`${v.titleEn || ''} ${v.titleHi || ''} ${v.slug || ''}`))
+          .map((v: SeedVacancy) => ({
           id: v.id,
           slug: v.slug,
           titleHi: v.titleHi,
           titleEn: v.titleEn,
-          agencyId: v.agencyId,
+          agencyId: v.agencyId || "",
           agencyName: (v.agencyId || "").toUpperCase(),
           categoryId: v.categoryId,
           categoryName: v.categoryId || "General",
@@ -82,12 +134,15 @@ function initMemoryNotices(): AdminNoticeRecord[] {
           revisionNumber: 1,
           summaryHi: v.summaryHi || "",
           summaryEn: v.summaryEn || "",
-          facts: v.facts || {},
+          facts: (v.facts || {}) as FlutterRecruitmentFacts,
           sections: v.sections || [],
           links: v.links || [],
           editorId: "admin",
           editorName: "Administrator",
           publishedAt: v.publishedAt,
+          expiresAt: v.expiresAt,
+          isFeatured: Boolean(v.isFeatured),
+          isBreaking: Boolean(v.isBreaking),
           updatedAt: v.updatedAt || v.publishedAt || new Date().toISOString(),
         }));
       }
@@ -98,7 +153,7 @@ function initMemoryNotices(): AdminNoticeRecord[] {
   return [];
 }
 
-let memoryNotices: AdminNoticeRecord[] = initMemoryNotices();
+const memoryNotices: AdminNoticeRecord[] = initMemoryNotices();
 
 function getSql() {
   const dbUrl = process.env.DATABASE_URL;
@@ -116,7 +171,9 @@ export class NoticeService {
         const rows = await sql`
           SELECT 
             n.id, n.slug, n.state, n.notice_type as "noticeType", n.status, 
-            n.published_at as "publishedAt", n.updated_at as "updatedAt",
+            n.published_at as "publishedAt", n.expires_at as "expiresAt",
+            n.is_featured as "isFeatured", n.is_breaking as "isBreaking",
+            n.updated_at as "updatedAt",
             a.slug as "agencyId", a.name_en as "agencyName",
             c.slug as "categoryId", c.name_en as "categoryName",
             r.revision_number as "revisionNumber", r.title_hi as "titleHi", r.title_en as "titleEn", 
@@ -128,13 +185,13 @@ export class NoticeService {
           LEFT JOIN notice_revisions r ON r.notice_id = n.id
           ORDER BY n.published_at DESC NULLS LAST, n.created_at DESC;
         `;
-        if (rows && rows.length > 0) {
-          let list: AdminNoticeRecord[] = rows.map((r: any) => ({
+        if (rows) {
+          let list: AdminNoticeRecord[] = (rows as unknown as NoticeRow[]).map((r) => ({
             id: r.id,
             slug: r.slug,
             titleHi: r.titleHi || '',
             titleEn: r.titleEn || '',
-            agencyId: r.agencyId,
+            agencyId: r.agencyId || '',
             agencyName: r.agencyName || (r.agencyId || '').toUpperCase(),
             categoryId: r.categoryId,
             categoryName: r.categoryName || r.categoryId,
@@ -144,12 +201,15 @@ export class NoticeService {
             revisionNumber: r.revisionNumber || 1,
             summaryHi: r.summaryHi || '',
             summaryEn: r.summaryEn || '',
-            facts: r.facts || {},
+            facts: (r.facts || {}) as unknown as FlutterRecruitmentFacts,
             sections: r.sections || [],
             links: r.links || [],
             editorId: 'admin',
             editorName: 'Administrator',
             publishedAt: r.publishedAt ? new Date(r.publishedAt).toISOString() : undefined,
+            expiresAt: r.expiresAt ? new Date(r.expiresAt).toISOString() : undefined,
+            isFeatured: Boolean(r.isFeatured),
+            isBreaking: Boolean(r.isBreaking),
             updatedAt: r.updatedAt ? new Date(r.updatedAt).toISOString() : new Date().toISOString(),
           }));
 
@@ -193,7 +253,7 @@ export class NoticeService {
 
   static async getNoticeBySlug(slug: string): Promise<AdminNoticeRecord | null> {
     const list = await this.getNotices();
-    return list.find((n) => n.slug === slug) || null;
+    return list.find((n) => n.slug === slug || n.id === slug) || null;
   }
 
   static async createNotice(data: Partial<AdminNoticeRecord>, actorId: string = 'admin', actorName: string = 'Admin'): Promise<AdminNoticeRecord> {
@@ -231,6 +291,9 @@ export class NoticeService {
       editorId: actorId,
       editorName: actorName,
       publishedAt: new Date().toISOString(),
+      expiresAt: data.expiresAt,
+      isFeatured: Boolean(data.isFeatured),
+      isBreaking: Boolean(data.isBreaking),
       updatedAt: new Date().toISOString()
     };
 
@@ -244,8 +307,15 @@ export class NoticeService {
 
         if (agencyDbId && catDbId) {
           const [insertedNotice] = await sql`
-            INSERT INTO notices (slug, agency_id, category_id, state, notice_type, status, published_at)
-            VALUES (${newRecord.slug}, ${agencyDbId}, ${catDbId}, ${newRecord.state}, ${newRecord.noticeType}, ${newRecord.status}, now())
+            INSERT INTO notices (
+              slug, agency_id, category_id, state, notice_type, status,
+              published_at, expires_at, is_featured, is_breaking
+            )
+            VALUES (
+              ${newRecord.slug}, ${agencyDbId}, ${catDbId}, ${newRecord.state},
+              ${newRecord.noticeType}, ${newRecord.status}, now(),
+              ${newRecord.expiresAt || null}, ${newRecord.isFeatured}, ${newRecord.isBreaking}
+            )
             RETURNING id;
           `;
 
@@ -282,6 +352,110 @@ export class NoticeService {
     });
 
     return newRecord;
+  }
+
+  static async updateNotice(
+    id: string,
+    data: Partial<AdminNoticeRecord>,
+    actorName: string = 'Admin'
+  ): Promise<{ success: boolean; notice?: AdminNoticeRecord; error?: string }> {
+    const notice = await this.getNoticeById(id);
+    if (!notice) return { success: false, error: 'Notice not found.' };
+
+    const merged: AdminNoticeRecord = {
+      ...notice,
+      ...data,
+      id: notice.id,
+      slug: notice.slug,
+      facts: { ...notice.facts, ...(data.facts || {}) },
+      sections: data.sections ?? notice.sections,
+      links: data.links ?? notice.links,
+      status: (data.status as NoticeStatus) || notice.status,
+      noticeType: data.noticeType || notice.noticeType,
+      state: data.state || notice.state,
+      isFeatured: data.isFeatured ?? notice.isFeatured,
+      isBreaking: data.isBreaking ?? notice.isBreaking,
+      expiresAt: data.expiresAt ?? notice.expiresAt,
+      editorId: notice.editorId,
+      editorName: notice.editorName,
+      updatedAt: new Date().toISOString(),
+      revisionNumber: (notice.revisionNumber || 1) + 1,
+    };
+
+    const sql = getSql();
+    if (sql) {
+      try {
+        const agencyRows = await sql`SELECT id FROM agencies WHERE slug = ${merged.agencyId} LIMIT 1;`;
+        const catRows = await sql`SELECT id FROM categories WHERE slug = ${merged.categoryId} LIMIT 1;`;
+        const agencyDbId = agencyRows[0]?.id;
+        const catDbId = catRows[0]?.id;
+
+        if (!agencyDbId || !catDbId) {
+          return { success: false, error: 'Selected agency or category was not found.' };
+        }
+
+        const [updatedNotice] = await sql`
+          UPDATE notices
+          SET agency_id = ${agencyDbId},
+              category_id = ${catDbId},
+              state = ${merged.state},
+              notice_type = ${merged.noticeType},
+              status = ${merged.status},
+              expires_at = ${merged.expiresAt || null},
+              is_featured = ${merged.isFeatured},
+              is_breaking = ${merged.isBreaking},
+              updated_at = now()
+          WHERE id::text = ${notice.id} OR slug = ${notice.slug} OR id::text = ${id}
+          RETURNING id;
+        `;
+
+        if (!updatedNotice) {
+          return { success: false, error: 'Notice not found in database.' };
+        }
+
+        const [revision] = await sql`
+          INSERT INTO notice_revisions (
+            notice_id, revision_number, title_hi, title_en, summary_hi, summary_en,
+            facts_json, sections_json, links_json, revision_notes
+          )
+          VALUES (
+            ${updatedNotice.id}, ${merged.revisionNumber}, ${merged.titleHi}, ${merged.titleEn},
+            ${merged.summaryHi}, ${merged.summaryEn},
+            ${JSON.stringify(merged.facts)},
+            ${JSON.stringify(merged.sections)},
+            ${JSON.stringify(merged.links)},
+            ${data.revisionNotes || 'Updated via admin console'}
+          )
+          RETURNING id;
+        `;
+
+        await sql`
+          UPDATE notices SET current_revision_id = ${revision.id} WHERE id = ${updatedNotice.id};
+        `;
+
+        merged.id = updatedNotice.id;
+      } catch (err) {
+        console.error('Failed to update notice in Neon DB:', err);
+        return { success: false, error: 'Database update failed.' };
+      }
+    }
+
+    const memoryIndex = memoryNotices.findIndex((n) => n.id === notice.id || n.slug === notice.slug);
+    if (memoryIndex !== -1) {
+      memoryNotices[memoryIndex] = merged;
+    }
+
+    await AuditService.recordLog({
+      actorName,
+      actorRole: 'Admin',
+      action: 'UPDATED_NOTICE',
+      entityType: 'Notice',
+      entityName: merged.titleEn,
+      ipAddress: '127.0.0.1 (Jaipur)',
+      status: 'SUCCESS'
+    });
+
+    return { success: true, notice: merged };
   }
 
   static async updateNoticeStatus(id: string, status: NoticeStatus): Promise<{ success: boolean; notice?: AdminNoticeRecord; error?: string }> {
@@ -374,8 +548,12 @@ export class NoticeService {
       categoryId: n.categoryId,
       agencyId: n.agencyId,
       state: n.state,
+      type: n.noticeType,
       noticeType: n.noticeType,
       status: n.status === 'active' ? 'published' : 'archived',
+      isFeatured: n.isFeatured,
+      isBreaking: n.isBreaking,
+      expiresAt: n.expiresAt,
       summaryHi: n.summaryHi,
       summaryEn: n.summaryEn,
       facts: n.facts,

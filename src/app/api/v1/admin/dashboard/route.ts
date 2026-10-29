@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import { NoticeService } from '@/server/services/notice-service';
 
 export async function GET() {
+  await connection();
   const all = await NoticeService.getNotices();
   
   const stats = {

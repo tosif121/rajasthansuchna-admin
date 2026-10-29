@@ -1,0 +1,234 @@
+[
+  {
+    "id": "rajasthan-gk-set-1",
+    "slug": "rajasthan-gk-set-1",
+    "titleHi": "राजस्थान सामान्य ज्ञान - सेट 1",
+    "titleEn": "Rajasthan GK - Set 1",
+    "descriptionHi": "राजस्थान की राजधानी, पशु, पर्वत और स्थापना दिवस पर आधारित अभ्यास प्रश्न।",
+    "descriptionEn": "Practice questions on Rajasthan capital, state animal, highest peak and foundation day.",
+    "durationMinutes": 5,
+    "isActive": true,
+    "questions": [
+      {
+        "id": "q1",
+        "questionHi": "राजस्थान की राजधानी कौन है?",
+        "questionEn": "What is the capital of Rajasthan?",
+        "options": [
+          {
+            "hi": "जयपुर",
+            "en": "Jaipur"
+          },
+          {
+            "hi": "जोधपुर",
+            "en": "Jodhpur"
+          },
+          {
+            "hi": "उदयपुर",
+            "en": "Udaipur"
+          },
+          {
+            "hi": "अजमेर",
+            "en": "Ajmer"
+          }
+        ],
+        "correctOption": 0,
+        "explanationHi": "राजस्थान की राजधानी जयपुर है।",
+        "explanationEn": "Jaipur is the capital of Rajasthan."
+      },
+      {
+        "id": "q2",
+        "questionHi": "राजस्थान का राज्य पशु कौन है?",
+        "questionEn": "What is the state animal of Rajasthan?",
+        "options": [
+          {
+            "hi": "बाघ",
+            "en": "Tiger"
+          },
+          {
+            "hi": "चिंकारा",
+            "en": "Chinkara"
+          },
+          {
+            "hi": "हिरण",
+            "en": "Deer"
+          },
+          {
+            "hi": "ऊंट",
+            "en": "Camel"
+          }
+        ],
+        "correctOption": 1,
+        "explanationHi": "चिंकारा राजस्थान का राज्य पशु है।",
+        "explanationEn": "Chinkara is the state animal of Rajasthan."
+      },
+      {
+        "id": "q3",
+        "questionHi": "राजस्थान का सबसे ऊंचा पर्वत शिखर कौन है?",
+        "questionEn": "Which is the highest peak in Rajasthan?",
+        "options": [
+          {
+            "hi": "गुरु शिखर",
+            "en": "Guru Shikhar"
+          },
+          {
+            "hi": "आबू",
+            "en": "Abu"
+          },
+          {
+            "hi": "तारागढ़",
+            "en": "Taragarh"
+          },
+          {
+            "hi": "माउंट आबू",
+            "en": "Mount Abu"
+          }
+        ],
+        "correctOption": 0,
+        "explanationHi": "गुरु शिखर राजस्थान का सबसे ऊंचा पर्वत शिखर है।",
+        "explanationEn": "Guru Shikhar is the highest peak in Rajasthan."
+      },
+      {
+        "id": "q4",
+        "questionHi": "राजस्थान का स्थापना दिवस कब मनाया जाता है?",
+        "questionEn": "When is Rajasthan Day celebrated?",
+        "options": [
+          {
+            "hi": "30 मार्च",
+            "en": "30 March"
+          },
+          {
+            "hi": "15 अगस्त",
+            "en": "15 August"
+          },
+          {
+            "hi": "26 जनवरी",
+            "en": "26 January"
+          },
+          {
+            "hi": "2 अक्टूबर",
+            "en": "2 October"
+          }
+        ],
+        "correctOption": 0,
+        "explanationHi": "राजस्थान दिवस 30 मार्च को मनाया जाता है।",
+        "explanationEn": "Rajasthan Day is celebrated on 30 March."
+      },
+      {
+        "id": "q5",
+        "questionHi": "राजस्थान का राज्य वृक्ष कौन है?",
+        "questionEn": "What is the state tree of Rajasthan?",
+        "options": [
+          {
+            "hi": "नीम",
+            "en": "Neem"
+          },
+          {
+            "hi": "खेजड़ी",
+            "en": "Khejri"
+          },
+          {
+            "hi": "पीपल",
+            "en": "Peepal"
+          },
+          {
+            "hi": "बरगद",
+            "en": "Banyan"
+          }
+        ],
+        "correctOption": 1,
+        "explanationHi": "खेजड़ी राजस्थान का राज्य वृक्ष है।",
+        "explanationEn": "Khejri is the state tree of Rajasthan."
+      }
+    ]
+  },
+  {
+    "id": "rajasthan-geography-set-1",
+    "slug": "rajasthan-geography-set-1",
+    "titleHi": "राजस्थान भूगोल - सेट 1",
+    "titleEn": "Rajasthan Geography - Set 1",
+    "descriptionHi": "थार मरुस्थल, नदियों और जिलों से जुड़े महत्वपूर्ण प्रश्न।",
+    "descriptionEn": "Important questions on the Thar Desert, rivers and districts.",
+    "durationMinutes": 5,
+    "isActive": true,
+    "questions": [
+      {
+        "id": "q1",
+        "questionHi": "थार मरुस्थल राजस्थान के किस भाग में स्थित है?",
+        "questionEn": "The Thar Desert is located in which part of Rajasthan?",
+        "options": [
+          {
+            "hi": "पश्चिमी",
+            "en": "Western"
+          },
+          {
+            "hi": "पूर्वी",
+            "en": "Eastern"
+          },
+          {
+            "hi": "उत्तरी",
+            "en": "Northern"
+          },
+          {
+            "hi": "दक्षिणी",
+            "en": "Southern"
+          }
+        ],
+        "correctOption": 0,
+        "explanationHi": "थार मरुस्थल राजस्थान के पश्चिमी भाग में स्थित है।",
+        "explanationEn": "The Thar Desert lies in western Rajasthan."
+      },
+      {
+        "id": "q2",
+        "questionHi": "राजस्थान की सबसे लंबी नदी कौन है?",
+        "questionEn": "Which is the longest river in Rajasthan?",
+        "options": [
+          {
+            "hi": "चंबल",
+            "en": "Chambal"
+          },
+          {
+            "hi": "बनास",
+            "en": "Banas"
+          },
+          {
+            "hi": "लूनी",
+            "en": "Luni"
+          },
+          {
+            "hi": "माही",
+            "en": "Mahi"
+          }
+        ],
+        "correctOption": 0,
+        "explanationHi": "चंबल राजस्थान की सबसे लंबी नदी है।",
+        "explanationEn": "Chambal is the longest river in Rajasthan."
+      },
+      {
+        "id": "q3",
+        "questionHi": "राजस्थान की एकमात्र अंतर्देशीय नदी कौन है?",
+        "questionEn": "Which is the only inland river of Rajasthan?",
+        "options": [
+          {
+            "hi": "लूनी",
+            "en": "Luni"
+          },
+          {
+            "hi": "चंबल",
+            "en": "Chambal"
+          },
+          {
+            "hi": "बनास",
+            "en": "Banas"
+          },
+          {
+            "hi": "माही",
+            "en": "Mahi"
+          }
+        ],
+        "correctOption": 0,
+        "explanationHi": "लूनी नदी राजस्थान की एकमात्र अंतर्देशीय नदी है।",
+        "explanationEn": "The Luni is the only inland river of Rajasthan."
+      }
+    ]
+  }
+]

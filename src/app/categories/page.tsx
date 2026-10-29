@@ -10,15 +10,12 @@ import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { 
   PageHeader, 
-  StatCard, 
   DataTable, 
   Column, 
   DeleteConfirmationModal 
 } from "@/components/reusable";
 import { 
-  FolderTree, 
   Plus, 
-  Layers, 
   FileText, 
   Trash2, 
   Pencil,
@@ -241,9 +238,6 @@ export default function CategoriesPage() {
     setIsDeleting(false);
   };
 
-  const totalNotices = categories.reduce((acc, curr) => acc + (curr.activeNotices || 0), 0);
-  const activeCategoriesCount = categories.filter(c => c.isActive !== false).length;
-
   const renderCategoryIcon = (iconValue?: string | null, name?: string) => {
     if (iconValue?.startsWith("data:image") || iconValue?.startsWith("http")) {
       return (
@@ -414,28 +408,6 @@ export default function CategoriesPage() {
               </button>
             </div>
           )}
-
-          {/* Stats Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <StatCard
-              title="Total Categories"
-              value={categories.length}
-              subtitle={`${activeCategoriesCount} Active / ${categories.length - activeCategoriesCount} Inactive`}
-              icon={FolderTree}
-            />
-            <StatCard
-              title="Live Vacancies Linked"
-              value={totalNotices}
-              subtitle="Across all exam categories"
-              icon={FileText}
-            />
-            <StatCard
-              title="Database Status"
-              value="Neon PostgreSQL"
-              subtitle="Real-time Mobile API synchronization"
-              icon={Layers}
-            />
-          </div>
 
           {/* Table */}
           <DataTable

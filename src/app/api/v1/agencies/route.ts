@@ -9,7 +9,7 @@ function getFallbackAgencies() {
     if (fs.existsSync(seedPath)) {
       const data = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
       if (Array.isArray(data.agencies)) {
-        return data.agencies.map((a: any) => ({
+        return data.agencies.map((a: Record<string, string>) => ({
           id: a.id,
           slug: a.id,
           nameHi: a.nameHi,
@@ -20,7 +20,9 @@ function getFallbackAgencies() {
         }));
       }
     }
-  } catch (_) {}
+  } catch {
+    // Fall through to an empty list when seed data is unavailable.
+  }
   return [];
 }
 
@@ -92,7 +94,8 @@ export async function POST(req: NextRequest) {
         officialUrl: officialUrl || 'https://rajasthan.gov.in',
       }
     }, { status: 201 });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to create agency';
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
