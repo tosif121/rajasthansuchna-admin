@@ -21,7 +21,17 @@ export async function GET(req: NextRequest) {
     });
 
     if (categoryId && categoryId !== 'all') {
-      notices = notices.filter((n) => n.categoryId === categoryId);
+      const catList = categoryId
+        .split(',')
+        .map((c) => c.trim().toLowerCase())
+        .filter(Boolean);
+      if (catList.length > 0) {
+        notices = notices.filter(
+          (n) =>
+            catList.includes(n.categoryId.toLowerCase()) ||
+            (n.categoryName && catList.includes(n.categoryName.toLowerCase()))
+        );
+      }
     }
 
     const total = notices.length;
