@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { neon } from '@neondatabase/serverless';
 import { AuditService } from './audit-service';
+import { isNeonReachable, safeNeonQuery } from '@/lib/db';
 
 export type NoticeStatus = 'active' | 'inactive';
 
@@ -113,6 +114,39 @@ interface NoticeRow {
 
 function initMemoryNotices(): AdminNoticeRecord[] {
   try {
+    const noticesPath = path.join(process.cwd(), "src", "data", "notices.json");
+    if (fs.existsSync(noticesPath)) {
+      const items = JSON.parse(fs.readFileSync(noticesPath, "utf8"));
+      if (Array.isArray(items) && items.length > 0) {
+        return items.map((v: any) => ({
+          id: v.id || `not_${v.slug}`,
+          slug: v.slug,
+          titleHi: v.titleHi || '',
+          titleEn: v.titleEn || '',
+          agencyId: v.agencyId || 'rssb',
+          agencyName: v.agencyName || (v.agencyId || '').toUpperCase(),
+          categoryId: v.categoryId || 'rajasthan',
+          categoryName: v.categoryName || v.categoryId || 'General',
+          state: v.state === 'central' ? 'central' : 'rajasthan',
+          noticeType: v.noticeType || v.type || 'vacancy',
+          status: (v.status === 'inactive' ? 'inactive' : 'active') as NoticeStatus,
+          revisionNumber: v.revisionNumber || 1,
+          summaryHi: v.summaryHi || '',
+          summaryEn: v.summaryEn || '',
+          facts: (v.facts || {}) as FlutterRecruitmentFacts,
+          sections: v.sections || [],
+          links: v.links || [],
+          editorId: v.editorId || 'admin',
+          editorName: v.editorName || 'Administrator',
+          publishedAt: v.publishedAt || new Date().toISOString(),
+          expiresAt: v.expiresAt || null,
+          isFeatured: Boolean(v.isFeatured),
+          isBreaking: Boolean(v.isBreaking),
+          updatedAt: v.updatedAt || v.publishedAt || new Date().toISOString(),
+        }));
+      }
+    }
+
     const seedPath = path.join(process.cwd(), "src", "data", "seed-data.json");
     if (fs.existsSync(seedPath)) {
       const data = JSON.parse(fs.readFileSync(seedPath, "utf8"));
@@ -153,6 +187,15 @@ function initMemoryNotices(): AdminNoticeRecord[] {
   return [];
 }
 
+function saveMemoryNotices(list: AdminNoticeRecord[]) {
+  try {
+    const noticesPath = path.join(process.cwd(), "src", "data", "notices.json");
+    fs.writeFileSync(noticesPath, JSON.stringify(list, null, 2), "utf8");
+  } catch (err) {
+    console.error("Failed to persist notices to disk:", err);
+  }
+}
+
 const memoryNotices: AdminNoticeRecord[] = initMemoryNotices();
 
 function getSql() {
@@ -166,9 +209,9 @@ function getSql() {
 export class NoticeService {
   static async getNotices(filter?: { status?: string; query?: string; agencyId?: string }): Promise<AdminNoticeRecord[]> {
     const sql = getSql();
-    if (sql) {
+    if (sql && (await isNeonReachable(sql))) {
       try {
-        const rows = await sql`
+        const queryPromise = sql`
           SELECT 
             n.id, n.slug, n.state, n.notice_type as "noticeType", n.status, 
             n.published_at as "publishedAt", n.expires_at as "expiresAt",
@@ -180,12 +223,17 @@ export class NoticeService {
             r.summary_hi as "summaryHi", r.summary_en as "summaryEn",
             r.facts_json as "facts", r.sections_json as "sections", r.links_json as "links"
           FROM notices n
-          JOIN agencies a ON n.agency_id = a.id
-          JOIN categories c ON n.category_id = c.id
+          LEFT JOIN agencies a ON n.agency_id = a.id
+          LEFT JOIN categories c ON n.category_id = c.id
           LEFT JOIN notice_revisions r ON r.notice_id = n.id
           ORDER BY n.published_at DESC NULLS LAST, n.created_at DESC;
         `;
-        if (rows) {
+        const timeoutPromise = new Promise<null>((_, reject) => 
+          setTimeout(() => reject(new Error('DB Timeout')), 800)
+        );
+
+        const rows = await Promise.race([queryPromise, timeoutPromise]);
+        if (rows && Array.isArray(rows) && rows.length > 0) {
           let list: AdminNoticeRecord[] = (rows as unknown as NoticeRow[]).map((r) => ({
             id: r.id,
             slug: r.slug,
@@ -197,7 +245,7 @@ export class NoticeService {
             categoryName: r.categoryName || r.categoryId,
             state: r.state === 'central' ? 'central' : 'rajasthan',
             noticeType: r.noticeType || 'vacancy',
-            status: (r.status === 'active' ? 'active' : 'inactive') as NoticeStatus,
+            status: (r.status === 'active' || r.status === 'published' ? 'active' : 'inactive') as NoticeStatus,
             revisionNumber: r.revisionNumber || 1,
             summaryHi: r.summaryHi || '',
             summaryEn: r.summaryEn || '',
@@ -226,8 +274,8 @@ export class NoticeService {
           }
           return list;
         }
-      } catch (err) {
-        console.error('Failed to query notices from DB, falling back to memory:', err);
+      } catch {
+        // Fall back to instant persistent memory notices
       }
     }
 
@@ -340,6 +388,7 @@ export class NoticeService {
     }
 
     memoryNotices.unshift(newRecord);
+    saveMemoryNotices(memoryNotices);
 
     await AuditService.recordLog({
       actorName: 'Admin',
@@ -443,6 +492,7 @@ export class NoticeService {
     const memoryIndex = memoryNotices.findIndex((n) => n.id === notice.id || n.slug === notice.slug);
     if (memoryIndex !== -1) {
       memoryNotices[memoryIndex] = merged;
+      saveMemoryNotices(memoryNotices);
     }
 
     await AuditService.recordLog({
@@ -467,6 +517,7 @@ export class NoticeService {
     if (status === 'active' && !notice.publishedAt) {
       notice.publishedAt = new Date().toISOString();
     }
+    saveMemoryNotices(memoryNotices);
 
     const sql = getSql();
     if (sql) {
@@ -523,6 +574,7 @@ export class NoticeService {
     if (idx !== -1) {
       const deleted = memoryNotices[idx];
       memoryNotices.splice(idx, 1);
+      saveMemoryNotices(memoryNotices);
 
       await AuditService.recordLog({
         actorName: 'Admin',
@@ -547,6 +599,7 @@ export class NoticeService {
       slug: n.slug,
       categoryId: n.categoryId,
       agencyId: n.agencyId,
+      agencyName: n.agencyName || (n.agencyId || '').toUpperCase(),
       state: n.state,
       type: n.noticeType,
       noticeType: n.noticeType,

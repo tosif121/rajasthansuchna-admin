@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { neon } from '@neondatabase/serverless';
 import { AuditService } from './audit-service';
+import { isNeonReachable, safeNeonQuery } from '@/lib/db';
 
 export interface McqOption {
   hi: string;
@@ -249,9 +250,9 @@ function questionsFromRows(rows: QuestionRow[]): McqQuestionRecord[] {
 export class McqService {
   static async getAllTests(includeInactive = false): Promise<McqTestSummary[]> {
     const db = getSql();
-    if (db) {
+    if (db && (await isNeonReachable(db))) {
       try {
-        const rows = (await db`
+        const rows = (await safeNeonQuery(db`
           SELECT t.id, t.slug, t.title_hi as "titleHi", t.title_en as "titleEn",
                  t.description_hi as "descriptionHi", t.description_en as "descriptionEn",
                  t.duration_minutes as "durationMinutes", t.is_active as "isActive",
@@ -259,8 +260,8 @@ export class McqService {
                  (SELECT COUNT(*) FROM mcq_questions q WHERE q.test_id = t.id) as "questionCount"
           FROM mcq_tests t
           ORDER BY t.created_at DESC;
-        `) as unknown as TestRow[];
-        if (rows.length > 0) {
+        `)) as unknown as TestRow[] | null;
+        if (rows && rows.length > 0) {
           return rows
             .filter((row) => includeInactive || row.isActive !== false)
             .map((row) => ({
@@ -289,9 +290,9 @@ export class McqService {
 
   static async getTest(identifier: string): Promise<McqTestRecord | null> {
     const db = getSql();
-    if (db) {
+    if (db && (await isNeonReachable(db))) {
       try {
-        const tests = (await db`
+        const tests = (await safeNeonQuery(db`
           SELECT id, slug, title_hi as "titleHi", title_en as "titleEn",
                  description_hi as "descriptionHi", description_en as "descriptionEn",
                  duration_minutes as "durationMinutes", is_active as "isActive",
@@ -299,10 +300,10 @@ export class McqService {
           FROM mcq_tests
           WHERE id::text = ${identifier} OR slug = ${identifier}
           LIMIT 1;
-        `) as unknown as TestRow[];
-        if (tests.length > 0) {
+        `)) as unknown as TestRow[] | null;
+        if (tests && tests.length > 0) {
           const row = tests[0];
-          const questions = (await db`
+          const questions = (await safeNeonQuery(db`
             SELECT id, question_hi as "questionHi", question_en as "questionEn",
                    options_json as "optionsJson", correct_option as "correctOption",
                    explanation_hi as "explanationHi", explanation_en as "explanationEn",
@@ -310,8 +311,8 @@ export class McqService {
             FROM mcq_questions
             WHERE test_id = ${row.id}
             ORDER BY order_index ASC, created_at ASC;
-          `) as unknown as QuestionRow[];
-          return toRecord(row, questionsFromRows(questions));
+          `)) as unknown as QuestionRow[] | null;
+          return toRecord(row, questionsFromRows(questions || []));
         }
       } catch (err) {
         console.error('Failed to query MCQ test from DB, using memory:', err);
@@ -326,10 +327,10 @@ export class McqService {
     const timestamp = nowIso();
     const db = getSql();
 
-    if (db) {
+    if (db && (await isNeonReachable(db))) {
       try {
         const slug = normalized.slug || slugify(normalized.titleEn);
-        const [test] = (await db`
+        const res = (await safeNeonQuery(db`
           INSERT INTO mcq_tests (
             slug, title_hi, title_en, description_hi, description_en,
             duration_minutes, is_active, updated_at
@@ -340,7 +341,9 @@ export class McqService {
             ${normalized.durationMinutes}, ${normalized.isActive}, now()
           )
           RETURNING id;
-        `) as unknown as { id: string }[];
+        `)) as unknown as { id: string }[] | null;
+        const test = res?.[0];
+        if (!test) throw new Error('Failed to insert test');
 
         const questions: McqQuestionRecord[] = [];
         for (let index = 0; index < normalized.questions.length; index++) {
@@ -428,10 +431,10 @@ export class McqService {
     const timestamp = nowIso();
     const db = getSql();
 
-    if (db) {
+    if (db && (await isNeonReachable(db))) {
       try {
         const slug = normalized.slug || existing.slug;
-        await db`
+        await safeNeonQuery(db`
           UPDATE mcq_tests SET
             slug = ${slug},
             title_hi = ${normalized.titleHi},
@@ -442,8 +445,8 @@ export class McqService {
             is_active = ${normalized.isActive},
             updated_at = now()
           WHERE id::text = ${existing.id} OR slug = ${existing.slug};
-        `;
-        await db`DELETE FROM mcq_questions WHERE test_id = ${existing.id};`;
+        `);
+        await safeNeonQuery(db`DELETE FROM mcq_questions WHERE test_id = ${existing.id};`);
 
         const questions: McqQuestionRecord[] = [];
         for (let index = 0; index < normalized.questions.length; index++) {
@@ -514,9 +517,9 @@ export class McqService {
     const existing = await this.getTest(identifier);
     if (!existing) throw new Error('MCQ test not found.');
     const db = getSql();
-    if (db) {
+    if (db && (await isNeonReachable(db))) {
       try {
-        await db`DELETE FROM mcq_tests WHERE id::text = ${existing.id} OR slug = ${existing.slug};`;
+        await safeNeonQuery(db`DELETE FROM mcq_tests WHERE id::text = ${existing.id} OR slug = ${existing.slug};`);
       } catch (err) {
         console.error('Failed to delete MCQ test from DB:', err);
       }

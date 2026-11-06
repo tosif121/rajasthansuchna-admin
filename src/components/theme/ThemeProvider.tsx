@@ -16,6 +16,16 @@ const ThemeContext = createContext<ThemeContextType>({
   setTheme: () => {},
 });
 
+const applyTheme = (t: Theme) => {
+  if (typeof document === 'undefined') return;
+  const root = document.documentElement;
+  if (t === 'dark') {
+    root.classList.add('dark');
+  } else {
+    root.classList.remove('dark');
+  }
+};
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
@@ -23,25 +33,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Check saved preference or default to light
     const saved = localStorage.getItem('rs_admin_theme') as Theme | null;
-    if (saved === 'dark' || saved === 'light') {
-      setThemeState(saved);
-      applyTheme(saved);
-    } else {
-      // Default to light matching Rajasthan Suchna official brand
-      setThemeState('light');
-      applyTheme('light');
-    }
+    const initial = (saved === 'dark' || saved === 'light') ? saved : 'light';
+    applyTheme(initial);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setThemeState(initial);
     setMounted(true);
   }, []);
-
-  const applyTheme = (t: Theme) => {
-    const root = document.documentElement;
-    if (t === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  };
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);

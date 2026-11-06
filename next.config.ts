@@ -12,6 +12,20 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/dashboard",
+        destination: "/notices",
+        permanent: false,
+      },
+      {
+        source: "/categories",
+        destination: "/notices",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {

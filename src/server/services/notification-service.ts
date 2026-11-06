@@ -3,6 +3,7 @@ import path from 'path';
 import { neon } from '@neondatabase/serverless';
 import { randomUUID } from 'crypto';
 import { sendFcmBroadcast } from './fcm-admin-service';
+import { isNeonReachable, safeNeonQuery } from '@/lib/db';
 
 export type NotificationType = 'newVacancy' | 'admitCard' | 'result' | 'correction' | 'closingSoon';
 
@@ -102,16 +103,16 @@ function getSql() {
 export class NotificationService {
   static async getNotifications(): Promise<AdminNotificationRecord[]> {
     const sql = getSql();
-    if (sql) {
+    if (sql && (await isNeonReachable(sql))) {
       try {
-        const rows = await sql`
+        const rows = (await safeNeonQuery(sql`
           SELECT 
             id, title, message, notice_id as "noticeId", notice_slug as "noticeSlug",
             agency_name as "agencyName", notification_type as "type",
             created_at as "createdAt", sent_at as "sentAt"
           FROM notifications
           ORDER BY created_at DESC;
-        `;
+        `)) as any[];
         if (rows && rows.length > 0) {
           return rows.map((r: any) => ({
             id: r.id,
@@ -177,9 +178,9 @@ export class NotificationService {
 
     // 2. Save to Neon PostgreSQL if available
     const sql = getSql();
-    if (sql) {
+    if (sql && (await isNeonReachable(sql))) {
       try {
-        await sql`
+        await safeNeonQuery(sql`
           INSERT INTO notifications (id, title, message, notice_slug, agency_name, notification_type, sent_at, created_at)
           VALUES (
             ${newRecord.id},
@@ -191,7 +192,7 @@ export class NotificationService {
             ${newRecord.sentAt},
             ${newRecord.createdAt}
           )
-        `;
+        `);
       } catch (err) {
         console.warn('Neon DB insert into notifications failed, kept in local store:', err);
       }
@@ -205,9 +206,9 @@ export class NotificationService {
     saveLocalNotifications(memoryNotifications);
 
     const sql = getSql();
-    if (sql) {
+    if (sql && (await isNeonReachable(sql))) {
       try {
-        await sql`DELETE FROM notifications WHERE id = ${id}`;
+        await safeNeonQuery(sql`DELETE FROM notifications WHERE id = ${id}`);
       } catch (_) {}
     }
     return true;

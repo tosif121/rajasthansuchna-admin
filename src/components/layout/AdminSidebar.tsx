@@ -4,25 +4,25 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
-  LayoutDashboard, 
   FileText, 
   Building2, 
-  ShieldCheck,
-  Sparkles,
-  FolderTree,
-  Bell,
-  ListChecks,
-  X
+  ShieldCheck, 
+  Sparkles, 
+  Bell, 
+  ListChecks, 
+  SlidersHorizontal,
+  Users,
+  X 
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "All Notices", href: "/notices", icon: FileText },
-  { name: "Agencies", href: "/agencies", icon: Building2 },
-  { name: "Categories", href: "/categories", icon: FolderTree },
+  { name: "Notice Attributes", href: "/attributes", icon: SlidersHorizontal },
+  { name: "Agencies & Boards", href: "/agencies", icon: Building2 },
   { name: "MCQ Tests", href: "/mcq-tests", icon: ListChecks },
-  { name: "Notifications", href: "/notifications", icon: Bell },
+  { name: "App Users", href: "/users", icon: Users },
+  { name: "Push Alerts", href: "/notifications", icon: Bell },
   { name: "Settings", href: "/settings", icon: Sparkles },
 ];
 
@@ -77,7 +77,7 @@ export function AdminSidebar() {
         {/* Navigation Links */}
         <nav className="flex-1 p-3 space-y-1.5 overflow-y-auto">
           {navigation.map((item) => {
-            const isActive = pathname === item.href || (item.href === "/dashboard" && pathname === "/");
+            const isActive = pathname === item.href || (item.href === "/notices" && (pathname === "/" || pathname === "/dashboard"));
             const Icon = item.icon;
 
             return (

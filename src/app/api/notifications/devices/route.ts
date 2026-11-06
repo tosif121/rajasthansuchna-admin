@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { sql } from "@/lib/db";
+import { sql, isNeonReachable, safeNeonQuery } from "@/lib/db";
 import { requireUser, requireAdmin, AuthError } from "@/lib/auth";
 
 
@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
     const { token, platform, userId: providedUserId } = input.data;
     const finalUserId = providedUserId || user.id;
 
-    if (sql) {
-      await sql`
+    if (sql && (await isNeonReachable(sql))) {
+      await safeNeonQuery(sql`
         INSERT INTO push_devices (user_id, token, platform, last_seen_at, updated_at)
         VALUES (${finalUserId}, ${token}, ${platform}, NOW(), NOW())
         ON CONFLICT (token) DO UPDATE SET
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
           platform = EXCLUDED.platform,
           last_seen_at = NOW(),
           updated_at = NOW()
-      `;
+      `);
     }
 
     return NextResponse.json({
@@ -65,11 +65,11 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    if (sql) {
-      await sql`
+    if (sql && (await isNeonReachable(sql))) {
+      await safeNeonQuery(sql`
         DELETE FROM push_devices
         WHERE token = ${input.data.token}
-      `;
+      `);
     }
 
     return NextResponse.json({ success: true, message: "Device unregistered successfully" });
@@ -85,16 +85,16 @@ export async function DELETE(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     await requireAdmin(request);
-    if (!sql) {
+    if (!sql || !(await isNeonReachable(sql))) {
       return NextResponse.json({ success: true, totalDevices: 0, devices: [] });
     }
-    const rows = await sql`
+    const rows = (await safeNeonQuery(sql`
       SELECT id, user_id, platform, last_seen_at, created_at, SUBSTRING(token, 1, 15) || '...' as token_preview
       FROM push_devices
       ORDER BY last_seen_at DESC
       LIMIT 100;
-    `;
-    const countRes = await sql`SELECT count(*)::int as count FROM push_devices;`;
+    `)) as any[] || [];
+    const countRes = (await safeNeonQuery(sql`SELECT count(*)::int as count FROM push_devices;`)) as any[] || [];
     const total = countRes[0]?.count || rows.length;
 
     return NextResponse.json({

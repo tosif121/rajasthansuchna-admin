@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import React, { useState, useEffect } from "react";
-import { apiGet } from "@/lib/api-client";
+import React, { useState, useEffect, useCallback } from "react";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { 
@@ -13,6 +12,23 @@ import {
   Column, 
   DeleteConfirmationModal 
 } from "@/components/reusable";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
   Building2, 
   ExternalLink, 
@@ -20,6 +36,7 @@ import {
   ShieldCheck, 
   Trash2,
   Pencil, 
+  Plus,
   LayoutGrid, 
   Table as TableIcon,
   CheckCircle2,
@@ -29,74 +46,183 @@ import {
 interface Agency {
   id: string;
   nameEn: string;
+  nameHi?: string;
   code: string;
   parentGroup: "rajasthan" | "central";
   officialUrl: string;
   activeNotices: number;
 }
 
-const initialAgencies: Agency[] = [
-  { id: "agency_rsmssb", nameEn: "RSMSSB (Rajasthan Staff Selection Board)", code: "RSMSSB", parentGroup: "rajasthan", officialUrl: "https://rsmssb.rajasthan.gov.in", activeNotices: 0 },
-  { id: "agency_rpsc", nameEn: "RPSC (Rajasthan Public Service Commission)", code: "RPSC", parentGroup: "rajasthan", officialUrl: "https://rpsc.rajasthan.gov.in", activeNotices: 0 },
-  { id: "agency_police", nameEn: "Rajasthan Police Headquarters", code: "POLICE", parentGroup: "rajasthan", officialUrl: "https://police.rajasthan.gov.in", activeNotices: 0 },
-  { id: "agency_hc", nameEn: "Rajasthan High Court Jodhpur", code: "HCRAJ", parentGroup: "rajasthan", officialUrl: "https://hcraj.nic.in", activeNotices: 0 },
-  { id: "agency_ssc", nameEn: "Staff Selection Commission (SSC)", code: "SSC", parentGroup: "central", officialUrl: "https://ssc.gov.in", activeNotices: 0 },
-  { id: "agency_rrb", nameEn: "Railway Recruitment Board (RRB)", code: "RRB", parentGroup: "central", officialUrl: "https://rrbcdg.gov.in", activeNotices: 0 },
-];
-
 export default function AgenciesPage() {
-  const [agencies, setAgencies] = useState<Agency[]>(initialAgencies);
-
-  useEffect(() => {
-    Promise.all([
-      fetch("/api/v1/agencies").then(r => r.json()).catch(() => ({ data: [] })),
-      apiGet<{ success: boolean; data: any[] }>("/api/v1/admin/notices", { ttlSeconds: 5 }),
-    ]).then(([agenciesRes, noticesRes]) => {
-      const liveAgencies = agenciesRes?.success && Array.isArray(agenciesRes.data) && agenciesRes.data.length > 0 
-        ? agenciesRes.data 
-        : initialAgencies;
-      const notices = noticesRes?.success && Array.isArray(noticesRes.data) ? noticesRes.data : [];
-
-      setAgencies(liveAgencies.map((a: any) => ({
-        id: a.id || a.slug,
-        nameEn: a.nameEn,
-        code: a.code || (a.slug || a.id).toUpperCase(),
-        parentGroup: a.parentGroup === "central" ? "central" : "rajasthan",
-        officialUrl: a.officialUrl || "https://rajasthan.gov.in",
-        activeNotices: notices.filter((n: any) => 
-          n.status === "active" && (
-            n.agencyId === a.id || 
-            n.agencyId === a.slug || 
-            (n.agencyName && a.code && n.agencyName.toLowerCase().includes(a.code.toLowerCase()))
-          )
-        ).length
-      })));
-    }).catch(() => {});
-  }, []);
+  const [agencies, setAgencies] = useState<Agency[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filterGroup, setFilterGroup] = useState<"all" | "rajasthan" | "central">("all");
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
   const [feedback, setFeedback] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  // Modal / Form state for Add / Edit
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingAgency, setEditingAgency] = useState<Agency | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const [formNameEn, setFormNameEn] = useState("");
+  const [formNameHi, setFormNameHi] = useState("");
+  const [formCode, setFormCode] = useState("");
+  const [formGroup, setFormGroup] = useState<"rajasthan" | "central">("rajasthan");
+  const [formUrl, setFormUrl] = useState("");
 
   // Delete modal state
   const [agencyToDelete, setAgencyToDelete] = useState<Agency | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const rajasthanCount = agencies.filter(a => a.parentGroup === "rajasthan").length;
-  const centralCount = agencies.filter(a => a.parentGroup === "central").length;
-  const totalNotices = agencies.reduce((acc, curr) => acc + curr.activeNotices, 0);
+  const loadAgenciesData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const [agenciesRes, noticesRes] = await Promise.all([
+        fetch("/api/v1/agencies").then((r) => r.json()).catch(() => ({ success: false, data: [] })),
+        fetch("/api/v1/notices?limit=100").then((r) => r.json()).catch(() => ({ success: false, data: [] })),
+      ]);
 
-  const filtered = agencies.filter(a => filterGroup === "all" || a.parentGroup === filterGroup);
+      const rawAgencies = agenciesRes?.success && Array.isArray(agenciesRes.data) ? agenciesRes.data : [];
+      const rawNotices = noticesRes?.success && Array.isArray(noticesRes.data) ? noticesRes.data : [];
 
-  const handleDeleteConfirm = () => {
+      const mapped: Agency[] = rawAgencies.map((a: any) => {
+        const aId = (a.id || a.slug || "").toLowerCase();
+        const aCode = (a.code || a.id || "").toLowerCase();
+
+        const activeCount = rawNotices.filter((n: any) => {
+          const nAgency = (n.agencyId || "").toLowerCase();
+          const nAgencyName = (n.agencyName || "").toLowerCase();
+          return (
+            nAgency === aId ||
+            nAgency.includes(aId) ||
+            aId.includes(nAgency) ||
+            (aCode && nAgencyName.includes(aCode))
+          );
+        }).length;
+
+        return {
+          id: a.id || a.slug,
+          nameEn: a.nameEn || a.nameHi || a.id,
+          nameHi: a.nameHi,
+          code: a.code || (a.slug || a.id).toUpperCase(),
+          parentGroup: a.parentGroup === "central" ? "central" : "rajasthan",
+          officialUrl: a.officialUrl || "https://rajasthan.gov.in",
+          activeNotices: activeCount,
+        };
+      });
+
+      setAgencies(mapped);
+    } catch (err) {
+      console.error("Failed to load agencies:", err);
+      setFeedback({ message: "Failed to load recruitment agencies.", type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadAgenciesData();
+  }, [loadAgenciesData]);
+
+  // Form handlers
+  const openCreateAgency = () => {
+    setEditingAgency(null);
+    setFormNameEn("");
+    setFormNameHi("");
+    setFormCode("");
+    setFormGroup("rajasthan");
+    setFormUrl("https://");
+    setIsModalOpen(true);
+  };
+
+  const openEditAgency = (agency: Agency) => {
+    setEditingAgency(agency);
+    setFormNameEn(agency.nameEn);
+    setFormNameHi(agency.nameHi || "");
+    setFormCode(agency.code);
+    setFormGroup(agency.parentGroup);
+    setFormUrl(agency.officialUrl || "https://");
+    setIsModalOpen(true);
+  };
+
+  const handleSaveAgency = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formNameEn.trim() || !formCode.trim()) {
+      setFeedback({ message: "Agency English name and code are required.", type: "error" });
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      const isEditing = !!editingAgency;
+      const endpoint = "/api/v1/agencies";
+      const method = isEditing ? "PATCH" : "POST";
+
+      const payload: any = {
+        nameEn: formNameEn.trim(),
+        nameHi: formNameHi.trim() || formNameEn.trim(),
+        code: formCode.trim().toUpperCase(),
+        parentGroup: formGroup,
+        officialUrl: formUrl.trim() || "https://rajasthan.gov.in",
+      };
+
+      if (isEditing) {
+        payload.id = editingAgency.id;
+      }
+
+      const res = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }).then((r) => r.json());
+
+      if (res.success) {
+        setFeedback({
+          message: isEditing
+            ? `Agency "${formNameEn}" updated successfully.`
+            : `Recruitment Agency "${formNameEn}" added successfully.`,
+          type: "success",
+        });
+        setIsModalOpen(false);
+        await loadAgenciesData();
+      } else {
+        setFeedback({ message: res.error || "Failed to save recruitment agency.", type: "error" });
+      }
+    } catch {
+      setFeedback({ message: "Network error saving agency.", type: "error" });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
     if (!agencyToDelete) return;
     setIsDeleting(true);
-    setTimeout(() => {
-      setAgencies(prev => prev.filter(a => a.id !== agencyToDelete.id));
-      setFeedback({ message: `Agency ${agencyToDelete.code} removed successfully.`, type: "success" });
+    try {
+      const res = await fetch(`/api/v1/agencies?id=${agencyToDelete.id}`, {
+        method: "DELETE",
+      }).then((r) => r.json());
+
+      if (res.success) {
+        setAgencies((prev) => prev.filter((a) => a.id !== agencyToDelete.id));
+        setFeedback({ message: `Agency "${agencyToDelete.nameEn}" removed successfully.`, type: "success" });
+      } else {
+        setFeedback({ message: res.error || "Failed to delete agency.", type: "error" });
+      }
+    } catch {
+      setFeedback({ message: "Network error deleting agency.", type: "error" });
+    } finally {
       setAgencyToDelete(null);
       setIsDeleting(false);
-    }, 400);
+    }
   };
+
+  const rajasthanCount = agencies.filter((a) => a.parentGroup === "rajasthan").length;
+  const centralCount = agencies.filter((a) => a.parentGroup === "central").length;
+  const totalNotices = agencies.reduce((acc, curr) => acc + curr.activeNotices, 0);
+
+  const filtered = agencies.filter((a) => filterGroup === "all" || a.parentGroup === filterGroup);
 
   const columns: Column<Agency>[] = [
     {
@@ -104,12 +230,15 @@ export default function AgenciesPage() {
       accessorKey: "nameEn",
       cell: (agency) => (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center font-bold text-white text-xs shadow-xs">
+          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center font-bold text-white text-xs shadow-xs shrink-0">
             {agency.code}
           </div>
           <div>
             <p className="font-semibold text-slate-900 dark:text-white text-xs">{agency.nameEn}</p>
-            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">ID: {agency.id}</span>
+            {agency.nameHi && (
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-hindi block">{agency.nameHi}</span>
+            )}
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">ID: {agency.id}</span>
           </div>
         </div>
       ),
@@ -120,7 +249,7 @@ export default function AgenciesPage() {
         agency.parentGroup === "rajasthan" ? (
           <Badge variant="warning">Rajasthan Govt</Badge>
         ) : (
-          <Badge className="bg-blue-50 dark:bg-blue-950/70 text-blue-800 dark:text-blue-400 border-blue-200 dark:border-blue-700/50">
+          <Badge className="bg-sky-50 dark:bg-sky-950/70 text-sky-800 dark:text-sky-300 border-sky-200 dark:border-sky-700/50">
             Central Govt
           </Badge>
         )
@@ -144,7 +273,7 @@ export default function AgenciesPage() {
           className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline"
         >
           <Globe className="w-3.5 h-3.5" />
-          {agency.officialUrl.replace("https://", "")}
+          {agency.officialUrl.replace("https://", "").replace("http://", "")}
         </a>
       ),
     },
@@ -163,6 +292,7 @@ export default function AgenciesPage() {
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
           <button
+            onClick={() => openEditAgency(agency)}
             title="Edit Agency"
             className="p-1.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
           >
@@ -193,7 +323,14 @@ export default function AgenciesPage() {
             title="Recruitment Agencies"
             description="Official state and central examination commissions delivering verified circulars to the Rajasthan Suchna mobile app."
             actions={
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Button
+                  onClick={openCreateAgency}
+                  className="bg-[#A30B0B] hover:bg-[#850909] text-white gap-1.5 shadow-xs font-semibold text-xs sm:text-sm"
+                >
+                  <Plus className="w-4 h-4" /> Add Recruitment Agency
+                </Button>
+
                 <div className="flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-0.5 shadow-sm">
                   <button
                     onClick={() => setViewMode("table")}
@@ -235,7 +372,7 @@ export default function AgenciesPage() {
                 )}
                 <span className="font-semibold">{feedback.message}</span>
               </div>
-              <button onClick={() => setFeedback(null)} className="text-slate-400 font-bold px-2">✕</button>
+              <button onClick={() => setFeedback(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-bold px-2">✕</button>
             </div>
           )}
 
@@ -258,9 +395,9 @@ export default function AgenciesPage() {
             <StatCard
               title="Central Agencies"
               value={centralCount}
-              description="SSC, RRB & Central"
-              icon={<Globe className="w-4 h-4 text-purple-600 dark:text-purple-400" />}
-              borderColor="border-l-purple-500"
+              description="SSC, UPSC, RRB & Central"
+              icon={<Globe className="w-4 h-4 text-sky-600 dark:text-sky-400" />}
+              borderColor="border-l-sky-500"
             />
             <StatCard
               title="Active Circulars"
@@ -276,7 +413,7 @@ export default function AgenciesPage() {
             <button
               onClick={() => setFilterGroup("all")}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                filterGroup === "all" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400"
+                filterGroup === "all" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               All Agencies ({agencies.length})
@@ -284,7 +421,7 @@ export default function AgenciesPage() {
             <button
               onClick={() => setFilterGroup("rajasthan")}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                filterGroup === "rajasthan" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400"
+                filterGroup === "rajasthan" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               Rajasthan State ({rajasthanCount})
@@ -292,7 +429,7 @@ export default function AgenciesPage() {
             <button
               onClick={() => setFilterGroup("central")}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                filterGroup === "central" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400"
+                filterGroup === "central" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               Central Boards ({centralCount})
@@ -304,26 +441,33 @@ export default function AgenciesPage() {
             <DataTable
               columns={columns}
               data={filtered}
+              isLoading={loading}
               searchPlaceholder="Search agency name or code..."
               searchKey="nameEn"
               emptyTitle="No agencies found"
               emptyDescription="No commissions match the selected jurisdiction or search keyword."
             />
+          ) : loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-44 rounded-2xl bg-slate-200 dark:bg-slate-800 animate-pulse" />
+              ))}
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filtered.map(agency => (
+              {filtered.map((agency) => (
                 <div
                   key={agency.id}
                   className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4 hover:border-red-200 dark:hover:border-slate-700 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center font-bold text-white text-sm shadow-md shadow-red-950/20">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center font-bold text-white text-sm shadow-md shadow-red-950/20 shrink-0">
                       {agency.code}
                     </div>
                     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                       agency.parentGroup === "rajasthan"
                         ? "bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50"
-                        : "bg-blue-50 dark:bg-blue-950/70 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-700/50"
+                        : "bg-sky-50 dark:bg-sky-950/70 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-700/50"
                     }`}>
                       {agency.parentGroup === "rajasthan" ? "Rajasthan Govt" : "Central Govt"}
                     </span>
@@ -331,7 +475,10 @@ export default function AgenciesPage() {
 
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-white text-sm">{agency.nameEn}</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">{agency.id}</p>
+                    {agency.nameHi && (
+                      <p className="text-xs text-slate-500 dark:text-slate-400 font-hindi mt-0.5">{agency.nameHi}</p>
+                    )}
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500 font-mono mt-0.5">ID: {agency.id}</p>
                   </div>
 
                   <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
@@ -348,6 +495,13 @@ export default function AgenciesPage() {
                         Visit <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                       <button
+                        onClick={() => openEditAgency(agency)}
+                        className="p-1 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                        title="Edit Agency"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </button>
+                      <button
                         onClick={() => setAgencyToDelete(agency)}
                         className="p-1 text-slate-400 hover:text-red-600 transition-colors"
                         title="Delete Agency"
@@ -360,6 +514,83 @@ export default function AgenciesPage() {
               ))}
             </div>
           )}
+
+          {/* Dialog: Add / Edit Recruitment Agency */}
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>{editingAgency ? "Edit Recruitment Agency" : "Add Recruitment Agency"}</DialogTitle>
+                <DialogDescription>
+                  Official examination commission or board delivering recruitment circulars.
+                </DialogDescription>
+              </DialogHeader>
+
+              <form onSubmit={handleSaveAgency} className="space-y-3.5 py-2 text-xs">
+                <div>
+                  <Label className="mb-1 block">Agency Name (English) *</Label>
+                  <Input
+                    required
+                    placeholder="e.g. Rajasthan Public Service Commission"
+                    value={formNameEn}
+                    onChange={(e) => setFormNameEn(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <Label className="mb-1 block">Agency Name (Hindi)</Label>
+                  <Input
+                    placeholder="e.g. राजस्थान लोक सेवा आयोग"
+                    value={formNameHi}
+                    onChange={(e) => setFormNameHi(e.target.value)}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="mb-1 block">Agency Code *</Label>
+                    <Input
+                      required
+                      placeholder="e.g. RPSC"
+                      value={formCode}
+                      onChange={(e) => setFormCode(e.target.value.toUpperCase())}
+                    />
+                  </div>
+                  <div>
+                    <Label className="mb-1 block">Jurisdiction</Label>
+                    <Select value={formGroup} onValueChange={(val: "rajasthan" | "central") => setFormGroup(val)}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rajasthan">Rajasthan State</SelectItem>
+                        <SelectItem value="central">Central Govt</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="mb-1 block">Official Website URL *</Label>
+                  <Input
+                    required
+                    type="url"
+                    placeholder="https://rpsc.rajasthan.gov.in"
+                    value={formUrl}
+                    onChange={(e) => setFormUrl(e.target.value)}
+                  />
+                </div>
+
+                <DialogFooter className="pt-2">
+                  <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" disabled={isSaving} className="bg-[#A30B0B] hover:bg-[#850909] text-white">
+                    {isSaving ? "Saving..." : editingAgency ? "Update Agency" : "Add Recruitment Agency"}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
 
           {/* Delete Confirmation Modal */}
           <DeleteConfirmationModal

@@ -1,0 +1,106 @@
+{
+  "noticeTypes": [
+    {
+      "id": "vacancy",
+      "slug": "vacancy",
+      "nameEn": "Vacancy",
+      "nameHi": "भर्ती विज्ञप्ति",
+      "code": "VACANCY",
+      "description": "Direct recruitment notices & job openings",
+      "isActive": true
+    },
+    {
+      "id": "admitCard",
+      "slug": "admitCard",
+      "nameEn": "Admit Card",
+      "nameHi": "प्रवेश पत्र / हॉल टिकट",
+      "code": "ADMIT_CARD",
+      "description": "Hall tickets and exam center allotments",
+      "isActive": true
+    },
+    {
+      "id": "result",
+      "slug": "result",
+      "nameEn": "Result",
+      "nameHi": "परीक्षा परिणाम",
+      "code": "RESULT",
+      "description": "Merit lists, cut-off marks, and selection lists",
+      "isActive": true
+    },
+    {
+      "id": "answerKey",
+      "slug": "answerKey",
+      "nameEn": "Answer Key",
+      "nameHi": "उत्तर कुंजी / आपत्तियां",
+      "code": "ANSWER_KEY",
+      "description": "Preliminary & final question paper keys",
+      "isActive": true
+    },
+    {
+      "id": "scheme",
+      "slug": "scheme",
+      "nameEn": "Government Scheme",
+      "nameHi": "सरकारी योजना / छात्रवृत्ति",
+      "code": "SCHEME",
+      "description": "Welfare schemes, apprenticeships & stipends",
+      "isActive": true
+    },
+    {
+      "id": "current_affairs",
+      "slug": "current_affairs",
+      "nameEn": "Current Affairs & Schemes",
+      "nameHi": "करंट अफेयर्स व योजनाएं",
+      "code": "CURRENT_AFFAIRS",
+      "description": "Daily current affairs, administrative decisions & DIPR announcements",
+      "isActive": true
+    },
+    {
+      "id": "calendar",
+      "slug": "calendar",
+      "nameEn": "Exam Calendar",
+      "nameHi": "परीक्षा कैलेंडर व तिथियां",
+      "code": "CALENDAR",
+      "description": "Annual examination schedules and declared test dates",
+      "isActive": true
+    },
+    {
+      "id": "career_guide",
+      "slug": "career_guide",
+      "nameEn": "Career & Recruitment Guide",
+      "nameHi": "करियर व भर्ती गाइड",
+      "code": "CAREER_GUIDE",
+      "description": "OTR, CET rules, eligibility requirements & recruitment guidelines",
+      "isActive": true
+    },
+    {
+      "id": "pyq",
+      "slug": "pyq",
+      "nameEn": "Previous Year Papers (PYQ)",
+      "nameHi": "पूर्व वर्ष प्रश्न पत्र (PYQ)",
+      "code": "PYQ",
+      "description": "Official question papers, model keys & solved tests",
+      "isActive": true
+    }
+  ],
+  "jurisdictions": [
+    {
+      "id": "rajasthan",
+      "slug": "rajasthan",
+      "nameEn": "Rajasthan State",
+      "nameHi": "राजस्थान राज्य",
+      "code": "RAJASTHAN",
+      "description": "State recruitment commissions, boards & universities",
+      "isActive": true
+    },
+    {
+      "id": "central",
+      "slug": "central",
+      "nameEn": "Central Government",
+      "nameHi": "केन्द्र सरकार (SSC / RRB / All India)",
+      "code": "CENTRAL",
+      "description": "Central commissions and nationwide recruitment",
+      "isActive": true
+    }
+  ]
+}
+
