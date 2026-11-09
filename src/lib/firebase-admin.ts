@@ -17,6 +17,32 @@ function getFirebaseMessaging(): Messaging | null {
 
     // 1. Try environment variables
     const projectId = process.env.FIREBASE_PROJECT_ID || "rajsuchnaa-9f50a";
+    const rawJsonEnv =
+      process.env.FIREBASE_SERVICE_ACCOUNT_JSON ||
+      process.env.FIREBASE_SERVICE_ACCOUNT_KEY ||
+      process.env.FIREBASE_SERVICE_ACCOUNT;
+
+    if (rawJsonEnv) {
+      try {
+        const decoded = rawJsonEnv.trim().startsWith("{")
+          ? rawJsonEnv
+          : Buffer.from(rawJsonEnv, "base64").toString("utf-8");
+        const creds = JSON.parse(decoded);
+        const app = initializeApp(
+          {
+            credential: cert(creds),
+            projectId: creds.project_id || projectId,
+          },
+          "push-admin"
+        );
+        messagingInstance = getMessaging(app);
+        console.log("[Firebase Admin] Initialized with FIREBASE_SERVICE_ACCOUNT_JSON env");
+        return messagingInstance;
+      } catch (e) {
+        console.warn("[Firebase Admin] Could not parse FIREBASE_SERVICE_ACCOUNT_JSON env:", e);
+      }
+    }
+
     const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
     const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 

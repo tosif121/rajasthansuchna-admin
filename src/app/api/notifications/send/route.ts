@@ -37,16 +37,6 @@ export async function POST(request: NextRequest) {
         : sql`SELECT token FROM push_devices`)) as any[] || [];
     }
 
-    if (devices.length === 0) {
-      return NextResponse.json({
-        success: true,
-        sent: 0,
-        accepted: 0,
-        failed: 0,
-        message: "Notification broadcast processed. No registered device tokens found.",
-      });
-    }
-
     const messaging = getFirebaseMessaging();
     if (!messaging) {
       return NextResponse.json({
@@ -62,6 +52,54 @@ export async function POST(request: NextRequest) {
     let accepted = 0;
     let failed = 0;
     const invalidTokens: string[] = [];
+    let topicSent = false;
+
+    // If broadcasting to all users, dispatch to FCM topic 'all_jobs'
+    if (!userId) {
+      try {
+        await messaging.send({
+          topic: "all_jobs",
+          notification: { title, body: messageBody },
+          data: {
+            type,
+            agencyName: agencyName || "Rajasthan Suchna",
+            ...(entityId ? { entityId, vacancySlug: entityId } : {}),
+            click_action: "FLUTTER_NOTIFICATION_CLICK",
+          },
+          android: {
+            priority: "high",
+            notification: {
+              channelId: "high_importance_channel",
+              sound: "default",
+              defaultSound: true,
+              defaultVibrateTimings: true,
+              color: "#A30B0B",
+            },
+          },
+          apns: {
+            payload: {
+              aps: { sound: "default", badge: 1 },
+            },
+          },
+        });
+        topicSent = true;
+      } catch (topicErr) {
+        console.warn("[FCM Send] Topic broadcast error:", topicErr);
+      }
+    }
+
+    if (devices.length === 0) {
+      return NextResponse.json({
+        success: true,
+        sent: topicSent ? 1 : 0,
+        accepted: topicSent ? 1 : 0,
+        failed: 0,
+        topicBroadcast: topicSent,
+        message: topicSent
+          ? "Notification broadcast sent successfully via FCM 'all_jobs' topic!"
+          : "Notification broadcast processed. No registered device tokens found.",
+      });
+    }
 
     // FCM multicast accepts up to 500 tokens per call
     for (let i = 0; i < devices.length; i += 500) {
