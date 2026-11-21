@@ -1188,5 +1188,135 @@
         "kind": "officialSite"
       }
     ]
+  },
+  {
+    "id": "not_rssb-cet-graduate-secondary-syllabus-2026",
+    "slug": "rssb-cet-graduate-senior-secondary-syllabus-scheme-2026",
+    "titleHi": "RSSB समान पात्रता परीक्षा (CET 2026) - विस्तृत पाठ्यक्रम एवं नवीनतम परीक्षा पैटर्न (स्नातक व 12वीं स्तर)",
+    "titleEn": "RSSB Common Eligibility Test (CET 2026) - Detailed Syllabus & Scheme (Graduate & Senior Secondary)",
+    "agencyId": "rssb",
+    "categoryId": "administrative",
+    "state": "rajasthan",
+    "type": "syllabus",
+    "noticeType": "syllabus",
+    "status": "active",
+    "isBreaking": true,
+    "isFeatured": true,
+    "publishedAt": "2026-11-20T10:00:00.000Z",
+    "expiresAt": null,
+    "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड द्वारा CET (स्नातक एवं सीनियर सैकण्डरी स्तर) 2026 हेतु जारी आधिकारिक पाठ्यक्रम: राजस्थान का इतिहास, भूगोल, सामान्य ज्ञान, दैनिक विज्ञान, गणित, रीजनिंग, सामान्य हिन्दी व सामान्य अंग्रेजी का विस्तृत विषयवार विवरण। कुल 150 प्रश्न (300 अंक)।",
+    "summaryEn": "Official detailed syllabus and scheme of exam released by RSSB for Rajasthan CET 2026. Includes Rajasthan GK, General Science, Reasoning, Maths, Hindi, and English topics. Total 150 Questions (300 Marks).",
+    "facts": {
+      "qualification": "12वीं पास अथवा स्नातक (CET स्तर के अनुसार)",
+      "selectionProcess": "वस्तुनिष्ठ ओएमआर आधारित लिखित परीक्षा (150 प्रश्न, 300 अंक, 3 घंटे)",
+      "sourceUrl": "https://rssb.rajasthan.gov.in/candidateCorner/syllabus.aspx",
+      "sourceDate": "2026-11-20T10:00:00.000Z",
+      "verifiedAt": "2026-11-20T12:00:00.000Z",
+      "verifiedBy": "राजस्थान कर्मचारी चयन बोर्ड (RSSB), जयपुर"
+    },
+    "sections": [
+      {
+        "key": "exam_scheme",
+        "title": "परीक्षा की स्कीम एवं अंक विभाजन",
+        "body": "1. प्रश्न पत्र में कुल 150 बहुविकल्पीय प्रश्न होंगे। प्रत्येक प्रश्न 2 अंक का होगा (कुल पूर्णांक 300 अंक)।\n2. परीक्षा की समयावधि 3 घंटे होगी।\n3. सभी प्रश्न वस्तुनिष्ठ प्रकार के होंगे एवं सभी प्रश्नों के अंक समान होंगे।"
+      }
+    ],
+    "links": [
+      {
+        "label": "ऑफिशियल CET सिलेबस PDF डाउनलोड",
+        "url": "https://rssb.rajasthan.gov.in/candidateCorner/syllabus.aspx",
+        "kind": "notificationPdf"
+      },
+      {
+        "label": "RSSB आधिकारिक वेबसाइट",
+        "url": "https://rssb.rajasthan.gov.in",
+        "kind": "officialSite"
+      }
+    ]
+  },
+  {
+    "id": "not_rpsc-ras-pre-mains-syllabus-scheme-2026",
+    "slug": "rpsc-ras-rts-prelims-mains-detailed-syllabus-exam-pattern-2026",
+    "titleHi": "RPSC RAS / RTS परीक्षा 2026 - प्रारंभिक व मुख्य परीक्षा संपूर्ण विषयवार सिलेबस एवं अंक विभाजन",
+    "titleEn": "RPSC RAS / RTS Exam 2026 - Complete Prelims & Mains Subject-wise Syllabus & Marks Distribution",
+    "agencyId": "rpsc",
+    "categoryId": "administrative",
+    "state": "rajasthan",
+    "type": "syllabus",
+    "noticeType": "syllabus",
+    "status": "active",
+    "isBreaking": false,
+    "isFeatured": true,
+    "publishedAt": "2026-11-18T09:00:00.000Z",
+    "expiresAt": null,
+    "summaryHi": "राजस्थान लोक सेवा आयोग (RPSC) अजमेर द्वारा जारी RAS 2026 प्रीलिम्स (सामान्य ज्ञान व सामान्य विज्ञान - 200 अंक) एवं मेन्स (4 वर्णनात्मक प्रश्न पत्र - 800 अंक) का प्रामाणिक पाठ्यक्रम व स्कीम।",
+    "summaryEn": "Official syllabus and examination scheme for RPSC RAS/RTS 2026. Covers Prelims (200 marks, 150 questions) and Mains 4 descriptive papers (800 marks total).",
+    "facts": {
+      "qualification": "किसी मान्यता प्राप्त विश्वविद्यालय से स्नातक",
+      "selectionProcess": "प्रारंभिक परीक्षा (स्क्रीनिंग), मुख्य लिखित परीक्षा एवं साक्षात्कार",
+      "sourceUrl": "https://rpsc.rajasthan.gov.in/syllabus",
+      "sourceDate": "2026-11-18T09:00:00.000Z",
+      "verifiedAt": "2026-11-18T10:30:00.000Z",
+      "verifiedBy": "राजस्थान लोक सेवा आयोग (RPSC), अजमेर"
+    },
+    "sections": [
+      {
+        "key": "prelims_pattern",
+        "title": "प्रारंभिक परीक्षा (Prelims) पैटर्न",
+        "body": "सामान्य ज्ञान और सामान्य विज्ञान: 200 अंक, समय 3 घंटे, कुल 150 प्रश्न। 1/3 नकारात्मक अंकन।"
+      }
+    ],
+    "links": [
+      {
+        "label": "RPSC RAS सिलेबस PDF डाउनलोड",
+        "url": "https://rpsc.rajasthan.gov.in/syllabus",
+        "kind": "notificationPdf"
+      },
+      {
+        "label": "RPSC आयोग आधिकारिक पोर्टल",
+        "url": "https://rpsc.rajasthan.gov.in",
+        "kind": "officialSite"
+      }
+    ]
+  },
+  {
+    "id": "not_rssb-patwari-bharti-syllabus-exam-pattern-2026",
+    "slug": "rssb-patwari-direct-recruitment-detailed-syllabus-exam-pattern-2026",
+    "titleHi": "RSSB पटवारी भर्ती 2026 - विस्तृत विषयवार पाठ्यक्रम, परीक्षा पैटर्न व टॉपिक लिस्ट",
+    "titleEn": "RSSB Patwari Recruitment 2026 - Detailed Subject-wise Syllabus & Exam Pattern",
+    "agencyId": "rssb",
+    "categoryId": "revenue",
+    "state": "rajasthan",
+    "type": "syllabus",
+    "noticeType": "syllabus",
+    "status": "active",
+    "isBreaking": false,
+    "isFeatured": false,
+    "publishedAt": "2026-11-15T11:00:00.000Z",
+    "expiresAt": null,
+    "summaryHi": "राजस्व विभाग पटवारी सीधी भर्ती परीक्षा 2026 का आधिकारिक पाठ्यक्रम: भारत व राजस्थान का सामान्य ज्ञान, सामान्य विज्ञान, गणित, रीजनिंग, सामान्य हिन्दी व सामान्य अंग्रेजी, कम्प्यूटर ज्ञान। कुल 150 प्रश्न, 300 अंक।",
+    "summaryEn": "Detailed syllabus for RSSB Patwari Direct Recruitment 2026. Covers GK, Science, Mental Ability, Maths, General Hindi, English and Basic Computer.",
+    "facts": {
+      "qualification": "स्नातक + कम्प्यूटर दक्षता (RSCIT अथवा समकक्ष)",
+      "selectionProcess": "एकल चरण लिखित वस्तुनिष्ठ परीक्षा (3 घंटे, 150 प्रश्न, 300 अंक)",
+      "sourceUrl": "https://rssb.rajasthan.gov.in/candidateCorner/syllabus.aspx",
+      "sourceDate": "2026-11-15T11:00:00.000Z",
+      "verifiedAt": "2026-11-15T12:00:00.000Z",
+      "verifiedBy": "राजस्थान कर्मचारी चयन बोर्ड (RSSB), जयपुर"
+    },
+    "sections": [
+      {
+        "key": "topics",
+        "title": "विषयवार वेटेज",
+        "body": "सामान्य विज्ञान व राष्ट्रीय ज्ञान: 25%, राजस्थान विशेष ज्ञान: 20%, सामान्य हिन्दी व अंग्रेजी: 15%, गणित व रीजनिंग: 30%, बेसिक कम्प्यूटर: 10%।"
+      }
+    ],
+    "links": [
+      {
+        "label": "पटवारी सिलेबस PDF डाउनलोड करें",
+        "url": "https://rssb.rajasthan.gov.in/candidateCorner/syllabus.aspx",
+        "kind": "notificationPdf"
+      }
+    ]
   }
 ]

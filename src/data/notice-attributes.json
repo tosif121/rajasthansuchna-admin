@@ -80,6 +80,15 @@
       "code": "PYQ",
       "description": "Official question papers, model keys & solved tests",
       "isActive": true
+    },
+    {
+      "id": "syllabus",
+      "slug": "syllabus",
+      "nameEn": "Syllabus & Exam Pattern",
+      "nameHi": "पाठ्यक्रम व परीक्षा पैटर्न",
+      "code": "SYLLABUS",
+      "description": "Official syllabus PDFs, scheme of exam, and subject-wise marks distribution",
+      "isActive": true
     }
   ],
   "jurisdictions": [

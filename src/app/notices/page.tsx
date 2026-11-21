@@ -154,6 +154,7 @@ const DEFAULT_NOTICE_TYPES: Option[] = [
   { id: 'calendar', nameEn: 'Exam Calendar', nameHi: 'परीक्षा कैलेंडर' },
   { id: 'career_guide', nameEn: 'Career Guide & Rules', nameHi: 'करियर गाइड व नियम' },
   { id: 'pyq', nameEn: 'Previous Year Papers (PYQ)', nameHi: 'पूर्व वर्ष प्रश्न पत्र' },
+  { id: 'syllabus', nameEn: 'Syllabus & Exam Pattern', nameHi: 'पाठ्यक्रम व परीक्षा पैटर्न' },
 ];
 
 const today = () => new Date().toISOString().split('T')[0];
