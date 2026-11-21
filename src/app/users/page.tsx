@@ -38,6 +38,10 @@ import {
   Gift,
   Coins,
   Plus,
+  Check,
+  X,
+  Clock,
+  Sparkles,
 } from "lucide-react";
 
 interface StudentUser {
@@ -53,8 +57,24 @@ interface StudentUser {
   lastActiveAt: string;
 }
 
+interface CreditRequestItem {
+  id: string;
+  userId: string;
+  candidateName: string;
+  phone?: string;
+  email?: string;
+  amount: number;
+  reason?: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  createdAt: string;
+  reviewedAt?: string;
+  reviewedBy?: string;
+}
+
 function UsersPageContent() {
   const [users, setUsers] = useState<StudentUser[]>([]);
+  const [creditRequests, setCreditRequests] = useState<CreditRequestItem[]>([]);
+  const [processingRequestId, setProcessingRequestId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
@@ -79,14 +99,45 @@ function UsersPageContent() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/v1/admin/users").then((r) => r.json());
-      if (res.success && res.data) {
-        setUsers(res.data.users || []);
+      const [usersRes, requestsRes] = await Promise.all([
+        fetch("/api/v1/admin/users").then((r) => r.json()).catch(() => ({ success: false })),
+        fetch("/api/v1/admin/credit-requests").then((r) => r.json()).catch(() => ({ success: false })),
+      ]);
+      if (usersRes.success && usersRes.data) {
+        setUsers(usersRes.data.users || []);
+      }
+      if (requestsRes.success && requestsRes.data) {
+        setCreditRequests(requestsRes.data.requests || []);
       }
     } catch {
-      setFeedback({ message: "Failed to load registered candidates.", type: "error" });
+      setFeedback({ message: "Failed to load registered candidates and requests.", type: "error" });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleReviewCreditRequest = async (id: string, action: "APPROVE" | "REJECT") => {
+    try {
+      setProcessingRequestId(id);
+      const res = await fetch("/api/v1/admin/credit-requests", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, action }),
+      }).then((r) => r.json());
+
+      if (res.success) {
+        setFeedback({
+          message: res.message || `Request ${action.toLowerCase()}d successfully.`,
+          type: "success",
+        });
+        loadData();
+      } else {
+        setFeedback({ message: res.error || "Action failed.", type: "error" });
+      }
+    } catch {
+      setFeedback({ message: "Network error processing credit request.", type: "error" });
+    } finally {
+      setProcessingRequestId(null);
     }
   };
 
@@ -354,10 +405,124 @@ function UsersPageContent() {
     },
   ];
 
+  // Columns for Candidate Credit Requests
+  const requestColumns: Column<CreditRequestItem>[] = [
+    {
+      header: "Candidate Name & Contact",
+      accessorKey: "candidateName",
+      cell: (req) => (
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-bold text-white text-xs shadow-xs shrink-0">
+            {req.candidateName.slice(0, 2).toUpperCase()}
+          </div>
+          <div>
+            <p className="font-bold text-slate-900 dark:text-white text-xs">{req.candidateName}</p>
+            <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-mono">
+              <Phone className="w-3 h-3 text-slate-400" />
+              <span>{req.phone ? `+91 ${req.phone.replace(/\D/g, '').slice(-10)}` : req.email || req.userId}</span>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      header: "Requested Credits",
+      accessorKey: "amount",
+      cell: (req) => (
+        <div className="flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-extrabold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+            +{req.amount} Credits
+          </span>
+        </div>
+      ),
+    },
+    {
+      header: "Purpose / Note",
+      accessorKey: "reason",
+      cell: (req) => (
+        <span className="text-xs text-slate-600 dark:text-slate-300">
+          {req.reason || "App AI Assistant Query Recharge"}
+        </span>
+      ),
+    },
+    {
+      header: "Request Time",
+      accessorKey: "createdAt",
+      cell: (req) => <FormattedTimestamp value={req.createdAt} />,
+    },
+    {
+      header: "Status",
+      accessorKey: "status",
+      cell: (req) => {
+        if (req.status === "PENDING") {
+          return (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-700">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />
+              Pending Review
+            </span>
+          );
+        }
+        if (req.status === "APPROVED") {
+          return (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-700">
+              <Check className="w-3.5 h-3.5 text-emerald-600" />
+              Approved (+{req.amount})
+            </span>
+          );
+        }
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700">
+            <X className="w-3.5 h-3.5 text-slate-500" />
+            Rejected
+          </span>
+        );
+      },
+    },
+    {
+      header: "Actions",
+      className: "text-right",
+      cell: (req) => {
+        if (req.status !== "PENDING") {
+          return (
+            <span className="text-[11px] text-slate-400 font-mono">
+              {req.reviewedBy ? `Reviewed by ${req.reviewedBy.split('@')[0]}` : "Processed"}
+            </span>
+          );
+        }
+        const isBusy = processingRequestId === req.id;
+        return (
+          <div className="flex items-center justify-end gap-1.5">
+            <Button
+              size="sm"
+              disabled={isBusy}
+              onClick={() => handleReviewCreditRequest(req.id, "APPROVE")}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-7 px-3 font-bold cursor-pointer gap-1"
+            >
+              <Check className="w-3.5 h-3.5" />
+              Approve (+{req.amount})
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={isBusy}
+              onClick={() => handleReviewCreditRequest(req.id, "REJECT")}
+              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 text-xs h-7 px-2.5 cursor-pointer gap-1"
+            >
+              <X className="w-3.5 h-3.5" />
+              Reject
+            </Button>
+          </div>
+        );
+      },
+    },
+  ];
+
   const activeUsers = users.filter((u) => u.isActive);
   const suspendedUsers = users.filter((u) => !u.isActive);
   const verifiedPhoneCount = users.filter((u) => u.phone && u.phone.trim().length > 0).length;
   const totalAiCredits = users.reduce((acc, u) => acc + (u.credits ?? 10), 0);
+  const pendingRequestsCount = creditRequests.filter((r) => r.status === "PENDING").length;
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
@@ -469,6 +634,19 @@ function UsersPageContent() {
                   {suspendedUsers.length}
                 </Badge>
               </TabsTrigger>
+              <TabsTrigger value="requests" className="gap-2">
+                <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                <span>Credit Requests</span>
+                {pendingRequestsCount > 0 ? (
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-500 text-white ml-1 animate-pulse">
+                    {pendingRequestsCount} Pending
+                  </span>
+                ) : (
+                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 ml-1">
+                    {creditRequests.length}
+                  </Badge>
+                )}
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="all" className="space-y-4">
@@ -501,6 +679,17 @@ function UsersPageContent() {
                 searchPlaceholder="Search suspended candidates..."
                 emptyTitle="No suspended candidates"
                 emptyDescription="There are no suspended accounts."
+              />
+            </TabsContent>
+
+            <TabsContent value="requests" className="space-y-4">
+              <DataTable
+                columns={requestColumns}
+                data={creditRequests}
+                searchKey="candidateName"
+                searchPlaceholder="Search credit requests by candidate name or phone..."
+                emptyTitle="No Credit Requests"
+                emptyDescription="When candidates submit AI credit top-up requests from the mobile app, they will appear here for one-click approval."
               />
             </TabsContent>
           </Tabs>

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "cr_1795271215086_1sso",
+    "userId": "usr_guest_1795271215086",
+    "candidateName": "Tosif Raza",
+    "phone": "7014924050",
+    "amount": 25,
+    "reason": "Preparing for Rajasthan Police exam",
+    "status": "APPROVED",
+    "createdAt": "2026-11-21T14:26:55.086Z",
+    "reviewedAt": "2026-11-21T14:27:05.203Z",
+    "reviewedBy": "admin@rajasthansuchna.gov.in"
+  }
+]
