@@ -845,14 +845,16 @@ export default function NoticesPage() {
           <div className="space-y-4 py-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Title (English)">
-                <Input
+                <Textarea
+                  rows={2}
                   value={form.titleEn}
                   onChange={(e) => updateForm('titleEn', e.target.value)}
                   placeholder="Rajasthan Patwari Recruitment 2026"
                 />
               </FormField>
               <FormField label="Title (Hindi)">
-                <Input
+                <Textarea
+                  rows={2}
                   value={form.titleHi}
                   onChange={(e) => updateForm('titleHi', e.target.value)}
                   placeholder="राजस्थान पटवारी भर्ती 2026"
@@ -955,24 +957,24 @@ export default function NoticesPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <FormField label="Total Posts">
-                <Input
-                  type="number"
+                <Textarea
+                  rows={1}
                   value={form.postsCount}
                   onChange={(e) => updateForm('postsCount', e.target.value)}
-                  placeholder="2998"
+                  placeholder="e.g. 2998"
                 />
               </FormField>
               <FormField label="Age Min">
-                <Input
-                  type="number"
+                <Textarea
+                  rows={1}
                   value={form.ageMin}
                   onChange={(e) => updateForm('ageMin', e.target.value)}
                   placeholder="18"
                 />
               </FormField>
               <FormField label="Age Max">
-                <Input
-                  type="number"
+                <Textarea
+                  rows={1}
                   value={form.ageMax}
                   onChange={(e) => updateForm('ageMax', e.target.value)}
                   placeholder="40"
@@ -981,10 +983,11 @@ export default function NoticesPage() {
             </div>
 
             <FormField label="Qualification">
-              <Input
+              <Textarea
+                rows={2}
                 value={form.qualification}
                 onChange={(e) => updateForm('qualification', e.target.value)}
-                placeholder="Graduate / 12th Pass"
+                placeholder="Graduate / 12th Pass with RSCIT Diploma"
               />
             </FormField>
 
@@ -1021,23 +1024,26 @@ export default function NoticesPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Fee - General / OBC">
-                <Input
+                <Textarea
+                  rows={2}
                   value={form.feeGeneralObc}
                   onChange={(e) => updateForm('feeGeneralObc', e.target.value)}
-                  placeholder="₹600"
+                  placeholder="₹600 (General / OBC / EWS)"
                 />
               </FormField>
               <FormField label="Fee - SC / ST">
-                <Input
+                <Textarea
+                  rows={2}
                   value={form.feeScSt}
                   onChange={(e) => updateForm('feeScSt', e.target.value)}
-                  placeholder="₹400"
+                  placeholder="₹400 (SC / ST / Divyang)"
                 />
               </FormField>
             </div>
 
             <FormField label="Selection Process">
-              <Input
+              <Textarea
+                rows={2}
                 value={form.selectionProcess}
                 onChange={(e) => updateForm('selectionProcess', e.target.value)}
                 placeholder="Written Exam, Interview & Document Verification"
@@ -1058,14 +1064,16 @@ export default function NoticesPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Official Notification PDF URL">
-                <Input
+                <Textarea
+                  rows={2}
                   value={form.notificationPdfUrl}
                   onChange={(e) => updateForm('notificationPdfUrl', e.target.value)}
                   placeholder="https://..."
                 />
               </FormField>
               <FormField label="Apply Online URL">
-                <Input
+                <Textarea
+                  rows={2}
                   value={form.applyOnlineUrl}
                   onChange={(e) => updateForm('applyOnlineUrl', e.target.value)}
                   placeholder="https://..."
@@ -1075,14 +1083,16 @@ export default function NoticesPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Official Website URL">
-                <Input
+                <Textarea
+                  rows={2}
                   value={form.officialSiteUrl}
                   onChange={(e) => updateForm('officialSiteUrl', e.target.value)}
                   placeholder="https://..."
                 />
               </FormField>
               <FormField label="Source URL (used for AI citations)">
-                <Input
+                <Textarea
+                  rows={2}
                   value={form.sourceUrl}
                   onChange={(e) => updateForm('sourceUrl', e.target.value)}
                   placeholder="https://..."
@@ -1106,9 +1116,11 @@ export default function NoticesPage() {
                 />
               </FormField>
               <FormField label="Verified By">
-                <Input
+                <Textarea
+                  rows={1}
                   value={form.verifiedBy}
                   onChange={(e) => updateForm('verifiedBy', e.target.value)}
+                  placeholder="Rajasthan Suchna Editorial Board"
                 />
               </FormField>
             </div>

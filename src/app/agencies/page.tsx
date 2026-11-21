@@ -40,7 +40,9 @@ import {
   LayoutGrid, 
   Table as TableIcon,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  UploadCloud,
+  ImageIcon,
 } from "lucide-react";
 
 interface Agency {
@@ -51,6 +53,8 @@ interface Agency {
   parentGroup: "rajasthan" | "central";
   officialUrl: string;
   activeNotices: number;
+  logoUrl?: string;
+  logo?: string;
 }
 
 export default function AgenciesPage() {
@@ -70,6 +74,9 @@ export default function AgenciesPage() {
   const [formCode, setFormCode] = useState("");
   const [formGroup, setFormGroup] = useState<"rajasthan" | "central">("rajasthan");
   const [formUrl, setFormUrl] = useState("");
+  const [formLogo, setFormLogo] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
   // Delete modal state
   const [agencyToDelete, setAgencyToDelete] = useState<Agency | null>(null);
@@ -109,6 +116,7 @@ export default function AgenciesPage() {
           parentGroup: a.parentGroup === "central" ? "central" : "rajasthan",
           officialUrl: a.officialUrl || "https://rajasthan.gov.in",
           activeNotices: activeCount,
+          logoUrl: a.logoUrl || a.logo || a.iconAsset || "",
         };
       });
 
@@ -133,6 +141,7 @@ export default function AgenciesPage() {
     setFormCode("");
     setFormGroup("rajasthan");
     setFormUrl("https://");
+    setFormLogo("");
     setIsModalOpen(true);
   };
 
@@ -143,6 +152,7 @@ export default function AgenciesPage() {
     setFormCode(agency.code);
     setFormGroup(agency.parentGroup);
     setFormUrl(agency.officialUrl || "https://");
+    setFormLogo(agency.logoUrl || agency.logo || "");
     setIsModalOpen(true);
   };
 
@@ -165,6 +175,7 @@ export default function AgenciesPage() {
         code: formCode.trim().toUpperCase(),
         parentGroup: formGroup,
         officialUrl: formUrl.trim() || "https://rajasthan.gov.in",
+        logoUrl: formLogo.trim(),
       };
 
       if (isEditing) {
@@ -230,9 +241,17 @@ export default function AgenciesPage() {
       accessorKey: "nameEn",
       cell: (agency) => (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center font-bold text-white text-xs shadow-xs shrink-0">
-            {agency.code}
-          </div>
+          {agency.logoUrl || agency.logo ? (
+            <img
+              src={agency.logoUrl || agency.logo}
+              alt={agency.nameEn}
+              className="w-9 h-9 rounded-lg object-contain bg-white border border-slate-200 dark:border-slate-700 p-0.5 shadow-xs shrink-0"
+            />
+          ) : (
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center font-bold text-white text-xs shadow-xs shrink-0">
+              {agency.code}
+            </div>
+          )}
           <div>
             <p className="font-semibold text-slate-900 dark:text-white text-xs">{agency.nameEn}</p>
             {agency.nameHi && (
@@ -461,9 +480,17 @@ export default function AgenciesPage() {
                   className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4 hover:border-red-200 dark:hover:border-slate-700 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center font-bold text-white text-sm shadow-md shadow-red-950/20 shrink-0">
-                      {agency.code}
-                    </div>
+                    {agency.logoUrl || agency.logo ? (
+                      <img
+                        src={agency.logoUrl || agency.logo}
+                        alt={agency.nameEn}
+                        className="w-12 h-12 rounded-xl object-contain bg-white border border-slate-200 dark:border-slate-700 p-1 shadow-md shadow-slate-200/50 shrink-0"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center font-bold text-white text-sm shadow-md shadow-red-950/20 shrink-0">
+                        {agency.code}
+                      </div>
+                    )}
                     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                       agency.parentGroup === "rajasthan"
                         ? "bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50"
@@ -578,6 +605,84 @@ export default function AgenciesPage() {
                     value={formUrl}
                     onChange={(e) => setFormUrl(e.target.value)}
                   />
+                </div>
+
+                <div>
+                  <Label className="mb-1 block">Agency Logo / Image</Label>
+                  {formLogo ? (
+                    <div className="relative flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                      <img 
+                        src={formLogo} 
+                        alt="Agency Preview" 
+                        className="w-14 h-14 object-contain rounded-lg border border-slate-200 dark:border-slate-700 bg-white p-1 shrink-0" 
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">Logo attached</p>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">Ready to display across web & mobile</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setFormLogo("")}
+                        className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 cursor-pointer transition-colors"
+                        title="Remove logo"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div
+                      onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                      onDragLeave={() => setIsDragging(false)}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        setIsDragging(false);
+                        const file = e.dataTransfer.files?.[0];
+                        if (file && file.type.startsWith('image/')) {
+                          const reader = new FileReader();
+                          reader.onload = () => {
+                            if (typeof reader.result === 'string') setFormLogo(reader.result);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className={`relative flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-xl transition-colors cursor-pointer ${
+                        isDragging 
+                          ? "border-[#A30B0B] bg-red-50/50 dark:bg-red-950/20" 
+                          : "border-slate-300 dark:border-slate-700 hover:border-slate-400 bg-slate-50/60 dark:bg-slate-900/60"
+                      }`}
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <UploadCloud className="w-6 h-6 text-slate-400 mb-1.5" />
+                      <p className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                        Drag & drop agency logo here, or <span className="text-[#A30B0B] underline font-semibold">browse file</span>
+                      </p>
+                      <p className="text-[10px] text-slate-400 mt-0.5">PNG, JPG, SVG, WebP</p>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                              if (typeof reader.result === 'string') setFormLogo(reader.result);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                  <div className="mt-1.5">
+                    <Input
+                      placeholder="Or enter direct image URL (https://...)"
+                      value={formLogo}
+                      onChange={(e) => setFormLogo(e.target.value)}
+                      className="text-[11px] h-8"
+                    />
+                  </div>
                 </div>
 
                 <DialogFooter className="pt-2">
