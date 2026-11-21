@@ -57,7 +57,7 @@ export default function SettingsPage() {
   const [copied, setCopied] = useState(false);
   const [maskedKey, setMaskedKey] = useState('');
   const [hasExistingKey, setHasExistingKey] = useState(false);
-  const [model, setModel] = useState('gemini-2.0-flash');
+  const [model, setModel] = useState('gemini-3.8-flash');
   const [isEnabled, setIsEnabled] = useState(true);
   const [groundingEnabled, setGroundingEnabled] = useState(true);
   const [temperature, setTemperature] = useState(0.2);
@@ -90,7 +90,11 @@ export default function SettingsPage() {
         const s: PublicAiSettings = data.settings;
         setHasExistingKey(s.hasKey);
         setMaskedKey(s.maskedApiKey);
-        setModel(s.model || 'gemini-2.0-flash');
+        const activeModel =
+          s.model && s.model !== 'gemini-2.0-flash' && s.model !== 'models/gemini-2.0-flash'
+            ? s.model
+            : 'gemini-3.8-flash';
+        setModel(activeModel);
         setIsEnabled(s.isEnabled !== false);
         setGroundingEnabled(s.groundingEnabled !== false);
         setTemperature(s.temperature ?? 0.2);
@@ -195,6 +199,7 @@ export default function SettingsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           prompt: testPrompt.trim(),
+          model: model,
         }),
       });
 
@@ -413,16 +418,16 @@ export default function SettingsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {[
             {
-              id: 'gemini-2.0-flash',
-              title: 'Gemini 2.0 Flash',
+              id: 'gemini-3.8-flash',
+              title: 'Gemini 3.8 Flash',
               tag: 'RECOMMENDED',
-              desc: 'Ultra-fast sub-second responses, ideal for mobile chatbot.',
+              desc: 'Ultra-fast, state-of-the-art responses recommended by Google AI Studio.',
             },
             {
-              id: 'gemini-1.5-flash',
-              title: 'Gemini 1.5 Flash',
-              tag: 'STABLE & FAST',
-              desc: 'High throughput, optimal balance of accuracy and latency.',
+              id: 'gemini-2.5-flash',
+              title: 'Gemini 2.5 Flash',
+              tag: 'FAST & MODERN',
+              desc: 'High throughput, optimal balance of accuracy and speed.',
             },
             {
               id: 'gemini-1.5-pro',

@@ -6,10 +6,10 @@ export async function POST(req: NextRequest) {
   try {
     await requireAdmin(req);
     const body = await req.json().catch(() => ({}));
-    const { apiKey, prompt } = body;
+    const { apiKey, prompt, model } = body;
 
     if (prompt && typeof prompt === 'string' && prompt.trim().length > 0) {
-      const res = await AiSettingsService.generateTestResponse(prompt.trim());
+      const res = await AiSettingsService.generateTestResponse(prompt.trim(), model);
       return NextResponse.json({
         success: true,
         type: 'generation',

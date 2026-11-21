@@ -41,7 +41,7 @@ const SETTINGS_FILE = path.join(DATA_DIR, 'ai-settings.json');
 // Default initial state
 const defaultSettings: AiSettings = {
   apiKey: process.env.GEMINI_API_KEY || '',
-  model: 'gemini-2.0-flash',
+  model: 'gemini-3.8-flash',
   isEnabled: true,
   groundingEnabled: true,
   temperature: 0.2,
@@ -71,7 +71,12 @@ function loadFromFile(): AiSettings {
     if (fs.existsSync(SETTINGS_FILE)) {
       const data = fs.readFileSync(SETTINGS_FILE, 'utf-8');
       const parsed = JSON.parse(data);
-      return { ...defaultSettings, ...parsed };
+      const settings: AiSettings = { ...defaultSettings, ...parsed };
+      // Auto-migrate deprecated models to Gemini 3.8 Flash
+      if (settings.model === 'gemini-2.0-flash' || settings.model === 'models/gemini-2.0-flash') {
+        settings.model = 'gemini-3.8-flash';
+      }
+      return settings;
     }
   } catch (err) {
     console.error('Error reading ai-settings.json:', err);
@@ -140,9 +145,14 @@ export class AiSettingsService {
       newApiKey = updates.apiKey.trim();
     }
 
+    const cleanUpdates = { ...updates };
+    if (cleanUpdates.model === 'gemini-2.0-flash' || cleanUpdates.model === 'models/gemini-2.0-flash') {
+      cleanUpdates.model = 'gemini-3.8-flash';
+    }
+
     cachedSettings = {
       ...current,
-      ...updates,
+      ...cleanUpdates,
       apiKey: newApiKey,
       updatedAt: new Date().toISOString(),
       updatedBy: actorName,
@@ -233,7 +243,10 @@ export class AiSettingsService {
     }
   }
 
-  static async generateTestResponse(prompt: string): Promise<{
+  static async generateTestResponse(
+    prompt: string,
+    modelOverride?: string
+  ): Promise<{
     success: boolean;
     text: string;
     model: string;
@@ -245,45 +258,94 @@ export class AiSettingsService {
       throw new Error('Gemini API key is not configured.');
     }
 
-    const model = settings.model || 'gemini-2.0-flash';
+    let initialModel = (modelOverride || settings.model || 'gemini-3.8-flash').trim();
+    if (initialModel === 'gemini-2.0-flash' || initialModel === 'models/gemini-2.0-flash') {
+      initialModel = 'gemini-3.8-flash';
+    }
+    const cleanModel = initialModel.replace(/^models\//, '');
+
+    // Ordered candidate fallback list in case a specific model version is phased out by Google
+    const candidateModels = [
+      cleanModel,
+      'gemini-3.8-flash',
+      'gemini-2.5-flash',
+      'gemini-1.5-flash',
+      'gemini-1.5-pro',
+    ].filter((m, idx, arr) => arr.indexOf(m) === idx);
+
+    let lastError: Error | null = null;
     const startTime = Date.now();
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: 'user',
-              parts: [{ text: prompt }],
-            },
-          ],
-          generationConfig: {
-            temperature: settings.temperature,
-            maxOutputTokens: settings.maxOutputTokens,
-          },
-          systemInstruction: {
-            parts: [{ text: settings.systemPrompt }],
-          },
-        }),
+    for (const candidate of candidateModels) {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${candidate}:generateContent?key=${key}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [
+                {
+                  role: 'user',
+                  parts: [{ text: prompt }],
+                },
+              ],
+              generationConfig: {
+                temperature: settings.temperature,
+                maxOutputTokens: settings.maxOutputTokens,
+              },
+              systemInstruction: {
+                parts: [{ text: settings.systemPrompt }],
+              },
+            }),
+          }
+        );
+
+        const latencyMs = Date.now() - startTime;
+        const data = await response.json();
+
+        if (!response.ok) {
+          const errMsg = data?.error?.message || `Gemini API returned status ${response.status}`;
+          // If the model is not found, deprecated or unsupported, try next model in candidate list
+          const isModelAvailabilityIssue =
+            response.status === 404 ||
+            errMsg.toLowerCase().includes('no longer available') ||
+            errMsg.toLowerCase().includes('not found') ||
+            errMsg.toLowerCase().includes('unsupported');
+
+          if (isModelAvailabilityIssue) {
+            lastError = new Error(errMsg);
+            continue;
+          }
+          throw new Error(errMsg);
+        }
+
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated.';
+
+        // If candidate succeeded and old setting was deprecated, update persisted model
+        if (candidate !== settings.model && (settings.model === 'gemini-2.0-flash' || !settings.model)) {
+          this.updateSettings({ model: candidate });
+        }
+
+        return {
+          success: true,
+          text,
+          model: candidate,
+          latencyMs,
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        lastError = err instanceof Error ? err : new Error(message);
+        if (
+          message.toLowerCase().includes('no longer available') ||
+          message.toLowerCase().includes('not found')
+        ) {
+          continue;
+        }
+        throw lastError;
       }
-    );
-
-    const latencyMs = Date.now() - startTime;
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.error?.message || `Gemini API returned status ${response.status}`);
     }
 
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated.';
-    return {
-      success: true,
-      text,
-      model,
-      latencyMs,
-    };
+    throw lastError || new Error('Failed to generate response with available Gemini models.');
   }
 }
