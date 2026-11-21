@@ -66,6 +66,7 @@ interface NoticeFacts {
   ageMin?: number;
   ageMax?: number;
   selectionProcess: string;
+  howToApply?: string;
   sourceUrl: string;
   sourceDate: string;
   verifiedAt: string;
@@ -130,6 +131,7 @@ interface NoticeForm {
   feeGeneralObc: string;
   feeScSt: string;
   selectionProcess: string;
+  howToApply?: string;
   sourceUrl: string;
   sourceDate: string;
   verifiedAt: string;
@@ -183,6 +185,7 @@ const emptyForm = (): NoticeForm => ({
   feeGeneralObc: '',
   feeScSt: '',
   selectionProcess: '',
+  howToApply: '',
   sourceUrl: '',
   sourceDate: '',
   verifiedAt: '',
@@ -203,9 +206,24 @@ const truncateText = (text: string, limit: number): string => {
   return text.length > limit ? `${text.slice(0, limit).trim()}...` : text;
 };
 
-function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSection[] {
-  if (existing && existing.length > 0) return existing;
+function defaultHowToApply(noticeType: string): string {
+  if (noticeType === 'admitCard') {
+    return '1. संबंधित भर्ती बोर्ड/आयोग के आधिकारिक पोर्टल पर जाएं।\n2. Admit Card / Hall Ticket डाउनलोड लिंक पर क्लिक करें।\n3. अपना Application Number एवं जन्मतिथि (DOB) दर्ज करें।\n4. स्क्रीन पर प्रदर्शित एडमिट कार्ड डाउनलोड कर प्रिंट निकालें।';
+  }
+  if (noticeType === 'result') {
+    return '1. आधिकारिक पोर्टल के Candidate Corner / Result सेक्शन में जाएं।\n2. संबंधित भर्ती परिणाम व मेरिट लिस्ट (PDF) पर क्लिक करें।\n3. पीडीएफ में अपना रोल नंबर खोजें (Ctrl+F)।\n4. कट-ऑफ अंक व चयन सूची का अवलोकन करें।';
+  }
+  if (noticeType === 'syllabus') {
+    return '1. आधिकारिक वेबसाइट के Candidate Corner / Syllabus सेक्शन में जाएं।\n2. संबंधित परीक्षा स्कीम एवं पाठ्यक्रम पीडीएफ लिंक पर क्लिक करें।\n3. विस्तृत विषयवार पाठ्यक्रम व अंक विभाजन डाउनलोड कर सुरक्षित रखें।';
+  }
+  if (noticeType === 'answerKey') {
+    return '1. आयोग अथवा चयन बोर्ड के Answer Key पोर्टल पर जाएं।\n2. संबंधित प्रश्न पत्र व मास्टर आंसर की डाउनलोड करें।\n3. अपने उत्तरों का मिलान करें और निर्धारित तिथि तक SSO पोर्टल से ऑनलाइन आपत्ति दर्ज करें।';
+  }
+  // Default recruitment vacancy
+  return '1. सबसे पहले राजस्थान SSO पोर्टल (sso.rajasthan.gov.in) पर लॉगिन करें।\n2. Recruitment Portal विकल्प का चयन करें।\n3. यदि OTR (One Time Registration) नहीं किया है तो पहले OTR पूरा करें।\n4. Ongoing Recruitment में संबंधित पद के Apply Online लिंक पर क्लिक करें।\n5. अपनी शैक्षणिक योग्यता, व्यक्तिगत विवरण व फोटो-हस्ताक्षर अपलोड करें।\n6. आवेदन शुल्क का भुगतान कर अंतिम रूप से सबमिट करें और प्रिंट आउट सुरक्षित रखें।';
+}
 
+function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSection[] {
   const sections: NoticeSection[] = [];
   const overview = form.summaryEn || form.summaryHi;
   if (overview) sections.push({ key: 'overview', title: 'Overview', body: overview });
@@ -237,11 +255,30 @@ function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSect
     sections.push({ key: 'selectionProcess', title: 'Selection Process', body: form.selectionProcess });
   }
 
+  const howToApplyBody = form.howToApply?.trim() || defaultHowToApply(form.noticeType);
+  const howToApplyTitle = form.noticeType === 'admitCard' 
+    ? 'How to Download Admit Card'
+    : form.noticeType === 'result'
+    ? 'How to Check Result'
+    : form.noticeType === 'syllabus'
+    ? 'How to Download Syllabus'
+    : 'How to Apply';
+
   sections.push({
     key: 'howToApply',
-    title: 'How to Apply',
-    body: 'Read the official notification carefully and submit the online application before the last date.',
+    title: howToApplyTitle,
+    body: howToApplyBody,
   });
+
+  // Preserve any custom sections from existing that aren't the standard keys
+  if (existing) {
+    const standardKeys = new Set(['overview', 'importantDates', 'eligibility', 'fee', 'selectionProcess', 'howToApply']);
+    for (const s of existing) {
+      if (!standardKeys.has(s.key)) {
+        sections.push(s);
+      }
+    }
+  }
 
   return sections;
 }
@@ -392,6 +429,7 @@ export default function NoticesPage() {
       feeGeneralObc: notice.facts?.feeGeneralObc || '',
       feeScSt: notice.facts?.feeScSt || '',
       selectionProcess: notice.facts?.selectionProcess || '',
+      howToApply: notice.sections?.find((s) => s.key === 'howToApply')?.body || '',
       sourceUrl: notice.facts?.sourceUrl || '',
       sourceDate: dateOnly(notice.facts?.sourceDate) || today(),
       verifiedAt: dateOnly(notice.facts?.verifiedAt) || today(),
@@ -1006,6 +1044,18 @@ export default function NoticesPage() {
               />
             </FormField>
 
+            <FormField 
+              label="How to Apply / आवेदन प्रक्रिया (Step-by-step Instructions)"
+              hint="Leave blank to use standard official steps"
+            >
+              <Textarea
+                rows={4}
+                value={form.howToApply}
+                onChange={(e) => updateForm('howToApply', e.target.value)}
+                placeholder="1. Login to SSO Rajasthan (sso.rajasthan.gov.in)&#10;2. Select Recruitment Portal & complete OTR&#10;3. Fill application details & upload documents&#10;4. Pay fee and download confirmation page"
+              />
+            </FormField>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Official Notification PDF URL">
                 <Input
@@ -1081,16 +1131,25 @@ export default function NoticesPage() {
 
 function FormField({
   label,
+  hint,
   children,
 }: {
   label: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-        {label}
-      </Label>
+      <div className="flex items-center justify-between">
+        <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+          {label}
+        </Label>
+        {hint && (
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 font-normal">
+            {hint}
+          </span>
+        )}
+      </div>
       {children}
     </div>
   );
