@@ -688,30 +688,8 @@ export default function SettingsPage() {
           </div>
         )}
       </div>
-
-      {/* Save Bottom Bar */}
-      <div className="sticky bottom-4 p-4 rounded-2xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-xl flex items-center justify-between gap-4">
-        <span className="text-xs text-slate-500 dark:text-slate-400">
-          Remember to save changes after updating your Gemini API key or settings.
-        </span>
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saving || loading}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#A30B0B] to-[#7A0606] text-white font-bold text-sm shadow-md hover:shadow-lg disabled:opacity-50 transition-all cursor-pointer"
-        >
-          {saving ? (
-            <RefreshCw className="w-4 h-4 animate-spin" />
-          ) : saveSuccess ? (
-            <Check className="w-4 h-4 text-emerald-300" />
-          ) : (
-            <Save className="w-4 h-4" />
-          )}
-          {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Gemini Settings'}
-        </button>
-      </div>
-          </div>
-        </main>
+    </div>
+  </main>
       </div>
     </div>
   );
