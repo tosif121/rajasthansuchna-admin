@@ -6,6 +6,7 @@ export interface AiSettings {
   model: string;
   isEnabled: boolean;
   groundingEnabled: boolean;
+  defaultSignupCredits: number;
   temperature: number;
   maxOutputTokens: number;
   systemPrompt: string;
@@ -22,6 +23,7 @@ export interface PublicAiSettings {
   model: string;
   isEnabled: boolean;
   groundingEnabled: boolean;
+  defaultSignupCredits: number;
   temperature: number;
   maxOutputTokens: number;
   systemPrompt: string;
@@ -44,6 +46,7 @@ const defaultSettings: AiSettings = {
   model: 'gemini-3.5-flash-lite',
   isEnabled: true,
   groundingEnabled: true,
+  defaultSignupCredits: 10,
   temperature: 0.2,
   maxOutputTokens: 1024,
   systemPrompt: DEFAULT_SYSTEM_PROMPT,
@@ -119,6 +122,7 @@ export class AiSettingsService {
       model: s.model,
       isEnabled: s.isEnabled,
       groundingEnabled: s.groundingEnabled,
+      defaultSignupCredits: s.defaultSignupCredits ?? 10,
       temperature: s.temperature,
       maxOutputTokens: s.maxOutputTokens,
       systemPrompt: s.systemPrompt,

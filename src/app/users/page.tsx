@@ -34,6 +34,10 @@ import {
   ShieldCheck,
   UserCheck,
   UserX,
+  Zap,
+  Gift,
+  Coins,
+  Plus,
 } from "lucide-react";
 
 interface StudentUser {
@@ -43,6 +47,7 @@ interface StudentUser {
   phone?: string;
   targetExam?: string;
   preferredCategoryIds?: string[];
+  credits?: number;
   isActive: boolean;
   createdAt: string;
   lastActiveAt: string;
@@ -60,6 +65,16 @@ function UsersPageContent() {
   const [isSavingName, setIsSavingName] = useState(false);
   const [userToDelete, setUserToDelete] = useState<StudentUser | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // AI Credits modal states
+  const [userToManageCredits, setUserToManageCredits] = useState<StudentUser | null>(null);
+  const [creditAdjustmentType, setCreditAdjustmentType] = useState<"add" | "set">("add");
+  const [creditsAmount, setCreditsAmount] = useState<number>(10);
+  const [isSavingCredits, setIsSavingCredits] = useState(false);
+
+  const [isGiftAllOpen, setIsGiftAllOpen] = useState(false);
+  const [giftAllAmount, setGiftAllAmount] = useState<number>(10);
+  const [isGiftingAll, setIsGiftingAll] = useState(false);
 
   const loadData = async () => {
     try {
@@ -145,13 +160,73 @@ function UsersPageContent() {
     }
   };
 
+  const handleUpdateUserCredits = async () => {
+    if (!userToManageCredits) return;
+    try {
+      setIsSavingCredits(true);
+      const payload =
+        creditAdjustmentType === "add"
+          ? { id: userToManageCredits.id, addCredits: Number(creditsAmount) }
+          : { id: userToManageCredits.id, credits: Math.max(0, Number(creditsAmount)) };
+
+      const res = await fetch("/api/v1/admin/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }).then((r) => r.json());
+
+      if (res.success) {
+        setFeedback({
+          message: `Updated AI credits for ${userToManageCredits.name} to ${res.credits ?? creditsAmount} credits.`,
+          type: "success",
+        });
+        setUserToManageCredits(null);
+        loadData();
+      } else {
+        setFeedback({ message: res.error || "Failed to update credits.", type: "error" });
+      }
+    } catch {
+      setFeedback({ message: "Network error updating credits.", type: "error" });
+    } finally {
+      setIsSavingCredits(false);
+    }
+  };
+
+  const handleGiftCreditsToAll = async () => {
+    if (giftAllAmount <= 0) return;
+    try {
+      setIsGiftingAll(true);
+      const res = await fetch("/api/v1/admin/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ addCreditsToAll: Number(giftAllAmount) }),
+      }).then((r) => r.json());
+
+      if (res.success) {
+        setFeedback({
+          message: res.message || `Granted +${giftAllAmount} credits to all candidates!`,
+          type: "success",
+        });
+        setIsGiftAllOpen(false);
+        loadData();
+      } else {
+        setFeedback({ message: res.error || "Failed to gift credits.", type: "error" });
+      }
+    } catch {
+      setFeedback({ message: "Network error gifting credits.", type: "error" });
+    } finally {
+      setIsGiftingAll(false);
+    }
+  };
+
   const exportCsv = () => {
     if (users.length === 0) return;
-    const headers = ["ID", "Name", "Mobile Number", "Joined Date", "Status"];
+    const headers = ["ID", "Name", "Mobile Number", "AI Credits", "Joined Date", "Status"];
     const rows = users.map((u) => [
       u.id,
       `"${u.name}"`,
       u.phone || "",
+      u.credits ?? 10,
       u.createdAt,
       u.isActive ? "Active" : "Suspended",
     ]);
@@ -193,6 +268,18 @@ function UsersPageContent() {
       ),
     },
     {
+      header: "AI Credits",
+      accessorKey: "credits",
+      cell: (user) => (
+        <div className="flex items-center gap-1.5 font-bold text-xs">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+            <Zap className="w-3 h-3 text-amber-500 fill-amber-500" />
+            {user.credits ?? 10} Credits
+          </span>
+        </div>
+      ),
+    },
+    {
       header: "Joined Date",
       accessorKey: "createdAt",
       cell: (user) => <FormattedTimestamp value={user.createdAt} />,
@@ -211,6 +298,19 @@ function UsersPageContent() {
       className: "text-right",
       cell: (user) => (
         <div className="flex items-center justify-end gap-1.5">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setUserToManageCredits(user);
+              setCreditsAmount(10);
+              setCreditAdjustmentType("add");
+            }}
+            title="Gift / Manage AI Credits"
+            className="text-amber-600 hover:text-amber-700 hover:bg-amber-50 dark:hover:bg-amber-950/40"
+          >
+            <Zap className="w-3.5 h-3.5" />
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -257,6 +357,7 @@ function UsersPageContent() {
   const activeUsers = users.filter((u) => u.isActive);
   const suspendedUsers = users.filter((u) => !u.isActive);
   const verifiedPhoneCount = users.filter((u) => u.phone && u.phone.trim().length > 0).length;
+  const totalAiCredits = users.reduce((acc, u) => acc + (u.credits ?? 10), 0);
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
@@ -269,11 +370,23 @@ function UsersPageContent() {
           <PageHeader
             eyebrow="Candidate Management"
             title="Registered Candidates & Students"
-            description="View registered student accounts, verify contact details, and manage portal access."
+            description="View registered student accounts, manage AI question credits, and control portal access."
             actions={
-              <Button onClick={exportCsv} variant="outline" className="gap-2">
-                <Download className="w-4 h-4" /> Export Candidates CSV
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => {
+                    setGiftAllAmount(10);
+                    setIsGiftAllOpen(true);
+                  }}
+                  variant="outline"
+                  className="gap-2 border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/40 cursor-pointer"
+                >
+                  <Gift className="w-4 h-4 text-amber-500" /> Gift Credits to All
+                </Button>
+                <Button onClick={exportCsv} variant="outline" className="gap-2 cursor-pointer">
+                  <Download className="w-4 h-4" /> Export CSV
+                </Button>
+              </div>
             }
           />
 
@@ -301,7 +414,7 @@ function UsersPageContent() {
           )}
 
           {/* Audience Metric Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
               title="Registered Candidates"
               value={users.length}
@@ -317,11 +430,18 @@ function UsersPageContent() {
               borderColor="border-l-emerald-500"
             />
             <StatCard
+              title="Total AI Credits"
+              value={totalAiCredits}
+              description="Active question balance"
+              icon={<Zap className="w-4 h-4 text-amber-600 dark:text-amber-400" />}
+              borderColor="border-l-amber-500"
+            />
+            <StatCard
               title="Phone Verified"
               value={verifiedPhoneCount}
               description="Mobile numbers linked"
-              icon={<ShieldCheck className="w-4 h-4 text-amber-600 dark:text-amber-400" />}
-              borderColor="border-l-amber-500"
+              icon={<ShieldCheck className="w-4 h-4 text-purple-600 dark:text-purple-400" />}
+              borderColor="border-l-purple-500"
             />
           </div>
 
@@ -414,6 +534,13 @@ function UsersPageContent() {
                         {inspectedUser.phone ? `+91 ${inspectedUser.phone.replace(/\D/g, '').slice(-10)}` : "Not provided"}
                       </span>
                     </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-500">AI Credits:</span>
+                      <span className="font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                        <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                        {inspectedUser.credits ?? 10} Credits
+                      </span>
+                    </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Account Status:</span>
                       <Badge variant={inspectedUser.isActive ? "success" : "secondary"}>
@@ -494,6 +621,211 @@ function UsersPageContent() {
                   className="bg-[#A30B0B] hover:bg-[#850808] text-white"
                 >
                   {isSavingName ? "Saving..." : "Save Name"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          {/* Manage Candidate AI Credits Dialog */}
+          <Dialog open={!!userToManageCredits} onOpenChange={(open) => !open && setUserToManageCredits(null)}>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                    <Zap className="w-5 h-5 fill-amber-500" />
+                  </div>
+                  <div>
+                    <DialogTitle>Manage Candidate AI Credits</DialogTitle>
+                    <DialogDescription>
+                      Gift bonus credits or adjust the question balance for this candidate.
+                    </DialogDescription>
+                  </div>
+                </div>
+              </DialogHeader>
+
+              {userToManageCredits && (
+                <div className="space-y-4 py-2">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+                    <div>
+                      <p className="font-bold text-slate-900 dark:text-white text-sm">{userToManageCredits.name}</p>
+                      <p className="text-slate-500 font-mono text-[11px]">
+                        {userToManageCredits.phone ? `+91 ${userToManageCredits.phone}` : userToManageCredits.email}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[11px] text-slate-400 block">Current Balance</span>
+                      <span className="font-extrabold text-amber-600 dark:text-amber-400 text-sm flex items-center justify-end gap-1">
+                        <Zap className="w-3.5 h-3.5 fill-amber-500" />
+                        {userToManageCredits.credits ?? 10} Credits
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Mode Selector */}
+                  <div className="flex rounded-lg p-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs font-semibold">
+                    <button
+                      type="button"
+                      onClick={() => setCreditAdjustmentType("add")}
+                      className={`flex-1 py-1.5 rounded-md transition-all cursor-pointer ${
+                        creditAdjustmentType === "add"
+                          ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
+                          : "text-slate-500 hover:text-slate-800 dark:hover:text-white"
+                      }`}
+                    >
+                      + Add Bonus Credits
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCreditAdjustmentType("set")}
+                      className={`flex-1 py-1.5 rounded-md transition-all cursor-pointer ${
+                        creditAdjustmentType === "set"
+                          ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
+                          : "text-slate-500 hover:text-slate-800 dark:hover:text-white"
+                      }`}
+                    >
+                      = Set Exact Total
+                    </button>
+                  </div>
+
+                  {/* Amount Input */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      {creditAdjustmentType === "add" ? "Credits to Add" : "New Total Balance"}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        min="1"
+                        max="1000"
+                        value={creditsAmount}
+                        onChange={(e) => setCreditsAmount(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                        className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-bold focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                      />
+                      <span className="text-xs font-bold text-slate-500 shrink-0">Credits</span>
+                    </div>
+                  </div>
+
+                  {/* Quick Preset Buttons */}
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-medium text-slate-400">Quick Select:</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {[5, 10, 25, 50, 100].map((amt) => (
+                        <button
+                          key={amt}
+                          type="button"
+                          onClick={() => setCreditsAmount(amt)}
+                          className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all cursor-pointer border ${
+                            creditsAmount === amt
+                              ? "bg-amber-500 text-white border-amber-600"
+                              : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-amber-400"
+                          }`}
+                        >
+                          +{amt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-slate-400 leading-relaxed">
+                    {creditAdjustmentType === "add"
+                      ? `Candidate will receive +${creditsAmount} credits. New total will be ${(userToManageCredits.credits ?? 10) + creditsAmount} credits.`
+                      : `Candidate's credit balance will be set directly to ${creditsAmount} credits.`}
+                  </p>
+                </div>
+              )}
+
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setUserToManageCredits(null)} disabled={isSavingCredits}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleUpdateUserCredits}
+                  disabled={isSavingCredits || creditsAmount <= 0}
+                  className="bg-amber-600 hover:bg-amber-700 text-white font-bold"
+                >
+                  {isSavingCredits ? "Updating..." : "Save AI Credits"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          {/* Gift Credits To All Candidates Dialog */}
+          <Dialog open={isGiftAllOpen} onOpenChange={(open) => !open && setIsGiftAllOpen(false)}>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                    <Gift className="w-5 h-5 text-amber-500" />
+                  </div>
+                  <div>
+                    <DialogTitle>Gift Credits to All Candidates</DialogTitle>
+                    <DialogDescription>
+                      Distribute bonus AI question credits to every registered candidate.
+                    </DialogDescription>
+                  </div>
+                </div>
+              </DialogHeader>
+
+              <div className="space-y-4 py-2">
+                <div className="p-3.5 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 space-y-1">
+                  <p className="font-bold flex items-center gap-1.5">
+                    <Users className="w-4 h-4 text-amber-600" />
+                    Target: All {users.length} Registered Candidates
+                  </p>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                    Every active and registered candidate in the database will have this credit bonus added to their current balance.
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                    Bonus Credits per Candidate
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      min="1"
+                      max="100"
+                      value={giftAllAmount}
+                      onChange={(e) => setGiftAllAmount(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                      className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-bold focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                    />
+                    <span className="text-xs font-bold text-slate-500 shrink-0">Credits each</span>
+                  </div>
+                </div>
+
+                {/* Quick Presets */}
+                <div className="space-y-1">
+                  <span className="text-[11px] font-medium text-slate-400">Quick Select:</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[5, 10, 15, 20, 50].map((amt) => (
+                      <button
+                        key={amt}
+                        type="button"
+                        onClick={() => setGiftAllAmount(amt)}
+                        className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer border ${
+                          giftAllAmount === amt
+                            ? "bg-amber-500 text-white border-amber-600"
+                            : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-amber-400"
+                        }`}
+                      >
+                        +{amt} Credits
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsGiftAllOpen(false)} disabled={isGiftingAll}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleGiftCreditsToAll}
+                  disabled={isGiftingAll || giftAllAmount <= 0}
+                  className="bg-gradient-to-r from-[#A30B0B] to-[#7A0606] text-white font-bold"
+                >
+                  {isGiftingAll ? "Granting Credits..." : `Grant +${giftAllAmount} to All Candidates`}
                 </Button>
               </DialogFooter>
             </DialogContent>

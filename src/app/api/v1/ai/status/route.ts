@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import { AiSettingsService } from '@/server/services/ai-settings-service';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   const settings = AiSettingsService.getPublicSettings();
   return NextResponse.json({

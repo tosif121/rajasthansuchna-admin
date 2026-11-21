@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql, isNeonReachable, safeNeonQuery } from '@/lib/db';
+import { AiSettingsService } from '@/server/services/ai-settings-service';
 import fs from 'fs';
 import path from 'path';
 
@@ -8,6 +9,7 @@ interface StudentUser {
   name: string;
   email: string;
   phone?: string;
+  credits?: number;
   isActive: boolean;
   createdAt: string;
   lastActiveAt: string;
@@ -56,7 +58,7 @@ export async function POST(req: NextRequest) {
     if (!existingUser && sql && (await isNeonReachable(sql))) {
       try {
         const rows = (await safeNeonQuery(sql`
-          SELECT id, name, email, phone, COALESCE(is_active, true) as "isActive", created_at as "createdAt", last_active_at as "lastActiveAt"
+          SELECT id, name, email, phone, COALESCE(credits, 10) as "credits", COALESCE(is_active, true) as "isActive", created_at as "createdAt", last_active_at as "lastActiveAt"
           FROM app_users
           WHERE (${cleanPhone}::text IS NOT NULL AND RIGHT(phone, 10) = ${cleanPhone})
              OR LOWER(email) = ${rawInput.toLowerCase()}
@@ -68,6 +70,8 @@ export async function POST(req: NextRequest) {
       } catch {}
     }
 
+    const aiSettings = AiSettingsService.getSettings();
+    const initialCredits = typeof aiSettings.defaultSignupCredits === 'number' ? aiSettings.defaultSignupCredits : 10;
     const nowIso = new Date().toISOString();
     const displayName = (name || '').trim() || (cleanPhone ? `Candidate (${cleanPhone.slice(-4)})` : 'Candidate');
 
@@ -80,6 +84,7 @@ export async function POST(req: NextRequest) {
         name: displayName,
         email: generatedEmail,
         phone: cleanPhone || rawInput,
+        credits: initialCredits,
         isActive: true,
         createdAt: nowIso,
         lastActiveAt: nowIso,
@@ -88,8 +93,21 @@ export async function POST(req: NextRequest) {
       if (sql && (await isNeonReachable(sql))) {
         try {
           await safeNeonQuery(sql`
-            INSERT INTO app_users (id, name, email, phone, is_active, created_at, last_active_at)
-            VALUES (${newUserId}, ${displayName}, ${generatedEmail}, ${cleanPhone || rawInput}, true, NOW(), NOW())
+            CREATE TABLE IF NOT EXISTS app_users (
+              id TEXT PRIMARY KEY,
+              name TEXT NOT NULL,
+              email TEXT NOT NULL UNIQUE,
+              phone TEXT,
+              target_exam TEXT,
+              preferred_category_ids TEXT[],
+              credits INT DEFAULT 10 NOT NULL,
+              is_active BOOLEAN DEFAULT true NOT NULL,
+              created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+              last_active_at TIMESTAMPTZ DEFAULT now() NOT NULL
+            );
+            ALTER TABLE app_users ADD COLUMN IF NOT EXISTS credits INT DEFAULT 10 NOT NULL;
+            INSERT INTO app_users (id, name, email, phone, credits, is_active, created_at, last_active_at)
+            VALUES (${newUserId}, ${displayName}, ${generatedEmail}, ${cleanPhone || rawInput}, ${initialCredits}, true, NOW(), NOW())
             ON CONFLICT (email) DO NOTHING;
           `);
         } catch {}
@@ -111,6 +129,7 @@ export async function POST(req: NextRequest) {
         name: existingUser.name,
         email: existingUser.email,
         phone: existingUser.phone,
+        credits: existingUser.credits ?? initialCredits,
         role: 'student',
         isLoggedIn: true,
       },

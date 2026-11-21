@@ -27,6 +27,8 @@ import {
   ShieldCheck,
   Zap,
   Bot,
+  Gift,
+  Coins,
 } from 'lucide-react';
 
 interface PublicAiSettings {
@@ -35,6 +37,7 @@ interface PublicAiSettings {
   model: string;
   isEnabled: boolean;
   groundingEnabled: boolean;
+  defaultSignupCredits: number;
   temperature: number;
   maxOutputTokens: number;
   systemPrompt: string;
@@ -60,6 +63,7 @@ export default function SettingsPage() {
   const [model, setModel] = useState('gemini-3.5-flash-lite');
   const [isEnabled, setIsEnabled] = useState(true);
   const [groundingEnabled, setGroundingEnabled] = useState(true);
+  const [defaultSignupCredits, setDefaultSignupCredits] = useState(10);
   const [temperature, setTemperature] = useState(0.2);
   const [systemPrompt, setSystemPrompt] = useState('');
 
@@ -101,6 +105,7 @@ export default function SettingsPage() {
         setModel(activeModel);
         setIsEnabled(s.isEnabled !== false);
         setGroundingEnabled(s.groundingEnabled !== false);
+        setDefaultSignupCredits(typeof s.defaultSignupCredits === 'number' ? s.defaultSignupCredits : 10);
         setTemperature(s.temperature ?? 0.2);
         setSystemPrompt(s.systemPrompt || '');
         if (s.lastTestStatus && s.lastTestStatus !== 'untested') {
@@ -128,6 +133,7 @@ export default function SettingsPage() {
         model,
         isEnabled,
         groundingEnabled,
+        defaultSignupCredits: Math.max(0, parseInt(String(defaultSignupCredits), 10) || 10),
         temperature,
         systemPrompt,
       };
@@ -525,7 +531,81 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Card 3: System Prompt / Personality */}
+      {/* Card 3: Candidate AI Credits & Welcome Quota */}
+      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-5">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-600 dark:text-amber-400">
+              <Coins className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-slate-900 dark:text-white">
+                Candidate AI Credits & Welcome Quota
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Configure initial AI question credits granted automatically to each candidate upon signup
+              </p>
+            </div>
+          </div>
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+            Default: {defaultSignupCredits} Credits / Student
+          </span>
+        </div>
+
+        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <Label className="text-xs font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                Signup Welcome Credits
+              </Label>
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
+                Every newly registered candidate account on mobile app or web automatically receives this number of AI credits.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                min="0"
+                max="500"
+                value={defaultSignupCredits}
+                onChange={(e) => setDefaultSignupCredits(Math.max(0, parseInt(e.target.value, 10) || 0))}
+                className="w-24 text-center font-bold text-base"
+              />
+              <span className="text-xs font-semibold text-slate-500">Credits</span>
+            </div>
+          </div>
+
+          {/* Quick Presets */}
+          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-200 dark:border-slate-700">
+            <span className="text-xs font-medium text-slate-500 mr-1">Quick Select:</span>
+            {[5, 10, 15, 20, 25, 50].map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                onClick={() => setDefaultSignupCredits(preset)}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border ${
+                  defaultSignupCredits === preset
+                    ? 'bg-[#A30B0B] text-white border-[#A30B0B] shadow-xs'
+                    : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-slate-400'
+                }`}
+              >
+                {preset} Credits
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-start gap-2.5 p-3 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/40 text-xs text-blue-800 dark:text-blue-300">
+          <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+          <span>
+            <strong>Candidate Tip:</strong> You can also gift bonus credits to individual candidates or distribute bulk credits to all registered students at once anytime from the <strong>Candidates & Users</strong> page.
+          </span>
+        </div>
+      </div>
+
+      {/* Card 4: System Prompt / Personality */}
       <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2.5">

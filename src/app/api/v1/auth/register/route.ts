@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql, isNeonReachable, safeNeonQuery } from '@/lib/db';
+import { AiSettingsService } from '@/server/services/ai-settings-service';
 import fs from 'fs';
 import path from 'path';
 
@@ -10,6 +11,7 @@ interface StudentUser {
   phone?: string;
   targetExam?: string;
   preferredCategoryIds?: string[];
+  credits: number;
   isActive: boolean;
   createdAt: string;
   lastActiveAt: string;
@@ -43,10 +45,12 @@ async function ensureUsersTable() {
         phone TEXT,
         target_exam TEXT,
         preferred_category_ids TEXT[],
+        credits INT DEFAULT 10 NOT NULL,
         is_active BOOLEAN DEFAULT true NOT NULL,
         created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
         last_active_at TIMESTAMPTZ DEFAULT now() NOT NULL
       );
+      ALTER TABLE app_users ADD COLUMN IF NOT EXISTS credits INT DEFAULT 10 NOT NULL;
     `);
   } catch {}
 }
@@ -79,6 +83,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const aiSettings = AiSettingsService.getSettings();
+    const initialCredits = typeof aiSettings.defaultSignupCredits === 'number' ? aiSettings.defaultSignupCredits : 10;
+
     const userId = `usr_${Date.now()}`;
     const nowIso = new Date().toISOString();
     const finalExam = (targetExam || '').trim() || 'General / All Exams';
@@ -88,7 +95,7 @@ export async function POST(req: NextRequest) {
       try {
         await ensureUsersTable();
         await safeNeonQuery(sql`
-          INSERT INTO app_users (id, name, email, phone, target_exam, preferred_category_ids, is_active, created_at, last_active_at)
+          INSERT INTO app_users (id, name, email, phone, target_exam, preferred_category_ids, credits, is_active, created_at, last_active_at)
           VALUES (
             ${userId},
             ${trimmedName},
@@ -96,6 +103,7 @@ export async function POST(req: NextRequest) {
             ${cleanPhone},
             ${finalExam},
             ${finalCategories},
+            ${initialCredits},
             true,
             NOW(),
             NOW()
@@ -118,6 +126,7 @@ export async function POST(req: NextRequest) {
       phone: cleanPhone,
       targetExam: finalExam,
       preferredCategoryIds: finalCategories,
+      credits: initialCredits,
       isActive: true,
       createdAt: nowIso,
       lastActiveAt: nowIso,
