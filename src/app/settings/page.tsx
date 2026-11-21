@@ -57,7 +57,7 @@ export default function SettingsPage() {
   const [copied, setCopied] = useState(false);
   const [maskedKey, setMaskedKey] = useState('');
   const [hasExistingKey, setHasExistingKey] = useState(false);
-  const [model, setModel] = useState('gemini-3.8-flash');
+  const [model, setModel] = useState('gemini-3.5-flash-lite');
   const [isEnabled, setIsEnabled] = useState(true);
   const [groundingEnabled, setGroundingEnabled] = useState(true);
   const [temperature, setTemperature] = useState(0.2);
@@ -91,9 +91,13 @@ export default function SettingsPage() {
         setHasExistingKey(s.hasKey);
         setMaskedKey(s.maskedApiKey);
         const activeModel =
-          s.model && s.model !== 'gemini-2.0-flash' && s.model !== 'models/gemini-2.0-flash'
+          s.model &&
+          s.model !== 'gemini-2.0-flash' &&
+          s.model !== 'models/gemini-2.0-flash' &&
+          s.model !== 'gemini-2.5-flash' &&
+          s.model !== 'models/gemini-2.5-flash'
             ? s.model
-            : 'gemini-3.8-flash';
+            : 'gemini-3.5-flash-lite';
         setModel(activeModel);
         setIsEnabled(s.isEnabled !== false);
         setGroundingEnabled(s.groundingEnabled !== false);
@@ -418,22 +422,22 @@ export default function SettingsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {[
             {
+              id: 'gemini-3.5-flash-lite',
+              title: 'Gemini 3.5 Flash Lite',
+              tag: 'RECOMMENDED & STABLE',
+              desc: 'Sub-second response times with zero high-demand throttling on Free tier.',
+            },
+            {
+              id: 'gemini-3.5-flash',
+              title: 'Gemini 3.5 Flash',
+              tag: 'BALANCED',
+              desc: 'High throughput, optimal balance of accuracy and latency.',
+            },
+            {
               id: 'gemini-3.8-flash',
               title: 'Gemini 3.8 Flash',
-              tag: 'RECOMMENDED',
-              desc: 'Ultra-fast, state-of-the-art responses recommended by Google AI Studio.',
-            },
-            {
-              id: 'gemini-2.5-flash',
-              title: 'Gemini 2.5 Flash',
-              tag: 'FAST & MODERN',
-              desc: 'High throughput, optimal balance of accuracy and speed.',
-            },
-            {
-              id: 'gemini-1.5-pro',
-              title: 'Gemini 1.5 Pro',
-              tag: 'DEEP REASONING',
-              desc: 'Complex syllabus breakdown and multi-document reasoning.',
+              tag: 'FLAGSHIP PREVIEW',
+              desc: 'Next-gen flagship preview with automatic high-demand fallback.',
             },
           ].map((m) => {
             const isSelected = model === m.id;

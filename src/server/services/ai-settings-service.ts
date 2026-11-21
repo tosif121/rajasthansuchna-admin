@@ -40,8 +40,8 @@ const SETTINGS_FILE = path.join(DATA_DIR, 'ai-settings.json');
 
 // Default initial state
 const defaultSettings: AiSettings = {
-  apiKey: process.env.GEMINI_API_KEY || '',
-  model: 'gemini-3.8-flash',
+  apiKey: process.env.GEMINI_API_KEY || 'AQ.Ab8RN6L7fGvCe0XLjikeeyThuG8B3rcdb8e-4-kYc0yDCp2iVw',
+  model: 'gemini-3.5-flash-lite',
   isEnabled: true,
   groundingEnabled: true,
   temperature: 0.2,
@@ -72,9 +72,14 @@ function loadFromFile(): AiSettings {
       const data = fs.readFileSync(SETTINGS_FILE, 'utf-8');
       const parsed = JSON.parse(data);
       const settings: AiSettings = { ...defaultSettings, ...parsed };
-      // Auto-migrate deprecated models to Gemini 3.8 Flash
-      if (settings.model === 'gemini-2.0-flash' || settings.model === 'models/gemini-2.0-flash') {
-        settings.model = 'gemini-3.8-flash';
+      // Auto-migrate deprecated models to Gemini 3.5 Flash Lite
+      if (
+        settings.model === 'gemini-2.0-flash' ||
+        settings.model === 'models/gemini-2.0-flash' ||
+        settings.model === 'gemini-2.5-flash' ||
+        settings.model === 'models/gemini-2.5-flash'
+      ) {
+        settings.model = 'gemini-3.5-flash-lite';
       }
       return settings;
     }
@@ -95,10 +100,7 @@ function saveToFile(settings: AiSettings) {
 
 export class AiSettingsService {
   static getSettings(): AiSettings {
-    if (!cachedSettings) {
-      cachedSettings = loadFromFile();
-    }
-    return cachedSettings;
+    return loadFromFile();
   }
 
   static getPublicSettings(): PublicAiSettings {
@@ -258,19 +260,24 @@ export class AiSettingsService {
       throw new Error('Gemini API key is not configured.');
     }
 
-    let initialModel = (modelOverride || settings.model || 'gemini-3.8-flash').trim();
-    if (initialModel === 'gemini-2.0-flash' || initialModel === 'models/gemini-2.0-flash') {
-      initialModel = 'gemini-3.8-flash';
+    let initialModel = (modelOverride || settings.model || 'gemini-3.5-flash-lite').trim();
+    if (
+      initialModel === 'gemini-2.0-flash' ||
+      initialModel === 'models/gemini-2.0-flash' ||
+      initialModel === 'gemini-2.5-flash' ||
+      initialModel === 'models/gemini-2.5-flash'
+    ) {
+      initialModel = 'gemini-3.5-flash-lite';
     }
     const cleanModel = initialModel.replace(/^models\//, '');
 
-    // Ordered candidate fallback list in case a specific model version is phased out by Google
+    // Ordered candidate fallback list in case of deprecation, high demand spikes (503), or quota exhaustion
     const candidateModels = [
       cleanModel,
+      'gemini-3.5-flash-lite',
+      'gemini-3.5-flash',
+      'gemini-3.1-flash-lite',
       'gemini-3.8-flash',
-      'gemini-2.5-flash',
-      'gemini-1.5-flash',
-      'gemini-1.5-pro',
     ].filter((m, idx, arr) => arr.indexOf(m) === idx);
 
     let lastError: Error | null = null;
@@ -306,14 +313,20 @@ export class AiSettingsService {
 
         if (!response.ok) {
           const errMsg = data?.error?.message || `Gemini API returned status ${response.status}`;
-          // If the model is not found, deprecated or unsupported, try next model in candidate list
-          const isModelAvailabilityIssue =
+          // If the model is not found, deprecated, unsupported, or experiencing temporary high demand spikes:
+          const isRetryableError =
             response.status === 404 ||
+            response.status === 429 ||
+            response.status === 503 ||
             errMsg.toLowerCase().includes('no longer available') ||
             errMsg.toLowerCase().includes('not found') ||
-            errMsg.toLowerCase().includes('unsupported');
+            errMsg.toLowerCase().includes('unsupported') ||
+            errMsg.toLowerCase().includes('high demand') ||
+            errMsg.toLowerCase().includes('spikes in demand') ||
+            errMsg.toLowerCase().includes('temporarily') ||
+            errMsg.toLowerCase().includes('overloaded');
 
-          if (isModelAvailabilityIssue) {
+          if (isRetryableError) {
             lastError = new Error(errMsg);
             continue;
           }
@@ -336,10 +349,14 @@ export class AiSettingsService {
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err);
         lastError = err instanceof Error ? err : new Error(message);
-        if (
+        const isRetryable =
           message.toLowerCase().includes('no longer available') ||
-          message.toLowerCase().includes('not found')
-        ) {
+          message.toLowerCase().includes('not found') ||
+          message.toLowerCase().includes('high demand') ||
+          message.toLowerCase().includes('spikes in demand') ||
+          message.toLowerCase().includes('temporarily') ||
+          message.toLowerCase().includes('overloaded');
+        if (isRetryable) {
           continue;
         }
         throw lastError;
