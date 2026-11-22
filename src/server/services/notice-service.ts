@@ -194,13 +194,8 @@ function initMemoryNotices(): AdminNoticeRecord[] {
   return [];
 }
 
-function saveMemoryNotices(list: AdminNoticeRecord[]) {
-  try {
-    const noticesPath = path.join(process.cwd(), "src", "data", "notices.json");
-    fs.writeFileSync(noticesPath, JSON.stringify(list, null, 2), "utf8");
-  } catch (err) {
-    console.error("Failed to persist notices to disk:", err);
-  }
+function saveMemoryNotices(_list: AdminNoticeRecord[]) {
+  // DB is the single source of truth; no local json file writing needed.
 }
 
 const memoryNotices: AdminNoticeRecord[] = initMemoryNotices();
