@@ -31,6 +31,13 @@ export interface FlutterRecruitmentFacts {
   qualification: string;
   ageMin?: number;
   ageMax?: number;
+  ageAsOnDate?: string;
+  ageRelaxation?: string;
+  categoryVacancies?: Record<string, string | number>;
+  howToApply?: string;
+  telegramUrl?: string;
+  whatsappUrl?: string;
+  faqs?: Array<{ question: string; answer: string }>;
   selectionProcess: string;
   sourceUrl: string;
   sourceDate: string;

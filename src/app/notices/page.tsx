@@ -65,8 +65,15 @@ interface NoticeFacts {
   qualification: string;
   ageMin?: number;
   ageMax?: number;
-  selectionProcess: string;
+  ageAsOnDate?: string;
+  ageRelaxation?: string;
+  categoryVacancies?: Record<string, string | number>;
   howToApply?: string;
+  telegramUrl?: string;
+  whatsappUrl?: string;
+  syllabusUrl?: string;
+  faqs?: Array<{ question: string; answer: string }>;
+  selectionProcess: string;
   sourceUrl: string;
   sourceDate: string;
   verifiedAt: string;
@@ -136,6 +143,13 @@ interface NoticeForm {
   sourceDate: string;
   verifiedAt: string;
   verifiedBy: string;
+  ageAsOnDate: string;
+  ageRelaxation: string;
+  categoryVacancies: string;
+  telegramUrl: string;
+  whatsappUrl: string;
+  syllabusUrl: string;
+  faqs: string;
   notificationPdfUrl: string;
   applyOnlineUrl: string;
   officialSiteUrl: string;
@@ -161,6 +175,59 @@ const DEFAULT_NOTICE_TYPES: Option[] = [
 
 const today = () => new Date().toISOString().split('T')[0];
 
+function parseCategoryVacancies(str?: string): Record<string, string> | undefined {
+  if (!str || !str.trim()) return undefined;
+  try {
+    if (str.trim().startsWith('{')) return JSON.parse(str.trim());
+  } catch {}
+  const result: Record<string, string> = {};
+  const parts = str.split(/[,\n]+/);
+  for (const p of parts) {
+    const [k, v] = p.split(/[:=-]+/);
+    if (k && v) {
+      result[k.trim()] = v.trim();
+    }
+  }
+  return Object.keys(result).length > 0 ? result : undefined;
+}
+
+function parseFaqs(str?: string): Array<{ question: string; answer: string }> | undefined {
+  if (!str || !str.trim()) return undefined;
+  try {
+    if (str.trim().startsWith('[')) return JSON.parse(str.trim());
+  } catch {}
+  const items: Array<{ question: string; answer: string }> = [];
+  const blocks = str.split(/\n\s*\n/);
+  for (const block of blocks) {
+    const lines = block.split('\n').map((l) => l.trim()).filter(Boolean);
+    let q = '';
+    let a = '';
+    for (const line of lines) {
+      if (/^(Q|प्रश्न)[:.-]?\s*/i.test(line)) {
+        q = line.replace(/^(Q|प्रश्न)[:.-]?\s*/i, '');
+      } else if (/^(A|उत्तर)[:.-]?\s*/i.test(line)) {
+        a = line.replace(/^(A|उत्तर)[:.-]?\s*/i, '');
+      } else if (!q) {
+        q = line;
+      } else {
+        a = a ? `${a} ${line}` : line;
+      }
+    }
+    if (q && a) items.push({ question: q, answer: a });
+  }
+  return items.length > 0 ? items : undefined;
+}
+
+function formatCategoryVacancies(obj?: Record<string, any>): string {
+  if (!obj) return '';
+  return Object.entries(obj).map(([k, v]) => `${k}: ${v}`).join(', ');
+}
+
+function formatFaqs(faqs?: Array<{ question: string; answer: string }>): string {
+  if (!faqs || faqs.length === 0) return '';
+  return faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n');
+}
+
 const emptyForm = (): NoticeForm => ({
   titleHi: '',
   titleEn: '',
@@ -178,6 +245,13 @@ const emptyForm = (): NoticeForm => ({
   qualification: '',
   ageMin: '',
   ageMax: '',
+  ageAsOnDate: '01/01/2026',
+  ageRelaxation: 'राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।',
+  categoryVacancies: '',
+  telegramUrl: 'https://t.me/rajasthan_suchna_official',
+  whatsappUrl: 'https://whatsapp.com/channel/0029VaRajasthanSuchna',
+  syllabusUrl: '',
+  faqs: '',
   applicationStart: '',
   applicationEnd: '',
   feeEndDate: '',
@@ -422,6 +496,13 @@ export default function NoticesPage() {
       qualification: notice.facts?.qualification || '',
       ageMin: notice.facts?.ageMin?.toString() || '',
       ageMax: notice.facts?.ageMax?.toString() || '',
+      ageAsOnDate: notice.facts?.ageAsOnDate || '01/01/2026',
+      ageRelaxation: notice.facts?.ageRelaxation || 'राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।',
+      categoryVacancies: formatCategoryVacancies(notice.facts?.categoryVacancies),
+      telegramUrl: notice.facts?.telegramUrl || linkValue(notice.links, 'telegram') || 'https://t.me/rajasthan_suchna_official',
+      whatsappUrl: notice.facts?.whatsappUrl || linkValue(notice.links, 'whatsapp') || 'https://whatsapp.com/channel/0029VaRajasthanSuchna',
+      syllabusUrl: notice.facts?.syllabusUrl || linkValue(notice.links, 'syllabus'),
+      faqs: formatFaqs(notice.facts?.faqs),
       applicationStart: dateOnly(notice.facts?.applicationStart),
       applicationEnd: dateOnly(notice.facts?.applicationEnd),
       feeEndDate: dateOnly(notice.facts?.feeEndDate),
@@ -455,9 +536,21 @@ export default function NoticesPage() {
     if (form.applyOnlineUrl.trim()) {
       links.push({ label: 'Apply Online', url: form.applyOnlineUrl.trim(), kind: 'applyOnline' });
     }
+    if (form.syllabusUrl.trim()) {
+      links.push({ label: 'Download Syllabus (PDF)', url: form.syllabusUrl.trim(), kind: 'syllabus' });
+    }
     if (form.officialSiteUrl.trim()) {
       links.push({ label: 'Official Website', url: form.officialSiteUrl.trim(), kind: 'officialSite' });
     }
+    if (form.telegramUrl.trim()) {
+      links.push({ label: 'Join Telegram Channel', url: form.telegramUrl.trim(), kind: 'telegram' });
+    }
+    if (form.whatsappUrl.trim()) {
+      links.push({ label: 'Join WhatsApp Channel', url: form.whatsappUrl.trim(), kind: 'whatsapp' });
+    }
+
+    const categoryVacancies = parseCategoryVacancies(form.categoryVacancies);
+    const faqs = parseFaqs(form.faqs);
 
     const facts: NoticeFacts = {
       qualification: form.qualification.trim(),
@@ -466,6 +559,13 @@ export default function NoticesPage() {
       sourceDate: form.sourceDate || today(),
       verifiedAt: form.verifiedAt || today(),
       verifiedBy: form.verifiedBy.trim() || 'Rajasthan Suchna Editorial Board',
+      ...(form.ageAsOnDate ? { ageAsOnDate: form.ageAsOnDate.trim() } : {}),
+      ...(form.ageRelaxation ? { ageRelaxation: form.ageRelaxation.trim() } : {}),
+      ...(categoryVacancies ? { categoryVacancies } : {}),
+      ...(form.telegramUrl ? { telegramUrl: form.telegramUrl.trim() } : {}),
+      ...(form.whatsappUrl ? { whatsappUrl: form.whatsappUrl.trim() } : {}),
+      ...(form.syllabusUrl ? { syllabusUrl: form.syllabusUrl.trim() } : {}),
+      ...(faqs ? { faqs } : {}),
       ...(form.postsCount ? { postsCount: Number(form.postsCount) } : {}),
       ...(form.ageMin ? { ageMin: Number(form.ageMin) } : {}),
       ...(form.ageMax ? { ageMax: Number(form.ageMax) } : {}),
@@ -982,6 +1082,37 @@ export default function NoticesPage() {
               </FormField>
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <FormField label="Age Calculation Date (आयु गणना आधार तिथि)" hint="e.g. 01/01/2026">
+                <Textarea
+                  rows={1}
+                  value={form.ageAsOnDate}
+                  onChange={(e) => updateForm('ageAsOnDate', e.target.value)}
+                  placeholder="01/01/2026"
+                />
+              </FormField>
+              <FormField label="Age Relaxation (आयु सीमा में छूट)">
+                <Textarea
+                  rows={2}
+                  value={form.ageRelaxation}
+                  onChange={(e) => updateForm('ageRelaxation', e.target.value)}
+                  placeholder="SC/ST/OBC/MBC/EWS को नियमानुसार 5 से 10 वर्ष की छूट देय होगी।"
+                />
+              </FormField>
+            </div>
+
+            <FormField 
+              label="Category-Wise Vacancies (वर्गवार रिक्तियों का विवरण)"
+              hint="Format: UR: 450, EWS: 105, OBC: 210, MBC: 52, SC: 168, ST: 135"
+            >
+              <Textarea
+                rows={2}
+                value={form.categoryVacancies}
+                onChange={(e) => updateForm('categoryVacancies', e.target.value)}
+                placeholder="UR: 450, EWS: 105, OBC: 210, MBC: 52, SC: 168, ST: 135"
+              />
+            </FormField>
+
             <FormField label="Qualification">
               <Textarea
                 rows={2}
@@ -1090,15 +1221,55 @@ export default function NoticesPage() {
                   placeholder="https://..."
                 />
               </FormField>
-              <FormField label="Source URL (used for AI citations)">
+              <FormField label="Syllabus PDF URL (पाठ्यक्रम लिंक)">
                 <Textarea
                   rows={2}
-                  value={form.sourceUrl}
-                  onChange={(e) => updateForm('sourceUrl', e.target.value)}
+                  value={form.syllabusUrl}
+                  onChange={(e) => updateForm('syllabusUrl', e.target.value)}
                   placeholder="https://..."
                 />
               </FormField>
             </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <FormField label="Telegram Channel / Group URL">
+                <Textarea
+                  rows={2}
+                  value={form.telegramUrl}
+                  onChange={(e) => updateForm('telegramUrl', e.target.value)}
+                  placeholder="https://t.me/rajasthan_suchna_official"
+                />
+              </FormField>
+              <FormField label="WhatsApp Community / Channel URL">
+                <Textarea
+                  rows={2}
+                  value={form.whatsappUrl}
+                  onChange={(e) => updateForm('whatsappUrl', e.target.value)}
+                  placeholder="https://whatsapp.com/channel/..."
+                />
+              </FormField>
+            </div>
+
+            <FormField 
+              label="FAQs / अक्सर पूछे जाने वाले प्रश्न (Candidate Doubts)"
+              hint="Format: Q: प्रश्न? \n A: उत्तर।"
+            >
+              <Textarea
+                rows={4}
+                value={form.faqs}
+                onChange={(e) => updateForm('faqs', e.target.value)}
+                placeholder="Q: क्या OTR अनिवार्य है?&#10;A: हाँ, राजस्थान की सभी राज्यस्तरीय भर्तियों के लिए OTR अनिवार्य है।&#10;&#10;Q: आयु सीमा में कितनी छूट मिलेगी?&#10;A: नियमानुसार आरक्षित वर्गों को 5 से 10 वर्ष की छूट देय होगी।"
+              />
+            </FormField>
+
+            <FormField label="Source URL (used for AI citations)">
+              <Textarea
+                rows={2}
+                value={form.sourceUrl}
+                onChange={(e) => updateForm('sourceUrl', e.target.value)}
+                placeholder="https://..."
+              />
+            </FormField>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <FormField label="Source Date">
