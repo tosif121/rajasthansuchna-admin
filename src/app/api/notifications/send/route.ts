@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
           notification: { title, body: messageBody },
           data: {
             type,
-            agencyName: agencyName || "Rajasthan Suchna",
+            agencyName: agencyName || "Raj Suchna",
             ...(entityId ? { entityId, vacancySlug: entityId } : {}),
             click_action: "FLUTTER_NOTIFICATION_CLICK",
           },
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
         notification: { title, body: messageBody },
         data: {
           type,
-          agencyName: agencyName || "Rajasthan Suchna",
+          agencyName: agencyName || "Raj Suchna",
           ...(entityId ? { entityId, vacancySlug: entityId } : {}),
           click_action: "FLUTTER_NOTIFICATION_CLICK",
         },

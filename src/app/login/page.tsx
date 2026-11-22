@@ -57,7 +57,7 @@ export default function LoginPage() {
           <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#A30B0B] to-[#7A0606] flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-red-950/20">
             RS
           </div>
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white">Rajasthan Suchna</h1>
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">Raj Suchna</h1>
           <p className="text-xs text-slate-500 dark:text-slate-400">
             Official Administrative Console
           </p>

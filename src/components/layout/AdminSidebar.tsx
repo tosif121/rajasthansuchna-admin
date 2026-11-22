@@ -55,7 +55,7 @@ export function AdminSidebar() {
             </div>
             <div>
               <h1 className="font-bold text-slate-900 dark:text-white text-base leading-tight tracking-wide">
-                Rajasthan Suchna
+                Raj Suchna
               </h1>
               <span className="text-xs text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5 shrink-0" /> Admin Console

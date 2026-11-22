@@ -14,8 +14,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Rajasthan Suchna · Admin Console',
-  description: 'Editorial recruitment publishing center for Rajasthan Suchna mobile application.',
+  title: 'Raj Suchna · Admin Console',
+  description: 'Editorial recruitment publishing center for Raj Suchna mobile application.',
 };
 
 export default function RootLayout({

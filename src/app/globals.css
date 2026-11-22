@@ -106,7 +106,7 @@
   }
 }
 
-/* ─── react-datepicker complete styles (Theme Adapted: Rajasthan Suchna) ─── */
+/* ─── react-datepicker complete styles (Theme Adapted: Raj Suchna) ─── */
 .react-datepicker {
   background-color: var(--card) !important;
   border: 1px solid var(--border) !important;
@@ -390,7 +390,7 @@ li.react-datepicker__time-list-item--selected {
   font-weight: 700 !important;
 }
 
-/* Crimson / Terracotta Variant matching Rajasthan Suchna brand */
+/* Crimson / Terracotta Variant matching Raj Suchna brand */
 .datepicker-terracotta .react-datepicker__day--selected,
 .datepicker-terracotta li.react-datepicker__time-list-item--selected {
   background-color: #A30B0B !important;

@@ -83,14 +83,14 @@ export default function NotificationsPage() {
     type: "newVacancy" as NotificationItem["type"],
     noticeId: "",
     noticeSlug: "",
-    agencyName: "Rajasthan Suchna",
+    agencyName: "Raj Suchna",
   });
 
   // Fetch Notifications
   const loadNotifications = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/v1/notifications");
+      const res = await fetch(`/api/v1/notifications?_t=${Date.now()}`, { cache: "no-store" });
       const json = await res.json();
       if (json.success && Array.isArray(json.data)) {
         setNotifications(json.data);
@@ -105,7 +105,7 @@ export default function NotificationsPage() {
   // Fetch Notices for dropdown link
   const loadNotices = async () => {
     try {
-      const res = await fetch("/api/v1/notices?limit=50");
+      const res = await fetch(`/api/v1/notices?limit=50&_t=${Date.now()}`, { cache: "no-store" });
       const json = await res.json();
       if (json.success && Array.isArray(json.data)) {
         setNotices(
@@ -173,7 +173,7 @@ export default function NotificationsPage() {
           type: "newVacancy",
           noticeId: "",
           noticeSlug: "",
-          agencyName: "Rajasthan Suchna",
+          agencyName: "Raj Suchna",
         });
         await loadNotifications();
       } else {
@@ -194,8 +194,8 @@ export default function NotificationsPage() {
       });
       const json = await res.json();
       if (json.success) {
-        setNotifications((prev) => prev.filter((n) => n.id !== deleteModalState.id));
         setDeleteModalState({ isOpen: false, id: "", title: "" });
+        await loadNotifications();
       }
     } catch (err) {
       console.error(err);
@@ -400,7 +400,7 @@ export default function NotificationsPage() {
 
       {/* shadcn Dialog: Broadcast Push Notification */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-2xl! max-h-[92vh] overflow-y-auto p-6">
+        <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
           <DialogHeader className="pb-4 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 flex items-center justify-center text-[#A30B0B]">

@@ -28,6 +28,7 @@ export interface FlutterRecruitmentFacts {
   examDate?: string;
   feeGeneralObc?: string;
   feeScSt?: string;
+  feePh?: string;
   qualification: string;
   ageMin?: number;
   ageMax?: number;
@@ -35,6 +36,8 @@ export interface FlutterRecruitmentFacts {
   ageRelaxation?: string;
   categoryVacancies?: Record<string, string | number>;
   howToApply?: string;
+  howToDownloadAdmitCard?: string;
+  howToCheckResult?: string;
   telegramUrl?: string;
   whatsappUrl?: string;
   faqs?: Array<{ question: string; answer: string }>;
@@ -227,7 +230,9 @@ export class NoticeService {
           FROM notices n
           LEFT JOIN agencies a ON n.agency_id = a.id
           LEFT JOIN categories c ON n.category_id = c.id
-          LEFT JOIN notice_revisions r ON r.notice_id = n.id
+          LEFT JOIN notice_revisions r ON r.id = COALESCE(n.current_revision_id, (
+            SELECT nr.id FROM notice_revisions nr WHERE nr.notice_id = n.id ORDER BY nr.revision_number DESC LIMIT 1
+          ))
           ORDER BY n.published_at DESC NULLS LAST, n.created_at DESC;
         `;
         const timeoutPromise = new Promise<null>((_, reject) => 
@@ -334,7 +339,7 @@ export class NoticeService {
         sourceUrl: 'https://rajasthan.gov.in',
         sourceDate: new Date().toISOString().split('T')[0],
         verifiedAt: new Date().toISOString().split('T')[0],
-        verifiedBy: 'Rajasthan Suchna Operations'
+        verifiedBy: 'Raj Suchna Operations'
       },
       sections: data.sections || [],
       links: data.links || [],
@@ -464,13 +469,21 @@ export class NoticeService {
           return { success: false, error: 'Notice not found in database.' };
         }
 
+        const [maxRev] = await sql`
+          SELECT COALESCE(MAX(revision_number), 0) as "maxRev"
+          FROM notice_revisions
+          WHERE notice_id = ${updatedNotice.id};
+        `;
+        const nextRevisionNumber = (Number(maxRev?.maxRev) || 0) + 1;
+        merged.revisionNumber = nextRevisionNumber;
+
         const [revision] = await sql`
           INSERT INTO notice_revisions (
             notice_id, revision_number, title_hi, title_en, summary_hi, summary_en,
             facts_json, sections_json, links_json, revision_notes
           )
           VALUES (
-            ${updatedNotice.id}, ${merged.revisionNumber}, ${merged.titleHi}, ${merged.titleEn},
+            ${updatedNotice.id}, ${nextRevisionNumber}, ${merged.titleHi}, ${merged.titleEn},
             ${merged.summaryHi}, ${merged.summaryEn},
             ${JSON.stringify(merged.facts)},
             ${JSON.stringify(merged.sections)},
@@ -487,7 +500,8 @@ export class NoticeService {
         merged.id = updatedNotice.id;
       } catch (err) {
         console.error('Failed to update notice in Neon DB:', err);
-        return { success: false, error: 'Database update failed.' };
+        const errMsg = err instanceof Error ? err.message : 'Database update failed.';
+        return { success: false, error: `Database update failed: ${errMsg}` };
       }
     }
 

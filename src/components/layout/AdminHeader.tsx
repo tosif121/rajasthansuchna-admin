@@ -39,7 +39,7 @@ export function AdminHeader() {
             RS
           </div>
           <span className="font-bold text-slate-900 dark:text-white text-sm">
-            Rajasthan Suchna
+            Raj Suchna
           </span>
         </div>
       </div>

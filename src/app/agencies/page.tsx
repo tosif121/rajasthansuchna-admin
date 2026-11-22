@@ -5,12 +5,12 @@ import { Badge } from "@/components/ui/badge";
 import React, { useState, useEffect, useCallback } from "react";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
-import { 
-  PageHeader, 
-  StatCard, 
-  DataTable, 
-  Column, 
-  DeleteConfirmationModal 
+import {
+  PageHeader,
+  StatCard,
+  DataTable,
+  Column,
+  DeleteConfirmationModal
 } from "@/components/reusable";
 import {
   Dialog,
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { agencyLogoUrl } from "@/lib/agency-logo";
 import {
   Select,
   SelectContent,
@@ -29,15 +30,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { 
-  Building2, 
-  ExternalLink, 
-  Globe, 
-  ShieldCheck, 
+import {
+  Building2,
+  ExternalLink,
+  Globe,
+  ShieldCheck,
   Trash2,
-  Pencil, 
+  Pencil,
   Plus,
-  LayoutGrid, 
+  LayoutGrid,
   Table as TableIcon,
   CheckCircle2,
   AlertCircle,
@@ -54,6 +55,7 @@ interface Agency {
   officialUrl: string;
   activeNotices: number;
   logoUrl?: string;
+  logoAsset?: string;
   logo?: string;
 }
 
@@ -74,7 +76,11 @@ export default function AgenciesPage() {
   const [formCode, setFormCode] = useState("");
   const [formGroup, setFormGroup] = useState<"rajasthan" | "central">("rajasthan");
   const [formUrl, setFormUrl] = useState("");
-  const [formLogo, setFormLogo] = useState("");
+  const [formLogoAsset, setFormLogoAsset] = useState("");
+  const [formLogoUrl, setFormLogoUrl] = useState("");
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const [isDeletingLogo, setIsDeletingLogo] = useState(false);
+  const [pendingLogoDeletion, setPendingLogoDeletion] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -86,8 +92,8 @@ export default function AgenciesPage() {
     try {
       setLoading(true);
       const [agenciesRes, noticesRes] = await Promise.all([
-        fetch("/api/v1/agencies").then((r) => r.json()).catch(() => ({ success: false, data: [] })),
-        fetch("/api/v1/notices?limit=100").then((r) => r.json()).catch(() => ({ success: false, data: [] })),
+        fetch(`/api/v1/agencies?_t=${Date.now()}`, { cache: "no-store" }).then((r) => r.json()).catch(() => ({ success: false, data: [] })),
+        fetch(`/api/v1/notices?limit=100&_t=${Date.now()}`, { cache: "no-store" }).then((r) => r.json()).catch(() => ({ success: false, data: [] })),
       ]);
 
       const rawAgencies = agenciesRes?.success && Array.isArray(agenciesRes.data) ? agenciesRes.data : [];
@@ -116,7 +122,8 @@ export default function AgenciesPage() {
           parentGroup: a.parentGroup === "central" ? "central" : "rajasthan",
           officialUrl: a.officialUrl || "https://rajasthan.gov.in",
           activeNotices: activeCount,
-          logoUrl: a.logoUrl || a.logo || a.iconAsset || "",
+          logoAsset: a.logoAsset || "",
+          logoUrl: a.logoUrl || agencyLogoUrl(a.logoAsset) || a.logo || a.iconAsset || "",
         };
       });
 
@@ -133,6 +140,68 @@ export default function AgenciesPage() {
     loadAgenciesData();
   }, [loadAgenciesData]);
 
+  const handleLogoFile = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      setFeedback({ message: "Please choose an image file (PNG, JPG, WebP or SVG).", type: "error" });
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setFeedback({ message: "Logo image must be 2 MB or smaller.", type: "error" });
+      return;
+    }
+
+    try {
+      setIsUploadingLogo(true);
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/v1/admin/agencies/logo", {
+        method: "POST",
+        body: formData,
+      }).then((r) => r.json());
+
+      if (!res.success) {
+        setFeedback({ message: res.error || "Failed to upload logo image.", type: "error" });
+        return;
+      }
+
+      setFormLogoAsset(res.key);
+      setFormLogoUrl(res.url);
+      if (editingAgency?.logoAsset && editingAgency.logoAsset !== res.key) {
+        setPendingLogoDeletion(editingAgency.logoAsset);
+      }
+      setFeedback({ message: "Logo image uploaded to Neon Object Storage.", type: "success" });
+    } catch {
+      setFeedback({ message: "Network error uploading logo image.", type: "error" });
+    } finally {
+      setIsUploadingLogo(false);
+    }
+  };
+
+  const deleteLogoFromBucket = async (key: string): Promise<boolean> => {
+    if (!key) return true;
+    setIsDeletingLogo(true);
+    try {
+      const res = await fetch(`/api/v1/admin/agencies/logo?key=${encodeURIComponent(key)}`, {
+        method: "DELETE",
+      }).then((r) => r.json());
+      return !!res.success;
+    } catch {
+      return false;
+    } finally {
+      setIsDeletingLogo(false);
+    }
+  };
+
+  const closeAgencyModal = (open: boolean) => {
+    if (!open) {
+      if (formLogoAsset && (!editingAgency || formLogoAsset !== editingAgency.logoAsset)) {
+        void deleteLogoFromBucket(formLogoAsset);
+      }
+      setPendingLogoDeletion("");
+    }
+    setIsModalOpen(open);
+  };
+
   // Form handlers
   const openCreateAgency = () => {
     setEditingAgency(null);
@@ -141,7 +210,9 @@ export default function AgenciesPage() {
     setFormCode("");
     setFormGroup("rajasthan");
     setFormUrl("https://");
-    setFormLogo("");
+    setFormLogoAsset("");
+    setFormLogoUrl("");
+    setPendingLogoDeletion("");
     setIsModalOpen(true);
   };
 
@@ -152,7 +223,9 @@ export default function AgenciesPage() {
     setFormCode(agency.code);
     setFormGroup(agency.parentGroup);
     setFormUrl(agency.officialUrl || "https://");
-    setFormLogo(agency.logoUrl || agency.logo || "");
+    setFormLogoAsset(agency.logoAsset || "");
+    setFormLogoUrl(agency.logoUrl || agency.logo || "");
+    setPendingLogoDeletion("");
     setIsModalOpen(true);
   };
 
@@ -175,7 +248,7 @@ export default function AgenciesPage() {
         code: formCode.trim().toUpperCase(),
         parentGroup: formGroup,
         officialUrl: formUrl.trim() || "https://rajasthan.gov.in",
-        logoUrl: formLogo.trim(),
+        logoAsset: formLogoAsset,
       };
 
       if (isEditing) {
@@ -189,11 +262,19 @@ export default function AgenciesPage() {
       }).then((r) => r.json());
 
       if (res.success) {
+        let cleanupFailed = false;
+        if (pendingLogoDeletion) {
+          cleanupFailed = !(await deleteLogoFromBucket(pendingLogoDeletion));
+          setPendingLogoDeletion("");
+        }
+        const successMessage = isEditing
+          ? `Agency "${formNameEn}" updated successfully.`
+          : `Recruitment Agency "${formNameEn}" added successfully.`;
         setFeedback({
-          message: isEditing
-            ? `Agency "${formNameEn}" updated successfully.`
-            : `Recruitment Agency "${formNameEn}" added successfully.`,
-          type: "success",
+          message: cleanupFailed
+            ? `${successMessage} Old logo could not be removed from storage.`
+            : successMessage,
+          type: cleanupFailed ? "error" : "success",
         });
         setIsModalOpen(false);
         await loadAgenciesData();
@@ -216,8 +297,9 @@ export default function AgenciesPage() {
       }).then((r) => r.json());
 
       if (res.success) {
-        setAgencies((prev) => prev.filter((a) => a.id !== agencyToDelete.id));
         setFeedback({ message: `Agency "${agencyToDelete.nameEn}" removed successfully.`, type: "success" });
+        setAgencyToDelete(null);
+        await loadAgenciesData();
       } else {
         setFeedback({ message: res.error || "Failed to delete agency.", type: "error" });
       }
@@ -340,7 +422,7 @@ export default function AgenciesPage() {
           <PageHeader
             eyebrow="Commission Directory"
             title="Recruitment Agencies"
-            description="Official state and central examination commissions delivering verified circulars to the Rajasthan Suchna mobile app."
+            description="Official state and central examination commissions delivering verified circulars to the Raj Suchna mobile app."
             actions={
               <div className="flex items-center gap-2 flex-wrap">
                 <Button
@@ -353,18 +435,16 @@ export default function AgenciesPage() {
                 <div className="flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-0.5 shadow-sm">
                   <button
                     onClick={() => setViewMode("table")}
-                    className={`p-1.5 rounded-md transition-colors ${
-                      viewMode === "table" ? "bg-[#A30B0B] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
-                    }`}
+                    className={`p-1.5 rounded-md transition-colors ${viewMode === "table" ? "bg-[#A30B0B] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                      }`}
                     title="Table View"
                   >
                     <TableIcon className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-1.5 rounded-md transition-colors ${
-                      viewMode === "grid" ? "bg-[#A30B0B] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
-                    }`}
+                    className={`p-1.5 rounded-md transition-colors ${viewMode === "grid" ? "bg-[#A30B0B] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                      }`}
                     title="Grid View"
                   >
                     <LayoutGrid className="w-4 h-4" />
@@ -377,11 +457,10 @@ export default function AgenciesPage() {
           {/* Feedback Alert */}
           {feedback && (
             <div
-              className={`p-4 rounded-xl text-xs flex items-center justify-between border ${
-                feedback.type === "success"
-                  ? "bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/80"
-                  : "bg-red-50 text-red-800 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/80"
-              }`}
+              className={`p-4 rounded-xl text-xs flex items-center justify-between border ${feedback.type === "success"
+                ? "bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/80"
+                : "bg-red-50 text-red-800 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/80"
+                }`}
             >
               <div className="flex items-center gap-2.5">
                 {feedback.type === "success" ? (
@@ -431,25 +510,22 @@ export default function AgenciesPage() {
           <div className="flex items-center gap-2 bg-white dark:bg-slate-900 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm w-fit">
             <button
               onClick={() => setFilterGroup("all")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                filterGroup === "all" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${filterGroup === "all" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
             >
               All Agencies ({agencies.length})
             </button>
             <button
               onClick={() => setFilterGroup("rajasthan")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                filterGroup === "rajasthan" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${filterGroup === "rajasthan" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
             >
               Rajasthan State ({rajasthanCount})
             </button>
             <button
               onClick={() => setFilterGroup("central")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                filterGroup === "central" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${filterGroup === "central" ? "bg-[#A30B0B] text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
             >
               Central Boards ({centralCount})
             </button>
@@ -491,11 +567,10 @@ export default function AgenciesPage() {
                         {agency.code}
                       </div>
                     )}
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                      agency.parentGroup === "rajasthan"
-                        ? "bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50"
-                        : "bg-sky-50 dark:bg-sky-950/70 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-700/50"
-                    }`}>
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${agency.parentGroup === "rajasthan"
+                      ? "bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50"
+                      : "bg-sky-50 dark:bg-sky-950/70 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-700/50"
+                      }`}>
                       {agency.parentGroup === "rajasthan" ? "Rajasthan Govt" : "Central Govt"}
                     </span>
                   </div>
@@ -543,8 +618,14 @@ export default function AgenciesPage() {
           )}
 
           {/* Dialog: Add / Edit Recruitment Agency */}
-          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-            <DialogContent className="sm:max-w-md">
+          <Dialog
+            open={isModalOpen}
+            onOpenChange={(open) => {
+              if (!open && (isUploadingLogo || isDeletingLogo)) return;
+              closeAgencyModal(open);
+            }}
+          >
+            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editingAgency ? "Edit Recruitment Agency" : "Add Recruitment Agency"}</DialogTitle>
                 <DialogDescription>
@@ -554,7 +635,7 @@ export default function AgenciesPage() {
 
               <form onSubmit={handleSaveAgency} className="space-y-3.5 py-2 text-xs">
                 <div>
-                  <Label className="mb-1 block">Agency Name (English) *</Label>
+                  <Label className="mb-2 block">Agency Name (English) *</Label>
                   <Input
                     required
                     placeholder="e.g. Rajasthan Public Service Commission"
@@ -564,7 +645,7 @@ export default function AgenciesPage() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Agency Name (Hindi)</Label>
+                  <Label className="mb-2 block">Agency Name (Hindi)</Label>
                   <Input
                     placeholder="e.g. राजस्थान लोक सेवा आयोग"
                     value={formNameHi}
@@ -574,7 +655,7 @@ export default function AgenciesPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="mb-1 block">Agency Code *</Label>
+                    <Label className="mb-2 block">Agency Code *</Label>
                     <Input
                       required
                       placeholder="e.g. RPSC"
@@ -583,7 +664,7 @@ export default function AgenciesPage() {
                     />
                   </div>
                   <div>
-                    <Label className="mb-1 block">Jurisdiction</Label>
+                    <Label className="mb-2 block">Jurisdiction</Label>
                     <Select value={formGroup} onValueChange={(val: "rajasthan" | "central") => setFormGroup(val)}>
                       <SelectTrigger className="w-full">
                         <SelectValue />
@@ -597,7 +678,7 @@ export default function AgenciesPage() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Official Website URL *</Label>
+                  <Label className="mb-2 block">Official Website URL *</Label>
                   <Input
                     required
                     type="url"
@@ -608,22 +689,42 @@ export default function AgenciesPage() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Agency Logo / Image</Label>
-                  {formLogo ? (
+                  <Label className="mb-2 block">Agency Logo / Image</Label>
+                  {formLogoUrl ? (
                     <div className="relative flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
-                      <img 
-                        src={formLogo} 
-                        alt="Agency Preview" 
-                        className="w-14 h-14 object-contain rounded-lg border border-slate-200 dark:border-slate-700 bg-white p-1 shrink-0" 
+                      <img
+                        src={formLogoUrl}
+                        alt="Agency Preview"
+                        className="w-14 h-14 object-contain rounded-lg border border-slate-200 dark:border-slate-700 bg-white p-1 shrink-0"
                       />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">Logo attached</p>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">Ready to display across web & mobile</p>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">Stored in Neon Object Storage</p>
                       </div>
                       <button
                         type="button"
-                        onClick={() => setFormLogo("")}
-                        className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 cursor-pointer transition-colors"
+                        disabled={isUploadingLogo || isDeletingLogo}
+                        onClick={() => {
+                          const removedKey = formLogoAsset;
+                          setFormLogoAsset("");
+                          setFormLogoUrl("");
+                          if (!removedKey) return;
+
+                          if (editingAgency?.logoAsset && removedKey === editingAgency.logoAsset) {
+                            setPendingLogoDeletion(removedKey);
+                            return;
+                          }
+
+                          void deleteLogoFromBucket(removedKey).then((deleted) => {
+                            setFeedback({
+                              message: deleted
+                                ? "Logo removed from storage."
+                                : "Logo cleared, but it could not be removed from storage.",
+                              type: deleted ? "success" : "error",
+                            });
+                          });
+                        }}
+                        className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         title="Remove logo"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -631,66 +732,77 @@ export default function AgenciesPage() {
                     </div>
                   ) : (
                     <div
-                      onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        if (!isUploadingLogo && !isDeletingLogo) setIsDragging(true);
+                      }}
                       onDragLeave={() => setIsDragging(false)}
                       onDrop={(e) => {
                         e.preventDefault();
                         setIsDragging(false);
+                        if (isUploadingLogo || isDeletingLogo) return;
                         const file = e.dataTransfer.files?.[0];
-                        if (file && file.type.startsWith('image/')) {
-                          const reader = new FileReader();
-                          reader.onload = () => {
-                            if (typeof reader.result === 'string') setFormLogo(reader.result);
-                          };
-                          reader.readAsDataURL(file);
-                        }
+                        if (file) void handleLogoFile(file);
                       }}
-                      className={`relative flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-xl transition-colors cursor-pointer ${
-                        isDragging 
-                          ? "border-[#A30B0B] bg-red-50/50 dark:bg-red-950/20" 
-                          : "border-slate-300 dark:border-slate-700 hover:border-slate-400 bg-slate-50/60 dark:bg-slate-900/60"
-                      }`}
-                      onClick={() => fileInputRef.current?.click()}
+                      className={`relative flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-xl transition-colors cursor-pointer ${isUploadingLogo || isDeletingLogo ? "opacity-60 cursor-not-allowed" : ""} ${isDragging
+                        ? "border-[#A30B0B] bg-red-50/50 dark:bg-red-950/20"
+                        : "border-slate-300 dark:border-slate-700 hover:border-slate-400 bg-slate-50/60 dark:bg-slate-900/60"
+                        }`}
+                      onClick={() => {
+                        if (isUploadingLogo || isDeletingLogo) return;
+                        fileInputRef.current?.click();
+                      }}
                     >
                       <UploadCloud className="w-6 h-6 text-slate-400 mb-1.5" />
                       <p className="text-xs font-medium text-slate-700 dark:text-slate-300">
                         Drag & drop agency logo here, or <span className="text-[#A30B0B] underline font-semibold">browse file</span>
                       </p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">PNG, JPG, SVG, WebP</p>
+                      <p className="text-[10px] text-slate-400 mt-0.5">
+                        {isUploadingLogo
+                          ? "Uploading to Neon…"
+                          : isDeletingLogo
+                            ? "Removing from Neon…"
+                            : "PNG, JPG, SVG, WebP · max 2 MB"}
+                      </p>
                       <input
                         ref={fileInputRef}
                         type="file"
-                        accept="image/*"
+                        accept="image/png,image/jpeg,image/webp,image/svg+xml"
                         className="hidden"
+                        disabled={isUploadingLogo || isDeletingLogo}
                         onChange={(e) => {
                           const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onload = () => {
-                              if (typeof reader.result === 'string') setFormLogo(reader.result);
-                            };
-                            reader.readAsDataURL(file);
-                          }
+                          if (file) void handleLogoFile(file);
+                          e.target.value = "";
                         }}
                       />
                     </div>
                   )}
-                  <div className="mt-1.5">
-                    <Input
-                      placeholder="Or enter direct image URL (https://...)"
-                      value={formLogo}
-                      onChange={(e) => setFormLogo(e.target.value)}
-                      className="text-[11px] h-8"
-                    />
-                  </div>
                 </div>
 
                 <DialogFooter className="pt-2">
-                  <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={isUploadingLogo || isDeletingLogo}
+                    onClick={() => closeAgencyModal(false)}
+                  >
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={isSaving} className="bg-[#A30B0B] hover:bg-[#850909] text-white">
-                    {isSaving ? "Saving..." : editingAgency ? "Update Agency" : "Add Recruitment Agency"}
+                  <Button
+                    type="submit"
+                    disabled={isSaving || isUploadingLogo || isDeletingLogo}
+                    className="bg-[#A30B0B] hover:bg-[#850909] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSaving
+                      ? "Saving..."
+                      : isUploadingLogo
+                        ? "Uploading logo…"
+                        : isDeletingLogo
+                          ? "Removing logo…"
+                          : editingAgency
+                            ? "Update Agency"
+                            : "Add Recruitment Agency"}
                   </Button>
                 </DialogFooter>
               </form>

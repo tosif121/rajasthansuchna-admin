@@ -696,7 +696,7 @@ function UsersPageContent() {
 
           {/* Student Profile Detail Dialog */}
           <Dialog open={!!inspectedUser} onOpenChange={(open) => !open && setInspectedUser(null)}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Candidate Profile Details</DialogTitle>
                 <DialogDescription>
@@ -765,7 +765,7 @@ function UsersPageContent() {
 
           {/* Edit Candidate Name Modal */}
           <Dialog open={!!userToEdit} onOpenChange={(open) => !open && setUserToEdit(null)}>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Edit Candidate Name</DialogTitle>
                 <DialogDescription>
@@ -817,7 +817,7 @@ function UsersPageContent() {
 
           {/* Manage Candidate AI Credits Dialog */}
           <Dialog open={!!userToManageCredits} onOpenChange={(open) => !open && setUserToManageCredits(null)}>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <div className="flex items-center gap-2">
                   <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
@@ -940,7 +940,7 @@ function UsersPageContent() {
 
           {/* Gift Credits To All Candidates Dialog */}
           <Dialog open={isGiftAllOpen} onOpenChange={(open) => !open && setIsGiftAllOpen(false)}>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <div className="flex items-center gap-2">
                   <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">

@@ -682,7 +682,7 @@ function MasterAttributesContent() {
 
           {/* Dialog: Notice Type */}
           <Dialog open={isTypeModalOpen} onOpenChange={setIsTypeModalOpen}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editingType ? "Edit Notice Type" : "Add Notice Type"}</DialogTitle>
                 <DialogDescription>
@@ -692,7 +692,7 @@ function MasterAttributesContent() {
 
               <form onSubmit={handleSaveType} className="space-y-3.5 py-2 text-xs">
                 <div>
-                  <Label className="mb-1 block">Type Name (English) *</Label>
+                  <Label className="mb-2 block">Type Name (English) *</Label>
                   <Input
                     required
                     placeholder="e.g. Syllabus / Exam Pattern"
@@ -702,7 +702,7 @@ function MasterAttributesContent() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Type Name (Hindi)</Label>
+                  <Label className="mb-2 block">Type Name (Hindi)</Label>
                   <Input
                     placeholder="e.g. पाठ्यक्रम / परीक्षा पैटर्न"
                     value={typeFormNameHi}
@@ -712,7 +712,7 @@ function MasterAttributesContent() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="mb-1 block">Code / Slug</Label>
+                    <Label className="mb-2 block">Code / Slug</Label>
                     <Input
                       placeholder="e.g. SYLLABUS"
                       value={typeFormCode}
@@ -720,7 +720,7 @@ function MasterAttributesContent() {
                     />
                   </div>
                   <div>
-                    <Label className="mb-1 block">Status</Label>
+                    <Label className="mb-2 block">Status</Label>
                     <Select value={typeFormActive ? "active" : "inactive"} onValueChange={(val) => setTypeFormActive(val === "active")}>
                       <SelectTrigger className="w-full">
                         <SelectValue />
@@ -734,7 +734,7 @@ function MasterAttributesContent() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Description</Label>
+                  <Label className="mb-2 block">Description</Label>
                   <Textarea
                     rows={2}
                     placeholder="Brief description for mobile users..."
@@ -757,7 +757,7 @@ function MasterAttributesContent() {
 
           {/* Dialog: Jurisdiction */}
           <Dialog open={isJurisdictionModalOpen} onOpenChange={setIsJurisdictionModalOpen}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editingJurisdiction ? "Edit Jurisdiction" : "Add Jurisdiction"}</DialogTitle>
                 <DialogDescription>
@@ -767,7 +767,7 @@ function MasterAttributesContent() {
 
               <form onSubmit={handleSaveJurisdiction} className="space-y-3.5 py-2 text-xs">
                 <div>
-                  <Label className="mb-1 block">Jurisdiction Name (English) *</Label>
+                  <Label className="mb-2 block">Jurisdiction Name (English) *</Label>
                   <Input
                     required
                     placeholder="e.g. Rajasthan State"
@@ -777,7 +777,7 @@ function MasterAttributesContent() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Jurisdiction Name (Hindi)</Label>
+                  <Label className="mb-2 block">Jurisdiction Name (Hindi)</Label>
                   <Input
                     placeholder="e.g. राजस्थान राज्य"
                     value={jurFormNameHi}
@@ -787,7 +787,7 @@ function MasterAttributesContent() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="mb-1 block">Code / Key</Label>
+                    <Label className="mb-2 block">Code / Key</Label>
                     <Input
                       placeholder="e.g. RAJASTHAN"
                       value={jurFormCode}
@@ -795,7 +795,7 @@ function MasterAttributesContent() {
                     />
                   </div>
                   <div>
-                    <Label className="mb-1 block">Status</Label>
+                    <Label className="mb-2 block">Status</Label>
                     <Select value={jurFormActive ? "active" : "inactive"} onValueChange={(val) => setJurFormActive(val === "active")}>
                       <SelectTrigger className="w-full">
                         <SelectValue />
@@ -809,7 +809,7 @@ function MasterAttributesContent() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Scope Description</Label>
+                  <Label className="mb-2 block">Scope Description</Label>
                   <Textarea
                     rows={2}
                     placeholder="Territorial scope description..."
@@ -832,7 +832,7 @@ function MasterAttributesContent() {
 
           {/* Dialog: Category */}
           <Dialog open={isCategoryModalOpen} onOpenChange={setIsCategoryModalOpen}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editingCategory ? "Edit Category" : "Add Recruitment Category"}</DialogTitle>
                 <DialogDescription>
@@ -842,7 +842,7 @@ function MasterAttributesContent() {
 
               <form onSubmit={handleSaveCategory} className="space-y-3.5 py-2 text-xs">
                 <div>
-                  <Label className="mb-1 block">Category Name (English) *</Label>
+                  <Label className="mb-2 block">Category Name (English) *</Label>
                   <Input
                     required
                     placeholder="e.g. Veterinary & Animal Husbandry"
@@ -852,7 +852,7 @@ function MasterAttributesContent() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Category Name (Hindi)</Label>
+                  <Label className="mb-2 block">Category Name (Hindi)</Label>
                   <Input
                     placeholder="e.g. पशुपालन एवं पशुचिकित्सा भर्ती"
                     value={catFormNameHi}
@@ -862,7 +862,7 @@ function MasterAttributesContent() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="mb-1 block">Slug / ID</Label>
+                    <Label className="mb-2 block">Slug / ID</Label>
                     <Input
                       placeholder="auto-generated if empty"
                       value={catFormSlug}
@@ -870,7 +870,7 @@ function MasterAttributesContent() {
                     />
                   </div>
                   <div>
-                    <Label className="mb-1 block">Preset Icon</Label>
+                    <Label className="mb-2 block">Preset Icon</Label>
                     <Select value={catFormIcon} onValueChange={setCatFormIcon}>
                       <SelectTrigger className="w-full">
                         <SelectValue />
@@ -887,7 +887,7 @@ function MasterAttributesContent() {
                 </div>
 
                 <div>
-                  <Label className="mb-1 block">Status</Label>
+                  <Label className="mb-2 block">Status</Label>
                   <Select value={catFormActive ? "active" : "inactive"} onValueChange={(val) => setCatFormActive(val === "active")}>
                     <SelectTrigger className="w-full">
                       <SelectValue />

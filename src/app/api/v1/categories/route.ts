@@ -122,6 +122,9 @@ export async function DELETE(req: NextRequest) {
       await safeNeonQuery(sql`
         DELETE FROM categories WHERE slug = ${id} OR id::text = ${id};
       `);
+      invalidateCategoryCache();
+    } else {
+      invalidateCategoryCache();
     }
 
     return NextResponse.json({ success: true, id });

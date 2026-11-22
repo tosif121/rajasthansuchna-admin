@@ -97,8 +97,8 @@ export default function CategoriesPage() {
     try {
       setLoading(true);
       const [catRes, noticesRes] = await Promise.all([
-        fetch("/api/v1/categories?all=true").then(r => r.json()),
-        fetch("/api/v1/notices?limit=100").then(r => r.json()).catch(() => ({ data: [] })),
+        fetch(`/api/v1/categories?all=true&_t=${Date.now()}`, { cache: "no-store" }).then(r => r.json()),
+        fetch(`/api/v1/notices?limit=100&_t=${Date.now()}`, { cache: "no-store" }).then(r => r.json()).catch(() => ({ data: [] })),
       ]);
 
       const catList: CategoryItem[] = catRes.success && Array.isArray(catRes.data) ? catRes.data : [];
@@ -166,6 +166,7 @@ export default function CategoriesPage() {
           message: `Category "${cat.nameEn}" is now ${nextStatus ? "ACTIVE" : "INACTIVE"}.`,
           type: "success"
         });
+        await loadData();
       } else {
         // Revert on failure
         setCategories(prev => prev.map(c => c.id === cat.id ? { ...c, isActive: !nextStatus } : c));
@@ -230,13 +231,25 @@ export default function CategoriesPage() {
     }
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (!categoryToDelete) return;
     setIsDeleting(true);
-    setCategories(prev => prev.filter(c => c.id !== categoryToDelete.id));
-    setFeedback({ message: `Category "${categoryToDelete.nameEn}" removed.`, type: "success" });
-    setCategoryToDelete(null);
-    setIsDeleting(false);
+    try {
+      const res = await fetch(`/api/v1/categories?id=${encodeURIComponent(categoryToDelete.slug || categoryToDelete.id)}`, {
+        method: "DELETE",
+      }).then(r => r.json());
+      if (res.success) {
+        setFeedback({ message: `Category "${categoryToDelete.nameEn}" removed.`, type: "success" });
+        setCategoryToDelete(null);
+        await loadData();
+      } else {
+        setFeedback({ message: res.error || "Failed to delete category", type: "error" });
+      }
+    } catch (e: any) {
+      setFeedback({ message: e.message || "Failed to delete category", type: "error" });
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const renderCategoryIcon = (iconValue?: string | null, name?: string) => {
@@ -424,7 +437,7 @@ export default function CategoriesPage() {
 
       {/* Add / Edit Category Modal using shadcn Dialog */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-lg p-6 space-y-4">
+        <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
           <DialogHeader className="border-b border-slate-100 dark:border-slate-800 pb-3">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/50 text-[#A30B0B] dark:text-red-400 flex items-center justify-center shrink-0">

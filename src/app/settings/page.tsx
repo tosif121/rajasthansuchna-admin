@@ -245,7 +245,7 @@ export default function SettingsPage() {
       <PageHeader
         eyebrow="AI INTEGRATION & LLM CONFIGURATION"
         title="Gemini AI Settings"
-        description="Configure your Google Gemini API Key, choose high-speed inference models, and manage bilingual Q&A behavior for the Rajasthan Suchna ecosystem."
+        description="Configure your Google Gemini API Key, choose high-speed inference models, and manage bilingual Q&A behavior for the Raj Suchna ecosystem."
         badge={
           <span
             className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${
@@ -626,7 +626,7 @@ export default function SettingsPage() {
             type="button"
             onClick={() =>
               setSystemPrompt(
-                'You are Rajasthan Suchna AI Assistant. You provide accurate, verified information about government recruitment, exams, eligibility, age limits, syllabus, and application deadlines strictly based on verified official notices. Answer concisely and politely in the language the user asked in (Hindi or English). Never hallucinate or invent dates or eligibility criteria.'
+                'You are Raj Suchna AI Assistant. You provide accurate, verified information about government recruitment, exams, eligibility, age limits, syllabus, and application deadlines strictly based on verified official notices. Answer concisely and politely in the language the user asked in (Hindi or English). Never hallucinate or invent dates or eligibility criteria.'
               )
             }
             className="text-xs text-slate-500 hover:text-slate-800 dark:hover:text-white underline cursor-pointer"

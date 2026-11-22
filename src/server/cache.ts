@@ -1,6 +1,6 @@
 /**
  * High-performance In-Memory LRU Cache & Single-Flight Request Deduplicator
- * for Rajasthan Suchna Admin & Public API routes.
+ * for Raj Suchna Admin & Public API routes.
  *
  * Designed for serverless Next.js runtimes:
  * 1. Serves high-read notices, agencies, and categories in <1ms on warm instances.

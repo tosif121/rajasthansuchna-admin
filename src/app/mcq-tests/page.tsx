@@ -102,7 +102,9 @@ const emptyForm = (): TestForm => ({
 function FormField({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">{label}</Label>
+      <div className="mb-1.5">
+        <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-0">{label}</Label>
+      </div>
       {children}
     </div>
   );
@@ -123,7 +125,7 @@ export default function McqTestsPage() {
   const fetchTests = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/v1/admin/mcq-tests", { cache: "no-store" });
+      const res = await fetch(`/api/v1/admin/mcq-tests?_t=${Date.now()}`, { cache: "no-store" });
       const data = await res.json();
       setTests(data.success && Array.isArray(data.data) ? data.data : []);
     } catch {
@@ -254,7 +256,7 @@ export default function McqTestsPage() {
         type: "success",
       });
       setFormOpen(false);
-      fetchTests();
+      await fetchTests();
     } catch {
       setFormError("Network error while saving the MCQ test.");
     } finally {
@@ -277,7 +279,7 @@ export default function McqTestsPage() {
       }
       setFeedback({ message: "MCQ test deleted.", type: "success" });
       setTestToDelete(null);
-      fetchTests();
+      await fetchTests();
     } catch {
       setFeedback({ message: "Network error while deleting the test.", type: "error" });
     } finally {

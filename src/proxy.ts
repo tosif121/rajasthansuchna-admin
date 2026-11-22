@@ -10,10 +10,10 @@ export default function proxy(req: NextRequest) {
   const hasValidAuthHeader = Boolean(authHeader.startsWith('Bearer ') && authHeader.slice(7).trim().startsWith('admin_token_'));
   const isAuthenticated = hasValidCookieSession || hasValidAuthHeader;
 
-  // If visiting login page while already authenticated, redirect to dashboard
+  // If visiting login page while already authenticated, redirect to admin console (/notices)
   if (pathname === '/login') {
     if (isAuthenticated) {
-      return NextResponse.redirect(new URL('/', req.url));
+      return NextResponse.redirect(new URL('/notices', req.url));
     }
     return NextResponse.next();
   }
@@ -34,9 +34,8 @@ export default function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Protect Admin Pages
+  // Protect Admin Pages (The root '/' is public for Raj Suchna Landing Page)
   const protectedPaths = [
-    '/',
     '/dashboard',
     '/notices',
     '/agencies',
@@ -59,7 +58,6 @@ export default function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/',
     '/dashboard/:path*',
     '/notices/:path*',
     '/agencies/:path*',

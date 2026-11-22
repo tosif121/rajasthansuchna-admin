@@ -1,5 +1,5 @@
 /**
- * In-Flight Request Deduplication & In-Memory SWR Client for Rajasthan Suchna Admin Console.
+ * In-Flight Request Deduplication & In-Memory SWR Client for Raj Suchna Admin Console.
  *
  * 1. In-Flight Request Deduplication: Merges concurrent identical GET requests into 1 single network promise.
  * 2. In-Memory Client Cache: Delivers instant 0ms responses for rapid pagination & table queries.
@@ -26,8 +26,10 @@ export function invalidateClientApiCache(urlPrefix?: string): void {
     clientMemoryCache.clear();
     return;
   }
+  const cleanPrefix = urlPrefix.replace(/^GET:/, '');
   for (const key of clientMemoryCache.keys()) {
-    if (key.includes(urlPrefix)) {
+    const cleanKey = key.replace(/^GET:/, '');
+    if (cleanKey.includes(cleanPrefix) || cleanPrefix.includes(cleanKey.split('?')[0])) {
       clientMemoryCache.delete(key);
     }
   }

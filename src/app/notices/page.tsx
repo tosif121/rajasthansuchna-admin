@@ -62,6 +62,7 @@ interface NoticeFacts {
   examDate?: string;
   feeGeneralObc?: string;
   feeScSt?: string;
+  feePh?: string;
   qualification: string;
   ageMin?: number;
   ageMax?: number;
@@ -69,6 +70,8 @@ interface NoticeFacts {
   ageRelaxation?: string;
   categoryVacancies?: Record<string, string | number>;
   howToApply?: string;
+  howToDownloadAdmitCard?: string;
+  howToCheckResult?: string;
   telegramUrl?: string;
   whatsappUrl?: string;
   syllabusUrl?: string;
@@ -137,8 +140,11 @@ interface NoticeForm {
   examDate: string;
   feeGeneralObc: string;
   feeScSt: string;
+  feePh: string;
   selectionProcess: string;
   howToApply?: string;
+  howToDownloadAdmitCard?: string;
+  howToCheckResult?: string;
   sourceUrl: string;
   sourceDate: string;
   verifiedAt: string;
@@ -248,8 +254,8 @@ const emptyForm = (): NoticeForm => ({
   ageAsOnDate: '01/01/2026',
   ageRelaxation: 'राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।',
   categoryVacancies: '',
-  telegramUrl: 'https://t.me/rajasthan_suchna_official',
-  whatsappUrl: 'https://whatsapp.com/channel/0029VaRajasthanSuchna',
+  telegramUrl: 'https://t.me/Raj_Suchna',
+  whatsappUrl: 'https://whatsapp.com/channel/0029Vakea9U89inpSSjnR82N',
   syllabusUrl: '',
   faqs: '',
   applicationStart: '',
@@ -258,12 +264,15 @@ const emptyForm = (): NoticeForm => ({
   examDate: '',
   feeGeneralObc: '',
   feeScSt: '',
+  feePh: '',
   selectionProcess: '',
   howToApply: '',
+  howToDownloadAdmitCard: '',
+  howToCheckResult: '',
   sourceUrl: '',
   sourceDate: '',
   verifiedAt: '',
-  verifiedBy: 'Rajasthan Suchna Editorial Board',
+  verifiedBy: 'Raj Suchna Editorial Board',
   notificationPdfUrl: '',
   applyOnlineUrl: '',
   officialSiteUrl: '',
@@ -321,6 +330,7 @@ function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSect
   const feeRows: Record<string, string> = {};
   if (form.feeGeneralObc) feeRows['General / OBC'] = form.feeGeneralObc;
   if (form.feeScSt) feeRows['SC / ST'] = form.feeScSt;
+  if (form.feePh) feeRows['PH / Divyang'] = form.feePh;
   if (Object.keys(feeRows).length > 0) {
     sections.push({ key: 'fee', title: 'Application Fee', body: '', rows: feeRows });
   }
@@ -329,24 +339,33 @@ function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSect
     sections.push({ key: 'selectionProcess', title: 'Selection Process', body: form.selectionProcess });
   }
 
-  const howToApplyBody = form.howToApply?.trim() || defaultHowToApply(form.noticeType);
-  const howToApplyTitle = form.noticeType === 'admitCard' 
-    ? 'How to Download Admit Card'
-    : form.noticeType === 'result'
-    ? 'How to Check Result'
-    : form.noticeType === 'syllabus'
-    ? 'How to Download Syllabus'
-    : 'How to Apply';
+  if (form.howToApply?.trim()) {
+    sections.push({
+      key: 'howToApply',
+      title: 'How to Apply / आवेदन कैसे करें',
+      body: form.howToApply.trim(),
+    });
+  }
 
-  sections.push({
-    key: 'howToApply',
-    title: howToApplyTitle,
-    body: howToApplyBody,
-  });
+  if (form.howToDownloadAdmitCard?.trim()) {
+    sections.push({
+      key: 'howToDownloadAdmitCard',
+      title: 'How to Download Admit Card / एडमिट कार्ड कैसे डाउनलोड करें',
+      body: form.howToDownloadAdmitCard.trim(),
+    });
+  }
+
+  if (form.howToCheckResult?.trim()) {
+    sections.push({
+      key: 'howToCheckResult',
+      title: 'How to Check Result / रिजल्ट कैसे चेक करें',
+      body: form.howToCheckResult.trim(),
+    });
+  }
 
   // Preserve any custom sections from existing that aren't the standard keys
   if (existing) {
-    const standardKeys = new Set(['overview', 'importantDates', 'eligibility', 'fee', 'selectionProcess', 'howToApply']);
+    const standardKeys = new Set(['overview', 'importantDates', 'eligibility', 'fee', 'selectionProcess', 'howToApply', 'howToDownloadAdmitCard', 'howToCheckResult']);
     for (const s of existing) {
       if (!standardKeys.has(s.key)) {
         sections.push(s);
@@ -378,13 +397,20 @@ export default function NoticesPage() {
   const [noticeToDelete, setNoticeToDelete] = useState<NoticeItem | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const fetchNotices = async () => {
+  const fetchNotices = async (forceFresh: boolean = false) => {
     try {
       setLoading(true);
       let list: NoticeItem[] = [];
       try {
-        const data = await apiGet<{ success: boolean; data: NoticeItem[] }>('/api/v1/admin/notices', { ttlSeconds: 5 });
-        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+        if (forceFresh) {
+          invalidateClientApiCache('/api/v1/admin/notices');
+        }
+        const endpoint = forceFresh ? `/api/v1/admin/notices?_t=${Date.now()}` : '/api/v1/admin/notices';
+        const data = await apiGet<{ success: boolean; data: NoticeItem[] }>(endpoint, {
+          ttlSeconds: forceFresh ? 0 : 5,
+          skipCache: forceFresh,
+        });
+        if (data.success && Array.isArray(data.data)) {
           list = data.data;
         }
       } catch {
@@ -392,9 +418,12 @@ export default function NoticesPage() {
       }
 
       if (list.length === 0) {
-        const publicRes = await fetch('/api/v1/notices?limit=100').then(r => r.json()).catch(() => null);
-        if (publicRes?.success && Array.isArray(publicRes.data)) {
-          list = publicRes.data.map((item: any) => ({
+        const publicRes = await fetch(`/api/v1/notices?limit=100&_t=${Date.now()}`, { cache: 'no-store' })
+          .then((r) => r.json())
+          .catch(() => null);
+        const sourceList = publicRes?.data || publicRes?.vacancies;
+        if (publicRes?.success && Array.isArray(sourceList)) {
+          list = sourceList.map((item: any) => ({
             id: item.id,
             slug: item.slug,
             titleHi: item.titleHi || '',
@@ -422,7 +451,7 @@ export default function NoticesPage() {
               sourceUrl: 'https://rajasthan.gov.in',
               sourceDate: today(),
               verifiedAt: today(),
-              verifiedBy: 'Rajasthan Suchna',
+              verifiedBy: 'Raj Suchna',
             },
             sections: item.sections || [],
             links: item.links || [],
@@ -499,8 +528,8 @@ export default function NoticesPage() {
       ageAsOnDate: notice.facts?.ageAsOnDate || '01/01/2026',
       ageRelaxation: notice.facts?.ageRelaxation || 'राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।',
       categoryVacancies: formatCategoryVacancies(notice.facts?.categoryVacancies),
-      telegramUrl: notice.facts?.telegramUrl || linkValue(notice.links, 'telegram') || 'https://t.me/rajasthan_suchna_official',
-      whatsappUrl: notice.facts?.whatsappUrl || linkValue(notice.links, 'whatsapp') || 'https://whatsapp.com/channel/0029VaRajasthanSuchna',
+      telegramUrl: notice.facts?.telegramUrl || linkValue(notice.links, 'telegram') || 'https://t.me/Raj_Suchna',
+      whatsappUrl: notice.facts?.whatsappUrl || linkValue(notice.links, 'whatsapp') || 'https://whatsapp.com/channel/0029Vakea9U89inpSSjnR82N',
       syllabusUrl: notice.facts?.syllabusUrl || linkValue(notice.links, 'syllabus'),
       faqs: formatFaqs(notice.facts?.faqs),
       applicationStart: dateOnly(notice.facts?.applicationStart),
@@ -509,12 +538,15 @@ export default function NoticesPage() {
       examDate: dateOnly(notice.facts?.examDate),
       feeGeneralObc: notice.facts?.feeGeneralObc || '',
       feeScSt: notice.facts?.feeScSt || '',
+      feePh: notice.facts?.feePh || (notice.sections?.find((s) => s.key === 'fee')?.rows?.['PH / Divyang'] || notice.sections?.find((s) => s.key === 'fee')?.rows?.['PH'] || ''),
       selectionProcess: notice.facts?.selectionProcess || '',
-      howToApply: notice.sections?.find((s) => s.key === 'howToApply')?.body || '',
+      howToApply: notice.facts?.howToApply || notice.sections?.find((s) => s.key === 'howToApply')?.body || '',
+      howToDownloadAdmitCard: notice.facts?.howToDownloadAdmitCard || notice.sections?.find((s) => s.key === 'howToDownloadAdmitCard')?.body || '',
+      howToCheckResult: notice.facts?.howToCheckResult || notice.sections?.find((s) => s.key === 'howToCheckResult')?.body || '',
       sourceUrl: notice.facts?.sourceUrl || '',
       sourceDate: dateOnly(notice.facts?.sourceDate) || today(),
       verifiedAt: dateOnly(notice.facts?.verifiedAt) || today(),
-      verifiedBy: notice.facts?.verifiedBy || 'Rajasthan Suchna Editorial Board',
+      verifiedBy: notice.facts?.verifiedBy || 'Raj Suchna Editorial Board',
       notificationPdfUrl: linkValue(notice.links, 'notificationPdf'),
       applyOnlineUrl: linkValue(notice.links, 'applyOnline'),
       officialSiteUrl: linkValue(notice.links, 'officialSite'),
@@ -558,7 +590,7 @@ export default function NoticesPage() {
       sourceUrl: form.sourceUrl.trim(),
       sourceDate: form.sourceDate || today(),
       verifiedAt: form.verifiedAt || today(),
-      verifiedBy: form.verifiedBy.trim() || 'Rajasthan Suchna Editorial Board',
+      verifiedBy: form.verifiedBy.trim() || 'Raj Suchna Editorial Board',
       ...(form.ageAsOnDate ? { ageAsOnDate: form.ageAsOnDate.trim() } : {}),
       ...(form.ageRelaxation ? { ageRelaxation: form.ageRelaxation.trim() } : {}),
       ...(categoryVacancies ? { categoryVacancies } : {}),
@@ -575,6 +607,10 @@ export default function NoticesPage() {
       ...(form.examDate ? { examDate: form.examDate } : {}),
       ...(form.feeGeneralObc ? { feeGeneralObc: form.feeGeneralObc } : {}),
       ...(form.feeScSt ? { feeScSt: form.feeScSt } : {}),
+      ...(form.feePh ? { feePh: form.feePh } : {}),
+      ...(form.howToApply ? { howToApply: form.howToApply.trim() } : {}),
+      ...(form.howToDownloadAdmitCard ? { howToDownloadAdmitCard: form.howToDownloadAdmitCard.trim() } : {}),
+      ...(form.howToCheckResult ? { howToCheckResult: form.howToCheckResult.trim() } : {}),
     };
 
     const payload = {
@@ -617,7 +653,7 @@ export default function NoticesPage() {
         type: 'success',
       });
       setFormOpen(false);
-      fetchNotices();
+      await fetchNotices(true);
     } catch {
       setFormError('Network error while saving the notice.');
     } finally {
@@ -637,7 +673,7 @@ export default function NoticesPage() {
         setFeedback({ message: data.error || 'Failed to update status.', type: 'error' });
       } else {
         setFeedback({ message: data.message || `Notice status updated to ${data.status}.`, type: 'success' });
-        fetchNotices();
+        await fetchNotices(true);
       }
     } catch {
       setFeedback({ message: 'Network error updating notice status.', type: 'error' });
@@ -656,7 +692,7 @@ export default function NoticesPage() {
       if (data.success) {
         setFeedback({ message: 'Recruitment notice deleted successfully.', type: 'success' });
         setNoticeToDelete(null);
-        fetchNotices();
+        await fetchNotices(true);
       } else {
         setFeedback({ message: data.error || 'Failed to delete notice.', type: 'error' });
       }
@@ -812,7 +848,7 @@ export default function NoticesPage() {
                   <Plus className="w-4 h-4" /> New Notice
                 </button>
                 <button
-                  onClick={fetchNotices}
+                  onClick={() => fetchNotices(true)}
                   title="Refresh notices"
                   className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors shadow-sm"
                 >
@@ -928,11 +964,11 @@ export default function NoticesPage() {
 
       {/* Create / Edit Notice Dialog */}
       <Dialog open={formOpen} onOpenChange={(open) => { if (!open) setFormOpen(false); }}>
-        <DialogContent className="w-[95vw] sm:max-w-5xl lg:max-w-6xl max-h-[92vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editingNotice ? 'Edit Recruitment Notice' : 'Create Recruitment Notice'}</DialogTitle>
             <DialogDescription>
-              Content saved here is published to the Rajasthan Suchna mobile feed.
+              Content saved here is published to the Raj Suchna mobile feed.
             </DialogDescription>
           </DialogHeader>
 
@@ -944,7 +980,7 @@ export default function NoticesPage() {
 
           <div className="space-y-4 py-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Title (English)">
+              <FormField label="Title (English) *">
                 <Textarea
                   rows={2}
                   value={form.titleEn}
@@ -952,7 +988,7 @@ export default function NoticesPage() {
                   placeholder="Rajasthan Patwari Recruitment 2026"
                 />
               </FormField>
-              <FormField label="Title (Hindi)">
+              <FormField label="Title (Hindi) *">
                 <Textarea
                   rows={2}
                   value={form.titleHi}
@@ -982,7 +1018,7 @@ export default function NoticesPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <FormField label="Agency">
+              <FormField label="Agency *">
                 <Select value={form.agencyId} onValueChange={(val) => updateForm('agencyId', val)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select agency" />
@@ -994,7 +1030,7 @@ export default function NoticesPage() {
                   </SelectContent>
                 </Select>
               </FormField>
-              <FormField label="Category">
+              <FormField label="Category *">
                 <Select value={form.categoryId} onValueChange={(val) => updateForm('categoryId', val)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select category" />
@@ -1113,7 +1149,7 @@ export default function NoticesPage() {
               />
             </FormField>
 
-            <FormField label="Qualification">
+            <FormField label="Qualification *">
               <Textarea
                 rows={2}
                 value={form.qualification}
@@ -1153,7 +1189,7 @@ export default function NoticesPage() {
               </FormField>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <FormField label="Fee - General / OBC">
                 <Textarea
                   rows={2}
@@ -1167,7 +1203,15 @@ export default function NoticesPage() {
                   rows={2}
                   value={form.feeScSt}
                   onChange={(e) => updateForm('feeScSt', e.target.value)}
-                  placeholder="₹400 (SC / ST / Divyang)"
+                  placeholder="₹400 (SC / ST / Women)"
+                />
+              </FormField>
+              <FormField label="Fee - PH Category">
+                <Textarea
+                  rows={2}
+                  value={form.feePh}
+                  onChange={(e) => updateForm('feePh', e.target.value)}
+                  placeholder="₹0 / ₹250 (PH / Divyang / Nil)"
                 />
               </FormField>
             </div>
@@ -1181,17 +1225,73 @@ export default function NoticesPage() {
               />
             </FormField>
 
-            <FormField 
-              label="How to Apply / आवेदन प्रक्रिया (Step-by-step Instructions)"
-              hint="Leave blank to use standard official steps"
-            >
-              <Textarea
-                rows={4}
-                value={form.howToApply}
-                onChange={(e) => updateForm('howToApply', e.target.value)}
-                placeholder="1. Login to SSO Rajasthan (sso.rajasthan.gov.in)&#10;2. Select Recruitment Portal & complete OTR&#10;3. Fill application details & upload documents&#10;4. Pay fee and download confirmation page"
-              />
-            </FormField>
+            <div className="space-y-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
+              <div className="flex items-center justify-between pb-1 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  Step-by-Step Candidate Guides (How to Apply, Admit Card & Results)
+                </span>
+                <span className="text-[11px] text-slate-400">
+                  (Only filled guides appear in the app; blank ones are hidden)
+                </span>
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <Label>1. How to Apply / आवेदन प्रक्रिया</Label>
+                  <button
+                    type="button"
+                    onClick={() => updateForm('howToApply', defaultHowToApply('vacancy'))}
+                    className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                  >
+                    + Insert Standard Steps
+                  </button>
+                </div>
+                <Textarea
+                  rows={3}
+                  value={form.howToApply}
+                  onChange={(e) => updateForm('howToApply', e.target.value)}
+                  placeholder="Leave empty if not available yet. Or click '+ Insert Standard Steps' above."
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <Label>2. How to Download Admit Card / प्रवेश पत्र डाउनलोड प्रक्रिया</Label>
+                  <button
+                    type="button"
+                    onClick={() => updateForm('howToDownloadAdmitCard', defaultHowToApply('admitCard'))}
+                    className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                  >
+                    + Insert Standard Steps
+                  </button>
+                </div>
+                <Textarea
+                  rows={3}
+                  value={form.howToDownloadAdmitCard}
+                  onChange={(e) => updateForm('howToDownloadAdmitCard', e.target.value)}
+                  placeholder="Leave empty if admit card is not yet released. Or click '+ Insert Standard Steps'."
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <Label>3. How to Check Result / रिजल्ट चेक करने की प्रक्रिया</Label>
+                  <button
+                    type="button"
+                    onClick={() => updateForm('howToCheckResult', defaultHowToApply('result'))}
+                    className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                  >
+                    + Insert Standard Steps
+                  </button>
+                </div>
+                <Textarea
+                  rows={3}
+                  value={form.howToCheckResult}
+                  onChange={(e) => updateForm('howToCheckResult', e.target.value)}
+                  placeholder="Leave empty if result is not yet declared. Or click '+ Insert Standard Steps'."
+                />
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Official Notification PDF URL">
@@ -1237,7 +1337,7 @@ export default function NoticesPage() {
                   rows={2}
                   value={form.telegramUrl}
                   onChange={(e) => updateForm('telegramUrl', e.target.value)}
-                  placeholder="https://t.me/rajasthan_suchna_official"
+                  placeholder="https://t.me/Raj_Suchna"
                 />
               </FormField>
               <FormField label="WhatsApp Community / Channel URL">
@@ -1245,7 +1345,7 @@ export default function NoticesPage() {
                   rows={2}
                   value={form.whatsappUrl}
                   onChange={(e) => updateForm('whatsappUrl', e.target.value)}
-                  placeholder="https://whatsapp.com/channel/..."
+                  placeholder="https://whatsapp.com/channel/0029Vakea9U89inpSSjnR82N"
                 />
               </FormField>
             </div>
@@ -1291,7 +1391,7 @@ export default function NoticesPage() {
                   rows={1}
                   value={form.verifiedBy}
                   onChange={(e) => updateForm('verifiedBy', e.target.value)}
-                  placeholder="Rajasthan Suchna Editorial Board"
+                  placeholder="Raj Suchna Editorial Board"
                 />
               </FormField>
             </div>
@@ -1323,8 +1423,8 @@ function FormField({
 }) {
   return (
     <div className="space-y-1.5">
-      <div className="flex items-center justify-between">
-        <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+      <div className="flex items-center justify-between mb-1.5">
+        <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-0">
           {label}
         </Label>
         {hint && (

@@ -46,3 +46,6 @@ src/server/firebase-service-account.json
 
 # Local runtime data
 /.data/
+.neon
+*.apk
+public/downloads/*.apk

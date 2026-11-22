@@ -41,7 +41,7 @@ export async function sendFcmBroadcast(
         vacancyId: payload.vacancyId || '',
         vacancySlug: payload.vacancySlug || '',
         type: payload.type || 'newVacancy',
-        agencyName: payload.agencyName || 'Rajasthan Suchna',
+        agencyName: payload.agencyName || 'Raj Suchna',
         click_action: 'FLUTTER_NOTIFICATION_CLICK',
       },
       android: {
