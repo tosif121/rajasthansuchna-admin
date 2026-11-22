@@ -417,7 +417,7 @@ export default function McqTestsPage() {
           <DialogHeader>
             <DialogTitle>{editingTest ? "Edit MCQ Test" : "Create MCQ Test"}</DialogTitle>
             <DialogDescription>
-              These questions appear in the mobile app under the MOQ Test section.
+              These questions appear in the mobile app under the MCQ Test section.
             </DialogDescription>
           </DialogHeader>
 

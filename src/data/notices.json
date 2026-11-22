@@ -1,1393 +1,2875 @@
 [
   {
-    "id": "not_rpsc-ras-rts-recruitment-2026",
+    "id": "a7f64919-3af1-4286-a5cc-10d254891659",
+    "slug": "rajasthan-animal-attendant-pashu-paricharak-recruitment-2026",
+    "titleHi": "राजस्थान पशु परिचर (Animal Attendant) भर्ती 2026 - 5,934 पद 10वीं पास सीधी भर्ती",
+    "titleEn": "Rajasthan Animal Attendant Recruitment 2026 - 5,934 Posts 10th Pass Notification",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "secondary_jobs",
+    "categoryName": "10th / 12th Pass Govt Jobs",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड जयपुर द्वारा पशुपालन विभाग में 5,934 पशु परिचर (Animal Attendant) पदों पर केवल 10वीं पास युवाओं के लिए बंपर सीधी भर्ती का विज्ञापन जारी। बिना इंटरव्यू सीधी नौकरी।",
+    "summaryEn": "RSMSSB Jaipur has released notification for 5,934 Animal Attendant posts in the Animal Husbandry Department for 10th pass candidates. Direct recruitment with no interview.",
+    "facts": {
+      "ageMax": 40,
+      "ageMin": 18,
+      "feeScSt": "₹400 (OTR लागू होने पर निःशुल्क)",
+      "examDate": "2026-12-22T09:00:00.000Z",
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "postsCount": 5934,
+      "sourceDate": "2026-11-21T12:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RSSB जयपुर अधिकृत",
+      "ageRelaxation": "नियमानुसार आरक्षित वर्गों को 5 से 10 वर्ष की छूट",
+      "feeGeneralObc": "₹600 (OTR लागू होने पर निःशुल्क)",
+      "qualification": "10वीं पास (Secondary / 10th Pass from recognized board) + देवनागरी लिपि व राजस्थानी संस्कृति का ज्ञान",
+      "applicationEnd": "2026-12-05T23:59:59.000Z",
+      "applicationStart": "2026-11-01T00:00:00.000Z",
+      "selectionProcess": "एकल चरण वस्तुनिष्ठ लिखित परीक्षा (150 अंक) एवं दस्तावेज सत्यापन (कोई साक्षात्कार नहीं)"
+    },
+    "sections": [
+      {
+        "key": "pashu_exam_pattern",
+        "body": "भाग अ (70% भारांक - 105 प्रश्न): राजस्थान का भूगोल, इतिहास, संस्कृति, सामान्य विज्ञान, गणित एवं समसामयिकी।\nभाग ब (30% भारांक - 45 प्रश्न): पशुपालन से संबंधित सामान्य ज्ञान, प्रमुख नस्लें, टीकाकरण, डेयरी प्रबंधन।",
+        "title": "परीक्षा योजना एवं पाठ्यक्रम (150 प्रश्न, 150 अंक)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rsmssb.rajasthan.gov.in/Static/Recruitment/Animal_Attendant_2026.pdf",
+        "kind": "notificationPdf",
+        "label": "आधिकारिक भर्ती विज्ञापन PDF"
+      },
+      {
+        "url": "https://sso.rajasthan.gov.in",
+        "kind": "applyOnline",
+        "label": "ऑनलाइन आवेदन करें (SSO Portal)"
+      }
+    ],
+    "publishedAt": "2026-11-22T04:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:09.781Z"
+  },
+  {
+    "id": "b28ded6e-4812-4049-85de-62e70f989ae3",
+    "slug": "rssb-junior-accountant-tra-exam-admit-card-2026",
+    "titleHi": "RSSB जूनियर अकाउंटेंट एवं तहसील राजस्व लेखाकार परीक्षा प्रवेश पत्र जारी",
+    "titleEn": "RSSB Junior Accountant & TRA Exam 2026 Admit Card / Hall Ticket Download",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "clerk_assistant",
+    "categoryName": "Clerk & Junior Assistant",
+    "state": "rajasthan",
+    "noticeType": "admitCard",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "कर्मचारी चयन बोर्ड द्वारा कनिष्ठ लेखाकार एवं टीआरए संयुक्त सीधी भर्ती परीक्षा के प्रवेश पत्र आधिकारिक वेबसाइट एवं एसएसओ पोर्टल पर लाइव कर दिए गए हैं।",
+    "summaryEn": "RSMSSB has released the admit cards for Junior Accountant and Tehsil Revenue Accountant (TRA) Recruitment Examination 2026.",
+    "facts": {
+      "examDate": "2026-11-29T09:00:00.000Z",
+      "sourceUrl": "https://recruitment.rajasthan.gov.in",
+      "sourceDate": "2026-11-21T08:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RSSB जयपुर",
+      "qualification": "स्नातक (Graduate)",
+      "selectionProcess": "लिखित परीक्षा दो पारियों में"
+    },
+    "sections": [
+      {
+        "key": "admit_download_steps",
+        "body": "अभ्यर्थी recruitment.rajasthan.gov.in पर जाकर \"Get Admit Card\" विकल्प पर क्लिक करें और अपना आवेदन क्रमांक (Application ID) एवं जन्मतिथि दर्ज करके प्रवेश पत्र डाउनलोड करें।",
+        "title": "प्रवेश पत्र डाउनलोड करने की प्रक्रिया"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://recruitment.rajasthan.gov.in",
+        "kind": "admitCard",
+        "label": "प्रवेश पत्र डाउनलोड करें (Direct Link)"
+      }
+    ],
+    "publishedAt": "2026-11-22T02:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:04.374Z"
+  },
+  {
+    "id": "25c9b595-f697-4596-b471-9e4c49b61046",
+    "slug": "rpsc-annual-exam-calendar-schedule-2026",
+    "titleHi": "RPSC वार्षिक परीक्षा कैलेंडर 2026-2027: RAS, कॉलेज प्राध्यापक, वरिष्ठ अध्यापक परीक्षा तिथियां घोषित",
+    "titleEn": "RPSC Annual Examination Calendar 2026-2027: Official Exam Dates Announced",
+    "agencyId": "rpsc",
+    "agencyName": "RPSC",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "calendar",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान लोक सेवा आयोग अजमेर द्वारा सत्र 2026-2027 की प्रमुख भर्ती परीक्षाओं का वार्षिक परीक्षा कैलेंडर जारी कर दिया गया है।",
+    "summaryEn": "Rajasthan Public Service Commission (RPSC) has released its official examination calendar for 2026-2027 detailing upcoming dates for major recruitments.",
+    "facts": {
+      "examDate": "2026-12-20T09:00:00.000Z",
+      "sourceUrl": "https://rpsc.rajasthan.gov.in",
+      "sourceDate": "2026-11-21T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RPSC परीक्षा नियंत्रण प्रकोष्ठ",
+      "qualification": "स्नातक / स्नातकोत्तर / B.Ed",
+      "applicationEnd": "2026-11-30T18:00:00.000Z",
+      "selectionProcess": "वार्षिक परीक्षा समय सारणी"
+    },
+    "sections": [
+      {
+        "key": "calendar_schedule",
+        "body": "1. सहायक आचार्य (कॉलेज शिक्षा): 15 से 24 दिसंबर 2026\n2. प्राध्यापक (स्कूल शिक्षा): 18 से 28 जनवरी 2027\n3. वरिष्ठ अध्यापक (माध्यमिक शिक्षा): 10 से 18 फरवरी 2027\n4. RAS Mains परीक्षा: 14 व 15 मार्च 2027",
+        "title": "प्रमुख परीक्षा तिथियों की सारणी"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rpsc.rajasthan.gov.in/Static/Calendar/RPSC_Exam_Calendar_2026.pdf",
+        "kind": "notificationPdf",
+        "label": "RPSC आधिकारिक परीक्षा कैलेंडर PDF"
+      }
+    ],
+    "publishedAt": "2026-11-22T00:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:01.632Z"
+  },
+  {
+    "id": "e2ebd88c-8716-4dd7-bf5b-2a42f467b40b",
+    "slug": "rajasthan-police-constable-written-exam-result-merit-list-2026",
+    "titleHi": "राजस्थान पुलिस कांस्टेबल लिखित परीक्षा परिणाम व शारीरिक दक्षता (PET/PST) कट-ऑफ जारी",
+    "titleEn": "Rajasthan Police Constable Written Exam Result, Merit List & Cut-Off Marks 2026",
+    "agencyId": "police",
+    "agencyName": "Rajasthan Police",
+    "categoryId": "police_defence",
+    "categoryName": "Police & Defence",
+    "state": "rajasthan",
+    "noticeType": "result",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान पुलिस महानिदेशक कार्यालय द्वारा कांस्टेबल भर्ती 2026 के लिखित परीक्षा परिणाम एवं शारीरिक दक्षता परीक्षा (दौड़) हेतु सफल अभ्यर्थियों की जिलावार सूची जारी कर दी गई है।",
+    "summaryEn": "Office of the Director General of Police, Rajasthan has declared the written examination results, merit lists, and category-wise cut-offs for Constable Recruitment 2026.",
+    "facts": {
+      "sourceUrl": "https://police.rajasthan.gov.in",
+      "sourceDate": "2026-11-21T06:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "राजस्थान पुलिस मुख्यालय",
+      "qualification": "12वीं पास",
+      "selectionProcess": "लिखित परीक्षा उपरांत शारीरिक दक्षता दौड़ हेतु 15 गुना अभ्यर्थी उत्तीर्ण"
+    },
+    "sections": [
+      {
+        "key": "result_cutoff_info",
+        "body": "सफल अभ्यर्थियों की रोल नंबर वार पीडीएफ पुलिस की आधिकारिक वेबसाइट पर उपलब्ध है। शारीरिक दक्षता परीक्षा की तिथियां शीघ्र घोषित की जाएंगी।",
+        "title": "वर्गवार कट-ऑफ एवं परिणाम विवरण"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://police.rajasthan.gov.in/Static/Results/Constable_Result_2026.pdf",
+        "kind": "result",
+        "label": "परिणाम व मेरिट लिस्ट PDF डाउनलोड करें"
+      }
+    ],
+    "publishedAt": "2026-11-21T22:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:07.072Z"
+  },
+  {
+    "id": "2626bb51-688b-4b78-be03-6c1c3c7f7a3f",
+    "slug": "mukhyamantri-anuprati-coaching-yojana-2026",
+    "titleHi": "मुख्यमंत्री अनुप्रति कोचिंग योजना 2026: RAS, REET, NEET, JEE हेतु निःशुल्क कोचिंग ऑनलाइन आवेदन",
+    "titleEn": "Mukhyamantri Anuprati Coaching Scheme 2026: Free Coaching for Competitive Exams",
+    "agencyId": "raj_dept",
+    "agencyName": "Rajasthan Govt Depts",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "scheme",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान सरकार द्वारा आर्थिक रूप से कमजोर एवं मेधावी विद्यार्थियों को प्रतिष्ठित प्रतियोगी परीक्षाओं की निःशुल्क तैयारी कराने हेतु 30,000 सीटों पर ऑनलाइन आवेदन आमंत्रित। भोजन व आवास हेतु ₹40,000 अतिरिक्त सहायता।",
+    "summaryEn": "Rajasthan Government invites applications under Mukhyamantri Anuprati Coaching Scheme for free coaching in civil services, engineering, and medical exams along with annual stipend.",
+    "facts": {
+      "sourceUrl": "https://sje.rajasthan.gov.in",
+      "postsCount": 30000,
+      "sourceDate": "2026-11-20T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "सामाजिक न्याय एवं अधिकारिता विभाग (SJE) राजस्थान",
+      "qualification": "10वीं / 12वीं / स्नातक उत्तीर्ण (पारिवारिक वार्षिक आय ₹8 लाख से कम)",
+      "applicationEnd": "2026-12-15T23:59:59.000Z",
+      "applicationStart": "2026-11-01T00:00:00.000Z",
+      "selectionProcess": "10वीं एवं 12वीं के प्राप्तांकों की मेरिट सूची के आधार पर चयन"
+    },
+    "sections": [
+      {
+        "key": "coaching_benefits",
+        "body": "1. प्रतिष्ठित कोचिंग संस्थानों में निःशुल्क कोचिंग (RAS, UPSC, REET, कांस्टेबल, पटवारी, JEE, NEET, CLAT)\n2. अपने गृह जिले से बाहर रहकर कोचिंग करने वाले विद्यार्थियों को प्रतिवर्ष ₹40,000 भोजन एवं आवास भत्ता दिया जाता है।",
+        "title": "योजना के प्रमुख लाभ एवं सुविधाएं"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://sso.rajasthan.gov.in",
+        "kind": "applyOnline",
+        "label": "अनुप्रति कोचिंग ऑनलाइन आवेदन (SSO Portal)"
+      },
+      {
+        "url": "https://sje.rajasthan.gov.in/Static/Anuprati_Guidelines_2026.pdf",
+        "kind": "notificationPdf",
+        "label": "विस्तृत योजना परिपत्र एवं दिशा-निर्देश PDF"
+      }
+    ],
+    "publishedAt": "2026-11-21T20:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:12.478Z"
+  },
+  {
+    "id": "cb6b9362-e2db-409a-a713-dad6d26f0816",
+    "slug": "rpsc-ras-pre-model-answer-key-2026",
+    "titleHi": "RPSC RAS Pre परीक्षा 2026 मॉडल उत्तर कुंजी व ऑनलाइन आपत्ति लिंक जारी",
+    "titleEn": "RPSC RAS Prelims Exam 2026 Official Model Answer Key & Objection Link",
+    "agencyId": "rpsc",
+    "agencyName": "RPSC",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "answerKey",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान लोक सेवा आयोग (RPSC) द्वारा RAS Pre 2026 परीक्षा की मॉडल उत्तर कुंजी व मास्टर प्रश्न पत्र आधिकारिक पोर्टल पर जारी कर दिए गए हैं। अभ्यर्थी SSO पोर्टल के माध्यम से निर्धारित शुल्क देकर ऑनलाइन आपत्ति दर्ज कर सकते हैं।",
+    "summaryEn": "Rajasthan Public Service Commission (RPSC) has officially published the model answer key and master question paper for RAS Prelims Exam 2026. Online objections can be filed via SSO portal.",
+    "facts": {
+      "examDate": "2026-10-25T09:00:00.000Z",
+      "sourceUrl": "https://rpsc.rajasthan.gov.in",
+      "sourceDate": "2026-11-20T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "RPSC अजमेर व राजस्थान सूचना प्रकोष्ठ",
+      "qualification": "स्नातक (Graduate)",
+      "selectionProcess": "प्रारंभिक परीक्षा (Prelims), मुख्य परीक्षा (Mains) व साक्षात्कार"
+    },
+    "sections": [
+      {
+        "key": "objection_process",
+        "body": "अभ्यर्थी SSO पोर्टल में लॉगइन कर Recruitment Portal का चयन करें और RAS Pre 2026 हेतु मॉडल उत्तर कुंजी पर अपनी आपत्ति दर्ज करें। प्रति प्रश्न ₹100 आपत्ति शुल्क देय होगा। प्रामाणिक पुस्तकों के साक्ष्य ही मान्य होंगे।",
+        "title": "ऑनलाइन आपत्ति दर्ज करने की प्रक्रिया (How to File Objection)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rpsc.rajasthan.gov.in/Static/AnswerKeys/RAS_Pre_2026_Key.pdf",
+        "kind": "notificationPdf",
+        "label": "मॉडल उत्तर कुंजी PDF डाउनलोड करें"
+      },
+      {
+        "url": "https://sso.rajasthan.gov.in",
+        "kind": "applyOnline",
+        "label": "ऑनलाइन आपत्ति दर्ज करें (SSO Portal)"
+      }
+    ],
+    "publishedAt": "2026-11-21T20:21:44.679Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:44.853Z"
+  },
+  {
+    "id": "22bfb3d4-51ba-4d31-9035-0f96e01b89a7",
+    "slug": "rajasthan-high-court-system-assistant-admit-card-2026",
+    "titleHi": "राजस्थान उच्च न्यायालय सिस्टम असिस्टेंट लिखित परीक्षा प्रवेश पत्र जारी",
+    "titleEn": "Rajasthan High Court System Assistant Written Exam Admit Card Download",
+    "agencyId": "hcraj",
+    "agencyName": "Rajasthan High Court",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "admitCard",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान उच्च न्यायालय जोधपुर द्वारा सिस्टम असिस्टेंट भर्ती 2026 की लिखित परीक्षा हेतु अभ्यर्थियों के प्रवेश पत्र अपलोड कर दिए गए हैं।",
+    "summaryEn": "Rajasthan High Court, Jodhpur has made available the admit cards for System Assistant Written Competitive Examination 2026.",
+    "facts": {
+      "examDate": "2026-12-03T10:00:00.000Z",
+      "sourceUrl": "https://hcraj.nic.in",
+      "sourceDate": "2026-11-20T14:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "उच्च न्यायालय जोधपुर भर्ती प्रकोष्ठ",
+      "qualification": "BCA / B.Tech / BSc CS",
+      "selectionProcess": "लिखित परीक्षा (100 अंक) व कंप्यूटर टाइपिंग टेस्ट"
+    },
+    "sections": [
+      {
+        "key": "hc_admit_notes",
+        "body": "प्रवेश पत्र के साथ मूल पहचान पत्र (आधार कार्ड, वोटर आईडी या ड्राइविंग लाइसेंस) एवं नवीनतम पासपोर्ट साइज रंगीन फोटो लाना अनिवार्य है।",
+        "title": "परीक्षा केंद्र हेतु आवश्यक निर्देश"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hcraj.nic.in/recruitment",
+        "kind": "admitCard",
+        "label": "HCRAJ प्रवेश पत्र डाउनलोड करें"
+      }
+    ],
+    "publishedAt": "2026-11-21T18:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:05.296Z"
+  },
+  {
+    "id": "15639530-76d1-4b45-91dd-f93496d14e3e",
+    "slug": "rajasthan-sso-otr-registration-complete-guide-rules",
+    "titleHi": "राजस्थान SSO वन टाइम रजिस्ट्रेशन (OTR) संपूर्ण मार्गदर्शिका, फीस एवं संशोधन नियम",
+    "titleEn": "Rajasthan SSO One Time Registration (OTR) Complete Guide, Fee Structure & Rules",
+    "agencyId": "raj_dept",
+    "agencyName": "Rajasthan Govt Depts",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "careerGuide",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान सरकार द्वारा सभी राज्य स्तरीय भर्ती परीक्षाओं (RPSC एवं RSSB) हेतु लागू वन टाइम रजिस्ट्रेशन (OTR) की संपूर्ण प्रक्रिया, एकमुश्त पंजीकरण शुल्क, जन आधार लिंकिंग एवं संशोधन के नियम।",
+    "summaryEn": "Complete authoritative guide on Rajasthan SSO One Time Registration (OTR), fee structure, Jan Aadhaar linkage, and profile correction rules for RPSC and RSSB examinations.",
+    "facts": {
+      "sourceUrl": "https://recruitment.rajasthan.gov.in",
+      "sourceDate": "2026-11-20T09:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "राजस्थान सूचना प्रौद्योगिकी विभाग (DOIT&C)",
+      "qualification": "राजस्थान निवासी एवं बाहरी राज्य के सभी प्रतियोगी अभ्यर्थी",
+      "selectionProcess": "एकमुश्त रजिस्ट्रेशन (OTR) उपरांत सभी भर्तियों में निःशुल्क आवेदन"
+    },
+    "sections": [
+      {
+        "key": "otr_fee_structure",
+        "body": "1. सामान्य वर्ग (UR) एवं क्रीमीलेयर श्रेणी के अन्य पिछड़ा वर्ग: ₹600\n2. राजस्थान के नॉन-क्रीमीलेयर ओबीसी, एमबीसी, ईडब्ल्यूएस, एससी, एसटी: ₹400\n3. सभी दिव्यांगजन अभ्यर्थी: ₹400\nएक बार यह शुल्क जमा करने के बाद राजस्थान की आगामी सभी भर्ती परीक्षाओं में कोई अलग से परीक्षा शुल्क नहीं देना होगा।",
+        "title": "एकमुश्त OTR शुल्क विवरण (One-Time Fee Structure)"
+      },
+      {
+        "key": "jan_aadhaar_sync",
+        "body": "OTR करते समय अभ्यर्थी का नाम, पिता का नाम, जन्मतिथि एवं लिंग जन आधार अथवा आधार कार्ड के डाटा से सीधे फेच होते हैं। अतः OTR करने से पूर्व अपने जन आधार में सभी विवरण 10वीं की अंकतालिका अनुसार सही करवा लें।",
+        "title": "जन आधार लिंकिंग एवं विवरण प्रविष्टि नियम"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://sso.rajasthan.gov.in",
+        "kind": "applyOnline",
+        "label": "SSO OTR पोर्टल पर जाएं"
+      },
+      {
+        "url": "https://recruitment.rajasthan.gov.in/Static/OTR_Guidelines.pdf",
+        "kind": "notificationPdf",
+        "label": "OTR आधिकारिक दिशा-निर्देश परिपत्र PDF"
+      }
+    ],
+    "publishedAt": "2026-11-21T17:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:54.287Z"
+  },
+  {
+    "id": "56f85951-b832-47e8-a0cc-0fbc8b74b193",
+    "slug": "rssb-cet-12th-level-exam-city-details-2026-410",
+    "titleHi": "RSSB CET 12वीं लेवल एग्जाम सिटी डिटेल्स 2026",
+    "titleEn": "RSSB CET 12th Level Exam City Details 2026",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "secondary_jobs",
+    "categoryName": "10th / 12th Pass Govt Jobs",
+    "state": "rajasthan",
+    "noticeType": "calendar",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान स्टाफ सिलेक्शन बोर्ड (RSSB-जयपुर) ने कॉमन एलिजिबिलिटी टेस्ट (CET इंटर लेवल) 10+2 लेवल एग्जामिनेशन 2026 के एग्जाम के लिए अपनी ऑफिशियल वेबसाइट पर एग्जाम सिटी की डिटेल्स जारी कर दी हैं। एग्जाम 1  – 3 दिसंबर 2026  को होगा  और एप्लीकेशन फॉर्म जमा करने की आखिरी तारीख 23 जुलाई 2026 थी। कैंडिडेट्स पोर्टल  पर लॉग इन करके  अपने एनरोलमेंट नंबर, रजिस्ट्रेशन नंबर, या डेट ऑफ बर्थ का इस्तेमाल करके  अपना एग्जाम सिटी / एडमिट कार्ड  भी चेक कर सकते हैं  । डायरेक्ट लिंक  नीचे दिया गया है।  (Advt. No. : 08/2026)",
+    "summaryEn": "Rajasthan Staff Selection Board (RSSB-Jaipur) has released the Exam City Details on its official website for the examination of Common Eligibility Test (CET Inter Level ) 10+2 Level Examination 2026. The exam will be conducted on 1 – 3 December 2026, and the last date to submit the application form was 23 July 2026. Candidates can also check their Exam City / Admit Card using their Enrollment Number, Registration Number, or Date of Birth by logging into the portal. The direct link is provided below. (Advt. No. : 08/2026)",
+    "facts": {
+      "ageMax": 40,
+      "ageMin": 18,
+      "feeScSt": "₹400",
+      "examDate": "2026-12-01",
+      "sourceUrl": "https://sarkariresult.com.cm/rssb-cet-12th-level-2026/",
+      "feeEndDate": "2026-07-23",
+      "sourceDate": "2026-11-21",
+      "verifiedAt": "2026-11-21",
+      "verifiedBy": "राजस्थान स्टाफ सिलेक्शन बोर्ड (RSSB)",
+      "feeGeneralObc": "₹600",
+      "qualification": "12th Pass",
+      "applicationEnd": "2026-07-23",
+      "applicationStart": "2026-06-04",
+      "selectionProcess": "पेपर-I, पेपर-II"
+    },
+    "sections": [
+      {
+        "key": "overview",
+        "body": "Rajasthan Staff Selection Board (RSSB-Jaipur) has released the Exam City Details on its official website for the examination of Common Eligibility Test (CET Inter Level ) 10+2 Level Examination 2026. The exam will be conducted on 1 – 3 December 2026, and the last date to submit the application form was 23 July 2026. Candidates can also check their Exam City / Admit Card using their Enrollment Number, Registration Number, or Date of Birth by logging into the portal. The direct link is provided below. (Advt. No. : 08/2026)",
+        "title": "Overview"
+      },
+      {
+        "key": "importantDates",
+        "body": "",
+        "rows": {
+          "Exam Date": "2026-12-01",
+          "Application Start": "2026-06-04",
+          "Application Last Date": "2026-07-23",
+          "Fee Payment Last Date": "2026-07-23"
+        },
+        "title": "Important Dates"
+      },
+      {
+        "key": "eligibility",
+        "body": "12th Pass",
+        "rows": {
+          "Age Limit": "18 to 40 years",
+          "Qualification": "12th Pass"
+        },
+        "title": "Eligibility Criteria"
+      },
+      {
+        "key": "fee",
+        "body": "",
+        "rows": {
+          "SC / ST": "₹400",
+          "General / OBC": "₹600"
+        },
+        "title": "Application Fee"
+      },
+      {
+        "key": "selectionProcess",
+        "body": "पेपर-I, पेपर-II ",
+        "title": "Selection Process"
+      },
+      {
+        "key": "howToApply",
+        "body": "Read the official notification carefully and submit the online application before the last date.",
+        "title": "How to Apply"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rssb.rajasthan.gov.in/storage/advertisement_item/1782217139.pdf",
+        "kind": "notificationPdf",
+        "label": "Official Notification (PDF)"
+      },
+      {
+        "url": "https://sso.rajasthan.gov.in/",
+        "kind": "applyOnline",
+        "label": "Apply Online"
+      },
+      {
+        "url": "https://rssb.rajasthan.gov.in/",
+        "kind": "officialSite",
+        "label": "Official Website"
+      }
+    ],
+    "publishedAt": "2026-11-21T16:51:16.432Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-21T16:51:16.432Z"
+  },
+  {
+    "id": "e1229937-3725-4846-aed4-dc5434bba8b3",
+    "slug": "rssb-tentative-examination-calendar-2026",
+    "titleHi": "RSSB वार्षिक भर्ती परीक्षा कैलेंडर 2026: CET, कनिष्ठ सहायक, पटवारी व छात्रावास अधीक्षक तिथियां",
+    "titleEn": "RSSB Annual Recruitment Exam Calendar 2026: Official Tentative Exam Schedule",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "clerk_assistant",
+    "categoryName": "Clerk & Junior Assistant",
+    "state": "rajasthan",
+    "noticeType": "calendar",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "कर्मचारी चयन बोर्ड जयपुर द्वारा वर्ष 2026 में आयोजित होने वाली विभिन्न प्रतियोगी परीक्षाओं का संशोधित कैलेंडर घोषित किया गया है।",
+    "summaryEn": "RSMSSB Jaipur has announced the tentative schedule and dates for CET, Patwari, LDC, and Hostel Superintendent exams.",
+    "facts": {
+      "examDate": "2026-12-12T09:00:00.000Z",
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "sourceDate": "2026-11-20T11:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RSSB जयपुर",
+      "qualification": "10वीं / 12वीं / स्नातक",
+      "applicationEnd": "2026-11-28T18:00:00.000Z",
+      "selectionProcess": "बोर्ड परीक्षा सारणी"
+    },
+    "sections": [
+      {
+        "key": "rssb_dates",
+        "body": "1. कनिष्ठ सहायक (LDC) परीक्षा: 12 दिसंबर 2026\n2. पशु परिचर सीधी भर्ती: 20 से 23 दिसंबर 2026\n3. छात्रावास अधीक्षक ग्रेड-II: 10 जनवरी 2027\n4. पटवारी भर्ती परीक्षा: 24 जनवरी 2027",
+        "title": "आगामी परीक्षाओं की समय सारणी"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rsmssb.rajasthan.gov.in/Static/Calendar/RSSB_Calendar_2026.pdf",
+        "kind": "notificationPdf",
+        "label": "RSSB परीक्षा कैलेंडर PDF डाउनलोड"
+      }
+    ],
+    "publishedAt": "2026-11-21T16:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:02.516Z"
+  },
+  {
+    "id": "702257c4-10a0-458c-9316-048e86541a71",
+    "slug": "rajasthan-ptet-bed-admission-form-2026",
+    "titleHi": "राजस्थान PTET 2026: 2-वर्षीय B.Ed एवं 4-वर्षीय BA B.Ed / BSc B.Ed ऑनलाइन प्रवेश परीक्षा आवेदन",
+    "titleEn": "Rajasthan PTET 2026 Online Application for 2-Year B.Ed & 4-Year Integrated Course",
+    "agencyId": "education",
+    "agencyName": "Dept of Education",
+    "categoryId": "education_dept",
+    "categoryName": "Department of Education",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान राज्य के राजकीय एवं निजी शिक्षक प्रशिक्षण महाविद्यालयों में 2-वर्षीय बी.एड एवं 4-वर्षीय इन्टीग्रेटेड बी.ए. बी.एड / बी.एससी. बी.एड पाठ्यक्रमों में सत्र 2026 हेतु ऑनलाइन आवेदन शुरू।",
+    "summaryEn": "Online entrance examination forms invited for 2-Year B.Ed and 4-Year Integrated BA B.Ed / BSc B.Ed admissions in Rajasthan colleges.",
+    "facts": {
+      "ageMin": 17,
+      "feeScSt": "₹500",
+      "examDate": "2027-01-15T09:00:00.000Z",
+      "sourceUrl": "https://ptetraj2026.org",
+      "postsCount": 150000,
+      "sourceDate": "2026-11-18T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "PTET समन्वयक व उच्च शिक्षा विभाग",
+      "feeGeneralObc": "₹500",
+      "qualification": "4-वर्षीय कोर्स हेतु 12वीं पास (न्यूनतम 50% अंक) / 2-वर्षीय बी.एड हेतु स्नातक उत्तीर्ण",
+      "applicationEnd": "2026-12-10T23:59:59.000Z",
+      "applicationStart": "2026-11-05T00:00:00.000Z",
+      "selectionProcess": "राज्य स्तरीय PTET प्रवेश परीक्षा (200 प्रश्न, 600 अंक) एवं ऑनलाइन काउंसलिंग"
+    },
+    "sections": [
+      {
+        "key": "ptet_exam_structure",
+        "body": "1. मेंटल एबिलिटी: 50 प्रश्न (150 अंक)\n2. टीचिंग एप्टीट्यूड: 50 प्रश्न (150 अंक)\n3. जनरल अवेयरनेस: 50 प्रश्न (150 अंक)\n4. लैंग्वेज प्रोफिशिएंसी (हिंदी/अंग्रेजी): 50 प्रश्न (150 अंक)",
+        "title": "प्रवेश परीक्षा प्रारूप (200 प्रश्न, 600 अंक)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://ptetraj2026.org",
+        "kind": "applyOnline",
+        "label": "PTET अधिकृत पोर्टल व ऑनलाइन आवेदन"
+      }
+    ],
+    "publishedAt": "2026-11-21T14:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:10.676Z"
+  },
+  {
+    "id": "29cb0fa4-c795-4a5c-8158-ca8c8ebc33b1",
+    "slug": "rssb-ldc-clerk-grade-2-syllabus-exam-pattern-2026",
+    "titleHi": "RSSB कनिष्ठ सहायक (LDC) भर्ती 2026 विस्तृत पाठ्यक्रम व परीक्षा योजना PDF",
+    "titleEn": "RSSB LDC / Junior Assistant Exam 2026 Detailed Syllabus & Scheme of Exam",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "clerk_assistant",
+    "categoryName": "Clerk & Junior Assistant",
+    "state": "rajasthan",
+    "noticeType": "syllabus",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "कर्मचारी चयन बोर्ड द्वारा कनिष्ठ सहायक / लिपिक ग्रेड-II संयुक्त सीधी भर्ती 2026 का आधिकारिक विस्तृत पाठ्यक्रम, अंक योजना एवं टाइपिंग टेस्ट नियम जारी।",
+    "summaryEn": "RSMSSB has published the comprehensive syllabus and examination scheme for Junior Assistant and Clerk Grade-II Recruitment Exam 2026.",
+    "facts": {
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "sourceDate": "2026-11-19T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "RSSB जयपुर पाठ्यक्रम प्रकोष्ठ",
+      "qualification": "12वीं पास + कंप्यूटर डिप्लोमा (RSCIT या समकक्ष)",
+      "selectionProcess": "प्रथम चरण (लिखित परीक्षा 200 अंक) एवं द्वितीय चरण (कंप्यूटर टाइपिंग व दक्षता परीक्षा 100 अंक)"
+    },
+    "sections": [
+      {
+        "key": "paper_1_details",
+        "body": "कुल प्रश्न: 150 (सामान्य ज्ञान 50, दैनिक विज्ञान 50, गणित 50)। कुल अंक: 100, समयावधि: 3 घंटे। नकारात्मक अंकन: 1/3 भाग।",
+        "title": "प्रथम चरण: प्रश्न पत्र 1 (सामान्य ज्ञान, दैनिक विज्ञान व गणित)"
+      },
+      {
+        "key": "paper_2_details",
+        "body": "कुल प्रश्न: 150 (सामान्य हिंदी 75 प्रश्न, सामान्य अंग्रेजी 75 प्रश्न)। कुल अंक: 100, समयावधि: 3 घंटे।",
+        "title": "प्रथम चरण: प्रश्न पत्र 2 (सामान्य हिंदी एवं सामान्य अंग्रेजी)"
+      },
+      {
+        "key": "phase_2_typing",
+        "body": "हिंदी टाइपिंग: 10 मिनट (25 अंक) + दक्षता परीक्षा 10 मिनट (25 अंक)। अंग्रेजी टाइपिंग: 10 मिनट (25 अंक) + दक्षता परीक्षा 10 मिनट (25 अंक)।",
+        "title": "द्वितीय चरण: टाइपिंग स्पीड एवं दक्षता परीक्षा"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rsmssb.rajasthan.gov.in/Static/Syllabus/LDC_2026_Syllabus.pdf",
+        "kind": "syllabus",
+        "label": "LDC आधिकारिक पाठ्यक्रम PDF डाउनलोड"
+      }
+    ],
+    "publishedAt": "2026-11-21T14:21:44.680Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:49.568Z"
+  },
+  {
+    "id": "b77099ce-97e1-4d56-81d7-26420875d6e1",
+    "slug": "rpsc-ras-prelims-previous-years-solved-papers-2021-2024",
+    "titleHi": "RPSC RAS Pre विगत वर्षों के प्रश्नपत्र हल सहित एवं आधिकारिक उत्तर कुंजी (2018-2024)",
+    "titleEn": "RPSC RAS Prelims Previous Years Question Papers with Official Solutions (2018-2024)",
+    "agencyId": "rpsc",
+    "agencyName": "RPSC",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "pyq",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान प्रशासनिक सेवा (RAS/RTS) प्रारंभिक परीक्षा के पिछले 5 वर्षों (2018, 2021, 2023, 2024) के मास्टर प्रश्न पत्र और RPSC की अंतिम उत्तर कुंजी सहित PDF संग्रह।",
+    "summaryEn": "Comprehensive repository of previous 5 years official question papers and final answer keys for RPSC RAS Preliminary Examination.",
+    "facts": {
+      "sourceUrl": "https://rpsc.rajasthan.gov.in",
+      "sourceDate": "2026-11-19T09:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RPSC अजमेर अभिलेखागार",
+      "qualification": "स्नातक (Graduate)",
+      "selectionProcess": "RAS प्रारंभिक परीक्षा (200 अंक)"
+    },
+    "sections": [
+      {
+        "key": "pyq_analysis",
+        "body": "RAS Pre में राजस्थान के इतिहास, कला, संस्कृति व भूगोल से औसतन 50 से 55 प्रश्न पूछे जाते हैं। समसामयिकी (Current Affairs) से 20 से 25 प्रश्न एवं गणित/तर्कशक्ति से 20 प्रश्न पूछे जाते हैं।",
+        "title": "विगत वर्षों का विषयवार ट्रेंड (Trend Analysis)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rpsc.rajasthan.gov.in/Static/PYQ/RAS_Pre_2024_Paper.pdf",
+        "kind": "notificationPdf",
+        "label": "RAS Pre 2024 मास्टर पेपर PDF"
+      },
+      {
+        "url": "https://rpsc.rajasthan.gov.in/Static/PYQ/RAS_Pre_2024_Final_Key.pdf",
+        "kind": "notificationPdf",
+        "label": "RAS Pre 2024 अंतिम उत्तर कुंजी PDF"
+      }
+    ],
+    "publishedAt": "2026-11-21T12:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:58.023Z"
+  },
+  {
+    "id": "dc907c95-818b-46df-bc08-688060ea8059",
+    "slug": "up-special-tet-result-2026-845",
+    "titleHi": "यूपी स्पेशल टीईटी रिजल्ट 2026",
+    "titleEn": "UP Special TET Result 2026",
+    "agencyId": "education",
+    "agencyName": "Dept of Education",
+    "categoryId": "teaching",
+    "categoryName": "Teaching & Education",
+    "state": "central",
+    "noticeType": "result",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "उत्तर प्रदेश शिक्षा सेवा चयन आयोग (यूपीएसईएससी) ने उत्तर प्रदेश शिक्षक पात्रता परीक्षा (यूपी स्पेशल टीईटी) 2026 के लिए अपनी आधिकारिक वेबसाइट पर परिणाम जारी कर दिया है। परीक्षा 03 नवंबर 2026 को आयोजित की गई थी, और आवेदन पत्र जमा करने की अंतिम तिथि 04 अक्टूबर 2026 थी। उम्मीदवार पोर्टल पर लॉग इन करके अपने नामांकन संख्या, पंजीकरण संख्या या जन्म तिथि का उपयोग करके भी अपना परिणाम देख सकते हैं। सीधा लिंक नीचे दिया गया है। (विज्ञापन संख्या 03/यूपीटीईटी/2026)",
+    "summaryEn": "Uttar Pradesh Education Service Selection Commission (UPESSC) has released the Result on its official website for the Uttar Pradesh Teacher Eligibility Test (UP Special TET) 2026. The exam was conducted on 03 November 2026, and the last date to submit the application form was 04 October 2026. Candidates can also check their Result using their Enrollment Number, Registration Number, or Date of Birth by logging into the portal. The direct link is provided below. (Adv. No. 03/UPTET/2026)",
+    "facts": {
+      "ageMax": 60,
+      "ageMin": 18,
+      "feeScSt": "₹500",
+      "examDate": "2026-11-03",
+      "sourceUrl": "",
+      "feeEndDate": "2026-10-04",
+      "sourceDate": "2026-11-21",
+      "verifiedAt": "2026-11-21",
+      "verifiedBy": "उत्तर प्रदेश एजुकेशन सर्विस सिलेक्शन कमीशन (UPESSC)",
+      "feeGeneralObc": "₹1000",
+      "qualification": "प्राइमरी लेवल के स्कूलों में काम करने वाले सभी टीचर प्राइमरी लेवल के लिए स्पेशल टीचर एलिजिबिलिटी टेस्ट (स्पेशल TET) देने के लिए एलिजिबल होंगे। अपर प्राइमरी लेवल / जूनियर हाई स्कूल लेवल के स्कूलों में काम करने वाले सभी टीचर, अपर प्राइमरी लेवल के लिए स्पेशल टीचर एलिजिबिलिटी टेस्ट (स्पेशल TET) देने के लिए एलिजिबल होंगे ।",
+      "applicationEnd": "2026-10-04",
+      "applicationStart": "2026-09-05",
+      "selectionProcess": "लिखित परीक्षा"
+    },
+    "sections": [
+      {
+        "key": "overview",
+        "body": "Uttar Pradesh Education Service Selection Commission (UPESSC) has released the Result on its official website for the Uttar Pradesh Teacher Eligibility Test (UP Special TET) 2026. The exam was conducted on 03 November 2026, and the last date to submit the application form was 04 October 2026. Candidates can also check their Result using their Enrollment Number, Registration Number, or Date of Birth by logging into the portal. The direct link is provided below. (Adv. No. 03/UPTET/2026)",
+        "title": "Overview"
+      },
+      {
+        "key": "importantDates",
+        "body": "",
+        "rows": {
+          "Exam Date": "2026-11-03",
+          "Application Start": "2026-09-05",
+          "Application Last Date": "2026-10-04",
+          "Fee Payment Last Date": "2026-10-04"
+        },
+        "title": "Important Dates"
+      },
+      {
+        "key": "eligibility",
+        "body": "प्राइमरी लेवल के स्कूलों में काम करने वाले सभी टीचर प्राइमरी लेवल के लिए स्पेशल टीचर एलिजिबिलिटी टेस्ट (स्पेशल TET) देने के लिए एलिजिबल होंगे। अपर प्राइमरी लेवल / जूनियर हाई स्कूल लेवल के स्कूलों में काम करने वाले सभी टीचर, अपर प्राइमरी लेवल के लिए स्पेशल टीचर एलिजिबिलिटी टेस्ट (स्पेशल TET) देने के लिए एलिजिबल होंगे ।",
+        "rows": {
+          "Age Limit": "18 to 60 years",
+          "Qualification": "प्राइमरी लेवल के स्कूलों में काम करने वाले सभी टीचर प्राइमरी लेवल के लिए स्पेशल टीचर एलिजिबिलिटी टेस्ट (स्पेशल TET) देने के लिए एलिजिबल होंगे। अपर प्राइमरी लेवल / जूनियर हाई स्कूल लेवल के स्कूलों में काम करने वाले सभी टीचर, अपर प्राइमरी लेवल के लिए स्पेशल टीचर एलिजिबिलिटी टेस्ट (स्पेशल TET) देने के लिए एलिजिबल होंगे ।"
+        },
+        "title": "Eligibility Criteria"
+      },
+      {
+        "key": "fee",
+        "body": "",
+        "rows": {
+          "SC / ST": "₹500",
+          "General / OBC": "₹1000"
+        },
+        "title": "Application Fee"
+      },
+      {
+        "key": "selectionProcess",
+        "body": "लिखित परीक्षा",
+        "title": "Selection Process"
+      },
+      {
+        "key": "howToApply",
+        "body": "Read the official notification carefully and submit the online application before the last date.",
+        "title": "How to Apply"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.upessc.up.gov.in/Notice/badc-2f84-4983-44c3-12bf.pdf",
+        "kind": "notificationPdf",
+        "label": "Official Notification (PDF)"
+      },
+      {
+        "url": "https://apply.upessc.org/",
+        "kind": "applyOnline",
+        "label": "Apply Online"
+      },
+      {
+        "url": "https://www.upessc.up.gov.in/",
+        "kind": "officialSite",
+        "label": "Official Website"
+      }
+    ],
+    "publishedAt": "2026-11-21T12:10:19.679Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-21T12:10:19.679Z"
+  },
+  {
+    "id": "c7fb4250-1254-494e-a9ff-a208433d741b",
+    "slug": "sidbi-bank-grade-a-b-recruitment-2026-359",
+    "titleHi": "SIDBI Bank Grade A & B Recruitment 2026",
+    "titleEn": "SIDBI Bank Grade A & B Recruitment 2026",
+    "agencyId": "banking",
+    "agencyName": "Banking (IBPS / SBI)",
+    "categoryId": "banking_insurance",
+    "categoryName": "Banking & Insurance",
+    "state": "central",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "",
+    "summaryEn": "Small Industries Development Bank of India (SIDBI), has released a Notification on its official website for the Bank Grade A, B Examination 2026. This recruitment is being conducted for 68 vacancies. The SIDBI Application Form has started on 21 November 2026 & the candidates can apply until 11 December 2026. The Minimum age required is 21 – 25 Years & The Maximum Age Is 30 – 33 Years as on 21 November 2026. Candidates must check the complete details for SIDBI Bank Grade A & B Recruitment 2026 which are given below. (Advt.No: 8 /Grade ‘A’ and ‘B’ / 2026-27)",
+    "facts": {
+      "ageMax": 30,
+      "ageMin": 21,
+      "feeScSt": "175",
+      "sourceUrl": "",
+      "feeEndDate": "2026-12-11",
+      "postsCount": 68,
+      "sourceDate": "2026-11-21",
+      "verifiedAt": "2026-11-21",
+      "verifiedBy": "Rajasthan Suchna Editorial Board",
+      "feeGeneralObc": "1100",
+      "qualification": "Candidates must have a graduation degree in Commerce, Economics, Mathematics, Statistics, Business Administration, or Engineering, or hold professional qualifications like CS, CMA, CFA, CA, MBA, or PGDM with at least 60% marks (50% for SC/ST/PwBD). Those without CA, MBA, or PGDM must also have 2 years of experience in MSME or Corporate Credit.",
+      "applicationEnd": "2026-12-11",
+      "applicationStart": "2026-11-21",
+      "selectionProcess": "Phase I: Objective Test, Phase II: Descriptive & (Possibly) Subjective Test, Psychometric Test, Interview, Final Merit List"
+    },
+    "sections": [
+      {
+        "key": "overview",
+        "body": "Small Industries Development Bank of India (SIDBI), has released a Notification on its official website for the Bank Grade A, B Examination 2026. This recruitment is being conducted for 68 vacancies. The SIDBI Application Form has started on 21 November 2026 & the candidates can apply until 11 December 2026. The Minimum age required is 21 – 25 Years & The Maximum Age Is 30 – 33 Years as on 21 November 2026. Candidates must check the complete details for SIDBI Bank Grade A & B Recruitment 2026 which are given below. (Advt.No: 8 /Grade ‘A’ and ‘B’ / 2026-27)",
+        "title": "Overview"
+      },
+      {
+        "key": "importantDates",
+        "body": "",
+        "rows": {
+          "Application Start": "2026-11-21",
+          "Application Last Date": "2026-12-11",
+          "Fee Payment Last Date": "2026-12-11"
+        },
+        "title": "Important Dates"
+      },
+      {
+        "key": "eligibility",
+        "body": "Candidates must have a graduation degree in Commerce, Economics, Mathematics, Statistics, Business Administration, or Engineering, or hold professional qualifications like CS, CMA, CFA, CA, MBA, or PGDM with at least 60% marks (50% for SC/ST/PwBD). Those without CA, MBA, or PGDM must also have 2 years of experience in MSME or Corporate Credit.",
+        "rows": {
+          "Age Limit": "21 to 30 years",
+          "Qualification": "Candidates must have a graduation degree in Commerce, Economics, Mathematics, Statistics, Business Administration, or Engineering, or hold professional qualifications like CS, CMA, CFA, CA, MBA, or PGDM with at least 60% marks (50% for SC/ST/PwBD). Those without CA, MBA, or PGDM must also have 2 years of experience in MSME or Corporate Credit."
+        },
+        "title": "Eligibility Criteria"
+      },
+      {
+        "key": "fee",
+        "body": "",
+        "rows": {
+          "SC / ST": "175",
+          "General / OBC": "1100"
+        },
+        "title": "Application Fee"
+      },
+      {
+        "key": "selectionProcess",
+        "body": "Phase I: Objective Test, Phase II: Descriptive & (Possibly) Subjective Test, Psychometric Test, Interview, Final Merit List",
+        "title": "Selection Process"
+      },
+      {
+        "key": "howToApply",
+        "body": "Read the official notification carefully and submit the online application before the last date.",
+        "title": "How to Apply"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.sidbi.in/head/uploads/career_document/SIDBI_DETAILED_WEB_ADVT_HINDI_21112026_21_11_2026.pdf",
+        "kind": "notificationPdf",
+        "label": "Official Notification (PDF)"
+      },
+      {
+        "url": "https://ibpsreg.ibps.in/sidbimay26/",
+        "kind": "applyOnline",
+        "label": "Apply Online"
+      },
+      {
+        "url": "https://www.sidbi.in/en/index",
+        "kind": "officialSite",
+        "label": "Official Website"
+      }
+    ],
+    "publishedAt": "2026-11-21T11:55:58.006Z",
+    "expiresAt": "2026-12-11T00:00:00.000Z",
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-21T11:57:59.767Z"
+  },
+  {
+    "id": "c7fb4250-1254-494e-a9ff-a208433d741b",
+    "slug": "sidbi-bank-grade-a-b-recruitment-2026-359",
+    "titleHi": "सिडबी बैंक ग्रेड ए और बी भर्ती 2026",
+    "titleEn": "SIDBI Bank Grade A & B Recruitment 2026",
+    "agencyId": "banking",
+    "agencyName": "Banking (IBPS / SBI)",
+    "categoryId": "banking_insurance",
+    "categoryName": "Banking & Insurance",
+    "state": "central",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 2,
+    "summaryHi": "भारतीय लघु उद्योग विकास बैंक (SIDBI) ने बैंक ग्रेड ए, बी परीक्षा 2026 के लिए अपनी आधिकारिक वेबसाइट पर एक अधिसूचना जारी की है। यह भर्ती 68 रिक्तियों के लिए आयोजित की जा रही है। सिडबी आवेदन फॉर्म 21 नवंबर 2026 को शुरू हो गया है और उम्मीदवार 11 दिसंबर 2026 तक आवेदन कर सकते हैं। 21 नवंबर 2026 को आवश्यक न्यूनतम आयु 21 - 25 वर्ष और अधिकतम आयु 30 - 33 वर्ष है। उम्मीदवारों को सिडबी बैंक ग्रेड ए और बी भर्ती 2026 के लिए पूरा विवरण जांचना चाहिए जो नीचे दिया गया है। (विज्ञापन संख्या: 8/ग्रेड 'ए' और 'बी'/2026-27)",
+    "summaryEn": "Small Industries Development Bank of India (SIDBI), has released a Notification on its official website for the Bank Grade A, B Examination 2026. This recruitment is being conducted for 68 vacancies. The SIDBI Application Form has started on 21 November 2026 & the candidates can apply until 11 December 2026. The Minimum age required is 21 – 25 Years & The Maximum Age Is 30 – 33 Years as on 21 November 2026. Candidates must check the complete details for SIDBI Bank Grade A & B Recruitment 2026 which are given below. (Advt.No: 8 /Grade ‘A’ and ‘B’ / 2026-27)",
+    "facts": {
+      "ageMax": 30,
+      "ageMin": 21,
+      "feeScSt": "175",
+      "sourceUrl": "",
+      "feeEndDate": "2026-12-11",
+      "postsCount": 68,
+      "sourceDate": "2026-11-21",
+      "verifiedAt": "2026-11-21",
+      "verifiedBy": "Rajasthan Suchna Editorial Board",
+      "feeGeneralObc": "1100",
+      "qualification": "Candidates must have a graduation degree in Commerce, Economics, Mathematics, Statistics, Business Administration, or Engineering, or hold professional qualifications like CS, CMA, CFA, CA, MBA, or PGDM with at least 60% marks (50% for SC/ST/PwBD). Those without CA, MBA, or PGDM must also have 2 years of experience in MSME or Corporate Credit.",
+      "applicationEnd": "2026-12-11",
+      "applicationStart": "2026-11-21",
+      "selectionProcess": "Phase I: वस्तुनिष्ठ परीक्षण, Phase II: वर्णनात्मक और (संभवतः) व्यक्तिपरक परीक्षण, साइकोमेट्रिक परीक्षण, साक्षात्कार, अंतिम मेरिट सूची"
+    },
+    "sections": [
+      {
+        "key": "overview",
+        "body": "Small Industries Development Bank of India (SIDBI), has released a Notification on its official website for the Bank Grade A, B Examination 2026. This recruitment is being conducted for 68 vacancies. The SIDBI Application Form has started on 21 November 2026 & the candidates can apply until 11 December 2026. The Minimum age required is 21 – 25 Years & The Maximum Age Is 30 – 33 Years as on 21 November 2026. Candidates must check the complete details for SIDBI Bank Grade A & B Recruitment 2026 which are given below. (Advt.No: 8 /Grade ‘A’ and ‘B’ / 2026-27)",
+        "title": "Overview"
+      },
+      {
+        "key": "importantDates",
+        "body": "",
+        "rows": {
+          "Application Start": "2026-11-21",
+          "Application Last Date": "2026-12-11",
+          "Fee Payment Last Date": "2026-12-11"
+        },
+        "title": "Important Dates"
+      },
+      {
+        "key": "eligibility",
+        "body": "Candidates must have a graduation degree in Commerce, Economics, Mathematics, Statistics, Business Administration, or Engineering, or hold professional qualifications like CS, CMA, CFA, CA, MBA, or PGDM with at least 60% marks (50% for SC/ST/PwBD). Those without CA, MBA, or PGDM must also have 2 years of experience in MSME or Corporate Credit.",
+        "rows": {
+          "Age Limit": "21 to 30 years",
+          "Qualification": "Candidates must have a graduation degree in Commerce, Economics, Mathematics, Statistics, Business Administration, or Engineering, or hold professional qualifications like CS, CMA, CFA, CA, MBA, or PGDM with at least 60% marks (50% for SC/ST/PwBD). Those without CA, MBA, or PGDM must also have 2 years of experience in MSME or Corporate Credit."
+        },
+        "title": "Eligibility Criteria"
+      },
+      {
+        "key": "fee",
+        "body": "",
+        "rows": {
+          "SC / ST": "175",
+          "General / OBC": "1100"
+        },
+        "title": "Application Fee"
+      },
+      {
+        "key": "selectionProcess",
+        "body": "Phase I: Objective Test, Phase II: Descriptive & (Possibly) Subjective Test, Psychometric Test, Interview, Final Merit List",
+        "title": "Selection Process"
+      },
+      {
+        "key": "howToApply",
+        "body": "Read the official notification carefully and submit the online application before the last date.",
+        "title": "How to Apply"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://www.sidbi.in/head/uploads/career_document/SIDBI_DETAILED_WEB_ADVT_HINDI_21112026_21_11_2026.pdf",
+        "kind": "notificationPdf",
+        "label": "Official Notification (PDF)"
+      },
+      {
+        "url": "https://ibpsreg.ibps.in/sidbimay26/",
+        "kind": "applyOnline",
+        "label": "Apply Online"
+      },
+      {
+        "url": "https://www.sidbi.in/en/index",
+        "kind": "officialSite",
+        "label": "Official Website"
+      }
+    ],
+    "publishedAt": "2026-11-21T11:55:58.006Z",
+    "expiresAt": "2026-12-11T00:00:00.000Z",
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-21T11:57:59.767Z"
+  },
+  {
+    "id": "e9f9f945-324c-4698-a633-2f20d02dae36",
+    "slug": "rpsc-senior-teacher-grade-2-exam-city-admit-card-2026",
+    "titleHi": "RPSC द्वितीय श्रेणी वरिष्ठ अध्यापक परीक्षा जिला आवंटन एवं प्रवेश पत्र जारी",
+    "titleEn": "RPSC 2nd Grade Senior Teacher Exam District Location & Admit Card 2026",
+    "agencyId": "rpsc",
+    "agencyName": "RPSC",
+    "categoryId": "teaching",
+    "categoryName": "Teaching & Education",
+    "state": "rajasthan",
+    "noticeType": "admitCard",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान लोक सेवा आयोग अजमेर द्वारा वरिष्ठ अध्यापक (संस्कृत एवं माध्यमिक शिक्षा) प्रतियोगी परीक्षा हेतु परीक्षा जिला आवंटन सूचना एवं प्रवेश पत्र जारी।",
+    "summaryEn": "RPSC has activated the exam district center allocation link and admit cards for 2nd Grade Senior Teacher examination.",
+    "facts": {
+      "examDate": "2026-12-06T09:00:00.000Z",
+      "sourceUrl": "https://rpsc.rajasthan.gov.in",
+      "sourceDate": "2026-11-19T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RPSC अजमेर",
+      "qualification": "B.Ed डिग्री",
+      "selectionProcess": "लिखित परीक्षा"
+    },
+    "sections": [
+      {
+        "key": "rpsc_entry_guidelines",
+        "body": "परीक्षा प्रारंभ होने के ठीक 60 मिनट पूर्व परीक्षा केंद्र के मुख्य द्वार बंद कर दिए जाएंगे। इसके बाद किसी भी परिस्थिति में प्रवेश नहीं दिया जाएगा।",
+        "title": "परीक्षा केंद्र प्रवेश समय सीमा"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rpsc.rajasthan.gov.in",
+        "kind": "admitCard",
+        "label": "RPSC प्रवेश पत्र पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-11-21T10:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:06.178Z"
+  },
+  {
+    "id": "75073c7d-13ae-49b7-9b78-2dcd42a6d4fd",
+    "slug": "mukhyamantri-yuva-sambal-yojana-berojgari-bhatta-2026",
+    "titleHi": "मुख्यमंत्री युवा संबल योजना (बेरोजगारी भत्ता) 2026: ₹4,000 प्रतिमाह भत्ता, पात्रता व आवेदन प्रक्रिया",
+    "titleEn": "Mukhyamantri Yuva Sambal Yojana 2026: Unemployment Allowance & Skill Internship Guide",
+    "agencyId": "raj_dept",
+    "agencyName": "Rajasthan Govt Depts",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "scheme",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान के शिक्षित बेरोजगार युवाओं को ₹4,000 (पुरुष) व ₹4,500 (महिला, ट्रांसजेंडर एवं दिव्यांग) प्रतिमाह आर्थिक सहायता राशि एवं 4 घंटे की इंटर्नशिप दिशा-निर्देश।",
+    "summaryEn": "Comprehensive guide and eligibility criteria for Rajasthan Mukhyamantri Yuva Sambal Yojana (Unemployment Allowance) offering up to ₹4,500 monthly stipend.",
+    "facts": {
+      "sourceUrl": "https://employment.livelihoods.rajasthan.gov.in",
+      "sourceDate": "2026-11-18T11:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "कौशल, नियोजन एवं उद्यमिता विभाग राजस्थान",
+      "qualification": "राजस्थान के मूल निवासी स्नातक (Graduate) युवा",
+      "selectionProcess": "कौशल प्रशिक्षण एवं राजकीय विभागों में 4 घंटे दैनिक इंटर्नशिप"
+    },
+    "sections": [
+      {
+        "key": "sambal_rules",
+        "body": "आवेदक राजस्थान का मूल निवासी होना चाहिए तथा किसी मान्यता प्राप्त विश्वविद्यालय से स्नातक होना चाहिए। पारिवारिक वार्षिक आय ₹2 लाख से कम होनी चाहिए।",
+        "title": "पात्रता एवं इंटर्नशिप नियम"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://employment.livelihoods.rajasthan.gov.in",
+        "kind": "applyOnline",
+        "label": "बेरोजगारी भत्ता आवेदन (रोजगार पोर्टल)"
+      }
+    ],
+    "publishedAt": "2026-11-21T08:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:13.450Z"
+  },
+  {
+    "id": "1cf3976b-12b0-4188-8a55-8b2d743ba0ac",
+    "slug": "rssb-cet-12th-level-answer-key-master-paper-2026",
+    "titleHi": "RSSB समान पात्रता परीक्षा (CET 12th Level) 2026 मास्टर प्रश्न पत्र एवं उत्तर कुंजी जारी",
+    "titleEn": "RSSB CET Senior Secondary Level 2026 Master Question Paper & Official Answer Key",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "secondary_jobs",
+    "categoryName": "10th / 12th Pass Govt Jobs",
+    "state": "rajasthan",
+    "noticeType": "answerKey",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड जयपुर द्वारा समान पात्रता परीक्षा (सीनियर सेकेंडरी स्तर) 2026 के सभी चरणों के मास्टर प्रश्न पत्र और प्राथमिक उत्तर कुंजी जारी कर दी गई है।",
+    "summaryEn": "RSMSSB Jaipur has released the master question papers and primary answer keys for CET Senior Secondary Level 2026 examinations across all shifts.",
+    "facts": {
+      "examDate": "2026-10-22T09:00:00.000Z",
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "sourceDate": "2026-11-18T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "RSSB जयपुर अधिकृत",
+      "qualification": "12वीं पास (Senior Secondary Pass)",
+      "selectionProcess": "लिखित परीक्षा (वस्तुनिष्ठ) आधारित पात्रता स्कोरकार्ड"
+    },
+    "sections": [
+      {
+        "key": "cet_key_notice",
+        "body": "उत्तर कुंजी पर आपत्तियां 3 दिन तक ऑनलाइन दर्ज की जा सकती हैं। केवल मास्टर प्रश्न पत्र के क्रम के अनुसार ही प्रश्नों की आपत्तियां दर्ज करें।",
+        "title": "आपत्ति आमंत्रण सूचना (Objection Notification)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rsmssb.rajasthan.gov.in/Static/AnswerKeys/CET_12th_Level_Key.pdf",
+        "kind": "notificationPdf",
+        "label": "मास्टर प्रश्न पत्र एवं उत्तर कुंजी डाउनलोड"
+      },
+      {
+        "url": "https://sso.rajasthan.gov.in",
+        "kind": "applyOnline",
+        "label": "SSO आपत्ति पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-11-21T08:21:44.680Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:45.743Z"
+  },
+  {
+    "id": "94173aca-77b8-43de-a480-c83bdd3ff9e1",
+    "slug": "rpsc-assistant-professor-college-education-final-result-2026",
+    "titleHi": "RPSC सहायक आचार्य (कॉलेज शिक्षा) अंतिम चयन परिणाम एवं वर्गवार कट-ऑफ मार्क्स",
+    "titleEn": "RPSC Assistant Professor (College Education) Final Selection Result & Cut-off",
+    "agencyId": "rpsc",
+    "agencyName": "RPSC",
+    "categoryId": "teaching",
+    "categoryName": "Teaching & Education",
+    "state": "rajasthan",
+    "noticeType": "result",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान लोक सेवा आयोग द्वारा कॉलेज शिक्षा विभाग में सहायक आचार्य प्रतियोगी परीक्षा का अंतिम चयन परिणाम, साक्षात्कार उपरांत मेरिट सूची व कट-ऑफ मार्क्स घोषित।",
+    "summaryEn": "RPSC has declared the final recommendation and selection merit list along with cut-off marks for Assistant Professor (College Education).",
+    "facts": {
+      "sourceUrl": "https://rpsc.rajasthan.gov.in",
+      "sourceDate": "2026-11-18T16:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RPSC अजमेर चयन बोर्ड",
+      "qualification": "नेट (NET) / पीएचडी (PhD) सहित स्नातकोत्तर",
+      "selectionProcess": "लिखित परीक्षा एवं साक्षात्कार"
+    },
+    "sections": [
+      {
+        "key": "asst_prof_merit",
+        "body": "आयोग द्वारा मुख्य सूची में सफल अभ्यर्थियों के रोल नंबर एवं आरक्षित सूची जारी की गई है। पदस्थापन अनुशंसा उच्च शिक्षा विभाग को प्रेषित की गई है।",
+        "title": "अंतिम संस्तुति परिणाम"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rpsc.rajasthan.gov.in/Static/Results/Asst_Prof_Final_Result.pdf",
+        "kind": "result",
+        "label": "अंतिम चयन सूची PDF डाउनलोड करें"
+      }
+    ],
+    "publishedAt": "2026-11-21T06:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:07.980Z"
+  },
+  {
+    "id": "c88593b6-0113-4a03-8888-7bed6f44ea0c",
+    "slug": "rajasthan-police-constable-cbt-exam-dates-schedule-2026",
+    "titleHi": "राजस्थान पुलिस कांस्टेबल कंप्यूटर आधारित परीक्षा (CBT) तिथि एवं शिफ्ट विवरण घोषित",
+    "titleEn": "Rajasthan Police Constable CBT Examination Dates & Shift Schedule 2026",
+    "agencyId": "police",
+    "agencyName": "Rajasthan Police",
+    "categoryId": "police_defence",
+    "categoryName": "Police & Defence",
+    "state": "rajasthan",
+    "noticeType": "calendar",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान पुलिस भर्ती प्रकोष्ठ द्वारा कांस्टेबल भर्ती 2026 की कंप्यूटर आधारित ऑनलाइन परीक्षा (CBT) की तिथियां व जिला केंद्र सूची जारी।",
+    "summaryEn": "Official schedule and shift allocation for Rajasthan Police Constable Computer Based Test (CBT) 2026.",
+    "facts": {
+      "examDate": "2026-12-08T09:00:00.000Z",
+      "sourceUrl": "https://police.rajasthan.gov.in",
+      "sourceDate": "2026-11-17T12:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "राजस्थान पुलिस भर्ती बोर्ड",
+      "qualification": "12वीं पास (CET)",
+      "applicationEnd": "2026-11-25T18:00:00.000Z",
+      "selectionProcess": "CBT 2 पारियों में आयोजित की जाएगी"
+    },
+    "sections": [
+      {
+        "key": "police_shifts",
+        "body": "प्रातः पारी: 09:30 AM से 11:30 AM (प्रवेश 08:30 AM तक)\nदोपहर पारी: 02:30 PM से 04:30 PM (प्रवेश 01:30 PM तक)",
+        "title": "परीक्षा पारियां व समय"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://police.rajasthan.gov.in/Static/Notices/CBT_Dates_2026.pdf",
+        "kind": "notificationPdf",
+        "label": "परीक्षा तिथि आधिकारिक विज्ञप्ति PDF"
+      }
+    ],
+    "publishedAt": "2026-11-21T04:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:03.493Z"
+  },
+  {
+    "id": "06b6130d-c6e5-42b7-8512-33c7a1020a49",
+    "slug": "rajasthan-university-uniraj-ug-admission-merit-list-2026",
+    "titleHi": "राजस्थान विश्वविद्यालय (UNIRAJ) स्नातक (BA, BCom, BSc) प्रथम वर्ष प्रवेश आवेदन एवं कट-ऑफ",
+    "titleEn": "University of Rajasthan (UNIRAJ) UG Admission 2026 Application & Merit Cut-off",
+    "agencyId": "education",
+    "agencyName": "Dept of Education",
+    "categoryId": "education_dept",
+    "categoryName": "Department of Education",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान विश्वविद्यालय, जयपुर के संघटक महाविद्यालयों (महाराजा, महारानी, राजस्थान कॉलेज, कॉमर्स कॉलेज) में स्नातक प्रथम वर्ष (NEP-2020 4-वर्षीय पाठ्यक्रम) में ऑनलाइन प्रवेश प्रक्रिया।",
+    "summaryEn": "University of Rajasthan (UNIRAJ) admissions for undergraduate courses (BA, B.Com, B.Sc) across constituent colleges in Jaipur.",
+    "facts": {
+      "feeScSt": "₹150",
+      "sourceUrl": "https://uniraj.ac.in",
+      "sourceDate": "2026-11-15T12:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "राजस्थान विश्वविद्यालय जयपुर",
+      "feeGeneralObc": "₹200",
+      "qualification": "12वीं उत्तीर्ण (10+2 from recognized board with minimum required percentage)",
+      "applicationEnd": "2026-12-08T23:59:59.000Z",
+      "applicationStart": "2026-11-10T00:00:00.000Z",
+      "selectionProcess": "12वीं बोर्ड प्राप्तांक प्रतिशत व राज्य आरक्षण नीति अनुसार मेरिट सूची"
+    },
+    "sections": [
+      {
+        "key": "uniraj_colleges",
+        "body": "1. यूनिवर्सिटी महाराजा कॉलेज (केवल छात्र - B.Sc)\n2. यूनिवर्सिटी महारानी कॉलेज (केवल छात्राएं - BA, BCom, BSc)\n3. यूनिवर्सिटी राजस्थान कॉलेज (केवल छात्र - BA)\n4. यूनिवर्सिटी कॉमर्स कॉलेज (केवल छात्र - BCom)",
+        "title": "संघटक महाविद्यालय विवरण"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://admission.uniraj.edu.in",
+        "kind": "applyOnline",
+        "label": "UNIRAJ प्रवेश पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-11-21T02:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:11.588Z"
+  },
+  {
+    "id": "9b4e8de1-ce81-4daf-887a-eeb8bb2f2f2e",
+    "slug": "rpsc-2nd-grade-senior-teacher-syllabus-2026",
+    "titleHi": "RPSC द्वितीय श्रेणी वरिष्ठ अध्यापक (Senior Teacher) परीक्षा पाठ्यक्रम एवं अंक विभाजन 2026",
+    "titleEn": "RPSC 2nd Grade Senior Teacher Exam Pattern & Subject-wise Syllabus 2026",
+    "agencyId": "rpsc",
+    "agencyName": "RPSC",
+    "categoryId": "teaching",
+    "categoryName": "Teaching & Education",
+    "state": "rajasthan",
+    "noticeType": "syllabus",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान लोक सेवा आयोग अजमेर द्वारा वरिष्ठ अध्यापक (माध्यमिक शिक्षा) प्रतियोगी परीक्षा 2026 का पेपर-1 (सामान्य ज्ञान) व पेपर-2 (संबंधित विषय) का विस्तृत पाठ्यक्रम जारी।",
+    "summaryEn": "RPSC Ajmer has published the official subject-wise syllabus and exam scheme for 2nd Grade Senior Teacher Competitive Examination 2026.",
+    "facts": {
+      "sourceUrl": "https://rpsc.rajasthan.gov.in",
+      "sourceDate": "2026-11-16T11:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "RPSC अजमेर शिक्षा प्रकोष्ठ",
+      "qualification": "संबंधित विषय में स्नातक + B.Ed डिग्री",
+      "selectionProcess": "लिखित परीक्षा: पेपर 1 (200 अंक) + पेपर 2 (300 अंक)"
+    },
+    "sections": [
+      {
+        "key": "paper_1_gk",
+        "body": "राजस्थान का भौगोलिक, ऐतिहासिक, सांस्कृतिक ज्ञान (80 अंक), राजस्थान समसामयिकी (20 अंक), विश्व व भारत का सामान्य ज्ञान (60 अंक), शैक्षिक मनोविज्ञान (40 अंक)। कुल 100 प्रश्न, 2 घंटे।",
+        "title": "पेपर 1: सामान्य ज्ञान व शैक्षिक मनोविज्ञान (200 अंक)"
+      },
+      {
+        "key": "paper_2_subject",
+        "body": "माध्यमिक व उच्च माध्यमिक स्तर का विषय ज्ञान (180 अंक), स्नातक स्तर का विषय ज्ञान (80 अंक), संबंधित विषय की शिक्षण विधियां (40 अंक)। कुल 150 प्रश्न, 2 घंटे 30 मिनट।",
+        "title": "पेपर 2: संबंधित विषय ज्ञान (300 अंक)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rpsc.rajasthan.gov.in/Static/Syllabus/2nd_Grade_2026_Syllabus.pdf",
+        "kind": "syllabus",
+        "label": "वरिष्ठ अध्यापक पाठ्यक्रम PDF डाउनलोड"
+      }
+    ],
+    "publishedAt": "2026-11-21T02:21:44.680Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:50.461Z"
+  },
+  {
+    "id": "a7b19c9f-45c8-4e98-9215-1a5a45b5fc10",
+    "slug": "rssb-patwari-previous-year-question-papers-solution",
+    "titleHi": "RSSB पटवारी भर्ती परीक्षा विगत वर्षों के प्रश्नपत्र हल सहित PDF डाउनलोड",
+    "titleEn": "RSSB Patwari Recruitment Previous Year Question Papers with Answer Key PDF",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "revenue_patwari",
+    "categoryName": "Revenue & Patwari",
+    "state": "rajasthan",
+    "noticeType": "pyq",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "कर्मचारी चयन बोर्ड द्वारा आयोजित पूर्व पटवारी भर्ती परीक्षाओं के सभी पारियों के प्रश्न पत्र, अंतिम उत्तर कुंजी एवं विषयवार हल संग्रह।",
+    "summaryEn": "Official previous year question papers across all shifts along with finalized answer keys for Rajasthan Patwari Recruitment Examination.",
+    "facts": {
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "sourceDate": "2026-11-16T12:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RSSB जयपुर प्रश्न बैंक",
+      "qualification": "स्नातक (Graduate)",
+      "selectionProcess": "वस्तुनिष्ठ बहुविकल्पीय परीक्षा"
+    },
+    "sections": [
+      {
+        "key": "patwari_pyq_overview",
+        "body": "पटवारी परीक्षा में मानसिक क्षमता व गणित का स्तर 10वीं तक का रहता है। राजस्थान विशेष सामान्य ज्ञान के 30 प्रश्न निर्णायक भूमिका निभाते हैं।",
+        "title": "परीक्षा हल विश्लेषण"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rsmssb.rajasthan.gov.in/Static/PYQ/Patwari_Solved_Papers.pdf",
+        "kind": "notificationPdf",
+        "label": "पटवारी हल प्रश्नपत्र PDF डाउनलोड"
+      }
+    ],
+    "publishedAt": "2026-11-21T00:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:58.907Z"
+  },
+  {
+    "id": "55af08ad-c938-4b35-87fc-eb3a38d29689",
+    "slug": "rajasthan-govt-jobs-ews-obc-caste-certificate-validity-rules",
+    "titleHi": "राजस्थान प्रतियोगी परीक्षाओं हेतु EWS, OBC-NCL, SC, ST जाति प्रमाण पत्र वैधता एवं क्रूशियल डेट नियम",
+    "titleEn": "Rajasthan Recruitment Caste & Category Certificate Validity Rules (EWS, OBC, SC/ST)",
+    "agencyId": "raj_dept",
+    "agencyName": "Rajasthan Govt Depts",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "careerGuide",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "कार्मिक विभाग (DOP) राजस्थान सरकार द्वारा जारी नवीनतम परिपत्र के अनुसार आरक्षित वर्गों के प्रमाण पत्रों की वैधता अवधि, शपथ पत्र (Affidavit) नियम एवं आवेदन की अंतिम तिथि (Crucial Date) के महत्वपूर्ण नियम।",
+    "summaryEn": "Official Department of Personnel (DOP) Rajasthan guidelines governing validity tenure, crucial date, and affidavit rules for EWS, OBC, MBC, SC, and ST certificates.",
+    "facts": {
+      "sourceUrl": "https://dop.rajasthan.gov.in",
+      "sourceDate": "2026-11-17T11:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "कार्मिक विभाग (DOP) राजस्थान",
+      "qualification": "राजस्थान राज्य के आरक्षित वर्ग के समस्त अभ्यर्थी",
+      "selectionProcess": "दस्तावेज सत्यापन (Document Verification) मानक"
+    },
+    "sections": [
+      {
+        "key": "obc_ncl_validity",
+        "body": "OBC/MBC नॉन-क्रीमीलेयर प्रमाण पत्र 1 वर्ष के लिए वैध होता है। यदि अभ्यर्थी नॉन-क्रीमीलेयर में ही बना रहता है, तो सक्षम स्तर का शपथ पत्र प्रस्तुत करने पर इसे अधिकतम 3 वर्षों तक मान्य माना जाएगा।",
+        "title": "OBC एवं MBC (नॉन-क्रीमीलेयर) प्रमाण पत्र की वैधता"
+      },
+      {
+        "key": "ews_validity_rules",
+        "body": "EWS प्रमाण पत्र एक वित्तीय वर्ष (1 अप्रैल से 31 मार्च) के लिए वैध होता है। क्रूशियल डेट (आवेदन की अंतिम तिथि) से पूर्व जारी प्रमाण पत्र ही मान्य होता है।",
+        "title": "EWS (आर्थिक रूप से कमजोर वर्ग) प्रमाण पत्र नियम"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://dop.rajasthan.gov.in/Static/Circular_Caste_Validity.pdf",
+        "kind": "notificationPdf",
+        "label": "कार्मिक विभाग अधिकृत परिपत्र PDF"
+      }
+    ],
+    "publishedAt": "2026-11-20T21:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:55.172Z"
+  },
+  {
+    "id": "8b57787b-a3de-48c0-a64f-c8caec128e33",
+    "slug": "rajasthan-police-constable-answer-key-2026",
+    "titleHi": "राजस्थान पुलिस कांस्टेबल भर्ती परीक्षा 2026 अनंतिम उत्तर कुंजी जारी",
+    "titleEn": "Rajasthan Police Constable Recruitment Exam 2026 Provisional Answer Key Released",
+    "agencyId": "police",
+    "agencyName": "Rajasthan Police",
+    "categoryId": "police_defence",
+    "categoryName": "Police & Defence",
+    "state": "rajasthan",
+    "noticeType": "answerKey",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान पुलिस मुख्यालय द्वारा कांस्टेबल भर्ती 2026 की कंप्यूटर आधारित परीक्षा (CBT) की प्रोविजनल उत्तर कुंजी व कैंडिडेट रिस्पांस शीट जारी कर दी गई है।",
+    "summaryEn": "Rajasthan Police Headquarters has officially released the provisional answer key and candidate response sheet for Constable Recruitment 2026 CBT.",
+    "facts": {
+      "examDate": "2026-10-15T09:00:00.000Z",
+      "sourceUrl": "https://police.rajasthan.gov.in",
+      "sourceDate": "2026-11-15T12:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "राजस्थान पुलिस मुख्यालय",
+      "qualification": "12वीं पास (CET उत्तीर्ण)",
+      "selectionProcess": "CBT लिखित परीक्षा, शारीरिक दक्षता (PET/PST) एवं दस्तावेज सत्यापन"
+    },
+    "sections": [
+      {
+        "key": "police_key_details",
+        "body": "अभ्यर्थी अपने रोल नंबर एवं जन्मतिथि के माध्यम से लॉगिन करके अपना प्रश्न पत्र व आधिकारिक उत्तर देख सकते हैं।",
+        "title": "उत्तर कुंजी जांचने की विधि (Checking Steps)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://police.rajasthan.gov.in/recruitment",
+        "kind": "notificationPdf",
+        "label": "कांस्टेबल उत्तर कुंजी व रिस्पांस शीट लिंक"
+      }
+    ],
+    "publishedAt": "2026-11-20T20:21:44.680Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:46.722Z"
+  },
+  {
+    "id": "015e2f7b-1ebc-47a9-80c8-63a86ad8c484",
+    "slug": "rajasthan-patwari-final-recommendation-result-cutoff-2026",
+    "titleHi": "राजस्थान पटवारी भर्ती अंतिम संस्तुति सूची व जिला पदस्थापन परिणाम जारी",
+    "titleEn": "Rajasthan Patwari Recruitment Final Recommendation List & District Allocation Result",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "revenue_patwari",
+    "categoryName": "Revenue & Patwari",
+    "state": "rajasthan",
+    "noticeType": "result",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "कर्मचारी चयन बोर्ड जयपुर द्वारा पटवारी सीधी भर्ती का अंतिम चयन परिणाम एवं राजस्व मंडल अजमेर द्वारा चयनित अभ्यर्थियों को जिला आवंटन सूची जारी कर दी गई है।",
+    "summaryEn": "RSMSSB and Board of Revenue Rajasthan have announced the final selection merit list and district postings for Patwari recruitment.",
+    "facts": {
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "sourceDate": "2026-11-15T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RSSB जयपुर एवं राजस्व मंडल अजमेर",
+      "qualification": "स्नातक + RSCIT",
+      "selectionProcess": "अंतिम चयनित अभ्यर्थियों का जिला आवंटन"
+    },
+    "sections": [
+      {
+        "key": "patwari_allocation",
+        "body": "चयनित अभ्यर्थियों को आवंटित जिले के जिला कलेक्टर (भू-अभिलेख) कार्यालय में निर्धारित समय सीमा में उपस्थिति देनी होगी।",
+        "title": "जिला आवंटन एवं दस्तावेज सत्यापन निर्देश"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rsmssb.rajasthan.gov.in/Static/Results/Patwari_Final_Result.pdf",
+        "kind": "result",
+        "label": "अंतिम चयन व जिला आवंटन सूची PDF"
+      }
+    ],
+    "publishedAt": "2026-11-20T18:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:08.873Z"
+  },
+  {
+    "id": "1ae4ca5b-12b0-4fac-aa1a-a30d59fc663a",
+    "slug": "pm-surya-ghar-muft-bijli-yojana-rajasthan-2026",
+    "titleHi": "पीएम सूर्य घर मुफ्त बिजली योजना राजस्थान 2026: रूफटॉप सोलर सब्सिडी, ₹78,000 अनुदान व आवेदन नियम",
+    "titleEn": "PM Surya Ghar Muft Bijli Yojana Rajasthan 2026: Rooftop Solar Subsidy & Application Guide",
+    "agencyId": "electricity",
+    "agencyName": "Electricity Board",
+    "categoryId": "technical_energy",
+    "categoryName": "Technical & Electricity",
+    "state": "rajasthan",
+    "noticeType": "scheme",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "प्रधानमंत्री सूर्य घर मुफ्त बिजली योजना के अंतर्गत राजस्थान में घरों की छतों पर सोलर पैनल लगवाने पर ₹78,000 तक की सीधी केंद्रीय सब्सिडी एवं 300 यूनिट मुफ्त बिजली का लाभ।",
+    "summaryEn": "PM Surya Ghar Muft Bijli Yojana offers up to ₹78,000 subsidy on residential rooftop solar installations across Rajasthan.",
+    "facts": {
+      "sourceUrl": "https://pmsuryaghar.gov.in",
+      "sourceDate": "2026-11-15T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "नवीन एवं नवीकरणीय ऊर्जा मंत्रालय व ऊर्जा विभाग राजस्थान",
+      "qualification": "राजस्थान विद्युत वितरण निगम (JVVNL/AVVNL/JdVVNL) के घरेलू विद्युत उपभोक्ता",
+      "selectionProcess": "ऑनलाइन आवेदन उपरांत तकनीकी व्यवहार्यता स्वीकृति व नेट मीटरिंग"
+    },
+    "sections": [
+      {
+        "key": "solar_subsidy_slab",
+        "body": "1 किलोवाट सिस्टम: ₹30,000 सब्सिडी\n2 किलोवाट सिस्टम: ₹60,000 सब्सिडी\n3 किलोवाट एवं उससे अधिक: ₹78,000 अधिकतम सब्सिडी",
+        "title": "सब्सिडी स्लैब विवरण"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://pmsuryaghar.gov.in",
+        "kind": "applyOnline",
+        "label": "पीएम सूर्य घर राष्ट्रीय पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-11-20T16:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:14.342Z"
+  },
+  {
+    "id": "b151d999-9ab8-4ba1-b76a-5963c75b7f98",
+    "slug": "rajasthan-police-constable-detailed-syllabus-exam-scheme-2026",
+    "titleHi": "राजस्थान पुलिस कांस्टेबल CBT परीक्षा पाठ्यक्रम, शारीरिक दक्षता (PET/PST) मानक विवरण",
+    "titleEn": "Rajasthan Police Constable Detailed Syllabus & Physical Standards Scheme 2026",
+    "agencyId": "police",
+    "agencyName": "Rajasthan Police",
+    "categoryId": "police_defence",
+    "categoryName": "Police & Defence",
+    "state": "rajasthan",
+    "noticeType": "syllabus",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान पुलिस मुख्यालय द्वारा कांस्टेबल (सामान्य/चालक/बैंड) भर्ती परीक्षा का 150 प्रश्नों का विषयवार पाठ्यक्रम एवं शारीरिक दक्षता परीक्षा के संपूर्ण नियम।",
+    "summaryEn": "Official syllabus, subject breakups, and physical efficiency criteria for Rajasthan Police Constable Examination 2026.",
+    "facts": {
+      "sourceUrl": "https://police.rajasthan.gov.in",
+      "sourceDate": "2026-11-14T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "राजस्थान पुलिस भर्ती बोर्ड",
+      "qualification": "12वीं पास (CET सीनियर सेकेंडरी उत्तीर्ण)",
+      "selectionProcess": "लिखित परीक्षा (150 अंक), शारीरिक दक्षता दौड़ (PET 30 अंक) व दक्षता परीक्षण"
+    },
+    "sections": [
+      {
+        "key": "written_breakup",
+        "body": "भाग अ: विवेचना एवं तार्किक योग्यता तथा कंप्यूटर का सामान्य ज्ञान (60 प्रश्न, 60 अंक)। भाग ब: सामान्य ज्ञान, सामान्य विज्ञान, सामाजिक विज्ञान एवं समसामयिक विषय (45 प्रश्न, 45 अंक)। भाग स: राजस्थान के इतिहास, कला, संस्कृति, भूगोल एवं राजनीति का ज्ञान (45 प्रश्न, 45 अंक)।",
+        "title": "लिखित परीक्षा खंडवार विवरण (150 प्रश्न, 150 अंक)"
+      },
+      {
+        "key": "pet_standards",
+        "body": "पुरुष अभ्यर्थी: 5 किलोमीटर दौड़ (25 मिनट में)। महिला अभ्यर्थी: 5 किलोमीटर दौड़ (35 मिनट में)। भूतपूर्व सैनिक: 5 किलोमीटर दौड़ (30 मिनट में)।",
+        "title": "शारीरिक दक्षता परीक्षण (PET Standards)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://police.rajasthan.gov.in/Static/Syllabus/Constable_2026.pdf",
+        "kind": "syllabus",
+        "label": "पुलिस कांस्टेबल पाठ्यक्रम PDF"
+      }
+    ],
+    "publishedAt": "2026-11-20T14:21:44.680Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:51.434Z"
+  },
+  {
+    "id": "544c8d79-b9fd-4d2e-a46a-8ffeff6f0e54",
+    "slug": "rajasthan-police-constable-previous-years-question-papers",
+    "titleHi": "राजस्थान पुलिस कांस्टेबल परीक्षा विगत वर्षों के प्रश्नपत्र एवं मॉडल पेपर्स",
+    "titleEn": "Rajasthan Police Constable Previous Years Question Papers & Model Practice Papers",
+    "agencyId": "police",
+    "agencyName": "Rajasthan Police",
+    "categoryId": "police_defence",
+    "categoryName": "Police & Defence",
+    "state": "rajasthan",
+    "noticeType": "pyq",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान पुलिस कांस्टेबल भर्ती के 2018, 2020, 2022 एवं 2024 की विभिन्न पारियों के वास्तविक प्रश्न पत्र एवं उत्तर तालिका।",
+    "summaryEn": "Archive of official question papers and answer sheets from past Rajasthan Police Constable examinations.",
+    "facts": {
+      "sourceUrl": "https://police.rajasthan.gov.in",
+      "sourceDate": "2026-11-13T14:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "राजस्थान पुलिस प्रकोष्ठ",
+      "qualification": "12वीं पास",
+      "selectionProcess": "लिखित परीक्षा (150 अंक)"
+    },
+    "sections": [
+      {
+        "key": "police_pyq_info",
+        "body": "कांस्टेबल परीक्षा में कंप्यूटर के 30 और रीजनिंग के 30 प्रश्न आते हैं। पुराने प्रश्नपत्रों से अभ्यास करने पर इन 60 अंकों में से 50+ अंक आसानी से अर्जित किए जा सकते हैं।",
+        "title": "कंप्यूटर एवं रीजनिंग अभ्यास"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://police.rajasthan.gov.in/Static/PYQ/Constable_Past_Papers.pdf",
+        "kind": "notificationPdf",
+        "label": "पुलिस कांस्टेबल पुराने पेपर्स PDF"
+      }
+    ],
+    "publishedAt": "2026-11-20T11:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:59.824Z"
+  },
+  {
+    "id": "b25fc501-1599-48c2-a88c-4e840eeaa2f9",
+    "slug": "reet-level-1-2-provisional-answer-key-2026",
+    "titleHi": "REET 2026 लेवल 1 व लेवल 2 आधिकारिक उत्तर कुंजी एवं मास्टर पेपर जारी",
+    "titleEn": "REET 2026 Level-1 & Level-2 Official Answer Key & Master Question Paper",
+    "agencyId": "reet",
+    "agencyName": "REET / RBSE",
+    "categoryId": "teaching",
+    "categoryName": "Teaching & Education",
+    "state": "rajasthan",
+    "noticeType": "answerKey",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "माध्यमिक शिक्षा बोर्ड राजस्थान (RBSE) अजमेर द्वारा राजस्थान अध्यापक पात्रता परीक्षा (REET) 2026 लेवल-1 एवं लेवल-2 की आधिकारिक उत्तर कुंजी जारी कर दी गई है।",
+    "summaryEn": "Board of Secondary Education Rajasthan (RBSE) has released the official answer keys and master papers for REET Level-1 and Level-2 exams.",
+    "facts": {
+      "examDate": "2026-10-10T09:00:00.000Z",
+      "sourceUrl": "https://rajeduboard.rajasthan.gov.in",
+      "sourceDate": "2026-11-12T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "RBSE अजमेर रीट प्रकोष्ठ",
+      "qualification": "BSTC / D.El.Ed / B.Ed",
+      "selectionProcess": "शिक्षक पात्रता परीक्षा (REET) 150 अंक वस्तुनिष्ठ"
+    },
+    "sections": [
+      {
+        "key": "reet_key_info",
+        "body": "सामान्य वर्ग के अभ्यर्थियों को न्यूनतम 60% अंक, ओबीसी/ईडब्ल्यूएस/एमबीसी को 55% अंक एवं एससी/एसटी अभ्यर्थियों को 50% अंक प्राप्त करना अनिवार्य है।",
+        "title": "रीट पात्रता मानक (Eligibility Criteria)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rajeduboard.rajasthan.gov.in/reet2026/Level1_Key.pdf",
+        "kind": "notificationPdf",
+        "label": "REET लेवल 1 उत्तर कुंजी PDF"
+      },
+      {
+        "url": "https://rajeduboard.rajasthan.gov.in/reet2026/Level2_Key.pdf",
+        "kind": "notificationPdf",
+        "label": "REET लेवल 2 उत्तर कुंजी PDF"
+      }
+    ],
+    "publishedAt": "2026-11-20T08:21:44.680Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:47.663Z"
+  },
+  {
+    "id": "072efb13-b011-48fd-9c93-cac0202a18f4",
+    "slug": "rajasthan-recruitment-document-verification-dv-checklist-guidelines",
+    "titleHi": "राजस्थान भर्ती दस्तावेज सत्यापन (DV) चेकलिस्ट, चरित्र प्रमाण पत्र एवं शपथ पत्र प्रारूप",
+    "titleEn": "Rajasthan Govt Recruitment Document Verification (DV) Checklist & Guidelines",
+    "agencyId": "raj_dept",
+    "agencyName": "Rajasthan Govt Depts",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "careerGuide",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "RPSC एवं कर्मचारी चयन बोर्ड द्वारा आयोजित दस्तावेज सत्यापन (DV) में उपस्थित होने वाले अभ्यर्थियों के लिए आवश्यक मूल दस्तावेजों की संपूर्ण चेकलिस्ट, अटेस्टेशन फॉर्म एवं शपथ पत्र प्रारूप।",
+    "summaryEn": "Standard checklist, attestation forms, character certificates, and required affidavits for Document Verification (DV) in Rajasthan recruitments.",
+    "facts": {
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "sourceDate": "2026-11-13T10:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "प्रशासनिक सुधार एवं भर्ती प्रकोष्ठ",
+      "qualification": "चयनित व प्रोविजनल सूची में सम्मिलित अभ्यर्थी",
+      "selectionProcess": "अंतिम पदस्थापन पूर्व अभिलेख जांच"
+    },
+    "sections": [
+      {
+        "key": "dv_checklist_items",
+        "body": "1. विस्तृत आवेदन सह संवीक्षा प्रपत्र (Scrutiny Form) दो प्रतियों में\n2. 10वीं अंकतालिका व प्रमाण पत्र (जन्मतिथि प्रमाण)\n3. 12वीं एवं स्नातक की समस्त वर्षों की अंकतालिकाएं व उपाधि (Degree)\n4. आरक्षित वर्ग का सक्षम अधिकारी द्वारा जारी जाति प्रमाण पत्र\n5. मूल निवास प्रमाण पत्र (डिजिटल हस्ताक्षरित)\n6. अंतिम शिक्षण संस्थान का चरित्र प्रमाण पत्र एवं दो राजपत्रित अधिकारियों द्वारा जारी चरित्र प्रमाण पत्र\n7. संतान संबंधी, विवाह संबंधी व दहेज न लेने का शपथ पत्र",
+        "title": "अनिवार्य दस्तावेजों की सूची (Checklist)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rsmssb.rajasthan.gov.in/Static/Scrutiny_Form_Format.pdf",
+        "kind": "notificationPdf",
+        "label": "संवीक्षा प्रपत्र (Scrutiny Form) डाउनलोड करें"
+      }
+    ],
+    "publishedAt": "2026-11-20T06:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:56.153Z"
+  },
+  {
+    "id": "a5511cfb-7e1f-4311-bad8-18a89bfc761b",
+    "slug": "rajasthan-patwari-detailed-syllabus-weightage-2026",
+    "titleHi": "राजस्थान पटवारी भर्ती परीक्षा विस्तृत पाठ्यक्रम एवं विषयवार भारांक योजना",
+    "titleEn": "Rajasthan Patwari Detailed Syllabus, Topic-wise Weightage & Scheme of Examination",
+    "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "revenue_patwari",
+    "categoryName": "Revenue & Patwari",
+    "state": "rajasthan",
+    "noticeType": "syllabus",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्व मंडल एवं कर्मचारी चयन बोर्ड द्वारा पटवारी सीधी भर्ती परीक्षा का विस्तृत पाठ्यक्रम, 300 अंकों की परीक्षा योजना एवं विषयवार प्रश्न संख्या।",
+    "summaryEn": "Comprehensive official syllabus and subject weightage breakdown for Rajasthan Patwari Recruitment Examination 2026.",
+    "facts": {
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "sourceDate": "2026-11-11T12:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "RSSB जयपुर एवं राजस्व मंडल",
+      "qualification": "स्नातक (Graduate) + कंप्यूटर दक्षता प्रमाण पत्र (RSCIT)",
+      "selectionProcess": "एकल चरण लिखित परीक्षा (300 अंक वस्तुनिष्ठ) एवं दस्तावेज सत्यापन"
+    },
+    "sections": [
+      {
+        "key": "patwari_weightage",
+        "body": "1. भारत का सामान्य ज्ञान, संविधान व विज्ञान: 38 प्रश्न (76 अंक)\n2. राजस्थान का भूगोल, इतिहास, संस्कृति व राजनीति: 30 प्रश्न (60 अंक)\n3. सामान्य हिंदी एवं सामान्य अंग्रेजी: 22 प्रश्न (44 अंक)\n4. मानसिक योग्यता एवं तार्किक क्षमता, बेसिक गणित: 45 प्रश्न (90 अंक)\n5. बेसिक कंप्यूटर ज्ञान: 15 प्रश्न (30 अंक)\nकुल 150 प्रश्न, 300 अंक, 3 घंटे।",
+        "title": "विषयवार प्रश्न संख्या एवं अंक भारांक"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rsmssb.rajasthan.gov.in/Static/Syllabus/Patwari_2026_Syllabus.pdf",
+        "kind": "syllabus",
+        "label": "पटवारी परीक्षा योजना व सिलेबस PDF"
+      }
+    ],
+    "publishedAt": "2026-11-20T02:21:44.680Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:52.382Z"
+  },
+  {
+    "id": "1c707bbe-472a-4aae-9823-42b4606c9f2d",
+    "slug": "reet-level-1-2-previous-year-question-papers",
+    "titleHi": "REET पात्रता परीक्षा लेवल-1 एवं लेवल-2 विगत वर्षों के हल प्रश्नपत्र",
+    "titleEn": "REET Level-1 & Level-2 Previous Year Question Papers with Solution PDF",
+    "agencyId": "reet",
+    "agencyName": "REET / RBSE",
+    "categoryId": "teaching",
+    "categoryName": "Teaching & Education",
+    "state": "rajasthan",
+    "noticeType": "pyq",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान माध्यमिक शिक्षा बोर्ड द्वारा 2017, 2021 एवं 2022 में आयोजित REET परीक्षाओं के बाल विकास, भाषा-I, भाषा-II, गणित एवं पर्यावरण/सामाजिक अध्ययन के पेपर।",
+    "summaryEn": "Complete collection of REET Level 1 and Level 2 question papers with official answer keys for child pedagogy, languages, and subject domains.",
+    "facts": {
+      "sourceUrl": "https://rajeduboard.rajasthan.gov.in",
+      "sourceDate": "2026-11-10T11:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RBSE अजमेर",
+      "qualification": "D.El.Ed / B.Ed",
+      "selectionProcess": "शिक्षक पात्रता परीक्षा"
+    },
+    "sections": [
+      {
+        "key": "reet_pyq_weightage",
+        "body": "30 अंकों का बाल विकास व शिक्षाशास्त्र सभी विषयों के शिक्षण में अत्यंत महत्वपूर्ण है। पूर्व प्रश्नों को दोहराना 100% उपयोगी रहता है।",
+        "title": "बाल विकास व शिक्षाशास्त्र अभ्यास"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rajeduboard.rajasthan.gov.in/Static/PYQ/REET_L1_Past.pdf",
+        "kind": "notificationPdf",
+        "label": "REET लेवल 1 विगत पेपर PDF"
+      },
+      {
+        "url": "https://rajeduboard.rajasthan.gov.in/Static/PYQ/REET_L2_Past.pdf",
+        "kind": "notificationPdf",
+        "label": "REET लेवल 2 विगत पेपर PDF"
+      }
+    ],
+    "publishedAt": "2026-11-19T22:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:22:00.704Z"
+  },
+  {
+    "id": "99e3a2b2-4a5b-46f7-b663-52986428f5df",
+    "slug": "ssc-cgl-tier-1-final-answer-key-response-sheet-2026",
+    "titleHi": "SSC CGL टियर-1 परीक्षा 2026 अंतिम उत्तर कुंजी एवं अभ्यर्थी रिस्पांस शीट जारी",
+    "titleEn": "SSC CGL Tier-1 Exam 2026 Final Answer Key & Candidate Response Sheet",
+    "agencyId": "ssc",
+    "agencyName": "SSC",
+    "categoryId": "central",
+    "categoryName": "Central Govt",
+    "state": "central",
+    "noticeType": "answerKey",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "कर्मचारी चयन आयोग (SSC) द्वारा संयुक्त स्नातक स्तरीय परीक्षा (CGL) टियर-1 की अंतिम उत्तर कुंजी और रिस्पांस शीट जारी कर दी गई है।",
+    "summaryEn": "Staff Selection Commission (SSC) has uploaded the final answer keys along with candidate response sheets for Combined Graduate Level Examination (Tier-I) 2026.",
+    "facts": {
+      "examDate": "2026-09-25T09:00:00.000Z",
+      "sourceUrl": "https://ssc.gov.in",
+      "sourceDate": "2026-11-10T15:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.680Z",
+      "verifiedBy": "SSC नई दिल्ली अधिकृत",
+      "qualification": "स्नातक (Bachelor Degree in any discipline)",
+      "selectionProcess": "टियर-1 (CBT), टियर-2 (CBT) एवं दस्तावेज सत्यापन"
+    },
+    "sections": [
+      {
+        "key": "ssc_key_note",
+        "body": "अभ्यर्थी 30 दिनों की अवधि तक अपने परीक्षा पोर्टल पर लॉगिन कर अपनी रिस्पांस शीट का प्रिंटआउट ले सकते हैं।",
+        "title": "अंतिम उत्तर कुंजी निर्देश"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://ssc.gov.in",
+        "kind": "notificationPdf",
+        "label": "SSC CGL टियर-1 अंतिम कुंजी पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-11-19T20:21:44.680Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:48.583Z"
+  },
+  {
+    "id": "003f760c-4781-45f8-adba-4db64857732e",
+    "slug": "rpsc-school-lecturer-1st-grade-exam-syllabus-2026",
+    "titleHi": "RPSC प्राध्यापक (School Lecturer Grade-1) प्रथम प्रश्न पत्र (GK) व द्वितीय प्रश्न पत्र विस्तृत पाठ्यक्रम",
+    "titleEn": "RPSC 1st Grade School Lecturer Paper 1 General Awareness & Paper 2 Subject Syllabus",
+    "agencyId": "rpsc",
+    "agencyName": "RPSC",
+    "categoryId": "teaching",
+    "categoryName": "Teaching & Education",
+    "state": "rajasthan",
+    "noticeType": "syllabus",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "RPSC अजमेर द्वारा स्कूल प्राध्यापक (माध्यमिक शिक्षा विभाग) परीक्षा 2026 का प्रथम प्रश्न पत्र (सामान्य अध्ययन) एवं द्वितीय प्रश्न पत्र (ऐच्छिक विषय) का अधिकृत पाठ्यक्रम।",
+    "summaryEn": "Official syllabus for Paper 1 (General Studies) and Paper 2 (Concerned Subject) for School Lecturer Grade 1 Recruitment.",
+    "facts": {
+      "sourceUrl": "https://rpsc.rajasthan.gov.in",
+      "sourceDate": "2026-11-08T11:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "RPSC अजमेर",
+      "qualification": "संबंधित विषय में स्नातकोत्तर (PG) + B.Ed डिग्री",
+      "selectionProcess": "लिखित परीक्षा: पेपर 1 (150 अंक) + पेपर 2 (300 अंक)"
+    },
+    "sections": [
+      {
+        "key": "lecturer_p1",
+        "body": "राजस्थान का इतिहास व भारतीय राष्ट्रीय आंदोलन (15 प्रश्न), मानसिक क्षमता व सांख्यिकी (20 प्रश्न), समसामयिकी (10 प्रश्न), सामान्य विज्ञान, भारतीय राजनीति व भूगोल (15 प्रश्न), शैक्षिक प्रबंधन व आरटीई एक्ट 2009 (15 प्रश्न)।",
+        "title": "प्रथम प्रश्न पत्र: सामान्य अध्ययन (75 प्रश्न, 150 अंक, 1.5 घंटा)"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://rpsc.rajasthan.gov.in/Static/Syllabus/Lecturer_Paper1_2026.pdf",
+        "kind": "syllabus",
+        "label": "प्राध्यापक प्रथम प्रश्न पत्र सिलेबस PDF"
+      }
+    ],
+    "publishedAt": "2026-11-19T14:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:53.306Z"
+  },
+  {
+    "id": "7f0e5c22-9f2e-4b07-8944-ba6715e0889a",
+    "slug": "sso-id-profile-correction-aadhaar-link-guidelines",
+    "titleHi": "SSO ID प्रोफाइल सुधार, जन्मतिथि व नाम संशोधन एवं आधार ई-केवाईसी गाइड",
+    "titleEn": "SSO ID Profile Correction, Date of Birth / Name Correction & Aadhaar e-KYC Guide",
+    "agencyId": "raj_dept",
+    "agencyName": "Rajasthan Govt Depts",
+    "categoryId": "administrative",
+    "categoryName": "Administrative & Civil Services",
+    "state": "rajasthan",
+    "noticeType": "careerGuide",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान सिंगल साइन ऑन (SSO) प्रोफाइल में यदि नाम, जन्मतिथि अथवा मोबाइल नंबर में कोई त्रुटि है, तो ई-मित्र अथवा स्वयं द्वारा संशोधन करने की चरणबद्ध आधिकारिक विधि।",
+    "summaryEn": "Step-by-step authoritative process for SSO profile editing, Aadhaar/Jan Aadhaar updating, and rectification of errors for state recruitment forms.",
+    "facts": {
+      "sourceUrl": "https://sso.rajasthan.gov.in",
+      "sourceDate": "2026-11-09T14:00:00.000Z",
+      "verifiedAt": "2026-11-22T08:21:44.681Z",
+      "verifiedBy": "DOIT&C राजस्थान",
+      "qualification": "सभी राजस्थान SSO उपयोगकर्ता",
+      "selectionProcess": "ऑनलाइन ई-केवाईसी सत्यापन"
+    },
+    "sections": [
+      {
+        "key": "correction_steps",
+        "body": "SSO प्रोफाइल में परिवर्तन करने के उपरांत Recruitment Portal पर जाकर \"Fetch Jan Aadhaar/Aadhaar\" विकल्प पर क्लिक अवश्य करें, ताकि OTR डेटाबेस में भी नवीनतम नाम एवं जन्मतिथि अपडेट हो जाए।",
+        "title": "प्रोफाइल संशोधन की प्रमुख सावधानियां"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://sso.rajasthan.gov.in",
+        "kind": "applyOnline",
+        "label": "SSO पोर्टल पर लॉगिन करें"
+      }
+    ],
+    "publishedAt": "2026-11-19T10:21:44.681Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-11-22T08:21:57.097Z"
+  },
+  {
+    "id": "fcabc850-d4b7-4347-9baa-2e310fcdce5c",
     "slug": "rpsc-ras-rts-recruitment-2026",
     "titleHi": "RPSC RAS / RTS संयुक्त प्रतियोगी परीक्षा 2026 - 1,050 पद ऑनलाइन आवेदन जारी",
     "titleEn": "RPSC RAS / RTS Combined Competitive Exam 2026 - 1,050 Posts Notification",
     "agencyId": "rpsc",
+    "agencyName": "RPSC",
     "categoryId": "rpsc",
+    "categoryName": "RPSC (Public Service Commission)",
     "state": "rajasthan",
-    "type": "vacancy",
     "noticeType": "vacancy",
     "status": "active",
-    "isBreaking": true,
-    "isFeatured": true,
-    "publishedAt": "2026-10-31T17:20:35.794Z",
-    "expiresAt": "2026-11-25T20:20:35.794Z",
+    "revisionNumber": 1,
     "summaryHi": "राजस्थान लोक सेवा आयोग (RPSC) द्वारा राजस्थान प्रशासनिक सेवा (RAS), राजस्थान पुलिस सेवा (RPS) सहित राज्य व अधीनस्थ सेवाओं के 1,050 पदों पर भर्ती का आधिकारिक विज्ञापन जारी।",
     "summaryEn": "Rajasthan Public Service Commission (RPSC) has released the official notification for 1,050 posts of RAS, RPS, and subordinate administrative services.",
     "facts": {
-      "postsCount": 1050,
-      "applicationStart": "2026-10-29T20:20:35.794Z",
-      "applicationEnd": "2026-11-25T20:20:35.794Z",
-      "feeEndDate": "2026-11-25T20:20:35.794Z",
-      "examDate": "2027-01-14T20:20:35.794Z",
-      "feeGeneralObc": "₹600",
-      "feeScSt": "₹400",
-      "qualification": "स्नातक (Graduate in any stream from recognized university)",
-      "ageMin": 21,
       "ageMax": 40,
-      "ageAsOnDate": "01/01/2026",
-      "ageRelaxation": "राजस्थान राज्य के SC/ST/OBC/MBC/EWS पुरुष अभ्यर्थियों को 5 वर्ष एवं महिला अभ्यर्थियों को 10 वर्ष की छूट देय होगी।",
-      "categoryVacancies": {
-        "सामान्य (General UR)": "424",
-        "EWS (आर्थिक कमजोर वर्ग)": "105",
-        "OBC (अन्य पिछड़ा वर्ग)": "220",
-        "MBC (अति पिछड़ा वर्ग)": "53",
-        "SC (अनुसूचित जाति)": "138",
-        "ST (अनुसूचित जनजाति)": "110",
-        "कुल पद (Total Posts)": "1050"
-      },
-      "telegramUrl": "https://t.me/rajasthan_suchna_official",
-      "whatsappUrl": "https://whatsapp.com/channel/0029VaRajasthanSuchna",
-      "faqs": [
-        {
-          "question": "क्या RAS 2026 के लिए CET (समान पात्रता परीक्षा) आवश्यक है?",
-          "answer": "नहीं, RAS/RTS संयुक्त प्रतियोगी परीक्षा CET के दायरे से बाहर है। इसके लिए सीधे RPSC द्वारा स्वतंत्र परीक्षा आयोजित की जाती है।"
-        },
-        {
-          "question": "क्या अंतिम वर्ष (Final Year) के विद्यार्थी आवेदन कर सकते हैं?",
-          "answer": "हाँ, स्नातक अंतिम वर्ष में अध्ययनरत अभ्यर्थी प्रारंभिक परीक्षा के लिए आवेदन कर सकते हैं, बशर्ते मुख्य परीक्षा से पूर्व डिग्री पूर्ण होने का प्रमाण उपलब्ध होना चाहिए।"
-        },
-        {
-          "question": "आवेदन प्रक्रिया SSO से कैसे होगी?",
-          "answer": "SSO पोर्टल (sso.rajasthan.gov.in) पर OTR रजिस्ट्रेशन पूरा करके Recruitment Portal से ऑनलाइन फॉर्म भरा जाएगा।"
-        }
-      ],
-      "selectionProcess": "प्रारंभिक परीक्षा (Prelims), मुख्य परीक्षा (Mains) एवं साक्षात्कार (Interview)",
+      "ageMin": 21,
+      "feeScSt": "₹400",
+      "examDate": "2027-01-14T19:17:48.608Z",
       "sourceUrl": "https://rpsc.rajasthan.gov.in",
-      "sourceDate": "2026-10-29T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T18:20:35.794Z",
-      "verifiedBy": "RPSC अजमेर व राजस्थान सूचना प्रकोष्ठ"
+      "feeEndDate": "2026-11-25T19:17:48.608Z",
+      "postsCount": 1050,
+      "sourceDate": "2026-10-29T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T17:17:48.608Z",
+      "verifiedBy": "RPSC अजमेर व राजस्थान सूचना प्रकोष्ठ",
+      "feeGeneralObc": "₹600",
+      "qualification": "स्नातक (Graduate in any stream from recognized university)",
+      "applicationEnd": "2026-11-25T19:17:48.608Z",
+      "applicationStart": "2026-10-29T19:17:48.608Z",
+      "selectionProcess": "प्रारंभिक परीक्षा (Prelims), मुख्य परीक्षा (Mains) एवं साक्षात्कार (Interview)"
     },
     "sections": [
       {
         "key": "overview",
-        "title": "भर्ती का संक्षिप्त विवरण",
-        "body": "राजस्थान राज्य एवं अधीनस्थ सेवा संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा 2026 का विज्ञापन जारी हो चुका है। योग्य उम्मीदवार SSO पोर्टल (sso.rajasthan.gov.in) के माध्यम से ऑनलाइन आवेदन कर सकते हैं।"
+        "body": "राजस्थान राज्य एवं अधीनस्थ सेवा संयुक्त प्रतियोगी (प्रारंभिक) परीक्षा 2026 का विज्ञापन जारी हो चुका है। योग्य उम्मीदवार SSO पोर्टल (sso.rajasthan.gov.in) के माध्यम से ऑनलाइन आवेदन कर सकते हैं।",
+        "title": "भर्ती का संक्षिप्त विवरण"
       }
     ],
     "links": [
       {
-        "label": "ऑफिशियल नोटिफिकेशन (PDF)",
         "url": "https://rpsc.rajasthan.gov.in",
-        "kind": "notificationPdf"
+        "kind": "notificationPdf",
+        "label": "ऑफिशियल नोटिफिकेशन (PDF)"
       },
       {
-        "label": "SSO राजस्थान पोर्टल पर आवेदन करें",
         "url": "https://sso.rajasthan.gov.in",
-        "kind": "applyOnline"
-      },
-      {
-        "label": "विस्तृत पाठ्यक्रम (Syllabus PDF)",
-        "url": "https://rpsc.rajasthan.gov.in/Static/Syllabus/RAS_Prelims_Mains_2026.pdf",
-        "kind": "syllabus"
-      },
-      {
-        "label": "RPSC आधिकारिक पोर्टल",
-        "url": "https://rpsc.rajasthan.gov.in",
-        "kind": "officialSite"
+        "kind": "applyOnline",
+        "label": "SSO राजस्थान पोर्टल पर आवेदन करें"
       }
-    ]
+    ],
+    "publishedAt": "2026-10-31T16:17:48.608Z",
+    "expiresAt": "2026-11-25T19:17:48.608Z",
+    "isFeatured": true,
+    "isBreaking": true,
+    "updatedAt": "2026-10-31T19:17:56.795Z"
   },
   {
-    "id": "not_rrb-alp-recruitment-2026",
+    "id": "a07aed19-978c-4623-9a6d-81cb30b28c05",
     "slug": "rrb-alp-recruitment-2026",
     "titleHi": "रेलवे भर्ती बोर्ड (RRB) 18,799 ALP (Assistant Loco Pilot) नई भर्ती 2026",
     "titleEn": "Railway Recruitment Board (RRB) 18,799 Assistant Loco Pilot (ALP) Recruitment 2026",
     "agencyId": "railway",
+    "agencyName": "RRB",
     "categoryId": "rrb",
+    "categoryName": "RRB (Railway Recruitment Board)",
     "state": "central",
-    "type": "vacancy",
     "noticeType": "vacancy",
     "status": "active",
-    "isBreaking": true,
-    "isFeatured": true,
-    "publishedAt": "2026-10-31T14:20:35.794Z",
-    "expiresAt": "2026-11-20T20:20:35.794Z",
+    "revisionNumber": 1,
     "summaryHi": "भारतीय रेलवे भर्ती बोर्ड द्वारा 18,799 सहायक लोको पायलट (ALP) के रिक्त पदों पर बंपर भर्ती। 10वीं पास + ITI / पॉलिटेक्निक डिप्लोमा / इंजीनियरिंग डिग्री धारक पात्र।",
     "summaryEn": "Indian Railways has announced 18,799 Assistant Loco Pilot (ALP) vacancies across all railway zones. Class 10th with ITI or Diploma/Degree holders eligible.",
     "facts": {
-      "postsCount": 18799,
-      "applicationStart": "2026-10-26T20:20:35.794Z",
-      "applicationEnd": "2026-11-20T20:20:35.794Z",
-      "feeEndDate": "2026-11-20T20:20:35.794Z",
-      "examDate": "2027-01-29T20:20:35.794Z",
-      "feeGeneralObc": "₹500 (CBT-1 उपस्थिति पर ₹400 रिफंड)",
-      "feeScSt": "₹250 (CBT-1 उपस्थिति पर पूर्ण रिफंड)",
-      "qualification": "10वीं पास + ITI (विशिष्ट ट्रेड) अथवा मैकेनिकल/इलेक्ट्रिकल/इलेक्ट्रॉनिक्स इंजीनियरिंग डिप्लोमा/डिग्री",
-      "ageMin": 18,
       "ageMax": 33,
-      "selectionProcess": "CBT-1, CBT-2, कंप्यूटर आधारित एप्टीट्यूड टेस्ट (CBAT), दस्तावेज सत्यापन एवं मेडिकल परीक्षण",
+      "ageMin": 18,
+      "feeScSt": "₹250 (CBT-1 उपस्थिति पर पूर्ण रिफंड)",
+      "examDate": "2027-01-29T19:17:48.608Z",
       "sourceUrl": "https://rrbcdg.gov.in",
-      "sourceDate": "2026-10-26T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T16:20:35.794Z",
-      "verifiedBy": "रेलवे भर्ती नियंत्रण बोर्ड (RRB)"
+      "feeEndDate": "2026-11-20T19:17:48.608Z",
+      "postsCount": 18799,
+      "sourceDate": "2026-10-26T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T15:17:48.608Z",
+      "verifiedBy": "रेलवे भर्ती नियंत्रण बोर्ड (RRB)",
+      "feeGeneralObc": "₹500 (CBT-1 उपस्थिति पर ₹400 रिफंड)",
+      "qualification": "10वीं पास + ITI (विशिष्ट ट्रेड) अथवा मैकेनिकल/इलेक्ट्रिकल/इलेक्ट्रॉनिक्स इंजीनियरिंग डिप्लोमा/डिग्री",
+      "applicationEnd": "2026-11-20T19:17:48.608Z",
+      "applicationStart": "2026-10-26T19:17:48.608Z",
+      "selectionProcess": "CBT-1, CBT-2, कंप्यूटर आधारित एप्टीट्यूड टेस्ट (CBAT), दस्तावेज सत्यापन एवं मेडिकल परीक्षण"
     },
     "sections": [
       {
         "key": "overview",
-        "title": "रेलवे ALP भर्ती विवरण",
-        "body": "भारतीय रेलवे के विभिन्न जोनल रेलवे में सहायक लोको पायलट (ALP) लेवल-2 पे-मैट्रिक्स (प्रारंभिक वेतन ₹19,900 + भत्ते) पर सीधी भर्ती की जा रही है।"
+        "body": "भारतीय रेलवे के विभिन्न जोनल रेलवे में सहायक लोको पायलट (ALP) लेवल-2 पे-मैट्रिक्स (प्रारंभिक वेतन ₹19,900 + भत्ते) पर सीधी भर्ती की जा रही है।",
+        "title": "रेलवे ALP भर्ती विवरण"
       }
     ],
     "links": [
       {
-        "label": "RRB आधिकारिक पोर्टल",
         "url": "https://rrbcdg.gov.in",
-        "kind": "officialSite"
+        "kind": "officialSite",
+        "label": "RRB आधिकारिक पोर्टल"
       },
       {
-        "label": "ऑनलाइन आवेदन लिंक",
         "url": "https://www.rrbapply.gov.in",
-        "kind": "applyOnline"
-      }
-    ]
-  },
-  {
-    "id": "not_rajasthan-patwari-recruitment-2026",
-    "slug": "rajasthan-patwari-recruitment-2026",
-    "titleHi": "राजस्थान पटवारी भर्ती 2026 (RSSB) - 2,998 पद [अंतिम 3 दिन शेष]",
-    "titleEn": "Rajasthan RSSB Patwari Recruitment 2026 - 2,998 Posts [Last 3 Days Left]",
-    "agencyId": "rssb",
-    "categoryId": "rssb",
-    "state": "rajasthan",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": true,
-    "publishedAt": "2026-10-11T20:20:35.794Z",
-    "expiresAt": "2026-11-03T20:20:35.794Z",
-    "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड द्वारा राजस्व मंडल के 2,998 पटवारी पदों पर ऑनलाइन आवेदन की अंतिम तिथि नज़दीक है। स्नातक + RSCIT उत्तीर्ण अभ्यर्थी तुरंत आवेदन करें।",
-    "summaryEn": "RSMSSB is inviting applications for 2,998 Patwari posts under Rajasthan Revenue Board. Application window closes in 3 days.",
-    "facts": {
-      "postsCount": 2998,
-      "applicationStart": "2026-10-11T20:20:35.794Z",
-      "applicationEnd": "2026-11-03T20:20:35.794Z",
-      "feeEndDate": "2026-11-03T20:20:35.794Z",
-      "examDate": "2026-12-30T20:20:35.794Z",
-      "feeGeneralObc": "₹600 (One-Time Registration)",
-      "feeScSt": "₹400",
-      "qualification": "स्नातक (Graduation) + RSCIT कंप्यूटर प्रमाण पत्र",
-      "ageMin": 18,
-      "ageMax": 40,
-      "ageAsOnDate": "01/01/2026",
-      "ageRelaxation": "राजस्थान राज्य के SC/ST/OBC/MBC/EWS पुरुष अभ्यर्थियों को 5 वर्ष एवं महिलाओं को 10 वर्ष की छूट देय होगी।",
-      "categoryVacancies": {
-        "Non-TSP (गैर-अनुसूचित क्षेत्र)": "2580",
-        "TSP (अनुसूचित क्षेत्र)": "418",
-        "कुल पद (Total Posts)": "2998"
-      },
-      "telegramUrl": "https://t.me/rajasthan_suchna_official",
-      "whatsappUrl": "https://whatsapp.com/channel/0029VaRajasthanSuchna",
-      "faqs": [
-        {
-          "question": "क्या पटवारी भर्ती के लिए CET (Graduation) आवश्यक है?",
-          "answer": "हाँ, पटवारी भर्ती के लिए CET (स्नातक स्तर) में न्यूनतम निर्धारित अंक प्राप्त करना अनिवार्य है।"
-        },
-        {
-          "question": "क्या RSCIT कंप्यूटर प्रमाण पत्र अनिवार्य है?",
-          "answer": "हाँ, स्नातक के साथ वर्धमान महावीर खुला विश्वविद्यालय (VMOU) का RSCIT अथवा समकक्ष कंप्यूटर डिप्लोमा आवश्यक है।"
-        }
-      ],
-      "selectionProcess": "लिखित परीक्षा (300 अंक) एवं दस्तावेज सत्यापन",
-      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
-      "sourceDate": "2026-10-11T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T08:20:35.794Z",
-      "verifiedBy": "राजस्थान कर्मचारी चयन बोर्ड (RSSB)"
-    },
-    "sections": [
-      {
-        "key": "overview",
-        "title": "पटवारी भर्ती विवरण",
-        "body": "राजस्व विभाग राजस्थान के अंतर्गत गैर-अनुसूचित क्षेत्र एवं अनुसूचित क्षेत्र के कुल 2,998 पटवारियों के पदों पर भर्ती।"
+        "kind": "applyOnline",
+        "label": "ऑनलाइन आवेदन लिंक"
       }
     ],
-    "links": [
-      {
-        "label": "RSSB आधिकारिक अधिसूचना (PDF)",
-        "url": "https://rsmssb.rajasthan.gov.in",
-        "kind": "notificationPdf"
-      },
-      {
-        "label": "ऑनलाइन आवेदन (SSO पोर्टल)",
-        "url": "https://sso.rajasthan.gov.in",
-        "kind": "applyOnline"
-      },
-      {
-        "label": "विस्तृत पाठ्यक्रम (Syllabus PDF)",
-        "url": "https://rsmssb.rajasthan.gov.in/Static/Syllabus/Patwari_Exam_Pattern_2026.pdf",
-        "kind": "syllabus"
-      },
-      {
-        "label": "RSSB आधिकारिक वेबसाइट",
-        "url": "https://rsmssb.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_ssc-cgl-recruitment-2026",
-    "slug": "ssc-cgl-recruitment-2026",
-    "titleHi": "कर्मचारी चयन आयोग (SSC CGL 2026) - 17,727 पद [अंतिम 4 दिन शेष]",
-    "titleEn": "SSC Combined Graduate Level (CGL) 2026 - 17,727 Group B & C Posts",
-    "agencyId": "ssc",
-    "categoryId": "ssc",
-    "state": "central",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
+    "publishedAt": "2026-10-31T13:17:48.608Z",
+    "expiresAt": "2026-11-20T19:17:48.608Z",
     "isFeatured": true,
-    "publishedAt": "2026-10-06T20:20:35.794Z",
-    "expiresAt": "2026-11-04T20:20:35.794Z",
-    "summaryHi": "एसएससी द्वारा भारत सरकार के विभिन्न मंत्रालयों एवं विभागों में सहायक अनुभाग अधिकारी, आयकर निरीक्षक आदि 17,727 पदों पर आवेदन समाप्त होने जा रहे हैं।",
-    "summaryEn": "Staff Selection Commission (SSC) closing applications for 17,727 Inspector, Auditor, and Assistant Section Officer posts.",
-    "facts": {
-      "postsCount": 17727,
-      "applicationStart": "2026-10-06T20:20:35.794Z",
-      "applicationEnd": "2026-11-04T20:20:35.794Z",
-      "feeEndDate": "2026-11-04T20:20:35.794Z",
-      "examDate": "2026-12-15T20:20:35.794Z",
-      "feeGeneralObc": "₹100",
-      "feeScSt": "निःशुल्क (Women/SC/ST/Ex-Servicemen)",
-      "qualification": "किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक डिग्री",
-      "ageMin": 18,
-      "ageMax": 32,
-      "selectionProcess": "Tier-1 कंप्यूटर आधारित परीक्षा, Tier-2 परीक्षा एवं कंप्यूटर प्रोफिशिएंसी टेस्ट",
-      "sourceUrl": "https://ssc.gov.in",
-      "sourceDate": "2026-10-06T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T12:20:35.794Z",
-      "verifiedBy": "Staff Selection Commission New Delhi"
-    },
-    "sections": [
-      {
-        "key": "overview",
-        "title": "SSC CGL विवरण",
-        "body": "ग्रुप बी और सी के प्रतिष्ठित पदों हेतु केंद्र सरकार की सबसे बड़ी भर्ती प्रक्रिया।"
-      }
-    ],
-    "links": [
-      {
-        "label": "SSC नया पोर्टल लिंक",
-        "url": "https://ssc.gov.in",
-        "kind": "officialSite"
-      }
-    ]
+    "isBreaking": true,
+    "updatedAt": "2026-10-31T19:17:57.672Z"
   },
   {
-    "id": "not_rajasthan-police-constable-2026",
-    "slug": "rajasthan-police-constable-2026",
-    "titleHi": "राजस्थान पुलिस कांस्टेबल भर्ती 2026 - 3,578 पद शारीरिक दक्षता व CBT परीक्षा",
-    "titleEn": "Rajasthan Police Constable Recruitment 2026 - 3,578 General & Driver Posts",
-    "agencyId": "police",
-    "categoryId": "police",
-    "state": "rajasthan",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-30T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "राजस्थान पुलिस महानिदेशक कार्यालय द्वारा जिला पुलिस, आरएसी (RAC) एवं टेलीकम्यूनिकेशन विंग में 3,578 कांस्टेबल पदों पर विज्ञप्ति जारी।",
-    "summaryEn": "Rajasthan Police Dept invites online applications for 3,578 Constable vacancies across districts, RAC battalions, and Telecom wings.",
-    "facts": {
-      "postsCount": 3578,
-      "applicationStart": "2026-10-30T20:20:35.794Z",
-      "applicationEnd": "2026-11-28T20:20:35.794Z",
-      "feeEndDate": "2026-11-28T20:20:35.794Z",
-      "examDate": "2027-01-19T20:20:35.794Z",
-      "feeGeneralObc": "₹500",
-      "feeScSt": "₹400",
-      "qualification": "12वीं (सीनियर सेकेंडरी) उत्तीर्ण / टेलीकॉम पद हेतु 12वीं भौतिकी व गणित सहित",
-      "ageMin": 18,
-      "ageMax": 24,
-      "selectionProcess": "PET/PST (शारीरिक माप-तौल व 5 किमी दौड़), लिखित परीक्षा (CBT), दक्षता परीक्षा",
-      "sourceUrl": "https://police.rajasthan.gov.in",
-      "sourceDate": "2026-10-30T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T15:20:35.794Z",
-      "verifiedBy": "कार्यालय पुलिस महानिदेशक, जयपुर"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "पुलिस विभाग आधिकारिक पोर्टल",
-        "url": "https://police.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_rajasthan-high-court-clerk-jja-2026",
-    "slug": "rajasthan-high-court-clerk-jja-2026",
-    "titleHi": "राजस्थान उच्च न्यायालय (HCRAJ) कनिष्ठ न्यायिक सहायक एवं क्लर्क ग्रेड-II भर्ती 2026",
-    "titleEn": "Rajasthan High Court (HCRAJ) Junior Judicial Assistant & Clerk Grade-II 2026",
-    "agencyId": "hcraj",
-    "categoryId": "hcraj",
-    "state": "rajasthan",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-27T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "जोधपुर स्थित राजस्थान उच्च न्यायालय एवं जिला न्यायालयों में 562 रिक्त पदों पर सीधी भर्ती हेतु ऑनलाइन आवेदन आमंत्रित।",
-    "summaryEn": "High Court of Judicature for Rajasthan invites applications for 562 Junior Judicial Assistants and Junior Personal Assistants.",
-    "facts": {
-      "postsCount": 562,
-      "applicationStart": "2026-10-27T20:20:35.794Z",
-      "applicationEnd": "2026-11-22T20:20:35.794Z",
-      "qualification": "स्नातक (Graduate in any discipline) + कंप्यूटर का बुनियादी ज्ञान",
-      "ageMin": 18,
-      "ageMax": 40,
-      "selectionProcess": "लिखित परीक्षा (300 अंक) एवं टाइपराइटिंग टेस्ट (कंप्यूटर पर गति व दक्षता)",
-      "sourceUrl": "https://hcraj.nic.in",
-      "sourceDate": "2026-10-27T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T10:20:35.794Z",
-      "verifiedBy": "रजिस्ट्रार (परीक्षा), राजस्थान उच्च न्यायालय, जोधपुर"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "HCRAJ आधिकारिक पोर्टल",
-        "url": "https://hcraj.nic.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_rajasthan-reet-teacher-recruitment-2026",
-    "slug": "rajasthan-reet-teacher-recruitment-2026",
-    "titleHi": "शिक्षा विभाग राजस्थान (REET) तृतीय श्रेणी अध्यापक भर्ती 2026 - 28,000 पद",
-    "titleEn": "Rajasthan Education Dept REET 3rd Grade Teacher Recruitment 2026 - 28,000 Posts",
-    "agencyId": "education",
-    "categoryId": "education_dept",
-    "state": "rajasthan",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-24T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "प्राथमिक एवं उच्च प्राथमिक विद्यालयों में लेवल-1 एवं लेवल-2 अध्यापकों के 28,000 पदों पर बंपर भर्ती प्रक्रिया प्रारंभ। REET पात्रता परीक्षा उत्तीर्ण अभ्यर्थी योग्य।",
-    "summaryEn": "Rajasthan School Education Dept announces 28,000 Grade-3 Primary & Upper Primary Teacher vacancies across state schools.",
-    "facts": {
-      "postsCount": 28000,
-      "applicationStart": "2026-10-24T20:20:35.794Z",
-      "applicationEnd": "2026-11-30T20:20:35.794Z",
-      "qualification": "D.El.Ed (BSTC) / B.Ed + REET परीक्षा उत्तीर्ण प्रमाण पत्र",
-      "ageMin": 18,
-      "ageMax": 40,
-      "selectionProcess": "मुख्य अध्यापक प्रतियोगी परीक्षा एवं विस्तृत दस्तावेज जांच",
-      "sourceUrl": "https://rajshaladarpan.nic.in",
-      "sourceDate": "2026-10-24T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T05:20:35.794Z",
-      "verifiedBy": "प्रारंभिक शिक्षा निदेशालय, बीकानेर"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "शाला दर्पण पोर्टल",
-        "url": "https://rajshaladarpan.nic.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_rajasthan-cho-community-health-officer-2026",
-    "slug": "rajasthan-cho-community-health-officer-2026",
-    "titleHi": "चिकित्सा एवं स्वास्थ्य विभाग (NHM Rajasthan) कम्युनिटी हेल्थ ऑफिसर (CHO) - 5,261 पद",
-    "titleEn": "Rajasthan Medical & Health Dept CHO (Community Health Officer) - 5,261 Posts",
-    "agencyId": "medical",
-    "categoryId": "medical_health_dept",
-    "state": "rajasthan",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-21T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "राष्ट्रीय स्वास्थ्य मिशन (NHM) के तहत राजस्थान के हेल्थ एंड वेलनेस सेंटर्स पर 5,261 संविदा CHO पदों पर विज्ञप्ति जारी। B.Sc नर्सिंग अथवा GNM अभ्यर्थी पात्र।",
-    "summaryEn": "National Health Mission Rajasthan invites online applications for 5,261 Community Health Officer contract positions.",
-    "facts": {
-      "postsCount": 5261,
-      "applicationStart": "2026-10-21T20:20:35.794Z",
-      "applicationEnd": "2026-11-15T20:20:35.794Z",
-      "qualification": "B.Sc (Community Health) / B.Sc Nursing / GNM / BAMS + RNC पंजीकरण",
-      "ageMin": 21,
-      "ageMax": 40,
-      "selectionProcess": "लिखित परीक्षा (ओएमआर शीट आधारित वस्तुनिष्ठ प्रश्न) एवं मेरिट",
-      "sourceUrl": "https://medicaleducation.rajasthan.gov.in",
-      "sourceDate": "2026-10-21T20:20:35.794Z",
-      "verifiedAt": "2026-10-30T20:20:35.794Z",
-      "verifiedBy": "राज्य स्वास्थ्य एवं परिवार कल्याण संस्थान (SIHFW) जयपुर"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "चिकित्सा विभाग भर्ती पोर्टल",
-        "url": "https://medicaleducation.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_rajasthan-electricity-rvunl-jvvnl-je-2026",
-    "slug": "rajasthan-electricity-rvunl-jvvnl-je-2026",
-    "titleHi": "बिजली विभाग (RVUNL / JVVNL / AVVNL / JdVVNL) कनिष्ठ अभियंता एवं तकनीकी सहायक भर्ती 2026",
-    "titleEn": "Rajasthan State Power Sector Companies (RVUNL/JVVNL) Junior Engineer & Tech Helper 2026",
-    "agencyId": "electricity",
-    "categoryId": "rvunl_jvvnl",
-    "state": "rajasthan",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-19T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "राजस्थान की पांचों सरकारी विद्युत कंपनियों में 1,450 जूनियर इंजीनियर (इलेक्ट्रिकल, मैकेनिकल, सिविल) एवं तकनीकी सहायकों के पदों पर भर्ती प्रक्रिया शुरू।",
-    "summaryEn": "Rajasthan State Electricity Companies announce 1,450 vacancies for Junior Engineers and Technical Assistants across Discoms.",
-    "facts": {
-      "postsCount": 1450,
-      "applicationStart": "2026-10-19T20:20:35.794Z",
-      "applicationEnd": "2026-11-18T20:20:35.794Z",
-      "qualification": "B.E./B.Tech/डिप्लोमा अथवा ITI (संबंधित ट्रेड)",
-      "ageMin": 18,
-      "ageMax": 40,
-      "selectionProcess": "कंप्यूटर आधारित ऑनलाइन परीक्षा (CBT) एवं दस्तावेज सत्यापन",
-      "sourceUrl": "https://energy.rajasthan.gov.in",
-      "sourceDate": "2026-10-19T20:20:35.794Z",
-      "verifiedAt": "2026-10-29T20:20:35.794Z",
-      "verifiedBy": "राजस्थान राज्य विद्युत उत्पादन निगम लिमिटेड (RVUNL)"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "विद्युत विभाग आधिकारिक पोर्टल",
-        "url": "https://energy.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_rsrtc-roadways-conductor-driver-2026",
-    "slug": "rsrtc-roadways-conductor-driver-2026",
-    "titleHi": "राजस्थान रोडवेज (RSRTC) परिचालक एवं चालक 5,200 पदों पर सीधी भर्ती 2026",
-    "titleEn": "Rajasthan State Road Transport Corporation (RSRTC) Conductor & Driver 5,200 Posts",
-    "agencyId": "rsrtc",
-    "categoryId": "rsrtc",
-    "state": "rajasthan",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-17T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "राजस्थान राज्य पथ परिवहन निगम द्वारा 9 वर्षों बाद 5,200 पदों (चालक, परिचालक, कनिष्ठ सहायक एवं मैकेनिक) पर भर्ती की घोषणा। 10वीं पास + ड्राइविंग/कंडक्टर लाइसेंस धारक पात्र।",
-    "summaryEn": "RSRTC announces 5,200 Driver, Conductor, and Mechanic vacancies across all regional bus depots in Rajasthan.",
-    "facts": {
-      "postsCount": 5200,
-      "applicationStart": "2026-10-17T20:20:35.794Z",
-      "applicationEnd": "2026-11-20T20:20:35.794Z",
-      "qualification": "10वीं कक्षा उत्तीर्ण + भारी वाहन चालक लाइसेंस अथवा वैध परिचालक (Conductor) लाइसेंस",
-      "ageMin": 18,
-      "ageMax": 40,
-      "selectionProcess": "लिखित परीक्षा (CET आधारित) एवं ट्रेड ड्राइविंग टेस्ट",
-      "sourceUrl": "https://transport.rajasthan.gov.in/rsrtc",
-      "sourceDate": "2026-10-17T20:20:35.794Z",
-      "verifiedAt": "2026-10-28T20:20:35.794Z",
-      "verifiedBy": "मुख्यालय राजस्थान राज्य पथ परिवहन निगम, जयपुर"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "रोडवेज आधिकारिक वेबसाइट",
-        "url": "https://transport.rajasthan.gov.in/rsrtc",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_upsc-civil-services-ias-ifs-2026",
-    "slug": "upsc-civil-services-ias-ifs-2026",
-    "titleHi": "संघ लोक सेवा आयोग (UPSC CSE 2026) सिविल सेवा परीक्षा - 1,056 आईएएस/आईपीएस पद",
-    "titleEn": "Union Public Service Commission (UPSC CSE) Civil Services 2026 - 1,056 Posts",
-    "agencyId": "upsc",
-    "categoryId": "upsc",
-    "state": "central",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-15T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "UPSC द्वारा भारतीय प्रशासनिक सेवा (IAS), भारतीय विदेश सेवा (IFS) एवं भारतीय पुलिस सेवा (IPS) सहित 1,056 पदों पर सिविल सेवा परीक्षा 2026 का विज्ञापन जारी।",
-    "summaryEn": "Union Public Service Commission (UPSC) invites applications for 1,056 Civil Services (IAS, IFS, IPS) vacancies.",
-    "facts": {
-      "postsCount": 1056,
-      "applicationStart": "2026-10-15T20:20:35.794Z",
-      "applicationEnd": "2026-11-14T20:20:35.794Z",
-      "qualification": "किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक डिग्री",
-      "ageMin": 21,
-      "ageMax": 32,
-      "selectionProcess": "CS(P) प्रारंभिक परीक्षा, मुख्य लिखित परीक्षा एवं व्यक्तित्व परीक्षण (इंटरव्यू)",
-      "sourceUrl": "https://upsc.gov.in",
-      "sourceDate": "2026-10-15T20:20:35.794Z",
-      "verifiedAt": "2026-10-27T20:20:35.794Z",
-      "verifiedBy": "Union Public Service Commission, Dholpur House, New Delhi"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "UPSC ऑनलाइन पोर्टल",
-        "url": "https://upsconline.nic.in",
-        "kind": "applyOnline"
-      }
-    ]
-  },
-  {
-    "id": "not_ibps-po-probationary-officer-recruitment-2026",
-    "slug": "ibps-po-probationary-officer-recruitment-2026",
-    "titleHi": "बैंकिंग कार्मिक चयन संस्थान (IBPS PO/MT XIV) - 4,455 प्रोबेशनरी ऑफिसर बंपर भर्ती",
-    "titleEn": "IBPS PO/MT XIV Common Recruitment Process 2026 - 4,455 Probationary Officers",
-    "agencyId": "ibps",
-    "categoryId": "ibps",
-    "state": "central",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-13T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "देश के 11 प्रमुख सार्वजनिक क्षेत्र के बैंकों में 4,455 प्रोबेशनरी ऑफिसर / मैनेजमेंट ट्रेनी (PO/MT) पदों पर ऑनलाइन आवेदन आमंत्रित।",
-    "summaryEn": "Institute of Banking Personnel Selection invites online applications for 4,455 PO/MT posts across 11 public sector banks.",
-    "facts": {
-      "postsCount": 4455,
-      "applicationStart": "2026-10-13T20:20:35.794Z",
-      "applicationEnd": "2026-11-12T20:20:35.794Z",
-      "qualification": "किसी भी संकाय में स्नातक डिग्री (Graduation in any discipline)",
-      "ageMin": 20,
-      "ageMax": 30,
-      "selectionProcess": "प्रारंभिक ऑनलाइन परीक्षा, मुख्य परीक्षा एवं संयुक्त साक्षात्कार",
-      "sourceUrl": "https://ibps.in",
-      "sourceDate": "2026-10-13T20:20:35.794Z",
-      "verifiedAt": "2026-10-26T20:20:35.794Z",
-      "verifiedBy": "IBPS Mumbai"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "IBPS आधिकारिक पोर्टल",
-        "url": "https://ibps.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_sbi-po-probationary-officer-2026",
-    "slug": "sbi-po-probationary-officer-2026",
-    "titleHi": "भारतीय स्टेट बैंक (SBI PO 2026) प्रोबेशनरी ऑफिसर 2,000 पदों पर विज्ञापन जारी",
-    "titleEn": "State Bank of India (SBI PO) 2,000 Probationary Officers Recruitment 2026",
-    "agencyId": "sbi",
-    "categoryId": "sbi",
-    "state": "central",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-10T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "एसबीआई की देशभर की शाखाओं में 2,000 प्रोबेशनरी ऑफिसर (PO) पदों पर भर्ती। प्रारंभिक वेतन ₹65,000+ प्रतिमाह।",
-    "summaryEn": "State Bank of India (SBI) invites applications for 2,000 Probationary Officer vacancies across India.",
-    "facts": {
-      "postsCount": 2000,
-      "applicationStart": "2026-10-10T20:20:35.794Z",
-      "applicationEnd": "2026-11-09T20:20:35.794Z",
-      "qualification": "स्नातक (Graduation in any stream)",
-      "ageMin": 21,
-      "ageMax": 30,
-      "selectionProcess": "Phase-I Prelims, Phase-II Mains, Phase-III साइकोमेट्रिक टेस्ट व इंटरव्यू",
-      "sourceUrl": "https://sbi.co.in/careers",
-      "sourceDate": "2026-10-10T20:20:35.794Z",
-      "verifiedAt": "2026-10-25T20:20:35.794Z",
-      "verifiedBy": "State Bank of India Central Recruitment & Promotion Department, Mumbai"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "SBI करियर पोर्टल",
-        "url": "https://sbi.co.in/careers",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_nta-ugc-net-jrf-assistant-professor-2026",
-    "slug": "nta-ugc-net-jrf-assistant-professor-2026",
-    "titleHi": "राष्ट्रीय परीक्षा एजेंसी (NTA) UGC NET एवं JRF परीक्षा 2026 - असिस्टेंट प्रोफेसर पात्रता",
-    "titleEn": "National Testing Agency (NTA) UGC NET & JRF Examination 2026 - Assistant Professor",
-    "agencyId": "nta",
-    "categoryId": "nta",
-    "state": "central",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-08T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "भारतीय विश्वविद्यालयों एवं महाविद्यालयों में असिस्टेंट प्रोफेसर तथा जूनियर रिसर्च फेलोशिप (JRF) हेतु 83 विषयों में राष्ट्रीय पात्रता परीक्षा का आयोजन।",
-    "summaryEn": "NTA invites applications for UGC-NET 2026 determining eligibility for Assistant Professorship and award of JRF across 83 subjects.",
-    "facts": {
-      "postsCount": 15000,
-      "applicationStart": "2026-10-08T20:20:35.794Z",
-      "applicationEnd": "2026-11-16T20:20:35.794Z",
-      "qualification": "न्यूनतम 55% अंकों के साथ स्नातकोत्तर (Master Degree / PG)",
-      "ageMin": 21,
-      "ageMax": 30,
-      "selectionProcess": "CBT ऑनलाइन परीक्षा (Paper 1 सामान्य ज्ञान + Paper 2 विषय विशेषज्ञता)",
-      "sourceUrl": "https://ugcnet.nta.ac.in",
-      "sourceDate": "2026-10-08T20:20:35.794Z",
-      "verifiedAt": "2026-10-24T20:20:35.794Z",
-      "verifiedBy": "National Testing Agency, Okhla, New Delhi"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "NTA UGC NET आधिकारिक पोर्टल",
-        "url": "https://ugcnet.nta.ac.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_nbe-neet-pg-medical-entrance-exam-2026",
-    "slug": "nbe-neet-pg-medical-entrance-exam-2026",
-    "titleHi": "राष्ट्रीय परीक्षा बोर्ड (NBE) NEET PG 2026 मेडिकल प्रवेश परीक्षा एवं सीनियर रेजिडेंट भर्ती",
-    "titleEn": "National Board of Examinations (NBE) NEET-PG 2026 & Senior Resident Notification",
-    "agencyId": "nbe",
-    "categoryId": "nbe",
-    "state": "central",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-05T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "देशभर के मेडिकल कॉलेजों में MD/MS/PG Diploma सीटों तथा प्रमुख AIIMS एवं केन्द्रीय अस्पतालों में सीनियर रेजिडेंटशिप हेतु अधिसूचना जारी।",
-    "summaryEn": "National Board of Examinations in Medical Sciences (NBEMS) invites applications for NEET-PG and central hospital residencies.",
-    "facts": {
-      "postsCount": 12500,
-      "applicationStart": "2026-10-05T20:20:35.794Z",
-      "applicationEnd": "2026-11-11T20:20:35.794Z",
-      "qualification": "MBBS डिग्री + 1 वर्ष की अनिवार्य रोटेटरी इंटर्नशिप + NMC पंजीकरण",
-      "ageMin": 21,
-      "selectionProcess": "कंप्यूटर आधारित राष्ट्रीय प्रवेश परीक्षा एवं केन्द्रीय काउंसलिंग",
-      "sourceUrl": "https://natboard.edu.in",
-      "sourceDate": "2026-10-05T20:20:35.794Z",
-      "verifiedAt": "2026-10-23T20:20:35.794Z",
-      "verifiedBy": "National Board of Examinations in Medical Sciences (NBEMS)"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "NBE परीक्षा पोर्टल",
-        "url": "https://natboard.edu.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_indian-army-agniveer-defence-recruitment-2026",
-    "slug": "indian-army-agniveer-defence-recruitment-2026",
-    "titleHi": "सेना और अर्धसैनिक बल (Defensive Forces) अग्निवीर एवं BSF/CRPF सिपाही - 25,000 पद",
-    "titleEn": "Indian Armed & Paramilitary Forces Agniveer & BSF/CRPF Constable 2026 - 25,000 Posts",
-    "agencyId": "defence",
-    "categoryId": "defensive_forces",
-    "state": "central",
-    "type": "vacancy",
-    "noticeType": "vacancy",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-29T20:20:35.794Z",
-    "expiresAt": null,
-    "summaryHi": "भारतीय सेना, नौसेना, वायुसेना तथा अर्धसैनिक बलों (BSF, CISF, CRPF, ITBP, SSB) में 25,000 पदों पर भर्ती रैली एवं ऑनलाइन पंजीकरण जारी।",
-    "summaryEn": "Indian Defence Ministry announces 25,000 Agniveer & Paramilitary GD Constable vacancies for young aspirants across India.",
-    "facts": {
-      "postsCount": 25000,
-      "applicationStart": "2026-10-29T20:20:35.794Z",
-      "applicationEnd": "2026-11-26T20:20:35.794Z",
-      "qualification": "10वीं (मैट्रिक) 45% अंकों सहित / 12वीं (साइंस/आर्ट्स/कॉमर्स)",
-      "ageMin": 17,
-      "ageMax": 23,
-      "selectionProcess": "ऑनलाइन CEE लिखित परीक्षा, 1.6 किमी शारीरिक दौड़ (Physical Fitness Test) व मेडिकल",
-      "sourceUrl": "https://joinindianarmy.nic.in",
-      "sourceDate": "2026-10-29T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T11:20:35.794Z",
-      "verifiedBy": "मुख्यालय भर्ती क्षेत्र (राजस्थान व केन्द्रीय कमान)"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "भारतीय सेना भर्ती पोर्टल",
-        "url": "https://joinindianarmy.nic.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_rpsc-ras-prelims-exam-admit-card-2026",
+    "id": "aa26180d-c9cd-4149-8366-44782884ba25",
     "slug": "rpsc-ras-prelims-exam-admit-card-2026",
     "titleHi": "RPSC RAS प्रारंभिक परीक्षा 2026 प्रवेश पत्र (Admit Card) जारी - रोल नंबर से डाउनलोड करें",
     "titleEn": "RPSC RAS Preliminary Examination 2026 Admit Card Released - Download Hall Ticket",
     "agencyId": "rpsc",
+    "agencyName": "RPSC",
     "categoryId": "rpsc",
+    "categoryName": "RPSC (Public Service Commission)",
     "state": "rajasthan",
-    "type": "admitCard",
     "noticeType": "admitCard",
     "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-31T12:20:35.794Z",
-    "expiresAt": null,
+    "revisionNumber": 1,
     "summaryHi": "राजस्थान लोक सेवा आयोग ने आगामी RAS प्री परीक्षा का एडमिट कार्ड आधिकारिक वेबसाइट एवं SSO पोर्टल पर लाइव कर दिया है। अभ्यर्थी अपना एप्लीकेशन नंबर व जन्मतिथि दर्ज कर प्रवेश पत्र डाउनलोड करें।",
     "summaryEn": "RPSC has released the hall ticket for RAS Preliminary Examination 2026. Candidates can download using application number and date of birth.",
     "facts": {
-      "examDate": "2026-11-10T20:20:35.794Z",
-      "qualification": "RAS पंजीकृत उम्मीदवार",
-      "selectionProcess": "प्रवेश पत्र डाउनलोड कर परीक्षा केंद्र पर ले जाना अनिवार्य है",
+      "examDate": "2026-11-10T19:17:48.608Z",
       "sourceUrl": "https://rpsc.rajasthan.gov.in",
-      "sourceDate": "2026-10-31T12:20:35.794Z",
-      "verifiedAt": "2026-10-31T16:20:35.794Z",
-      "verifiedBy": "RPSC परीक्षा नियंत्रण शाखा"
+      "sourceDate": "2026-10-31T11:17:48.608Z",
+      "verifiedAt": "2026-10-31T15:17:48.608Z",
+      "verifiedBy": "RPSC परीक्षा नियंत्रण शाखा",
+      "qualification": "RAS पंजीकृत उम्मीदवार",
+      "selectionProcess": "प्रवेश पत्र डाउनलोड कर परीक्षा केंद्र पर ले जाना अनिवार्य है"
     },
     "sections": [],
     "links": [
       {
-        "label": "एडमिट कार्ड डाउनलोड लिंक (Official)",
         "url": "https://rpsc.rajasthan.gov.in",
-        "kind": "admitCard"
+        "kind": "admitCard",
+        "label": "एडमिट कार्ड डाउनलोड लिंक (Official)"
       }
-    ]
+    ],
+    "publishedAt": "2026-10-31T11:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:11.540Z"
   },
   {
-    "id": "not_ssc-cgl-tier-1-exam-admit-card-2026",
+    "id": "b27ef450-ef7b-436c-82b4-7ea876fff9bb",
     "slug": "ssc-cgl-tier-1-exam-admit-card-2026",
     "titleHi": "SSC CGL Tier-1 परीक्षा 2026 प्रवेश पत्र व परीक्षा शहर स्लिप (City Intimation) जारी",
     "titleEn": "SSC CGL Tier-1 Exam 2026 Admit Card & Exam City Intimation Slip Released",
     "agencyId": "ssc",
+    "agencyName": "SSC",
     "categoryId": "ssc",
+    "categoryName": "SSC (Staff Selection Commission)",
     "state": "central",
-    "type": "admitCard",
     "noticeType": "admitCard",
     "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-31T06:20:35.794Z",
-    "expiresAt": null,
+    "revisionNumber": 1,
     "summaryHi": "कर्मचारी चयन आयोग (SSC) द्वारा CGL Tier-1 परीक्षा की सिटी स्लिप एवं क्षेत्रीय वेबसाइटों पर एडमिट कार्ड जारी कर दिए गए हैं।",
     "summaryEn": "Staff Selection Commission has uploaded Tier-1 Admit Cards and City Intimation slips across all regional portals.",
     "facts": {
-      "examDate": "2026-11-14T20:20:35.794Z",
-      "qualification": "CGL 2026 पंजीकृत आवेदक",
-      "selectionProcess": "CBT परीक्षा केंद्र पर मूल पहचान पत्र व फोटो अनिवार्य",
+      "examDate": "2026-11-14T19:17:48.608Z",
       "sourceUrl": "https://ssc.gov.in",
-      "sourceDate": "2026-10-31T06:20:35.794Z",
-      "verifiedAt": "2026-10-31T14:20:35.794Z",
-      "verifiedBy": "Staff Selection Commission"
+      "sourceDate": "2026-10-31T05:17:48.608Z",
+      "verifiedAt": "2026-10-31T13:17:48.608Z",
+      "verifiedBy": "Staff Selection Commission",
+      "qualification": "CGL 2026 पंजीकृत आवेदक",
+      "selectionProcess": "CBT परीक्षा केंद्र पर मूल पहचान पत्र व फोटो अनिवार्य"
     },
     "sections": [],
     "links": [
       {
-        "label": "SSC एडमिट कार्ड डाउनलोड पोर्टल",
         "url": "https://ssc.gov.in",
-        "kind": "admitCard"
+        "kind": "admitCard",
+        "label": "SSC एडमिट कार्ड डाउनलोड पोर्टल"
       }
-    ]
+    ],
+    "publishedAt": "2026-10-31T05:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:12.480Z"
   },
   {
-    "id": "not_rssb-cet-graduation-level-result-cutoff-2026",
+    "id": "f58da512-5fe8-45c8-b9b9-690165f6066c",
     "slug": "rssb-cet-graduation-level-result-cutoff-2026",
     "titleHi": "RSSB सीईटी (CET Graduation Level) परीक्षा परिणाम एवं आधिकारिक कट-ऑफ मार्क्स घोषित",
     "titleEn": "RSSB CET Graduation Level Official Result, Merit List & Category-wise Cut-off Declared",
     "agencyId": "rssb",
+    "agencyName": "RSSB / RSMSSB",
     "categoryId": "rssb",
+    "categoryName": "RSSB / RSMSSB",
     "state": "rajasthan",
-    "type": "result",
     "noticeType": "result",
     "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-31T02:20:35.794Z",
-    "expiresAt": null,
+    "revisionNumber": 1,
     "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड द्वारा समान पात्रता परीक्षा (स्नातक स्तर) का परिणाम जारी। सफल उम्मीदवार आगामी पटवारी, प्लाटून कमांडर व कनिष्ठ लेखाकार भर्ती परीक्षा में शामिल हो सकेंगे।",
     "summaryEn": "RSMSSB has announced the CET Graduation Level official results and scorecards. Qualified candidates eligible for upcoming mains.",
     "facts": {
-      "qualification": "CET 2026 उपस्थित अभ्यर्थी",
-      "selectionProcess": "कट-ऑफ अंक पार करने वाले अभ्यर्थी मुख्य परीक्षा के पात्र",
       "sourceUrl": "https://rsmssb.rajasthan.gov.in",
-      "sourceDate": "2026-10-31T02:20:35.794Z",
-      "verifiedAt": "2026-10-31T12:20:35.794Z",
-      "verifiedBy": "RSSB परीक्षा शाखा, जयपुर"
+      "sourceDate": "2026-10-31T01:17:48.608Z",
+      "verifiedAt": "2026-10-31T11:17:48.608Z",
+      "verifiedBy": "RSSB परीक्षा शाखा, जयपुर",
+      "qualification": "CET 2026 उपस्थित अभ्यर्थी",
+      "selectionProcess": "कट-ऑफ अंक पार करने वाले अभ्यर्थी मुख्य परीक्षा के पात्र"
     },
     "sections": [],
     "links": [
       {
-        "label": "रिजल्ट व कट-ऑफ PDF डाउनलोड",
         "url": "https://rsmssb.rajasthan.gov.in",
-        "kind": "result"
+        "kind": "result",
+        "label": "रिजल्ट व कट-ऑफ PDF डाउनलोड"
       }
-    ]
+    ],
+    "publishedAt": "2026-10-31T01:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:13.423Z"
   },
   {
-    "id": "not_rrb-technician-cbt-1-result-scorecard-2026",
+    "id": "e1e6359e-7ec4-44ce-8c23-d0e958d7a1aa",
+    "slug": "rajasthan-police-constable-2026",
+    "titleHi": "राजस्थान पुलिस कांस्टेबल भर्ती 2026 - 3,578 पद शारीरिक दक्षता व CBT परीक्षा",
+    "titleEn": "Rajasthan Police Constable Recruitment 2026 - 3,578 General & Driver Posts",
+    "agencyId": "police",
+    "agencyName": "Rajasthan Police",
+    "categoryId": "police",
+    "categoryName": "Raj Police (Rajasthan Police)",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान पुलिस महानिदेशक कार्यालय द्वारा जिला पुलिस, आरएसी (RAC) एवं टेलीकम्यूनिकेशन विंग में 3,578 कांस्टेबल पदों पर विज्ञप्ति जारी।",
+    "summaryEn": "Rajasthan Police Dept invites online applications for 3,578 Constable vacancies across districts, RAC battalions, and Telecom wings.",
+    "facts": {
+      "ageMax": 24,
+      "ageMin": 18,
+      "feeScSt": "₹400",
+      "examDate": "2027-01-19T19:17:48.608Z",
+      "sourceUrl": "https://police.rajasthan.gov.in",
+      "feeEndDate": "2026-11-28T19:17:48.608Z",
+      "postsCount": 3578,
+      "sourceDate": "2026-10-30T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T14:17:48.608Z",
+      "verifiedBy": "कार्यालय पुलिस महानिदेशक, जयपुर",
+      "feeGeneralObc": "₹500",
+      "qualification": "12वीं (सीनियर सेकेंडरी) उत्तीर्ण / टेलीकॉम पद हेतु 12वीं भौतिकी व गणित सहित",
+      "applicationEnd": "2026-11-28T19:17:48.608Z",
+      "applicationStart": "2026-10-30T19:17:48.608Z",
+      "selectionProcess": "PET/PST (शारीरिक माप-तौल व 5 किमी दौड़), लिखित परीक्षा (CBT), दक्षता परीक्षा"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://police.rajasthan.gov.in",
+        "kind": "officialSite",
+        "label": "पुलिस विभाग आधिकारिक पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-30T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:00.414Z"
+  },
+  {
+    "id": "6fce9aae-2b65-45d2-a122-eeb7ece27e7b",
     "slug": "rrb-technician-cbt-1-result-scorecard-2026",
     "titleHi": "RRB रेलवे टेक्नीशियन CBT 1 परीक्षा परिणाम एवं मेरिट सूची जारी - स्कोरकार्ड देखें",
     "titleEn": "RRB Railway Technician CBT-1 Official Result & Zone-wise Merit List Released",
     "agencyId": "railway",
+    "agencyName": "RRB",
     "categoryId": "rrb",
+    "categoryName": "RRB (Railway Recruitment Board)",
     "state": "central",
-    "type": "result",
     "noticeType": "result",
     "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-30T18:20:35.794Z",
-    "expiresAt": null,
+    "revisionNumber": 1,
     "summaryHi": "रेलवे भर्ती बोर्ड द्वारा टेक्नीशियन ग्रेड-I एवं ग्रेड-III के CBT-1 का परिणाम जारी कर दिया गया है। चयनित अभ्यर्थी CBT-2 हेतु योग्य घोषित।",
     "summaryEn": "Railway Recruitment Control Board releases CBT-1 results and normalized scorecards for Technician posts.",
     "facts": {
-      "qualification": "RRB Technician CBT-1 परीक्षार्थी",
-      "selectionProcess": "CBT-2 परीक्षा हेतु शॉर्टलिस्टेड",
       "sourceUrl": "https://rrbcdg.gov.in",
-      "sourceDate": "2026-10-30T20:20:35.794Z",
-      "verifiedAt": "2026-10-31T08:20:35.794Z",
-      "verifiedBy": "रेलवे भर्ती नियंत्रण बोर्ड"
+      "sourceDate": "2026-10-30T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T07:17:48.608Z",
+      "verifiedBy": "रेलवे भर्ती नियंत्रण बोर्ड",
+      "qualification": "RRB Technician CBT-1 परीक्षार्थी",
+      "selectionProcess": "CBT-2 परीक्षा हेतु शॉर्टलिस्टेड"
     },
     "sections": [],
     "links": [
       {
-        "label": "RRB रिजल्ट स्कोरकार्ड लिंक",
         "url": "https://rrbcdg.gov.in",
-        "kind": "result"
+        "kind": "result",
+        "label": "RRB रिजल्ट स्कोरकार्ड लिंक"
       }
-    ]
+    ],
+    "publishedAt": "2026-10-30T17:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:14.337Z"
   },
   {
-    "id": "not_mukhyamantri-ayushman-rajasthan-swasthya-yojana-2026",
+    "id": "5ae4c2b0-3c50-482c-91bd-3506ffdbfcf8",
+    "slug": "indian-army-agniveer-defence-recruitment-2026",
+    "titleHi": "सेना और अर्धसैनिक बल (Defensive Forces) अग्निवीर एवं BSF/CRPF सिपाही - 25,000 पद",
+    "titleEn": "Indian Armed & Paramilitary Forces Agniveer & BSF/CRPF Constable 2026 - 25,000 Posts",
+    "agencyId": "defence",
+    "agencyName": "Defence Forces",
+    "categoryId": "defensive_forces",
+    "categoryName": "Defensive Forces (Army & Paramilitary)",
+    "state": "central",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "भारतीय सेना, नौसेना, वायुसेना तथा अर्धसैनिक बलों (BSF, CISF, CRPF, ITBP, SSB) में 25,000 पदों पर भर्ती रैली एवं ऑनलाइन पंजीकरण जारी।",
+    "summaryEn": "Indian Defence Ministry announces 25,000 Agniveer & Paramilitary GD Constable vacancies for young aspirants across India.",
+    "facts": {
+      "ageMax": 23,
+      "ageMin": 17,
+      "sourceUrl": "https://joinindianarmy.nic.in",
+      "postsCount": 25000,
+      "sourceDate": "2026-10-29T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T10:17:48.608Z",
+      "verifiedBy": "मुख्यालय भर्ती क्षेत्र (राजस्थान व केन्द्रीय कमान)",
+      "qualification": "10वीं (मैट्रिक) 45% अंकों सहित / 12वीं (साइंस/आर्ट्स/कॉमर्स)",
+      "applicationEnd": "2026-11-26T19:17:48.608Z",
+      "applicationStart": "2026-10-29T19:17:48.608Z",
+      "selectionProcess": "ऑनलाइन CEE लिखित परीक्षा, 1.6 किमी शारीरिक दौड़ (Physical Fitness Test) व मेडिकल"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://joinindianarmy.nic.in",
+        "kind": "officialSite",
+        "label": "भारतीय सेना भर्ती पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-29T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:10.675Z"
+  },
+  {
+    "id": "1f37fd29-2ba4-45d6-87e0-7fd548892e47",
+    "slug": "rajasthan-high-court-clerk-jja-2026",
+    "titleHi": "राजस्थान उच्च न्यायालय (HCRAJ) कनिष्ठ न्यायिक सहायक एवं क्लर्क ग्रेड-II भर्ती 2026",
+    "titleEn": "Rajasthan High Court (HCRAJ) Junior Judicial Assistant & Clerk Grade-II 2026",
+    "agencyId": "hcraj",
+    "agencyName": "Rajasthan High Court",
+    "categoryId": "hcraj",
+    "categoryName": "HCRAJ (Rajasthan High Court)",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "जोधपुर स्थित राजस्थान उच्च न्यायालय एवं जिला न्यायालयों में 562 रिक्त पदों पर सीधी भर्ती हेतु ऑनलाइन आवेदन आमंत्रित।",
+    "summaryEn": "High Court of Judicature for Rajasthan invites applications for 562 Junior Judicial Assistants and Junior Personal Assistants.",
+    "facts": {
+      "ageMax": 40,
+      "ageMin": 18,
+      "sourceUrl": "https://hcraj.nic.in",
+      "postsCount": 562,
+      "sourceDate": "2026-10-27T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T09:17:48.608Z",
+      "verifiedBy": "रजिस्ट्रार (परीक्षा), राजस्थान उच्च न्यायालय, जोधपुर",
+      "qualification": "स्नातक (Graduate in any discipline) + कंप्यूटर का बुनियादी ज्ञान",
+      "applicationEnd": "2026-11-22T19:17:48.608Z",
+      "applicationStart": "2026-10-27T19:17:48.608Z",
+      "selectionProcess": "लिखित परीक्षा (300 अंक) एवं टाइपराइटिंग टेस्ट (कंप्यूटर पर गति व दक्षता)"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://hcraj.nic.in",
+        "kind": "officialSite",
+        "label": "HCRAJ आधिकारिक पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-27T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:01.282Z"
+  },
+  {
+    "id": "4247a715-77f7-4b2a-9e31-3c164233ac9b",
     "slug": "mukhyamantri-ayushman-rajasthan-swasthya-yojana-2026",
     "titleHi": "मुख्यमंत्री आयुष्मान राजस्थान स्वास्थ्य बीमा योजना (Chiranjeevi Health Scheme) 2026",
     "titleEn": "Mukhyamantri Ayushman Rajasthan Health Insurance Scheme 2026 - Registration & Benefits",
     "agencyId": "medical",
+    "agencyName": "Medical & Health",
     "categoryId": "medical_health_dept",
+    "categoryName": "Medical & Health Department",
     "state": "rajasthan",
-    "type": "scheme",
     "noticeType": "scheme",
     "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-26T20:20:35.794Z",
-    "expiresAt": null,
+    "revisionNumber": 1,
     "summaryHi": "राजस्थान के प्रत्येक परिवार को सरकारी एवं संबद्ध निजी अस्पतालों में ₹25 लाख तक का कैशलेस स्वास्थ्य बीमा एवं ₹5 लाख का दुर्घटना बीमा। जन आधार कार्ड से निःशुल्क पंजीकरण।",
     "summaryEn": "Comprehensive government health insurance offering cashless medical coverage up to ₹25 Lakhs per family across empanelled hospitals in Rajasthan.",
     "facts": {
-      "qualification": "राजस्थान का मूल निवासी एवं वैध जन आधार कार्ड धारक परिवार",
-      "selectionProcess": "ई-मित्र (E-Mitra) अथवा आधिकारिक पोर्टल पर जन आधार संख्या द्वारा स्वतः सत्यापन",
       "sourceUrl": "https://health.rajasthan.gov.in",
-      "sourceDate": "2026-10-26T20:20:35.794Z",
-      "verifiedAt": "2026-10-29T20:20:35.794Z",
-      "verifiedBy": "चिकित्सा एवं स्वास्थ्य विभाग, राजस्थान सरकार"
+      "sourceDate": "2026-10-26T19:17:48.608Z",
+      "verifiedAt": "2026-10-29T19:17:48.608Z",
+      "verifiedBy": "चिकित्सा एवं स्वास्थ्य विभाग, राजस्थान सरकार",
+      "qualification": "राजस्थान का मूल निवासी एवं वैध जन आधार कार्ड धारक परिवार",
+      "selectionProcess": "ई-मित्र (E-Mitra) अथवा आधिकारिक पोर्टल पर जन आधार संख्या द्वारा स्वतः सत्यापन"
     },
     "sections": [],
     "links": [
       {
-        "label": "योजना आधिकारिक पोर्टल व अस्पताल सूची",
         "url": "https://health.rajasthan.gov.in",
-        "kind": "officialSite"
+        "kind": "officialSite",
+        "label": "योजना आधिकारिक पोर्टल व अस्पताल सूची"
       }
-    ]
+    ],
+    "publishedAt": "2026-10-26T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:15.332Z"
   },
   {
-    "id": "not_pm-kisan-samman-nidhi-19th-installment-2026",
+    "id": "317423f1-5fcd-4ef8-b8b5-9b389d52202e",
+    "slug": "rajasthan-reet-teacher-recruitment-2026",
+    "titleHi": "शिक्षा विभाग राजस्थान (REET) तृतीय श्रेणी अध्यापक भर्ती 2026 - 28,000 पद",
+    "titleEn": "Rajasthan Education Dept REET 3rd Grade Teacher Recruitment 2026 - 28,000 Posts",
+    "agencyId": "education",
+    "agencyName": "Dept of Education",
+    "categoryId": "education_dept",
+    "categoryName": "Department of Education",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "प्राथमिक एवं उच्च प्राथमिक विद्यालयों में लेवल-1 एवं लेवल-2 अध्यापकों के 28,000 पदों पर बंपर भर्ती प्रक्रिया प्रारंभ। REET पात्रता परीक्षा उत्तीर्ण अभ्यर्थी योग्य।",
+    "summaryEn": "Rajasthan School Education Dept announces 28,000 Grade-3 Primary & Upper Primary Teacher vacancies across state schools.",
+    "facts": {
+      "ageMax": 40,
+      "ageMin": 18,
+      "sourceUrl": "https://rajshaladarpan.nic.in",
+      "postsCount": 28000,
+      "sourceDate": "2026-10-24T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T04:17:48.608Z",
+      "verifiedBy": "प्रारंभिक शिक्षा निदेशालय, बीकानेर",
+      "qualification": "D.El.Ed (BSTC) / B.Ed + REET परीक्षा उत्तीर्ण प्रमाण पत्र",
+      "applicationEnd": "2026-11-30T19:17:48.608Z",
+      "applicationStart": "2026-10-24T19:17:48.608Z",
+      "selectionProcess": "मुख्य अध्यापक प्रतियोगी परीक्षा एवं विस्तृत दस्तावेज जांच"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://rajshaladarpan.nic.in",
+        "kind": "officialSite",
+        "label": "शाला दर्पण पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-24T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:02.225Z"
+  },
+  {
+    "id": "67c7fafb-543f-42cb-aa6f-ddee06f8b431",
     "slug": "pm-kisan-samman-nidhi-19th-installment-2026",
     "titleHi": "प्रधानमंत्री किसान सम्मान निधि योजना (PM-Kisan) 19वीं किस्त - ₹2,000 DBT स्टेटस देखें",
     "titleEn": "Pradhan Mantri Kisan Samman Nidhi (PM-Kisan) 19th Installment Beneficiary Status 2026",
     "agencyId": "upsc",
+    "agencyName": "UPSC",
     "categoryId": "upsc",
+    "categoryName": "UPSC (Union Public Service Commission)",
     "state": "central",
-    "type": "scheme",
     "noticeType": "scheme",
     "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-10-22T20:20:35.794Z",
-    "expiresAt": null,
+    "revisionNumber": 1,
     "summaryHi": "केंद्र सरकार द्वारा पात्र किसान परिवारों के बैंक खातों में प्रतिवर्ष ₹6,000 की वित्तीय सहायता (₹2,000 की 3 समान किस्तों में) सीधे DBT माध्यम से हस्तांतरित। e-KYC अनिवार्य।",
     "summaryEn": "Central Govt scheme transferring ₹6,000 annual direct income support to eligible landholding farmer families across India.",
     "facts": {
-      "qualification": "पात्र भूमिधारक किसान परिवार (आधार लिंक्ड बैंक खाता व e-KYC पूर्ण)",
-      "selectionProcess": "आधार आधारित e-KYC एवं बैंक DBT लिंकिंग",
       "sourceUrl": "https://pmkisan.gov.in",
-      "sourceDate": "2026-10-22T20:20:35.794Z",
-      "verifiedAt": "2026-10-27T20:20:35.794Z",
-      "verifiedBy": "कृषि एवं किसान कल्याण मंत्रालय, भारत सरकार"
+      "sourceDate": "2026-10-22T19:17:48.608Z",
+      "verifiedAt": "2026-10-27T19:17:48.608Z",
+      "verifiedBy": "कृषि एवं किसान कल्याण मंत्रालय, भारत सरकार",
+      "qualification": "पात्र भूमिधारक किसान परिवार (आधार लिंक्ड बैंक खाता व e-KYC पूर्ण)",
+      "selectionProcess": "आधार आधारित e-KYC एवं बैंक DBT लिंकिंग"
     },
     "sections": [],
     "links": [
       {
-        "label": "PM-Kisan लाभार्थी स्थिति जांचें",
         "url": "https://pmkisan.gov.in",
-        "kind": "officialSite"
+        "kind": "officialSite",
+        "label": "PM-Kisan लाभार्थी स्थिति जांचें"
       }
-    ]
-  },
-  {
-    "id": "not_dipr-exam-reform-committee-2026",
-    "slug": "dipr-exam-reform-committee-recommendations-2026",
-    "titleHi": "राजस्थान लोक सेवा परीक्षा सुधार समिति की उच्चस्तरीय सिफारिशें स्वीकृत",
-    "titleEn": "High-Level Recruitment Exam Reform Committee Recommendations Approved in Rajasthan",
-    "agencyId": "rpsc",
-    "categoryId": "administrative",
-    "state": "rajasthan",
-    "type": "scheme",
-    "noticeType": "scheme",
-    "status": "active",
-    "isBreaking": true,
-    "isFeatured": true,
-    "publishedAt": "2026-10-28T09:30:00.000Z",
+    ],
+    "publishedAt": "2026-10-22T19:17:48.608Z",
     "expiresAt": null,
-    "summaryHi": "भर्ती परीक्षाओं में पूर्ण पारदर्शिता, बायोमेट्रिक-आधार सत्यापन एवं पेपर लीक रोकथाम अधिनियम 2022 के कठोर प्रावधानों के तहत त्रिस्तरीय निगरानी प्रणाली क्रियान्वित।",
-    "summaryEn": "Implementation of three-tier security, biometric verification, and stringent enforcement of Anti-Paper Leak Act 2022 for all state recruitment examinations.",
-    "facts": {
-      "qualification": "समस्त राजस्थान राज्य भर्ती परीक्षाएं (RPSC व RSSB)",
-      "selectionProcess": "त्रिस्तरीय परीक्षा केंद्र सत्यापन व बायोमेट्रिक स्कैन",
-      "sourceUrl": "https://dipr.rajasthan.gov.in",
-      "sourceDate": "2026-10-28T09:30:00.000Z",
-      "verifiedAt": "2026-10-28T10:00:00.000Z",
-      "verifiedBy": "सूचना एवं जनसंपर्क विभाग, राजस्थान सरकार"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "आधिकारिक प्रेस नोट (DIPR राजस्थान)",
-        "url": "https://dipr.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_mukhyamantri-yuva-sambal-yojana-2026",
-    "slug": "mukhyamantri-yuva-sambal-yojana-internship-2026",
-    "titleHi": "मुख्यमंत्री युवा संबल योजना: कौशल इंटर्नशिप भत्ता एवं नवीन पात्रता दिशा-निर्देश",
-    "titleEn": "Mukhyamantri Yuva Sambal Yojana: Skill Internship Allowance & Updated Eligibility",
-    "agencyId": "employment",
-    "categoryId": "schemes",
-    "state": "rajasthan",
-    "type": "scheme",
-    "noticeType": "scheme",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": true,
-    "publishedAt": "2026-10-20T11:00:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "स्नातक उत्तीर्ण बेरोजगार युवाओं को मासिक ₹4,000 (पुरुष) एवं ₹4,500 (महिला व विशेष योग्यजन) सीधे बैंक खाते में DBT द्वारा हस्तांतरित करने हेतु 4 घंटे दैनिक इंटर्नशिप नियम जारी।",
-    "summaryEn": "Monthly skill internship assistance of ₹4,000 for males and ₹4,500 for females & divyangjan directly transferred via DBT on completing mandatory daily skill internship.",
-    "facts": {
-      "qualification": "मान्यता प्राप्त विश्वविद्यालय से स्नातक उत्तीर्ण राजस्थान के मूल निवासी युवा",
-      "selectionProcess": "रोजगार विभाग पोर्टल पर ऑनलाइन आवेदन एवं इंटर्नशिप उपस्थिति सत्यापन",
-      "sourceUrl": "https://employment.livelihoods.rajasthan.gov.in",
-      "sourceDate": "2026-10-20T11:00:00.000Z",
-      "verifiedAt": "2026-10-21T09:00:00.000Z",
-      "verifiedBy": "कौशल, रोजगार एवं उद्यमिता विभाग, राजस्थान"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "रोजगार विभाग पोर्टल",
-        "url": "https://employment.livelihoods.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_rajasthan-green-hydrogen-solar-policy-2026",
-    "slug": "rajasthan-green-hydrogen-solar-policy-2026",
-    "titleHi": "राजस्थान ग्रीन हाइड्रोजन नीति एवं नवीन सौर ऊर्जा पार्कों की स्थापना को स्वीकृति",
-    "titleEn": "Approval for Rajasthan Green Hydrogen Policy and Establishment of New Solar Parks",
-    "agencyId": "energy",
-    "categoryId": "schemes",
-    "state": "rajasthan",
-    "type": "scheme",
-    "noticeType": "scheme",
-    "status": "active",
-    "isBreaking": false,
     "isFeatured": false,
-    "publishedAt": "2026-10-15T08:00:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "जैसलमेर, बीकानेर व बाड़मेर में 10,000 मेगावाट क्षमता के अतिरिक्त सोलर पार्कों की स्थापना। राज्य में हरित ऊर्जा उत्पादन एवं प्रत्यक्ष-अप्रत्यक्ष रोजगार सृजन का मार्ग प्रशस्त।",
-    "summaryEn": "State government approved establishment of 10,000 MW capacity solar parks in Jaisalmer, Bikaner, and Barmer under Green Energy Transition Policy.",
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:16.212Z"
+  },
+  {
+    "id": "f1acd81c-63d8-4388-9fd1-2c11416ea9f8",
+    "slug": "rajasthan-cho-community-health-officer-2026",
+    "titleHi": "चिकित्सा एवं स्वास्थ्य विभाग (NHM Rajasthan) कम्युनिटी हेल्थ ऑफिसर (CHO) - 5,261 पद",
+    "titleEn": "Rajasthan Medical & Health Dept CHO (Community Health Officer) - 5,261 Posts",
+    "agencyId": "medical",
+    "agencyName": "Medical & Health",
+    "categoryId": "medical_health_dept",
+    "categoryName": "Medical & Health Department",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राष्ट्रीय स्वास्थ्य मिशन (NHM) के तहत राजस्थान के हेल्थ एंड वेलनेस सेंटर्स पर 5,261 संविदा CHO पदों पर विज्ञप्ति जारी। B.Sc नर्सिंग अथवा GNM अभ्यर्थी पात्र।",
+    "summaryEn": "National Health Mission Rajasthan invites online applications for 5,261 Community Health Officer contract positions.",
     "facts": {
-      "qualification": "ऊर्जा, सौर तकनीकी व औद्योगिक निवेश क्षेत्र",
-      "selectionProcess": "ऊर्जा विभाग राजस्थान एवं अक्षय ऊर्जा निगम द्वारा परियोजना आवंटन",
+      "ageMax": 40,
+      "ageMin": 21,
+      "sourceUrl": "https://medicaleducation.rajasthan.gov.in",
+      "postsCount": 5261,
+      "sourceDate": "2026-10-21T19:17:48.608Z",
+      "verifiedAt": "2026-10-30T19:17:48.608Z",
+      "verifiedBy": "राज्य स्वास्थ्य एवं परिवार कल्याण संस्थान (SIHFW) जयपुर",
+      "qualification": "B.Sc (Community Health) / B.Sc Nursing / GNM / BAMS + RNC पंजीकरण",
+      "applicationEnd": "2026-11-15T19:17:48.608Z",
+      "applicationStart": "2026-10-21T19:17:48.608Z",
+      "selectionProcess": "लिखित परीक्षा (ओएमआर शीट आधारित वस्तुनिष्ठ प्रश्न) एवं मेरिट"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://medicaleducation.rajasthan.gov.in",
+        "kind": "officialSite",
+        "label": "चिकित्सा विभाग भर्ती पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-21T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:03.095Z"
+  },
+  {
+    "id": "223c11f3-836b-465e-b1d2-9cef4a36f515",
+    "slug": "rajasthan-electricity-rvunl-jvvnl-je-2026",
+    "titleHi": "बिजली विभाग (RVUNL / JVVNL / AVVNL / JdVVNL) कनिष्ठ अभियंता एवं तकनीकी सहायक भर्ती 2026",
+    "titleEn": "Rajasthan State Power Sector Companies (RVUNL/JVVNL) Junior Engineer & Tech Helper 2026",
+    "agencyId": "electricity",
+    "agencyName": "Electricity Board",
+    "categoryId": "rvunl_jvvnl",
+    "categoryName": "RVUNL / JVVNL (Electricity Board)",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान की पांचों सरकारी विद्युत कंपनियों में 1,450 जूनियर इंजीनियर (इलेक्ट्रिकल, मैकेनिकल, सिविल) एवं तकनीकी सहायकों के पदों पर भर्ती प्रक्रिया शुरू।",
+    "summaryEn": "Rajasthan State Electricity Companies announce 1,450 vacancies for Junior Engineers and Technical Assistants across Discoms.",
+    "facts": {
+      "ageMax": 40,
+      "ageMin": 18,
       "sourceUrl": "https://energy.rajasthan.gov.in",
-      "sourceDate": "2026-10-15T08:00:00.000Z",
-      "verifiedAt": "2026-10-16T11:00:00.000Z",
-      "verifiedBy": "ऊर्जा विभाग, राजस्थान सरकार"
+      "postsCount": 1450,
+      "sourceDate": "2026-10-19T19:17:48.608Z",
+      "verifiedAt": "2026-10-29T19:17:48.608Z",
+      "verifiedBy": "राजस्थान राज्य विद्युत उत्पादन निगम लिमिटेड (RVUNL)",
+      "qualification": "B.E./B.Tech/डिप्लोमा अथवा ITI (संबंधित ट्रेड)",
+      "applicationEnd": "2026-11-18T19:17:48.608Z",
+      "applicationStart": "2026-10-19T19:17:48.608Z",
+      "selectionProcess": "कंप्यूटर आधारित ऑनलाइन परीक्षा (CBT) एवं दस्तावेज सत्यापन"
     },
     "sections": [],
     "links": [
       {
-        "label": "ऊर्जा विभाग आधिकारिक पोर्टल",
         "url": "https://energy.rajasthan.gov.in",
-        "kind": "officialSite"
+        "kind": "officialSite",
+        "label": "विद्युत विभाग आधिकारिक पोर्टल"
       }
-    ]
-  },
-  {
-    "id": "not_otr-rajasthan-sso-guide-2026",
-    "slug": "how-to-complete-otr-rajasthan-sso-portal-guide-2026",
-    "titleHi": "One Time Registration (OTR) राजस्थान SSO पोर्टल पर कैसे करें? सम्पूर्ण आधिकारिक गाइड",
-    "titleEn": "How to Complete One Time Registration (OTR) on Rajasthan SSO Portal - Official Guide",
-    "agencyId": "rpsc",
-    "categoryId": "administrative",
-    "state": "rajasthan",
-    "type": "career_guide",
-    "noticeType": "career_guide",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": true,
-    "publishedAt": "2026-10-25T09:00:00.000Z",
+    ],
+    "publishedAt": "2026-10-19T19:17:48.608Z",
     "expiresAt": null,
-    "summaryHi": "एक बार OTR पंजीकरण करके RPSC एवं RSSB की सभी भर्तियों में निःशुल्क आवेदन करने की सम्पूर्ण आधिकारिक प्रक्रिया। जन आधार अथवा आधार कार्ड द्वारा स्वतः सत्यापन।",
-    "summaryEn": "Complete official guide to complete SSO OTR and apply for state government recruitments with zero repeated fees.",
-    "facts": {
-      "qualification": "समस्त राजस्थान राज्य भर्ती अभ्यर्थी",
-      "selectionProcess": "SSO ID एवं जन आधार / आधार द्वारा ऑनलाइन वन टाइम रजिस्ट्रेशन",
-      "sourceUrl": "https://sso.rajasthan.gov.in",
-      "sourceDate": "2026-10-25T09:00:00.000Z",
-      "verifiedAt": "2026-10-25T10:00:00.000Z",
-      "verifiedBy": "कार्मिक विभाग, राजस्थान सरकार"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "SSO Rajasthan OTR पोर्टल",
-        "url": "https://sso.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_cet-rajasthan-2026-rules",
-    "slug": "rajasthan-common-eligibility-test-cet-2026-rules",
-    "titleHi": "राजस्थान समान पात्रता परीक्षा (CET) 2026: 12वीं व स्नातक स्तर नियम व चयन प्रक्रिया",
-    "titleEn": "Rajasthan Common Eligibility Test (CET) 2026: Senior Secondary & Graduate Level Rules",
-    "agencyId": "rssb",
-    "categoryId": "administrative",
-    "state": "rajasthan",
-    "type": "career_guide",
-    "noticeType": "career_guide",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": true,
-    "publishedAt": "2026-10-24T11:00:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "पटवारी, कनिष्ठ लेखाकार, पुलिस कांस्टेबल व लिपिक ग्रेड-II हेतु CET स्कोर की मान्यता, न्यूनतम 40% अंक एवं 15 गुणा अभ्यर्थियों के चयन का नया नियम।",
-    "summaryEn": "Understand CET score validity, 15x candidate cutoff criteria, and eligible department posts under senior secondary and graduate tiers.",
-    "facts": {
-      "qualification": "12वीं (सीनियर सेकेंडरी) अथवा स्नातक उत्तीर्ण",
-      "selectionProcess": "CET मेरिट स्कोर आधार पर मुख्य परीक्षा हेतु 15 गुणा अभ्यर्थियों का चयन",
-      "sourceUrl": "https://rssb.rajasthan.gov.in",
-      "sourceDate": "2026-10-24T11:00:00.000Z",
-      "verifiedAt": "2026-10-24T12:00:00.000Z",
-      "verifiedBy": "राजस्थान कर्मचारी चयन बोर्ड (RSSB), जयपुर"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "RSSB CET आधिकारिक नियम",
-        "url": "https://rssb.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_age-relaxation-rules-dop-rajasthan",
-    "slug": "age-limits-and-category-relaxation-rules-dop-rajasthan",
-    "titleHi": "राजस्थान सरकारी भर्तियों में आयु सीमा व वर्गवार छूट के नियम (DOP Circular)",
-    "titleEn": "Age Limits & Category Relaxation Rules in Rajasthan Govt Jobs (DOP Guidelines)",
-    "agencyId": "dop",
-    "categoryId": "administrative",
-    "state": "rajasthan",
-    "type": "career_guide",
-    "noticeType": "career_guide",
-    "status": "active",
-    "isBreaking": false,
     "isFeatured": false,
-    "publishedAt": "2026-10-20T08:30:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "सामान्य वर्ग (18-40 वर्ष)। EWS, OBC, MBC, SC, ST पुरुषों को 5 वर्ष एवं महिलाओं को 10 वर्ष की अधिकतम आयु सीमा में छूट के कार्मिक विभाग के नियम।",
-    "summaryEn": "Detailed DOP Rajasthan rules on general age limits (18-40) and 5 to 10 years relaxations for reserved categories and female aspirants.",
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:03.968Z"
+  },
+  {
+    "id": "bf0e0722-a0b7-4bf2-a0ae-0c448dd04dc0",
+    "slug": "rsrtc-roadways-conductor-driver-2026",
+    "titleHi": "राजस्थान रोडवेज (RSRTC) परिचालक एवं चालक 5,200 पदों पर सीधी भर्ती 2026",
+    "titleEn": "Rajasthan State Road Transport Corporation (RSRTC) Conductor & Driver 5,200 Posts",
+    "agencyId": "rsrtc",
+    "agencyName": "RSRTC",
+    "categoryId": "rsrtc",
+    "categoryName": "RSRTC (Rajasthan Roadways)",
+    "state": "rajasthan",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान राज्य पथ परिवहन निगम द्वारा 9 वर्षों बाद 5,200 पदों (चालक, परिचालक, कनिष्ठ सहायक एवं मैकेनिक) पर भर्ती की घोषणा। 10वीं पास + ड्राइविंग/कंडक्टर लाइसेंस धारक पात्र।",
+    "summaryEn": "RSRTC announces 5,200 Driver, Conductor, and Mechanic vacancies across all regional bus depots in Rajasthan.",
     "facts": {
-      "qualification": "समस्त राजस्थान राज्य भर्ती आवेदक",
-      "selectionProcess": "कार्मिक विभाग (DOP) राजस्थान सेवा नियम",
-      "sourceUrl": "https://dop.rajasthan.gov.in",
-      "sourceDate": "2026-10-20T08:30:00.000Z",
-      "verifiedAt": "2026-10-20T09:00:00.000Z",
-      "verifiedBy": "कार्मिक विभाग (DOP), राजस्थान सरकार"
+      "ageMax": 40,
+      "ageMin": 18,
+      "sourceUrl": "https://transport.rajasthan.gov.in/rsrtc",
+      "postsCount": 5200,
+      "sourceDate": "2026-10-17T19:17:48.608Z",
+      "verifiedAt": "2026-10-28T19:17:48.608Z",
+      "verifiedBy": "मुख्यालय राजस्थान राज्य पथ परिवहन निगम, जयपुर",
+      "qualification": "10वीं कक्षा उत्तीर्ण + भारी वाहन चालक लाइसेंस अथवा वैध परिचालक (Conductor) लाइसेंस",
+      "applicationEnd": "2026-11-20T19:17:48.608Z",
+      "applicationStart": "2026-10-17T19:17:48.608Z",
+      "selectionProcess": "लिखित परीक्षा (CET आधारित) एवं ट्रेड ड्राइविंग टेस्ट"
     },
     "sections": [],
     "links": [
       {
-        "label": "कार्मिक विभाग आधिकारिक परिपत्र",
-        "url": "https://dop.rajasthan.gov.in",
-        "kind": "officialSite"
+        "url": "https://transport.rajasthan.gov.in/rsrtc",
+        "kind": "officialSite",
+        "label": "रोडवेज आधिकारिक वेबसाइट"
       }
-    ]
-  },
-  {
-    "id": "not_rpsc-ras-pre-previous-papers",
-    "slug": "rpsc-ras-prelims-previous-years-question-papers-answer-keys",
-    "titleHi": "RPSC RAS / RTS प्रारंभिक परीक्षा विगत वर्षों के आधिकारिक प्रश्नपत्र व अंतिम उत्तर कुंजी",
-    "titleEn": "RPSC RAS / RTS Preliminary Exam Previous Years Question Papers & Final Answer Keys",
-    "agencyId": "rpsc",
-    "categoryId": "administrative",
-    "state": "rajasthan",
-    "type": "pyq",
-    "noticeType": "pyq",
-    "status": "active",
-    "isBreaking": false,
-    "isFeatured": true,
-    "publishedAt": "2026-10-26T10:00:00.000Z",
+    ],
+    "publishedAt": "2026-10-17T19:17:48.608Z",
     "expiresAt": null,
-    "summaryHi": "राजस्थान प्रशासनिक सेवा (RAS Pre) सामान्य ज्ञान एवं सामान्य विज्ञान के समस्त आधिकारिक प्रश्नपत्र व RPSC द्वारा जारी अंतिम उत्तर कुंजियां।",
-    "summaryEn": "Official preliminary examination question papers and final verified answer keys for RPSC RAS from previous recruitment cycles.",
-    "facts": {
-      "qualification": "स्नातक (Graduate in any discipline)",
-      "selectionProcess": "प्रारंभिक परीक्षा (Objective), मुख्य परीक्षा (Descriptive) एवं साक्षात्कार",
-      "sourceUrl": "https://rpsc.rajasthan.gov.in/previousQuestionPapers",
-      "sourceDate": "2026-10-26T10:00:00.000Z",
-      "verifiedAt": "2026-10-26T11:00:00.000Z",
-      "verifiedBy": "राजस्थान लोक सेवा आयोग (RPSC), अजमेर"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "RPSC प्रश्नपत्र व उत्तर कुंजी डाउनलोड",
-        "url": "https://rpsc.rajasthan.gov.in/previousQuestionPapers",
-        "kind": "officialSite"
-      }
-    ]
-  },
-  {
-    "id": "not_rssb-patwari-vdo-previous-papers",
-    "slug": "rssb-patwari-vdo-previous-exam-question-papers-master-keys",
-    "titleHi": "RSSB पटवारी एवं ग्राम विकास अधिकारी (VDO) भर्ती विगत वर्षों के प्रश्नपत्र व मास्टर आंसर की",
-    "titleEn": "RSSB Patwari & VDO Recruitment Previous Exam Question Papers & Master Answer Keys",
-    "agencyId": "rssb",
-    "categoryId": "revenue",
-    "state": "rajasthan",
-    "type": "pyq",
-    "noticeType": "pyq",
-    "status": "active",
-    "isBreaking": false,
     "isFeatured": false,
-    "publishedAt": "2026-10-22T14:00:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "कर्मचारी चयन बोर्ड द्वारा आयोजित पटवारी एवं ग्राम विकास अधिकारी मुख्य भर्ती परीक्षाओं के प्रामाणिक प्रश्नपत्र एवं बोर्ड द्वारा अनुमोदित उत्तर कुंजियां।",
-    "summaryEn": "Official previous question papers and master keys for RSSB Patwari and Village Development Officer (VDO) examinations.",
-    "facts": {
-      "qualification": "स्नातक + RSCIT अथवा समकक्ष कंप्यूटर डिप्लोमा",
-      "selectionProcess": "समान पात्रता परीक्षा (CET) स्कोर आधार पर मुख्य लिखित परीक्षा",
-      "sourceUrl": "https://rssb.rajasthan.gov.in/candidateCorner/previousQP.aspx",
-      "sourceDate": "2026-10-22T14:00:00.000Z",
-      "verifiedAt": "2026-10-22T15:00:00.000Z",
-      "verifiedBy": "राजस्थान कर्मचारी चयन बोर्ड (RSSB), जयपुर"
-    },
-    "sections": [],
-    "links": [
-      {
-        "label": "RSSB पुराने प्रश्नपत्र पोर्टल",
-        "url": "https://rssb.rajasthan.gov.in/candidateCorner/previousQP.aspx",
-        "kind": "officialSite"
-      }
-    ]
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:04.900Z"
   },
   {
-    "id": "not_rpsc-annual-exam-calendar-2026",
-    "slug": "rpsc-annual-examination-calendar-and-dates-2026",
-    "titleHi": "RPSC वार्षिक परीक्षा कैलेंडर 2026-27: RAS, प्राध्यापक, वरिष्ठ अध्यापक व तकनीकी परीक्षाएं",
-    "titleEn": "RPSC Annual Examination Calendar 2026-27: RAS, School Lecturer, Senior Teacher & Technical Tests",
-    "agencyId": "rpsc",
-    "categoryId": "education",
-    "state": "rajasthan",
-    "type": "calendar",
-    "noticeType": "calendar",
+    "id": "e04b8336-7403-4e43-9d11-98723eee87da",
+    "slug": "upsc-civil-services-ias-ifs-2026",
+    "titleHi": "संघ लोक सेवा आयोग (UPSC CSE 2026) सिविल सेवा परीक्षा - 1,056 आईएएस/आईपीएस पद",
+    "titleEn": "Union Public Service Commission (UPSC CSE) Civil Services 2026 - 1,056 Posts",
+    "agencyId": "upsc",
+    "agencyName": "UPSC",
+    "categoryId": "upsc",
+    "categoryName": "UPSC (Union Public Service Commission)",
+    "state": "central",
+    "noticeType": "vacancy",
     "status": "active",
-    "isBreaking": true,
-    "isFeatured": true,
-    "publishedAt": "2026-10-27T07:00:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "राजस्थान लोक सेवा आयोग द्वारा वर्ष 2026-27 में आयोजित की जाने वाली विभिन्न प्रतियोगी परीक्षाओं की प्रस्तावित परीक्षा तिथियां व विस्तृत समय-सारणी।",
-    "summaryEn": "Official schedule and proposed exam dates released by RPSC for all major state examinations for the academic session 2026-27.",
+    "revisionNumber": 1,
+    "summaryHi": "UPSC द्वारा भारतीय प्रशासनिक सेवा (IAS), भारतीय विदेश सेवा (IFS) एवं भारतीय पुलिस सेवा (IPS) सहित 1,056 पदों पर सिविल सेवा परीक्षा 2026 का विज्ञापन जारी।",
+    "summaryEn": "Union Public Service Commission (UPSC) invites applications for 1,056 Civil Services (IAS, IFS, IPS) vacancies.",
     "facts": {
-      "qualification": "विभिन्न शैक्षणिक योग्यताएं (पदों के अनुसार)",
-      "selectionProcess": "आयोग द्वारा निर्धारित परीक्षा तिथियों के अनुसार लिखित परीक्षा",
-      "examDate": "2026-11-20T00:00:00.000Z",
-      "sourceUrl": "https://rpsc.rajasthan.gov.in",
-      "sourceDate": "2026-10-27T07:00:00.000Z",
-      "verifiedAt": "2026-10-27T08:00:00.000Z",
-      "verifiedBy": "राजस्थान लोक सेवा आयोग (RPSC), अजमेर"
+      "ageMax": 32,
+      "ageMin": 21,
+      "sourceUrl": "https://upsc.gov.in",
+      "postsCount": 1056,
+      "sourceDate": "2026-10-15T19:17:48.608Z",
+      "verifiedAt": "2026-10-27T19:17:48.608Z",
+      "verifiedBy": "Union Public Service Commission, Dholpur House, New Delhi",
+      "qualification": "किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक डिग्री",
+      "applicationEnd": "2026-11-14T19:17:48.608Z",
+      "applicationStart": "2026-10-15T19:17:48.608Z",
+      "selectionProcess": "CS(P) प्रारंभिक परीक्षा, मुख्य लिखित परीक्षा एवं व्यक्तित्व परीक्षण (इंटरव्यू)"
     },
     "sections": [],
     "links": [
       {
-        "label": "RPSC परीक्षा कैलेंडर PDF",
-        "url": "https://rpsc.rajasthan.gov.in",
-        "kind": "officialSite"
+        "url": "https://upsconline.nic.in",
+        "kind": "applyOnline",
+        "label": "UPSC ऑनलाइन पोर्टल"
       }
-    ]
+    ],
+    "publishedAt": "2026-10-15T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:05.766Z"
   },
   {
-    "id": "not_rssb-cet-graduate-secondary-syllabus-2026",
-    "slug": "rssb-cet-graduate-senior-secondary-syllabus-scheme-2026",
-    "titleHi": "RSSB समान पात्रता परीक्षा (CET 2026) - विस्तृत पाठ्यक्रम एवं नवीनतम परीक्षा पैटर्न (स्नातक व 12वीं स्तर)",
-    "titleEn": "RSSB Common Eligibility Test (CET 2026) - Detailed Syllabus & Scheme (Graduate & Senior Secondary)",
+    "id": "bbc94345-3e9a-45f7-a011-9e1924643a64",
+    "slug": "ibps-po-probationary-officer-recruitment-2026",
+    "titleHi": "बैंकिंग कार्मिक चयन संस्थान (IBPS PO/MT XIV) - 4,455 प्रोबेशनरी ऑफिसर बंपर भर्ती",
+    "titleEn": "IBPS PO/MT XIV Common Recruitment Process 2026 - 4,455 Probationary Officers",
+    "agencyId": "ibps",
+    "agencyName": "IBPS",
+    "categoryId": "ibps",
+    "categoryName": "IBPS (Banking Personnel Selection)",
+    "state": "central",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "देश के 11 प्रमुख सार्वजनिक क्षेत्र के बैंकों में 4,455 प्रोबेशनरी ऑफिसर / मैनेजमेंट ट्रेनी (PO/MT) पदों पर ऑनलाइन आवेदन आमंत्रित।",
+    "summaryEn": "Institute of Banking Personnel Selection invites online applications for 4,455 PO/MT posts across 11 public sector banks.",
+    "facts": {
+      "ageMax": 30,
+      "ageMin": 20,
+      "sourceUrl": "https://ibps.in",
+      "postsCount": 4455,
+      "sourceDate": "2026-10-13T19:17:48.608Z",
+      "verifiedAt": "2026-10-26T19:17:48.608Z",
+      "verifiedBy": "IBPS Mumbai",
+      "qualification": "किसी भी संकाय में स्नातक डिग्री (Graduation in any discipline)",
+      "applicationEnd": "2026-11-12T19:17:48.608Z",
+      "applicationStart": "2026-10-13T19:17:48.608Z",
+      "selectionProcess": "प्रारंभिक ऑनलाइन परीक्षा, मुख्य परीक्षा एवं संयुक्त साक्षात्कार"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://ibps.in",
+        "kind": "officialSite",
+        "label": "IBPS आधिकारिक पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-13T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:06.717Z"
+  },
+  {
+    "id": "b399cd26-9911-41b5-a478-a765578712d4",
+    "slug": "rajasthan-patwari-recruitment-2026",
+    "titleHi": "राजस्थान पटवारी भर्ती 2026 (RSSB) - 2,998 पद [अंतिम 3 दिन शेष]",
+    "titleEn": "Rajasthan RSSB Patwari Recruitment 2026 - 2,998 Posts [Last 3 Days Left]",
     "agencyId": "rssb",
-    "categoryId": "administrative",
+    "agencyName": "RSSB / RSMSSB",
+    "categoryId": "rssb",
+    "categoryName": "RSSB / RSMSSB",
     "state": "rajasthan",
-    "type": "syllabus",
-    "noticeType": "syllabus",
+    "noticeType": "vacancy",
     "status": "active",
-    "isBreaking": true,
-    "isFeatured": true,
-    "publishedAt": "2026-11-20T10:00:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड द्वारा CET (स्नातक एवं सीनियर सैकण्डरी स्तर) 2026 हेतु जारी आधिकारिक पाठ्यक्रम: राजस्थान का इतिहास, भूगोल, सामान्य ज्ञान, दैनिक विज्ञान, गणित, रीजनिंग, सामान्य हिन्दी व सामान्य अंग्रेजी का विस्तृत विषयवार विवरण। कुल 150 प्रश्न (300 अंक)।",
-    "summaryEn": "Official detailed syllabus and scheme of exam released by RSSB for Rajasthan CET 2026. Includes Rajasthan GK, General Science, Reasoning, Maths, Hindi, and English topics. Total 150 Questions (300 Marks).",
+    "revisionNumber": 1,
+    "summaryHi": "राजस्थान कर्मचारी चयन बोर्ड द्वारा राजस्व मंडल के 2,998 पटवारी पदों पर ऑनलाइन आवेदन की अंतिम तिथि नज़दीक है। स्नातक + RSCIT उत्तीर्ण अभ्यर्थी तुरंत आवेदन करें।",
+    "summaryEn": "RSMSSB is inviting applications for 2,998 Patwari posts under Rajasthan Revenue Board. Application window closes in 3 days.",
     "facts": {
-      "qualification": "12वीं पास अथवा स्नातक (CET स्तर के अनुसार)",
-      "selectionProcess": "वस्तुनिष्ठ ओएमआर आधारित लिखित परीक्षा (150 प्रश्न, 300 अंक, 3 घंटे)",
-      "sourceUrl": "https://rssb.rajasthan.gov.in/candidateCorner/syllabus.aspx",
-      "sourceDate": "2026-11-20T10:00:00.000Z",
-      "verifiedAt": "2026-11-20T12:00:00.000Z",
-      "verifiedBy": "राजस्थान कर्मचारी चयन बोर्ड (RSSB), जयपुर"
+      "ageMax": 40,
+      "ageMin": 18,
+      "feeScSt": "₹400",
+      "examDate": "2026-12-30T19:17:48.608Z",
+      "sourceUrl": "https://rsmssb.rajasthan.gov.in",
+      "feeEndDate": "2026-11-03T19:17:48.608Z",
+      "postsCount": 2998,
+      "sourceDate": "2026-10-11T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T07:17:48.608Z",
+      "verifiedBy": "राजस्थान कर्मचारी चयन बोर्ड (RSSB)",
+      "feeGeneralObc": "₹600 (One-Time Registration)",
+      "qualification": "स्नातक (Graduation) + RSCIT कंप्यूटर प्रमाण पत्र",
+      "applicationEnd": "2026-11-03T19:17:48.608Z",
+      "applicationStart": "2026-10-11T19:17:48.608Z",
+      "selectionProcess": "लिखित परीक्षा (300 अंक) एवं दस्तावेज सत्यापन"
     },
     "sections": [
       {
-        "key": "exam_scheme",
-        "title": "परीक्षा की स्कीम एवं अंक विभाजन",
-        "body": "1. प्रश्न पत्र में कुल 150 बहुविकल्पीय प्रश्न होंगे। प्रत्येक प्रश्न 2 अंक का होगा (कुल पूर्णांक 300 अंक)।\n2. परीक्षा की समयावधि 3 घंटे होगी।\n3. सभी प्रश्न वस्तुनिष्ठ प्रकार के होंगे एवं सभी प्रश्नों के अंक समान होंगे।"
+        "key": "overview",
+        "body": "राजस्व विभाग राजस्थान के अंतर्गत गैर-अनुसूचित क्षेत्र एवं अनुसूचित क्षेत्र के कुल 2,998 पटवारियों के पदों पर भर्ती।",
+        "title": "पटवारी भर्ती विवरण"
       }
     ],
     "links": [
       {
-        "label": "ऑफिशियल CET सिलेबस PDF डाउनलोड",
-        "url": "https://rssb.rajasthan.gov.in/candidateCorner/syllabus.aspx",
-        "kind": "notificationPdf"
-      },
-      {
-        "label": "RSSB आधिकारिक वेबसाइट",
-        "url": "https://rssb.rajasthan.gov.in",
-        "kind": "officialSite"
+        "url": "https://rsmssb.rajasthan.gov.in",
+        "kind": "notificationPdf",
+        "label": "RSSB आधिकारिक अधिसूचना (PDF)"
       }
-    ]
-  },
-  {
-    "id": "not_rpsc-ras-pre-mains-syllabus-scheme-2026",
-    "slug": "rpsc-ras-rts-prelims-mains-detailed-syllabus-exam-pattern-2026",
-    "titleHi": "RPSC RAS / RTS परीक्षा 2026 - प्रारंभिक व मुख्य परीक्षा संपूर्ण विषयवार सिलेबस एवं अंक विभाजन",
-    "titleEn": "RPSC RAS / RTS Exam 2026 - Complete Prelims & Mains Subject-wise Syllabus & Marks Distribution",
-    "agencyId": "rpsc",
-    "categoryId": "administrative",
-    "state": "rajasthan",
-    "type": "syllabus",
-    "noticeType": "syllabus",
-    "status": "active",
-    "isBreaking": false,
+    ],
+    "publishedAt": "2026-10-11T19:17:48.608Z",
+    "expiresAt": "2026-11-03T19:17:48.608Z",
     "isFeatured": true,
-    "publishedAt": "2026-11-18T09:00:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "राजस्थान लोक सेवा आयोग (RPSC) अजमेर द्वारा जारी RAS 2026 प्रीलिम्स (सामान्य ज्ञान व सामान्य विज्ञान - 200 अंक) एवं मेन्स (4 वर्णनात्मक प्रश्न पत्र - 800 अंक) का प्रामाणिक पाठ्यक्रम व स्कीम।",
-    "summaryEn": "Official syllabus and examination scheme for RPSC RAS/RTS 2026. Covers Prelims (200 marks, 150 questions) and Mains 4 descriptive papers (800 marks total).",
-    "facts": {
-      "qualification": "किसी मान्यता प्राप्त विश्वविद्यालय से स्नातक",
-      "selectionProcess": "प्रारंभिक परीक्षा (स्क्रीनिंग), मुख्य लिखित परीक्षा एवं साक्षात्कार",
-      "sourceUrl": "https://rpsc.rajasthan.gov.in/syllabus",
-      "sourceDate": "2026-11-18T09:00:00.000Z",
-      "verifiedAt": "2026-11-18T10:30:00.000Z",
-      "verifiedBy": "राजस्थान लोक सेवा आयोग (RPSC), अजमेर"
-    },
-    "sections": [
-      {
-        "key": "prelims_pattern",
-        "title": "प्रारंभिक परीक्षा (Prelims) पैटर्न",
-        "body": "सामान्य ज्ञान और सामान्य विज्ञान: 200 अंक, समय 3 घंटे, कुल 150 प्रश्न। 1/3 नकारात्मक अंकन।"
-      }
-    ],
-    "links": [
-      {
-        "label": "RPSC RAS सिलेबस PDF डाउनलोड",
-        "url": "https://rpsc.rajasthan.gov.in/syllabus",
-        "kind": "notificationPdf"
-      },
-      {
-        "label": "RPSC आयोग आधिकारिक पोर्टल",
-        "url": "https://rpsc.rajasthan.gov.in",
-        "kind": "officialSite"
-      }
-    ]
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:17:58.611Z"
   },
   {
-    "id": "not_rssb-patwari-bharti-syllabus-exam-pattern-2026",
-    "slug": "rssb-patwari-direct-recruitment-detailed-syllabus-exam-pattern-2026",
-    "titleHi": "RSSB पटवारी भर्ती 2026 - विस्तृत विषयवार पाठ्यक्रम, परीक्षा पैटर्न व टॉपिक लिस्ट",
-    "titleEn": "RSSB Patwari Recruitment 2026 - Detailed Subject-wise Syllabus & Exam Pattern",
-    "agencyId": "rssb",
-    "categoryId": "revenue",
-    "state": "rajasthan",
-    "type": "syllabus",
-    "noticeType": "syllabus",
+    "id": "ea8f6475-000c-49dd-9c99-65cb44156bea",
+    "slug": "sbi-po-probationary-officer-2026",
+    "titleHi": "भारतीय स्टेट बैंक (SBI PO 2026) प्रोबेशनरी ऑफिसर 2,000 पदों पर विज्ञापन जारी",
+    "titleEn": "State Bank of India (SBI PO) 2,000 Probationary Officers Recruitment 2026",
+    "agencyId": "sbi",
+    "agencyName": "SBI",
+    "categoryId": "sbi",
+    "categoryName": "SBI (State Bank of India)",
+    "state": "central",
+    "noticeType": "vacancy",
     "status": "active",
-    "isBreaking": false,
-    "isFeatured": false,
-    "publishedAt": "2026-11-15T11:00:00.000Z",
-    "expiresAt": null,
-    "summaryHi": "राजस्व विभाग पटवारी सीधी भर्ती परीक्षा 2026 का आधिकारिक पाठ्यक्रम: भारत व राजस्थान का सामान्य ज्ञान, सामान्य विज्ञान, गणित, रीजनिंग, सामान्य हिन्दी व सामान्य अंग्रेजी, कम्प्यूटर ज्ञान। कुल 150 प्रश्न, 300 अंक।",
-    "summaryEn": "Detailed syllabus for RSSB Patwari Direct Recruitment 2026. Covers GK, Science, Mental Ability, Maths, General Hindi, English and Basic Computer.",
+    "revisionNumber": 1,
+    "summaryHi": "एसबीआई की देशभर की शाखाओं में 2,000 प्रोबेशनरी ऑफिसर (PO) पदों पर भर्ती। प्रारंभिक वेतन ₹65,000+ प्रतिमाह।",
+    "summaryEn": "State Bank of India (SBI) invites applications for 2,000 Probationary Officer vacancies across India.",
     "facts": {
-      "qualification": "स्नातक + कम्प्यूटर दक्षता (RSCIT अथवा समकक्ष)",
-      "selectionProcess": "एकल चरण लिखित वस्तुनिष्ठ परीक्षा (3 घंटे, 150 प्रश्न, 300 अंक)",
-      "sourceUrl": "https://rssb.rajasthan.gov.in/candidateCorner/syllabus.aspx",
-      "sourceDate": "2026-11-15T11:00:00.000Z",
-      "verifiedAt": "2026-11-15T12:00:00.000Z",
-      "verifiedBy": "राजस्थान कर्मचारी चयन बोर्ड (RSSB), जयपुर"
+      "ageMax": 30,
+      "ageMin": 21,
+      "sourceUrl": "https://sbi.co.in/careers",
+      "postsCount": 2000,
+      "sourceDate": "2026-10-10T19:17:48.608Z",
+      "verifiedAt": "2026-10-25T19:17:48.608Z",
+      "verifiedBy": "State Bank of India Central Recruitment & Promotion Department, Mumbai",
+      "qualification": "स्नातक (Graduation in any stream)",
+      "applicationEnd": "2026-11-09T19:17:48.608Z",
+      "applicationStart": "2026-10-10T19:17:48.608Z",
+      "selectionProcess": "Phase-I Prelims, Phase-II Mains, Phase-III साइकोमेट्रिक टेस्ट व इंटरव्यू"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://sbi.co.in/careers",
+        "kind": "officialSite",
+        "label": "SBI करियर पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-10T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:07.593Z"
+  },
+  {
+    "id": "a14f49bc-c094-4f35-8e26-815d1ec74c99",
+    "slug": "nta-ugc-net-jrf-assistant-professor-2026",
+    "titleHi": "राष्ट्रीय परीक्षा एजेंसी (NTA) UGC NET एवं JRF परीक्षा 2026 - असिस्टेंट प्रोफेसर पात्रता",
+    "titleEn": "National Testing Agency (NTA) UGC NET & JRF Examination 2026 - Assistant Professor",
+    "agencyId": "nta",
+    "agencyName": "NTA",
+    "categoryId": "nta",
+    "categoryName": "NTA (National Testing Agency)",
+    "state": "central",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "भारतीय विश्वविद्यालयों एवं महाविद्यालयों में असिस्टेंट प्रोफेसर तथा जूनियर रिसर्च फेलोशिप (JRF) हेतु 83 विषयों में राष्ट्रीय पात्रता परीक्षा का आयोजन।",
+    "summaryEn": "NTA invites applications for UGC-NET 2026 determining eligibility for Assistant Professorship and award of JRF across 83 subjects.",
+    "facts": {
+      "ageMax": 30,
+      "ageMin": 21,
+      "sourceUrl": "https://ugcnet.nta.ac.in",
+      "postsCount": 15000,
+      "sourceDate": "2026-10-08T19:17:48.608Z",
+      "verifiedAt": "2026-10-24T19:17:48.608Z",
+      "verifiedBy": "National Testing Agency, Okhla, New Delhi",
+      "qualification": "न्यूनतम 55% अंकों के साथ स्नातकोत्तर (Master Degree / PG)",
+      "applicationEnd": "2026-11-16T19:17:48.608Z",
+      "applicationStart": "2026-10-08T19:17:48.608Z",
+      "selectionProcess": "CBT ऑनलाइन परीक्षा (Paper 1 सामान्य ज्ञान + Paper 2 विषय विशेषज्ञता)"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://ugcnet.nta.ac.in",
+        "kind": "officialSite",
+        "label": "NTA UGC NET आधिकारिक पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-08T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:08.803Z"
+  },
+  {
+    "id": "ad93ce6e-beb3-4da1-87ac-60339d62abb2",
+    "slug": "ssc-cgl-recruitment-2026",
+    "titleHi": "कर्मचारी चयन आयोग (SSC CGL 2026) - 17,727 पद [अंतिम 4 दिन शेष]",
+    "titleEn": "SSC Combined Graduate Level (CGL) 2026 - 17,727 Group B & C Posts",
+    "agencyId": "ssc",
+    "agencyName": "SSC",
+    "categoryId": "ssc",
+    "categoryName": "SSC (Staff Selection Commission)",
+    "state": "central",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "एसएससी द्वारा भारत सरकार के विभिन्न मंत्रालयों एवं विभागों में सहायक अनुभाग अधिकारी, आयकर निरीक्षक आदि 17,727 पदों पर आवेदन समाप्त होने जा रहे हैं।",
+    "summaryEn": "Staff Selection Commission (SSC) closing applications for 17,727 Inspector, Auditor, and Assistant Section Officer posts.",
+    "facts": {
+      "ageMax": 32,
+      "ageMin": 18,
+      "feeScSt": "निःशुल्क (Women/SC/ST/Ex-Servicemen)",
+      "examDate": "2026-12-15T19:17:48.608Z",
+      "sourceUrl": "https://ssc.gov.in",
+      "feeEndDate": "2026-11-04T19:17:48.608Z",
+      "postsCount": 17727,
+      "sourceDate": "2026-10-06T19:17:48.608Z",
+      "verifiedAt": "2026-10-31T11:17:48.608Z",
+      "verifiedBy": "Staff Selection Commission New Delhi",
+      "feeGeneralObc": "₹100",
+      "qualification": "किसी भी मान्यता प्राप्त विश्वविद्यालय से स्नातक डिग्री",
+      "applicationEnd": "2026-11-04T19:17:48.608Z",
+      "applicationStart": "2026-10-06T19:17:48.608Z",
+      "selectionProcess": "Tier-1 कंप्यूटर आधारित परीक्षा, Tier-2 परीक्षा एवं कंप्यूटर प्रोफिशिएंसी टेस्ट"
     },
     "sections": [
       {
-        "key": "topics",
-        "title": "विषयवार वेटेज",
-        "body": "सामान्य विज्ञान व राष्ट्रीय ज्ञान: 25%, राजस्थान विशेष ज्ञान: 20%, सामान्य हिन्दी व अंग्रेजी: 15%, गणित व रीजनिंग: 30%, बेसिक कम्प्यूटर: 10%।"
+        "key": "overview",
+        "body": "ग्रुप बी और सी के प्रतिष्ठित पदों हेतु केंद्र सरकार की सबसे बड़ी भर्ती प्रक्रिया।",
+        "title": "SSC CGL विवरण"
       }
     ],
     "links": [
       {
-        "label": "पटवारी सिलेबस PDF डाउनलोड करें",
-        "url": "https://rssb.rajasthan.gov.in/candidateCorner/syllabus.aspx",
-        "kind": "notificationPdf"
+        "url": "https://ssc.gov.in",
+        "kind": "officialSite",
+        "label": "SSC नया पोर्टल लिंक"
       }
-    ]
+    ],
+    "publishedAt": "2026-10-06T19:17:48.608Z",
+    "expiresAt": "2026-11-04T19:17:48.608Z",
+    "isFeatured": true,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:17:59.484Z"
+  },
+  {
+    "id": "2f078a51-7f05-49e9-971b-93199051f703",
+    "slug": "nbe-neet-pg-medical-entrance-exam-2026",
+    "titleHi": "राष्ट्रीय परीक्षा बोर्ड (NBE) NEET PG 2026 मेडिकल प्रवेश परीक्षा एवं सीनियर रेजिडेंट भर्ती",
+    "titleEn": "National Board of Examinations (NBE) NEET-PG 2026 & Senior Resident Notification",
+    "agencyId": "nbe",
+    "agencyName": "NBE",
+    "categoryId": "nbe",
+    "categoryName": "NBE (National Board of Examinations)",
+    "state": "central",
+    "noticeType": "vacancy",
+    "status": "active",
+    "revisionNumber": 1,
+    "summaryHi": "देशभर के मेडिकल कॉलेजों में MD/MS/PG Diploma सीटों तथा प्रमुख AIIMS एवं केन्द्रीय अस्पतालों में सीनियर रेजिडेंटशिप हेतु अधिसूचना जारी।",
+    "summaryEn": "National Board of Examinations in Medical Sciences (NBEMS) invites applications for NEET-PG and central hospital residencies.",
+    "facts": {
+      "ageMin": 21,
+      "sourceUrl": "https://natboard.edu.in",
+      "postsCount": 12500,
+      "sourceDate": "2026-10-05T19:17:48.608Z",
+      "verifiedAt": "2026-10-23T19:17:48.608Z",
+      "verifiedBy": "National Board of Examinations in Medical Sciences (NBEMS)",
+      "qualification": "MBBS डिग्री + 1 वर्ष की अनिवार्य रोटेटरी इंटर्नशिप + NMC पंजीकरण",
+      "applicationEnd": "2026-11-11T19:17:48.608Z",
+      "applicationStart": "2026-10-05T19:17:48.608Z",
+      "selectionProcess": "कंप्यूटर आधारित राष्ट्रीय प्रवेश परीक्षा एवं केन्द्रीय काउंसलिंग"
+    },
+    "sections": [],
+    "links": [
+      {
+        "url": "https://natboard.edu.in",
+        "kind": "officialSite",
+        "label": "NBE परीक्षा पोर्टल"
+      }
+    ],
+    "publishedAt": "2026-10-05T19:17:48.608Z",
+    "expiresAt": null,
+    "isFeatured": false,
+    "isBreaking": false,
+    "updatedAt": "2026-10-31T19:18:09.752Z"
   }
 ]

@@ -236,7 +236,7 @@ export class NoticeService {
           ORDER BY n.published_at DESC NULLS LAST, n.created_at DESC;
         `;
         const timeoutPromise = new Promise<null>((_, reject) => 
-          setTimeout(() => reject(new Error('DB Timeout')), 800)
+          setTimeout(() => reject(new Error('DB Timeout')), 4500)
         );
 
         const rows = await Promise.race([queryPromise, timeoutPromise]);

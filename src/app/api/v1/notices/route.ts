@@ -79,7 +79,8 @@ export async function GET(req: NextRequest) {
 
     // 2. Filter by type
     if (type && type !== 'all') {
-      notices = notices.filter((n) => (n.noticeType || '').toLowerCase() === type.toLowerCase());
+      const cleanType = type.toLowerCase().replace(/_/g, '');
+      notices = notices.filter((n) => (n.noticeType || '').toLowerCase().replace(/_/g, '') === cleanType);
     }
 
     // 3. Filter by category
