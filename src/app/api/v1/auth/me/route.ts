@@ -96,18 +96,24 @@ export async function POST(req: NextRequest) {
 
     if (sql && (await isNeonReachable(sql))) {
       try {
-        const safeName = (name || '').trim().slice(0, 30) || null;
+        const safeName = (name || '').trim().slice(0, 30) || 'Candidate';
+        const finalEmail = email || `${cleanPhone || Date.now()}@student.rajasthansuchna.in`;
+        const finalPhone = cleanPhone || phone || '';
+
+        // Upsert into Neon PostgreSQL
         await safeNeonQuery(sql`
-          UPDATE app_users
-          SET name = COALESCE(${safeName}, name),
-              target_exam = COALESCE(${targetExam ? targetExam.trim() : null}, target_exam),
-              last_active_at = NOW()
-          WHERE (${id || ''}::text != '' AND id = ${id || ''})
-             OR (${cleanPhone || ''}::text != '' AND RIGHT(phone, 10) = ${cleanPhone || ''})
-             OR (${email || ''}::text != '' AND LOWER(email) = LOWER(${email || ''}));
+          INSERT INTO app_users (id, name, email, phone, target_exam, qualification, district, credits, is_active, created_at, last_active_at)
+          VALUES (${id || `usr_${Date.now()}`}, ${safeName}, ${finalEmail}, ${finalPhone}, ${targetExam || ''}, ${qualification || ''}, ${district || ''}, 10, true, NOW(), NOW())
+          ON CONFLICT (email) DO UPDATE
+          SET name = COALESCE(NULLIF(${safeName}, ''), app_users.name),
+              phone = COALESCE(NULLIF(${finalPhone}, ''), app_users.phone),
+              target_exam = COALESCE(NULLIF(${targetExam ? targetExam.trim() : ''}, ''), app_users.target_exam),
+              qualification = COALESCE(NULLIF(${qualification ? qualification.trim() : ''}, ''), app_users.qualification),
+              district = COALESCE(NULLIF(${district ? district.trim() : ''}, ''), app_users.district),
+              last_active_at = NOW();
         `);
       } catch (err) {
-        console.warn("DB update failed:", err);
+        console.warn("DB update failed in auth/me:", err);
       }
     }
 

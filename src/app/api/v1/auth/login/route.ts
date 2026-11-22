@@ -47,27 +47,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const fallbackList = getFallbackUsers();
-    let existingUser = fallbackList.find(
-      (u) =>
-        (cleanPhone && u.phone && u.phone.replace(/\D/g, '').slice(-10) === cleanPhone) ||
-        (u.email && u.email.toLowerCase() === rawInput.toLowerCase())
-    );
+    let existingUser: any = null;
 
-    // If Neon DB is reachable, query DB
-    if (!existingUser && sql && (await isNeonReachable(sql))) {
+    // 1. Primary check in Neon PostgreSQL Database
+    if (sql && (await isNeonReachable(sql))) {
       try {
         const rows = (await safeNeonQuery(sql`
-          SELECT id, name, email, phone, COALESCE(credits, 10) as "credits", COALESCE(is_active, true) as "isActive", created_at as "createdAt", last_active_at as "lastActiveAt"
+          SELECT id, name, email, phone, 
+                 COALESCE(target_exam, '') as "targetExam", 
+                 COALESCE(qualification, '') as "qualification", 
+                 COALESCE(district, '') as "district", 
+                 COALESCE(credits, 10) as "credits", 
+                 COALESCE(is_active, true) as "isActive", 
+                 created_at as "createdAt", 
+                 last_active_at as "lastActiveAt"
           FROM app_users
-          WHERE (${cleanPhone}::text IS NOT NULL AND RIGHT(phone, 10) = ${cleanPhone})
-             OR LOWER(email) = ${rawInput.toLowerCase()}
+          WHERE (${cleanPhone}::text != '' AND RIGHT(phone, 10) = ${cleanPhone})
+             OR (${rawInput}::text != '' AND LOWER(email) = LOWER(${rawInput}))
           LIMIT 1;
         `)) as any[];
         if (rows && rows.length > 0) {
           existingUser = rows[0];
         }
-      } catch {}
+      } catch (err) {
+        console.warn("DB query failed in auth/login:", err);
+      }
+    }
+
+    // 2. Secondary fallback check in users.json
+    const fallbackList = getFallbackUsers();
+    if (!existingUser) {
+      existingUser = fallbackList.find(
+        (u) =>
+          (cleanPhone && u.phone && u.phone.replace(/\D/g, '').slice(-10) === cleanPhone) ||
+          (u.email && u.email.toLowerCase() === rawInput.toLowerCase())
+      );
     }
 
     const aiSettings = AiSettingsService.getSettings();
@@ -79,11 +93,14 @@ export async function POST(req: NextRequest) {
     if (!existingUser) {
       const newUserId = `usr_${Date.now()}`;
       const generatedEmail = `${cleanPhone || newUserId}@student.rajasthansuchna.in`;
-      const newUser: StudentUser = {
+      const newUser: any = {
         id: newUserId,
         name: displayName,
         email: generatedEmail,
         phone: cleanPhone || rawInput,
+        targetExam: '',
+        qualification: '',
+        district: '',
         credits: initialCredits,
         isActive: true,
         createdAt: nowIso,
@@ -93,19 +110,6 @@ export async function POST(req: NextRequest) {
       if (sql && (await isNeonReachable(sql))) {
         try {
           await safeNeonQuery(sql`
-            CREATE TABLE IF NOT EXISTS app_users (
-              id TEXT PRIMARY KEY,
-              name TEXT NOT NULL,
-              email TEXT NOT NULL UNIQUE,
-              phone TEXT,
-              target_exam TEXT,
-              preferred_category_ids TEXT[],
-              credits INT DEFAULT 10 NOT NULL,
-              is_active BOOLEAN DEFAULT true NOT NULL,
-              created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-              last_active_at TIMESTAMPTZ DEFAULT now() NOT NULL
-            );
-            ALTER TABLE app_users ADD COLUMN IF NOT EXISTS credits INT DEFAULT 10 NOT NULL;
             INSERT INTO app_users (id, name, email, phone, credits, is_active, created_at, last_active_at)
             VALUES (${newUserId}, ${displayName}, ${generatedEmail}, ${cleanPhone || rawInput}, ${initialCredits}, true, NOW(), NOW())
             ON CONFLICT (email) DO NOTHING;
@@ -116,6 +120,17 @@ export async function POST(req: NextRequest) {
       fallbackList.unshift(newUser);
       saveFallbackUsers(fallbackList);
       existingUser = newUser;
+    } else {
+      // If user exists, update last_active_at in DB
+      if (sql && (await isNeonReachable(sql))) {
+        try {
+          await safeNeonQuery(sql`
+            UPDATE app_users 
+            SET last_active_at = NOW() 
+            WHERE id = ${existingUser.id}
+          `);
+        } catch {}
+      }
     }
 
     const token = `rs_jwt_${existingUser.id}_${Date.now()}`;
@@ -129,6 +144,9 @@ export async function POST(req: NextRequest) {
         name: existingUser.name,
         email: existingUser.email,
         phone: existingUser.phone,
+        targetExam: existingUser.targetExam || existingUser.target_exam || '',
+        qualification: existingUser.qualification || '',
+        district: existingUser.district || '',
         credits: existingUser.credits ?? initialCredits,
         role: 'student',
         isLoggedIn: true,
