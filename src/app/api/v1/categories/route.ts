@@ -1,57 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql, isNeonReachable, safeNeonQuery } from '@/lib/db';
-import fs from 'fs';
-import path from 'path';
-
-function getFallbackCategories() {
-  try {
-    const seedPath = path.join(process.cwd(), 'src', 'data', 'seed-data.json');
-    if (fs.existsSync(seedPath)) {
-      const data = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
-      if (Array.isArray(data.categories)) {
-        return data.categories.map((c: any) => ({
-          id: c.id,
-          slug: c.id,
-          nameHi: c.nameHi || c.nameEn,
-          nameEn: c.nameEn,
-          icon: c.icon || null,
-          isActive: true,
-        }));
-      }
-    }
-  } catch (_) {}
-  return [];
-}
+import { getCachedOrFetch, invalidateCategoryCache } from '@/server/cache';
 
 export async function GET(req: NextRequest) {
+  const start = Date.now();
   const { searchParams } = new URL(req.url);
   const includeAll = searchParams.get('all') === 'true'; // Admin requests all, client app defaults to active only
 
-  if (sql && (await isNeonReachable(sql))) {
-    try {
-      const rows = (await safeNeonQuery(sql`
-        SELECT 
-          c.slug as id, 
-          c.slug, 
-          c.name_hi as "nameHi", 
-          c.name_en as "nameEn", 
-          c.icon, 
-          COALESCE(c.is_active, true) as "isActive",
-          p.slug as "parentId"
-        FROM categories c
-        LEFT JOIN categories p ON c.parent_id = p.id
-        ORDER BY c.created_at ASC;
-      `)) as any[];
-      if (rows && rows.length > 0) {
-        const data = includeAll ? rows : rows.filter((c: any) => c.isActive !== false);
-        return NextResponse.json({ success: true, data });
+  const cacheKey = `categories:list:${includeAll}`;
+  const data = await getCachedOrFetch(cacheKey, 30, async () => {
+    if (sql && (await isNeonReachable(sql))) {
+      try {
+        const rows = (await safeNeonQuery(sql`
+          SELECT 
+            c.slug as id, 
+            c.slug, 
+            c.name_hi as "nameHi", 
+            c.name_en as "nameEn", 
+            c.icon, 
+            COALESCE(c.is_active, true) as "isActive",
+            p.slug as "parentId"
+          FROM categories c
+          LEFT JOIN categories p ON c.parent_id = p.id
+          ORDER BY c.created_at ASC;
+        `)) as any[];
+        if (rows && rows.length > 0) {
+          return includeAll ? rows : rows.filter((c: any) => c.isActive !== false);
+        }
+      } catch (err) {
+        console.error('Failed to query categories from DB:', err);
       }
-    } catch (err) {
-      console.error('Failed to query categories from DB, using fallback:', err);
     }
-  }
+    return [];
+  });
 
-  return NextResponse.json({ success: true, data: getFallbackCategories() });
+  const durationMs = Date.now() - start;
+  return NextResponse.json(
+    { success: true, data },
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
+        'X-Response-Time': `${durationMs}ms`,
+        'X-Cache-Lookup': 'in-memory-lru-singleflight',
+      },
+    }
+  );
 }
 
 export async function POST(req: NextRequest) {
@@ -77,10 +70,12 @@ export async function POST(req: NextRequest) {
         RETURNING slug as id, slug, name_hi as "nameHi", name_en as "nameEn", icon, is_active as "isActive";
       `)) as any[];
       if (rows && rows.length > 0) {
+        invalidateCategoryCache();
         return NextResponse.json({ success: true, data: rows[0] }, { status: 201 });
       }
     }
 
+    invalidateCategoryCache();
     return NextResponse.json({
       success: true,
       data: { id: slug, slug, nameHi: nameHi || nameEn, nameEn, icon, isActive: active }
@@ -106,6 +101,7 @@ export async function PATCH(req: NextRequest) {
         SET is_active = ${nextActive}
         WHERE slug = ${id} OR id::text = ${id};
       `);
+      invalidateCategoryCache();
     }
 
     return NextResponse.json({ success: true, id, isActive: nextActive });

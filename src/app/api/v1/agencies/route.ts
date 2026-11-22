@@ -1,73 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql, isNeonReachable, safeNeonQuery } from '@/lib/db';
-import fs from 'fs';
-import path from 'path';
-
-function getFallbackAgencies() {
-  try {
-    const seedPath = path.join(process.cwd(), 'src', 'data', 'seed-data.json');
-    if (fs.existsSync(seedPath)) {
-      const data = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
-      if (Array.isArray(data.agencies)) {
-        return data.agencies.map((a: Record<string, string>) => ({
-          id: a.id,
-          slug: a.id,
-          nameHi: a.nameHi,
-          nameEn: a.nameEn,
-          code: a.id.toUpperCase(),
-          parentGroup: a.parentGroup === 'central' ? 'central' : 'rajasthan',
-          officialUrl: a.officialUrl || 'https://rajasthan.gov.in',
-          logoUrl: a.logoUrl || a.logo || a.iconAsset || '',
-        }));
-      }
-    }
-  } catch {
-    // Fall through to an empty list when seed data is unavailable.
-  }
-  return [];
-}
-
-function updateFallbackAgency(agencyData: Record<string, any>, isDelete = false) {
-  try {
-    const seedPath = path.join(process.cwd(), 'src', 'data', 'seed-data.json');
-    if (fs.existsSync(seedPath)) {
-      const data = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
-      if (Array.isArray(data.agencies)) {
-        if (isDelete) {
-          data.agencies = data.agencies.filter((a: any) => a.id !== agencyData.id && a.id !== agencyData.slug);
-        } else {
-          const index = data.agencies.findIndex((a: any) => a.id === agencyData.id || a.id === agencyData.slug);
-          if (index >= 0) {
-            data.agencies[index] = { ...data.agencies[index], ...agencyData };
-          } else {
-            data.agencies.push(agencyData);
-          }
-        }
-        fs.writeFileSync(seedPath, JSON.stringify(data, null, 2), 'utf8');
-      }
-    }
-  } catch (err) {
-    console.warn('Failed to update fallback agency in seed-data.json:', err);
-  }
-}
+import { getCachedOrFetch, invalidateAgencyCache } from '@/server/cache';
 
 export async function GET() {
-  if (sql && (await isNeonReachable(sql))) {
-    try {
-      const rows = (await safeNeonQuery(sql`
-        SELECT slug as id, slug, name_hi as "nameHi", name_en as "nameEn", code, parent_group as "parentGroup", official_url as "officialUrl"
-        FROM agencies
-        ORDER BY created_at ASC;
-      `)) as any[];
-      if (rows && rows.length > 0) {
-        return NextResponse.json({ success: true, data: rows });
+  const start = Date.now();
+  const data = await getCachedOrFetch('agencies:list', 30, async () => {
+    if (sql && (await isNeonReachable(sql))) {
+      try {
+        const rows = (await safeNeonQuery(sql`
+          SELECT slug as id, slug, name_hi as "nameHi", name_en as "nameEn", code, parent_group as "parentGroup", official_url as "officialUrl"
+          FROM agencies
+          ORDER BY created_at ASC;
+        `)) as any[];
+        if (rows && rows.length > 0) {
+          return rows;
+        }
+      } catch (err) {
+        console.error('Failed to query agencies from DB:', err);
       }
-    } catch (err) {
-      console.error('Failed to query agencies from DB, using fallback:', err);
     }
-  }
+    return [];
+  });
 
-  return NextResponse.json({ success: true, data: getFallbackAgencies() });
+  const durationMs = Date.now() - start;
+  return NextResponse.json(
+    { success: true, data },
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
+        'X-Response-Time': `${durationMs}ms`,
+        'X-Cache-Lookup': 'in-memory-lru-singleflight',
+      },
+    }
+  );
 }
 
 export async function POST(req: NextRequest) {
@@ -91,8 +56,6 @@ export async function POST(req: NextRequest) {
       logoUrl: logoUrl || '',
     };
 
-    updateFallbackAgency(agencyRecord);
-
     if (sql && (await isNeonReachable(sql))) {
       try {
         const rows = (await safeNeonQuery(sql`
@@ -115,6 +78,7 @@ export async function POST(req: NextRequest) {
           RETURNING slug as id, slug, name_hi as "nameHi", name_en as "nameEn", code, parent_group as "parentGroup", official_url as "officialUrl";
         `)) as any[];
         if (rows && rows.length > 0) {
+          invalidateAgencyCache();
           return NextResponse.json({ success: true, data: { ...rows[0], logoUrl: logoUrl || '' } }, { status: 201 });
         }
       } catch (err) {
@@ -122,6 +86,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    invalidateAgencyCache();
     return NextResponse.json({
       success: true,
       data: agencyRecord
@@ -140,17 +105,6 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Agency id is required' }, { status: 400 });
     }
 
-    updateFallbackAgency({
-      id,
-      slug: id,
-      ...(nameHi ? { nameHi } : {}),
-      ...(nameEn ? { nameEn } : {}),
-      ...(code ? { code: code.toUpperCase() } : {}),
-      ...(parentGroup ? { parentGroup } : {}),
-      ...(officialUrl ? { officialUrl } : {}),
-      ...(logoUrl !== undefined ? { logoUrl } : {}),
-    });
-
     if (sql && (await isNeonReachable(sql))) {
       await safeNeonQuery(sql`
         UPDATE agencies
@@ -163,6 +117,7 @@ export async function PATCH(req: NextRequest) {
           is_active = COALESCE(${isActive !== undefined ? Boolean(isActive) : null}, is_active)
         WHERE slug = ${id} OR id::text = ${id};
       `);
+      invalidateAgencyCache();
     }
 
     return NextResponse.json({ success: true, id, logoUrl });
@@ -179,12 +134,11 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Agency id is required' }, { status: 400 });
     }
 
-    updateFallbackAgency({ id }, true);
-
     if (sql && (await isNeonReachable(sql))) {
       await safeNeonQuery(sql`
         DELETE FROM agencies WHERE slug = ${id} OR id::text = ${id};
       `);
+      invalidateAgencyCache();
     }
 
     return NextResponse.json({ success: true, id });

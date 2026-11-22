@@ -52,6 +52,7 @@ function matchesCategory(n: AdminNoticeRecord, catId: string): boolean {
 }
 
 export async function GET(req: NextRequest) {
+  const start = Date.now();
   const { searchParams } = new URL(req.url);
   const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
   const limit = Math.max(1, parseInt(searchParams.get('limit') || '10', 10));
@@ -133,6 +134,7 @@ export async function GET(req: NextRequest) {
     {
       headers: {
         'Cache-Control': 'public, s-maxage=5, stale-while-revalidate=10',
+        'X-Response-Time': `${Date.now() - start}ms`,
         'X-Cache-Lookup': 'in-memory-lru-singleflight',
       },
     }

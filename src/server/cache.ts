@@ -130,3 +130,15 @@ export function invalidateNoticeCache(): void {
 export function invalidateAgencyCache(): void {
   serverCache.deletePrefix('agencies:');
 }
+
+export function invalidateCategoryCache(): void {
+  serverCache.deletePrefix('categories:');
+}
+
+export function invalidateMcqCache(): void {
+  serverCache.deletePrefix('mcq-tests:');
+}
+
+export function invalidateCurrentAffairsCache(): void {
+  serverCache.deletePrefix('current-affairs:');
+}
