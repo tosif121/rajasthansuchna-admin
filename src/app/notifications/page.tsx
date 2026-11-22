@@ -345,9 +345,17 @@ export default function NotificationsPage() {
           {/* Action & Filter Bar */}
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between">
             <div className="relative w-full sm:w-80">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               <Input
-                type="text"
+                type="search"
+                name="notification_filter_term"
+                id="dt-notif-search-filter"
+                autoComplete="new-password"
+                autoCorrect="off"
+                spellCheck={false}
+                data-lpignore="true"
+                data-1p-ignore="true"
+                data-form-type="other"
                 placeholder="Search notification title, message, or agency..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}

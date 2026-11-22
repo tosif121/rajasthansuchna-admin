@@ -78,6 +78,7 @@ export function DataTable<T extends Record<string, any>>({
   onSearchChange,
 }: DataTableProps<T>) {
   const [search, setSearch] = useState("");
+  const [isReadOnly, setIsReadOnly] = useState(true);
   const [internalCurrentPage, setInternalCurrentPage] = useState(1);
   const [currentPageSize, setCurrentPageSize] = useState(pageSize || initialPageSize || 10);
 
@@ -171,24 +172,46 @@ export function DataTable<T extends Record<string, any>>({
       {/* Search & page size toolbar */}
       <div className="p-3 sm:p-4 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="relative w-full sm:max-w-xs md:max-w-sm">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          {/* Decoy fields to absorb aggressive browser credential autofill */}
+          <input type="text" style={{ position: "absolute", opacity: 0, height: 0, width: 0, zIndex: -1 }} tabIndex={-1} aria-hidden="true" autoComplete="username" />
+          <input type="password" style={{ position: "absolute", opacity: 0, height: 0, width: 0, zIndex: -1 }} tabIndex={-1} aria-hidden="true" autoComplete="current-password" />
+
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <Input
             type="search"
-            name="table-search-query"
-            id={`table-search-${String(searchKey || "query")}`}
-            autoComplete="off"
+            name="filter_terms"
+            id={`dt-filter-${String(searchKey || "main").replace(/name/gi, "col")}`}
+            autoComplete="new-password"
             autoCorrect="off"
             spellCheck={false}
             data-lpignore="true"
             data-1p-ignore="true"
+            data-form-type="other"
+            role="searchbox"
+            readOnly={isReadOnly}
+            onFocus={() => setIsReadOnly(false)}
+            onPointerDown={() => setIsReadOnly(false)}
             placeholder={searchPlaceholder}
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
               if (!serverSide) setInternalCurrentPage(1);
             }}
-            className="pl-9 h-9 text-xs sm:text-sm bg-slate-50 dark:bg-slate-950"
+            className="pl-9 pr-8 h-9 text-xs sm:text-sm bg-slate-50 dark:bg-slate-950"
           />
+          {search && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearch("");
+                if (!serverSide) setInternalCurrentPage(1);
+              }}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs p-1"
+              title="Clear search"
+            >
+              ✕
+            </button>
+          )}
         </div>
 
         <div className="flex items-center justify-between sm:justify-end gap-3">
