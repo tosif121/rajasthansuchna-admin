@@ -1739,10 +1739,7 @@ export default function NoticesPage() {
             </div>
 
             {/* 3. Category-Wise Vacancies */}
-            <FormField
-              label="Category-Wise Vacancies (वर्गवार रिक्तियों का विवरण)"
-              hint="खाली रखने पर ऐप में यह सेक्शन पूरी तरह से छुपा रहेगा (कोई गलत या डमी डेटा नहीं आएगा)। Format: UR: 450, EWS: 105, OBC: 210, MBC: 52, SC: 168, ST: 135"
-            >
+            <FormField label="Category-Wise Vacancies (वर्गवार रिक्तियों का विवरण)">
               <Textarea
                 rows={2}
                 value={form.categoryVacancies}
