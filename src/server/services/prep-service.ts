@@ -56,6 +56,8 @@ export interface CurrentAffairsRecord {
 export interface StudyPlanPhase {
   phaseNumber: number;
   title: string;
+  titleHi?: string;
+  titleEn?: string;
   durationWeeks: number;
   focusAreas: string[];
 }
@@ -77,6 +79,8 @@ export interface StudyPlanRecord {
   dailyHoursTarget: number;
   phases: StudyPlanPhase[];
   keyMilestones: string[];
+  keyMilestonesHi?: string[];
+  keyMilestonesEn?: string[];
   recommendedResources: StudyPlanResource[];
   isActive: boolean;
   createdAt: string;

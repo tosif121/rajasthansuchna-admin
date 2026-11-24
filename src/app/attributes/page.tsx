@@ -33,6 +33,7 @@ import {
   DeleteConfirmationModal,
   ToggleSwitch,
 } from "@/components/reusable";
+import { cn } from "@/lib/utils";
 import {
   FileText,
   Building2,
@@ -134,6 +135,7 @@ function MasterAttributesContent() {
   const [typeFormCode, setTypeFormCode] = useState("");
   const [typeFormDesc, setTypeFormDesc] = useState("");
   const [typeFormActive, setTypeFormActive] = useState(true);
+  const [typeLangTab, setTypeLangTab] = useState<"hi" | "en">("hi");
 
   // Form states for Jurisdiction
   const [jurFormNameEn, setJurFormNameEn] = useState("");
@@ -141,6 +143,7 @@ function MasterAttributesContent() {
   const [jurFormCode, setJurFormCode] = useState("");
   const [jurFormDesc, setJurFormDesc] = useState("");
   const [jurFormActive, setJurFormActive] = useState(true);
+  const [jurLangTab, setJurLangTab] = useState<"hi" | "en">("hi");
 
   // Form states for Category
   const [catFormNameEn, setCatFormNameEn] = useState("");
@@ -148,6 +151,7 @@ function MasterAttributesContent() {
   const [catFormSlug, setCatFormSlug] = useState("");
   const [catFormIcon, setCatFormIcon] = useState("tag");
   const [catFormActive, setCatFormActive] = useState(true);
+  const [catLangTab, setCatLangTab] = useState<"hi" | "en">("hi");
 
   const loadAllData = async () => {
     try {
@@ -180,6 +184,7 @@ function MasterAttributesContent() {
     setTypeFormCode("");
     setTypeFormDesc("");
     setTypeFormActive(true);
+    setTypeLangTab("hi");
     setIsTypeModalOpen(true);
   };
 
@@ -190,6 +195,7 @@ function MasterAttributesContent() {
     setTypeFormCode(item.code || item.slug.toUpperCase());
     setTypeFormDesc(item.description || "");
     setTypeFormActive(item.isActive !== false);
+    setTypeLangTab("hi");
     setIsTypeModalOpen(true);
   };
 
@@ -233,6 +239,7 @@ function MasterAttributesContent() {
     setJurFormCode("");
     setJurFormDesc("");
     setJurFormActive(true);
+    setJurLangTab("hi");
     setIsJurisdictionModalOpen(true);
   };
 
@@ -243,6 +250,7 @@ function MasterAttributesContent() {
     setJurFormCode(item.code || item.slug.toUpperCase());
     setJurFormDesc(item.description || "");
     setJurFormActive(item.isActive !== false);
+    setJurLangTab("hi");
     setIsJurisdictionModalOpen(true);
   };
 
@@ -286,6 +294,7 @@ function MasterAttributesContent() {
     setCatFormSlug("");
     setCatFormIcon("tag");
     setCatFormActive(true);
+    setCatLangTab("hi");
     setIsCategoryModalOpen(true);
   };
 
@@ -296,6 +305,7 @@ function MasterAttributesContent() {
     setCatFormSlug(item.slug || item.id);
     setCatFormIcon(item.icon || "tag");
     setCatFormActive(item.isActive !== false);
+    setCatLangTab("hi");
     setIsCategoryModalOpen(true);
   };
 
@@ -682,7 +692,7 @@ function MasterAttributesContent() {
 
           {/* Dialog: Notice Type */}
           <Dialog open={isTypeModalOpen} onOpenChange={setIsTypeModalOpen}>
-            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
+            <DialogContent className="max-w-xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editingType ? "Edit Notice Type" : "Add Notice Type"}</DialogTitle>
                 <DialogDescription>
@@ -690,64 +700,110 @@ function MasterAttributesContent() {
                 </DialogDescription>
               </DialogHeader>
 
-              <form onSubmit={handleSaveType} className="space-y-3.5 py-2 text-xs">
-                <div>
-                  <Label className="mb-2 block">Type Name (English) *</Label>
-                  <Input
-                    required
-                    placeholder="e.g. Syllabus / Exam Pattern"
-                    value={typeFormNameEn}
-                    onChange={(e) => setTypeFormNameEn(e.target.value)}
-                  />
+              <form onSubmit={handleSaveType} className="space-y-4 py-2 text-xs">
+                {/* Language Switcher Tabs */}
+                <div className="flex flex-wrap items-center justify-between p-2.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl gap-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    Language Content / भाषा विवरण:
+                  </span>
+                  <div className="inline-flex items-center bg-slate-200 dark:bg-slate-700 p-1 rounded-xl gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setTypeLangTab("hi")}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                        typeLangTab === "hi"
+                          ? "bg-amber-500 text-white shadow-xs"
+                          : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                      )}
+                    >
+                      <span>हिन्दी (Hindi)</span>
+                      {typeFormNameHi.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setTypeLangTab("en")}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                        typeLangTab === "en"
+                          ? "bg-[#A30B0B] text-white shadow-xs"
+                          : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                      )}
+                    >
+                      <span>English (अंग्रेजी)</span>
+                      {typeFormNameEn.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                    </button>
+                  </div>
                 </div>
 
-                <div>
-                  <Label className="mb-2 block">Type Name (Hindi)</Label>
-                  <Input
-                    placeholder="e.g. पाठ्यक्रम / परीक्षा पैटर्न"
-                    value={typeFormNameHi}
-                    onChange={(e) => setTypeFormNameHi(e.target.value)}
-                  />
-                </div>
+                {typeLangTab === "hi" ? (
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">सूचना प्रकार शीर्षक (Hindi) *</Label>
+                      <Input
+                        required
+                        placeholder="उदा. नवीन विज्ञप्ति / भर्ती विज्ञापन"
+                        value={typeFormNameHi}
+                        onChange={(e) => setTypeFormNameHi(e.target.value)}
+                        className="font-sans"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Type Name (English) *</Label>
+                      <Input
+                        required
+                        placeholder="e.g. New Vacancy / Job Notification"
+                        value={typeFormNameEn}
+                        onChange={(e) => setTypeFormNameEn(e.target.value)}
+                        className="font-sans"
+                      />
+                    </div>
+                  </div>
+                )}
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Code / Slug</Label>
+                      <Input
+                        placeholder="e.g. SYLLABUS"
+                        value={typeFormCode}
+                        onChange={(e) => setTypeFormCode(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Status</Label>
+                      <Select value={typeFormActive ? "active" : "inactive"} onValueChange={(val) => setTypeFormActive(val === "active")}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="active">Active (Visible)</SelectItem>
+                          <SelectItem value="inactive">Disabled</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
                   <div>
-                    <Label className="mb-2 block">Code / Slug</Label>
-                    <Input
-                      placeholder="e.g. SYLLABUS"
-                      value={typeFormCode}
-                      onChange={(e) => setTypeFormCode(e.target.value)}
+                    <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Description</Label>
+                    <Textarea
+                      rows={2}
+                      placeholder="Brief description for mobile candidate badge..."
+                      value={typeFormDesc}
+                      onChange={(e) => setTypeFormDesc(e.target.value)}
                     />
                   </div>
-                  <div>
-                    <Label className="mb-2 block">Status</Label>
-                    <Select value={typeFormActive ? "active" : "inactive"} onValueChange={(val) => setTypeFormActive(val === "active")}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="active">Active (Visible)</SelectItem>
-                        <SelectItem value="inactive">Disabled</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="mb-2 block">Description</Label>
-                  <Textarea
-                    rows={2}
-                    placeholder="Brief description for mobile users..."
-                    value={typeFormDesc}
-                    onChange={(e) => setTypeFormDesc(e.target.value)}
-                  />
                 </div>
 
                 <DialogFooter className="pt-2">
                   <Button type="button" variant="outline" onClick={() => setIsTypeModalOpen(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit" className="bg-[#A30B0B] hover:bg-[#850909] text-white">
+                  <Button type="submit" className="bg-[#A30B0B] hover:bg-[#850909] text-white cursor-pointer">
                     {editingType ? "Update Type" : "Create Type"}
                   </Button>
                 </DialogFooter>
@@ -757,7 +813,7 @@ function MasterAttributesContent() {
 
           {/* Dialog: Jurisdiction */}
           <Dialog open={isJurisdictionModalOpen} onOpenChange={setIsJurisdictionModalOpen}>
-            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
+            <DialogContent className="max-w-xl max-h-[92vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editingJurisdiction ? "Edit Jurisdiction" : "Add Jurisdiction"}</DialogTitle>
                 <DialogDescription>
@@ -765,38 +821,221 @@ function MasterAttributesContent() {
                 </DialogDescription>
               </DialogHeader>
 
-              <form onSubmit={handleSaveJurisdiction} className="space-y-3.5 py-2 text-xs">
-                <div>
-                  <Label className="mb-2 block">Jurisdiction Name (English) *</Label>
-                  <Input
-                    required
-                    placeholder="e.g. Rajasthan State"
-                    value={jurFormNameEn}
-                    onChange={(e) => setJurFormNameEn(e.target.value)}
-                  />
+              <form onSubmit={handleSaveJurisdiction} className="space-y-4 py-2 text-xs">
+                {/* Language Switcher Tabs */}
+                <div className="flex flex-wrap items-center justify-between p-2.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl gap-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    Language Content / भाषा विवरण:
+                  </span>
+                  <div className="inline-flex items-center bg-slate-200 dark:bg-slate-700 p-1 rounded-xl gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setJurLangTab("hi")}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                        jurLangTab === "hi"
+                          ? "bg-amber-500 text-white shadow-xs"
+                          : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                      )}
+                    >
+                      <span>हिन्दी (Hindi)</span>
+                      {jurFormNameHi.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setJurLangTab("en")}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                        jurLangTab === "en"
+                          ? "bg-[#A30B0B] text-white shadow-xs"
+                          : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                      )}
+                    >
+                      <span>English (अंग्रेजी)</span>
+                      {jurFormNameEn.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                    </button>
+                  </div>
                 </div>
 
-                <div>
-                  <Label className="mb-2 block">Jurisdiction Name (Hindi)</Label>
-                  <Input
-                    placeholder="e.g. राजस्थान राज्य"
-                    value={jurFormNameHi}
-                    onChange={(e) => setJurFormNameHi(e.target.value)}
-                  />
-                </div>
+                {jurLangTab === "hi" ? (
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">क्षेत्राधिकार नाम (Hindi) *</Label>
+                      <Input
+                        required
+                        placeholder="उदा. राजस्थान राज्य स्तरीय भर्ती"
+                        value={jurFormNameHi}
+                        onChange={(e) => setJurFormNameHi(e.target.value)}
+                        className="font-sans"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Jurisdiction Name (English) *</Label>
+                      <Input
+                        required
+                        placeholder="e.g. Rajasthan State Level"
+                        value={jurFormNameEn}
+                        onChange={(e) => setJurFormNameEn(e.target.value)}
+                        className="font-sans"
+                      />
+                    </div>
+                  </div>
+                )}
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Code / Key</Label>
+                      <Input
+                        placeholder="e.g. RAJASTHAN"
+                        value={jurFormCode}
+                        onChange={(e) => setJurFormCode(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Status</Label>
+                      <Select value={jurFormActive ? "active" : "inactive"} onValueChange={(val) => setJurFormActive(val === "active")}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="active">Active (Visible)</SelectItem>
+                          <SelectItem value="inactive">Disabled</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
                   <div>
-                    <Label className="mb-2 block">Code / Key</Label>
-                    <Input
-                      placeholder="e.g. RAJASTHAN"
-                      value={jurFormCode}
-                      onChange={(e) => setJurFormCode(e.target.value)}
+                    <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Scope Description</Label>
+                    <Textarea
+                      rows={2}
+                      placeholder="Territorial scope description..."
+                      value={jurFormDesc}
+                      onChange={(e) => setJurFormDesc(e.target.value)}
                     />
                   </div>
+                </div>
+
+                <DialogFooter className="pt-2">
+                  <Button type="button" variant="outline" onClick={() => setIsJurisdictionModalOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" className="bg-[#A30B0B] hover:bg-[#850909] text-white cursor-pointer">
+                    {editingJurisdiction ? "Update Jurisdiction" : "Create Jurisdiction"}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+
+          {/* Dialog: Category */}
+          <Dialog open={isCategoryModalOpen} onOpenChange={setIsCategoryModalOpen}>
+            <DialogContent className="max-w-xl max-h-[92vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>{editingCategory ? "Edit Category" : "Add Recruitment Category"}</DialogTitle>
+                <DialogDescription>
+                  Categories categorize recruitment posts on the mobile home feed and chips filter.
+                </DialogDescription>
+              </DialogHeader>
+
+              <form onSubmit={handleSaveCategory} className="space-y-4 py-2 text-xs">
+                {/* Language Switcher Tabs */}
+                <div className="flex flex-wrap items-center justify-between p-2.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl gap-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    Language Content / भाषा विवरण:
+                  </span>
+                  <div className="inline-flex items-center bg-slate-200 dark:bg-slate-700 p-1 rounded-xl gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setCatLangTab("hi")}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                        catLangTab === "hi"
+                          ? "bg-amber-500 text-white shadow-xs"
+                          : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                      )}
+                    >
+                      <span>हिन्दी (Hindi)</span>
+                      {catFormNameHi.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCatLangTab("en")}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                        catLangTab === "en"
+                          ? "bg-[#A30B0B] text-white shadow-xs"
+                          : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                      )}
+                    >
+                      <span>English (अंग्रेजी)</span>
+                      {catFormNameEn.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                    </button>
+                  </div>
+                </div>
+
+                {catLangTab === "hi" ? (
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">श्रेणी नाम (Hindi) *</Label>
+                      <Input
+                        required
+                        placeholder="उदा. पशुपालन एवं पशुचिकित्सा भर्ती"
+                        value={catFormNameHi}
+                        onChange={(e) => setCatFormNameHi(e.target.value)}
+                        className="font-sans"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Category Name (English) *</Label>
+                      <Input
+                        required
+                        placeholder="e.g. Veterinary & Animal Husbandry"
+                        value={catFormNameEn}
+                        onChange={(e) => setCatFormNameEn(e.target.value)}
+                        className="font-sans"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Slug / ID</Label>
+                      <Input
+                        placeholder="auto-generated if empty"
+                        value={catFormSlug}
+                        onChange={(e) => setCatFormSlug(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Preset Icon</Label>
+                      <Select value={catFormIcon} onValueChange={setCatFormIcon}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {PRESET_ICONS.map((p) => (
+                            <SelectItem key={p.name} value={p.name}>
+                              {p.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
                   <div>
-                    <Label className="mb-2 block">Status</Label>
-                    <Select value={jurFormActive ? "active" : "inactive"} onValueChange={(val) => setJurFormActive(val === "active")}>
+                    <Label className="mb-1.5 block font-semibold text-slate-800 dark:text-slate-200">Status</Label>
+                    <Select value={catFormActive ? "active" : "inactive"} onValueChange={(val) => setCatFormActive(val === "active")}>
                       <SelectTrigger className="w-full">
                         <SelectValue />
                       </SelectTrigger>
@@ -808,102 +1047,11 @@ function MasterAttributesContent() {
                   </div>
                 </div>
 
-                <div>
-                  <Label className="mb-2 block">Scope Description</Label>
-                  <Textarea
-                    rows={2}
-                    placeholder="Territorial scope description..."
-                    value={jurFormDesc}
-                    onChange={(e) => setJurFormDesc(e.target.value)}
-                  />
-                </div>
-
-                <DialogFooter className="pt-2">
-                  <Button type="button" variant="outline" onClick={() => setIsJurisdictionModalOpen(false)}>
-                    Cancel
-                  </Button>
-                  <Button type="submit" className="bg-[#A30B0B] hover:bg-[#850909] text-white">
-                    {editingJurisdiction ? "Update Jurisdiction" : "Create Jurisdiction"}
-                  </Button>
-                </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
-
-          {/* Dialog: Category */}
-          <Dialog open={isCategoryModalOpen} onOpenChange={setIsCategoryModalOpen}>
-            <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{editingCategory ? "Edit Category" : "Add Recruitment Category"}</DialogTitle>
-                <DialogDescription>
-                  Categories categorize recruitment posts on the mobile home feed and chips filter.
-                </DialogDescription>
-              </DialogHeader>
-
-              <form onSubmit={handleSaveCategory} className="space-y-3.5 py-2 text-xs">
-                <div>
-                  <Label className="mb-2 block">Category Name (English) *</Label>
-                  <Input
-                    required
-                    placeholder="e.g. Veterinary & Animal Husbandry"
-                    value={catFormNameEn}
-                    onChange={(e) => setCatFormNameEn(e.target.value)}
-                  />
-                </div>
-
-                <div>
-                  <Label className="mb-2 block">Category Name (Hindi)</Label>
-                  <Input
-                    placeholder="e.g. पशुपालन एवं पशुचिकित्सा भर्ती"
-                    value={catFormNameHi}
-                    onChange={(e) => setCatFormNameHi(e.target.value)}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <Label className="mb-2 block">Slug / ID</Label>
-                    <Input
-                      placeholder="auto-generated if empty"
-                      value={catFormSlug}
-                      onChange={(e) => setCatFormSlug(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Label className="mb-2 block">Preset Icon</Label>
-                    <Select value={catFormIcon} onValueChange={setCatFormIcon}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {PRESET_ICONS.map((p) => (
-                          <SelectItem key={p.name} value={p.name}>
-                            {p.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="mb-2 block">Status</Label>
-                  <Select value={catFormActive ? "active" : "inactive"} onValueChange={(val) => setCatFormActive(val === "active")}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="active">Active (Visible)</SelectItem>
-                      <SelectItem value="inactive">Disabled</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
                 <DialogFooter className="pt-2">
                   <Button type="button" variant="outline" onClick={() => setIsCategoryModalOpen(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit" className="bg-[#A30B0B] hover:bg-[#850909] text-white">
+                  <Button type="submit" className="bg-[#A30B0B] hover:bg-[#850909] text-white cursor-pointer">
                     {editingCategory ? "Update Category" : "Create Category"}
                   </Button>
                 </DialogFooter>

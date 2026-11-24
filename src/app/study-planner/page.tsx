@@ -31,6 +31,7 @@ import {
   PageHeader,
   StatCard,
 } from "@/components/reusable";
+import { cn } from "@/lib/utils";
 import {
   AlertCircle,
   Building,
@@ -54,12 +55,16 @@ interface StudyPlanFormData {
   targetDate: string;
   durationDays: number;
   dailyHoursTarget: number;
-  milestonesStr: string;
-  phase1Title: string;
+  milestonesStrHi: string;
+  milestonesStrEn: string;
+  phase1TitleHi: string;
+  phase1TitleEn: string;
   phase1Weeks: number;
-  phase2Title: string;
+  phase2TitleHi: string;
+  phase2TitleEn: string;
   phase2Weeks: number;
-  phase3Title: string;
+  phase3TitleHi: string;
+  phase3TitleEn: string;
   phase3Weeks: number;
   isActive: boolean;
 }
@@ -71,12 +76,16 @@ const emptyForm: StudyPlanFormData = {
   targetDate: "2026-12-31",
   durationDays: 60,
   dailyHoursTarget: 6,
-  milestonesStr: "Day 15: सम्पूर्ण राजस्थान GK पाठ्यक्रम पूरा\nDay 35: मैथ्स व रीजनिंग के सभी ट्रिक्स अभ्यास\nDay 50: विगत 5 वर्षों के प्रश्न पत्र हल\nDay 60: 10 पूर्ण मॉक टेस्ट व समय प्रबंधन",
-  phase1Title: "आधारभूत अवधारणाएं व राजस्थान सामान्य ज्ञान",
+  milestonesStrHi: "Day 15: सम्पूर्ण राजस्थान GK पाठ्यक्रम पूरा\nDay 35: मैथ्स व रीजनिंग के सभी ट्रिक्स अभ्यास\nDay 50: विगत 5 वर्षों के प्रश्न पत्र हल\nDay 60: 10 पूर्ण मॉक टेस्ट व समय प्रबंधन",
+  milestonesStrEn: "Day 15: Complete Rajasthan General Knowledge syllabus\nDay 35: Master mathematics & logical reasoning shortcuts\nDay 50: Solve previous 5 years official papers\nDay 60: 10 full length mock tests & speed analysis",
+  phase1TitleHi: "आधारभूत अवधारणाएं व राजस्थान सामान्य ज्ञान",
+  phase1TitleEn: "Stage 1: Core Foundation & Rajasthan Studies",
   phase1Weeks: 3,
-  phase2Title: "गणित, रीजनिंग, सामान्य हिंदी व अंग्रेजी",
+  phase2TitleHi: "गणित, रीजनिंग, सामान्य हिंदी व अंग्रेजी",
+  phase2TitleEn: "Stage 2: Aptitude, Reasoning & Language Skills",
   phase2Weeks: 3,
-  phase3Title: "मॉक टेस्ट, पूर्व प्रश्न व गहन पुनरावृत्ति",
+  phase3TitleHi: "मॉक टेस्ट, पूर्व प्रश्न व गहन पुनरावृत्ति",
+  phase3TitleEn: "Stage 3: Full Mock Tests & Rapid Revision",
   phase3Weeks: 2,
   isActive: true,
 };
@@ -99,6 +108,7 @@ export default function StudyPlannerPage() {
   const [formOpen, setFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<StudyPlanRecord | null>(null);
   const [form, setForm] = useState<StudyPlanFormData>(emptyForm);
+  const [langTab, setLangTab] = useState<"hi" | "en">("hi");
   const [isSaving, setIsSaving] = useState(false);
 
   const [itemToDelete, setItemToDelete] = useState<StudyPlanRecord | null>(null);
@@ -126,6 +136,7 @@ export default function StudyPlannerPage() {
   const openCreate = () => {
     setEditingItem(null);
     setForm(emptyForm);
+    setLangTab("hi");
     setFormOpen(true);
   };
 
@@ -136,21 +147,26 @@ export default function StudyPlannerPage() {
     const p3 = item.phases?.[2];
 
     setForm({
-      examTitleHi: item.examTitleHi,
-      examTitleEn: item.examTitleEn,
+      examTitleHi: item.examTitleHi || "",
+      examTitleEn: item.examTitleEn || "",
       agencyId: item.agencyId || "rssb",
       targetDate: item.targetDate || "2026-12-31",
       durationDays: item.durationDays || 60,
       dailyHoursTarget: item.dailyHoursTarget || 6,
-      milestonesStr: (item.keyMilestones || []).join("\n"),
-      phase1Title: p1?.title || "Phase 1: Foundation",
+      milestonesStrHi: (item.keyMilestonesHi && item.keyMilestonesHi.length > 0 ? item.keyMilestonesHi : item.keyMilestones || []).join("\n"),
+      milestonesStrEn: (item.keyMilestonesEn && item.keyMilestonesEn.length > 0 ? item.keyMilestonesEn : item.keyMilestones || []).join("\n"),
+      phase1TitleHi: p1?.titleHi || p1?.title || "आधारभूत अवधारणाएं",
+      phase1TitleEn: p1?.titleEn || p1?.title || "Foundation Stage",
       phase1Weeks: p1?.durationWeeks || 3,
-      phase2Title: p2?.title || "Phase 2: Practice",
+      phase2TitleHi: p2?.titleHi || p2?.title || "अभ्यास एवं अनुप्रयोग",
+      phase2TitleEn: p2?.titleEn || p2?.title || "Application Stage",
       phase2Weeks: p2?.durationWeeks || 3,
-      phase3Title: p3?.title || "Phase 3: Mock Tests & Revision",
+      phase3TitleHi: p3?.titleHi || p3?.title || "मॉक टेस्ट व पुनरावृत्ति",
+      phase3TitleEn: p3?.titleEn || p3?.title || "Mock Tests & Revision",
       phase3Weeks: p3?.durationWeeks || 2,
       isActive: item.isActive,
     });
+    setLangTab("hi");
     setFormOpen(true);
   };
 
@@ -164,27 +180,38 @@ export default function StudyPlannerPage() {
     setIsSaving(true);
     setFeedback(null);
 
-    const milestones = form.milestonesStr
+    const milestonesHi = form.milestonesStrHi
       .split("\n")
       .map((m) => m.trim())
       .filter(Boolean);
+    const milestonesEn = form.milestonesStrEn
+      .split("\n")
+      .map((m) => m.trim())
+      .filter(Boolean);
+    const milestones = milestonesHi.length > 0 ? milestonesHi : milestonesEn;
 
     const phases = [
       {
         phaseNumber: 1,
-        title: form.phase1Title.trim() || "Phase 1: Foundation",
+        title: form.phase1TitleHi.trim() || form.phase1TitleEn.trim() || "Phase 1: Foundation",
+        titleHi: form.phase1TitleHi.trim(),
+        titleEn: form.phase1TitleEn.trim(),
         durationWeeks: Number(form.phase1Weeks) || 3,
         focusAreas: ["आधारभूत पाठ्यक्रम एवं मुख्य सिद्धांत"],
       },
       {
         phaseNumber: 2,
-        title: form.phase2Title.trim() || "Phase 2: Application",
+        title: form.phase2TitleHi.trim() || form.phase2TitleEn.trim() || "Phase 2: Application",
+        titleHi: form.phase2TitleHi.trim(),
+        titleEn: form.phase2TitleEn.trim(),
         durationWeeks: Number(form.phase2Weeks) || 3,
         focusAreas: ["प्रश्नोत्तरी एवं अध्यायवार अभ्यास"],
       },
       {
         phaseNumber: 3,
-        title: form.phase3Title.trim() || "Phase 3: Revision",
+        title: form.phase3TitleHi.trim() || form.phase3TitleEn.trim() || "Phase 3: Revision",
+        titleHi: form.phase3TitleHi.trim(),
+        titleEn: form.phase3TitleEn.trim(),
         durationWeeks: Number(form.phase3Weeks) || 2,
         focusAreas: ["मॉक टेस्ट एवं त्वरित पुनरावृत्ति"],
       },
@@ -199,6 +226,8 @@ export default function StudyPlannerPage() {
       dailyHoursTarget: Number(form.dailyHoursTarget) || 6,
       phases,
       keyMilestones: milestones,
+      keyMilestonesHi: milestonesHi,
+      keyMilestonesEn: milestonesEn,
       recommendedResources: [
         { title: "मानक आरबीएसई व एनसीईआरटी पुस्तकें", type: "book" as const },
         { title: "राज सूचना मोबाइल मॉडल पेपर्स", type: "link" as const },
@@ -482,160 +511,275 @@ export default function StudyPlannerPage() {
           </DialogHeader>
 
           <form onSubmit={handleSave} className="space-y-4 py-2">
-            <div>
-              <Label className="text-xs font-semibold">Exam Title (English) *</Label>
-              <Input
-                required
-                value={form.examTitleEn}
-                onChange={(e) => setForm((f) => ({ ...f, examTitleEn: e.target.value }))}
-                placeholder="e.g. RSSB CET Graduate Level 60-Day Master Study Plan"
-                className="mt-1"
-              />
-            </div>
-
-            <div>
-              <Label className="text-xs font-semibold">Exam Title (Hindi) *</Label>
-              <Input
-                required
-                value={form.examTitleHi}
-                onChange={(e) => setForm((f) => ({ ...f, examTitleHi: e.target.value }))}
-                placeholder="उदा. आरएसएसबी सीईटी (स्नातक स्तर) 60-दिवसीय व्यवस्थित अध्ययन योजना"
-                className="mt-1"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
-              <div>
-                <Label className="text-xs font-semibold">Agency</Label>
-                <Select
-                  value={form.agencyId}
-                  onValueChange={(val) => setForm((f) => ({ ...f, agencyId: val }))}
+            {/* Language Content Switcher */}
+            <div className="flex flex-wrap items-center justify-between p-2.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                Language Content / भाषा विवरण:
+              </span>
+              <div className="inline-flex items-center bg-slate-200 dark:bg-slate-700 p-1 rounded-xl gap-1">
+                <button
+                  type="button"
+                  onClick={() => setLangTab("hi")}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                    langTab === "hi"
+                      ? "bg-amber-500 text-white shadow-xs"
+                      : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                  )}
                 >
-                  <SelectTrigger className="mt-1">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {agencyList.map((a) => (
-                      <SelectItem key={a.id} value={a.id}>
-                        {a.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label className="text-xs font-semibold">Target Date</Label>
-                <Input
-                  type="date"
-                  value={form.targetDate}
-                  onChange={(e) => setForm((f) => ({ ...f, targetDate: e.target.value }))}
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label className="text-xs font-semibold">Duration (Days)</Label>
-                <Input
-                  type="number"
-                  value={form.durationDays}
-                  onChange={(e) => setForm((f) => ({ ...f, durationDays: Number(e.target.value) }))}
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label className="text-xs font-semibold">Daily Hours</Label>
-                <Input
-                  type="number"
-                  value={form.dailyHoursTarget}
-                  onChange={(e) => setForm((f) => ({ ...f, dailyHoursTarget: Number(e.target.value) }))}
-                  className="mt-1"
-                />
+                  <span>हिन्दी (Hindi)</span>
+                  {form.examTitleHi.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLangTab("en")}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                    langTab === "en"
+                      ? "bg-[#A30B0B] text-white shadow-xs"
+                      : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                  )}
+                >
+                  <span>English (अंग्रेजी)</span>
+                  {form.examTitleEn.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                </button>
               </div>
             </div>
 
-            {/* Preparation Phases */}
-            <div className="border border-slate-200 dark:border-slate-800 rounded-xl p-3 space-y-3 bg-slate-50/50 dark:bg-slate-900/40">
-              <div className="flex items-center gap-1.5 font-semibold text-xs text-slate-800 dark:text-slate-200">
-                <Layers className="w-3.5 h-3.5 text-amber-600" />
-                <span>3-Stage Structured Roadmap</span>
+            {/* Hindi Tab Content */}
+            {langTab === "hi" && (
+              <div className="space-y-3.5 animate-in fade-in duration-150">
+                <div>
+                  <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                    परीक्षा अध्ययन योजना शीर्षक (Hindi) *
+                  </Label>
+                  <Input
+                    required
+                    value={form.examTitleHi}
+                    onChange={(e) => setForm((f) => ({ ...f, examTitleHi: e.target.value }))}
+                    placeholder="उदा. आरएसएसबी सीईटी (स्नातक स्तर) 60-दिवसीय व्यवस्थित अध्ययन योजना"
+                    className="mt-1 font-sans"
+                  />
+                </div>
+
+                <div className="border border-slate-200 dark:border-slate-800 rounded-xl p-3 space-y-3 bg-slate-50/50 dark:bg-slate-900/40">
+                  <div className="flex items-center gap-1.5 font-semibold text-xs text-slate-800 dark:text-slate-200">
+                    <Layers className="w-3.5 h-3.5 text-amber-600" />
+                    <span>चरणबद्ध रोडमैप शीर्षक (Hindi)</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div>
+                      <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">चरण 1 (फाउंडेशन)</Label>
+                      <Input
+                        value={form.phase1TitleHi}
+                        onChange={(e) => setForm((f) => ({ ...f, phase1TitleHi: e.target.value }))}
+                        placeholder="उदा. आधारभूत अवधारणाएं व राजस्थान GK"
+                        className="mt-1 text-xs"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">चरण 2 (अनुप्रयोग)</Label>
+                      <Input
+                        value={form.phase2TitleHi}
+                        onChange={(e) => setForm((f) => ({ ...f, phase2TitleHi: e.target.value }))}
+                        placeholder="उदा. गणित, रीजनिंग व भाषा कौशल"
+                        className="mt-1 text-xs"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">चरण 3 (पुनरावृत्ति)</Label>
+                      <Input
+                        value={form.phase3TitleHi}
+                        onChange={(e) => setForm((f) => ({ ...f, phase3TitleHi: e.target.value }))}
+                        placeholder="उदा. मॉक टेस्ट व त्वरित पुनरावृत्ति"
+                        className="mt-1 text-xs"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                    अध्ययन मील के पत्थर / चेकलिस्ट (प्रति पंक्ति एक) - Hindi
+                  </Label>
+                  <Textarea
+                    rows={4}
+                    value={form.milestonesStrHi}
+                    onChange={(e) => setForm((f) => ({ ...f, milestonesStrHi: e.target.value }))}
+                    placeholder="Day 15: सम्पूर्ण राजस्थान GK पाठ्यक्रम पूरा&#10;Day 35: मैथ्स व रीजनिंग ट्रिक्स अभ्यास&#10;Day 50: विगत 5 वर्षों के प्रश्न पत्र हल..."
+                    className="mt-1 text-xs font-sans"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* English Tab Content */}
+            {langTab === "en" && (
+              <div className="space-y-3.5 animate-in fade-in duration-150">
+                <div>
+                  <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                    Study Plan Exam Title (English) *
+                  </Label>
+                  <Input
+                    required
+                    value={form.examTitleEn}
+                    onChange={(e) => setForm((f) => ({ ...f, examTitleEn: e.target.value }))}
+                    placeholder="e.g. RSSB CET Graduate Level 60-Day Master Study Roadmap"
+                    className="mt-1 font-sans"
+                  />
+                </div>
+
+                <div className="border border-slate-200 dark:border-slate-800 rounded-xl p-3 space-y-3 bg-slate-50/50 dark:bg-slate-900/40">
+                  <div className="flex items-center gap-1.5 font-semibold text-xs text-slate-800 dark:text-slate-200">
+                    <Layers className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Structured Roadmap Phase Titles (English)</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div>
+                      <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Phase 1 (Foundation)</Label>
+                      <Input
+                        value={form.phase1TitleEn}
+                        onChange={(e) => setForm((f) => ({ ...f, phase1TitleEn: e.target.value }))}
+                        placeholder="e.g. Core Foundation & Concepts"
+                        className="mt-1 text-xs"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Phase 2 (Application)</Label>
+                      <Input
+                        value={form.phase2TitleEn}
+                        onChange={(e) => setForm((f) => ({ ...f, phase2TitleEn: e.target.value }))}
+                        placeholder="e.g. Aptitude, Reasoning & Language"
+                        className="mt-1 text-xs"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Phase 3 (Revision)</Label>
+                      <Input
+                        value={form.phase3TitleEn}
+                        onChange={(e) => setForm((f) => ({ ...f, phase3TitleEn: e.target.value }))}
+                        placeholder="e.g. Mock Tests & Rapid Revision"
+                        className="mt-1 text-xs"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                    Key Milestones Checklist (One per line) - English
+                  </Label>
+                  <Textarea
+                    rows={4}
+                    value={form.milestonesStrEn}
+                    onChange={(e) => setForm((f) => ({ ...f, milestonesStrEn: e.target.value }))}
+                    placeholder="Day 15: Complete Rajasthan General Knowledge syllabus&#10;Day 35: Master mathematics & logical reasoning shortcuts&#10;Day 50: Solve previous 5 years official papers..."
+                    className="mt-1 text-xs font-sans"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* General Configurations (Common to both languages) */}
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-3">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                General Parameters / सामान्य सेटिंग्स:
+              </span>
+
+              <div className="space-y-3">
+                <div className="min-w-0">
+                  <Label className="text-xs font-semibold">Commission / Agency</Label>
+                  <Select
+                    value={form.agencyId}
+                    onValueChange={(val) => setForm((f) => ({ ...f, agencyId: val }))}
+                  >
+                    <SelectTrigger className="mt-1 w-full min-w-0">
+                      <SelectValue placeholder="Select Commission / Agency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {agencyList.map((a) => (
+                        <SelectItem key={a.id} value={a.id}>
+                          {a.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="min-w-0">
+                    <Label className="text-xs font-semibold">Target Exam Date</Label>
+                    <Input
+                      type="date"
+                      value={form.targetDate}
+                      onChange={(e) => setForm((f) => ({ ...f, targetDate: e.target.value }))}
+                      className="mt-1 w-full min-w-0"
+                    />
+                  </div>
+
+                  <div className="min-w-0">
+                    <Label className="text-xs font-semibold">Duration (Days)</Label>
+                    <Input
+                      type="number"
+                      value={form.durationDays}
+                      onChange={(e) => setForm((f) => ({ ...f, durationDays: Number(e.target.value) }))}
+                      className="mt-1 w-full min-w-0"
+                    />
+                  </div>
+
+                  <div className="min-w-0">
+                    <Label className="text-xs font-semibold">Daily Hours Target</Label>
+                    <Input
+                      type="number"
+                      value={form.dailyHoursTarget}
+                      onChange={(e) => setForm((f) => ({ ...f, dailyHoursTarget: Number(e.target.value) }))}
+                      className="mt-1 w-full min-w-0"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {/* Phase Durations in Weeks */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 dark:bg-slate-900/50 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
                 <div>
-                  <Label className="text-[11px] font-semibold">Phase 1 Title & Duration</Label>
-                  <Input
-                    value={form.phase1Title}
-                    onChange={(e) => setForm((f) => ({ ...f, phase1Title: e.target.value }))}
-                    placeholder="Foundation Phase"
-                    className="mt-1 text-xs"
-                  />
+                  <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Phase 1 Duration (Weeks)</Label>
                   <Input
                     type="number"
                     value={form.phase1Weeks}
                     onChange={(e) => setForm((f) => ({ ...f, phase1Weeks: Number(e.target.value) }))}
-                    placeholder="Weeks"
                     className="mt-1 text-xs"
                   />
                 </div>
-
                 <div>
-                  <Label className="text-[11px] font-semibold">Phase 2 Title & Duration</Label>
-                  <Input
-                    value={form.phase2Title}
-                    onChange={(e) => setForm((f) => ({ ...f, phase2Title: e.target.value }))}
-                    placeholder="Application Phase"
-                    className="mt-1 text-xs"
-                  />
+                  <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Phase 2 Duration (Weeks)</Label>
                   <Input
                     type="number"
                     value={form.phase2Weeks}
                     onChange={(e) => setForm((f) => ({ ...f, phase2Weeks: Number(e.target.value) }))}
-                    placeholder="Weeks"
                     className="mt-1 text-xs"
                   />
                 </div>
-
                 <div>
-                  <Label className="text-[11px] font-semibold">Phase 3 Title & Duration</Label>
-                  <Input
-                    value={form.phase3Title}
-                    onChange={(e) => setForm((f) => ({ ...f, phase3Title: e.target.value }))}
-                    placeholder="Mock Tests Phase"
-                    className="mt-1 text-xs"
-                  />
+                  <Label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Phase 3 Duration (Weeks)</Label>
                   <Input
                     type="number"
                     value={form.phase3Weeks}
                     onChange={(e) => setForm((f) => ({ ...f, phase3Weeks: Number(e.target.value) }))}
-                    placeholder="Weeks"
                     className="mt-1 text-xs"
                   />
                 </div>
               </div>
-            </div>
 
-            <div>
-              <Label className="text-xs font-semibold">Milestones Checklist (One per line)</Label>
-              <Textarea
-                rows={4}
-                value={form.milestonesStr}
-                onChange={(e) => setForm((f) => ({ ...f, milestonesStr: e.target.value }))}
-                placeholder="Day 15: सम्पूर्ण राजस्थान GK पाठ्यक्रम पूरा&#10;Day 35: तार्किक क्षमता व गणित अभ्यास..."
-                className="mt-1 text-xs"
-              />
-            </div>
-
-            <div className="flex items-center gap-2 pt-1">
-              <Checkbox
-                id="spActive"
-                checked={form.isActive}
-                onCheckedChange={(c) => setForm((f) => ({ ...f, isActive: !!c }))}
-              />
-              <Label htmlFor="spActive" className="text-xs font-medium cursor-pointer">
-                Publish immediately to mobile app Study Planner
-              </Label>
+              <div className="flex items-center gap-2 pt-1">
+                <Checkbox
+                  id="spActive"
+                  checked={form.isActive}
+                  onCheckedChange={(c) => setForm((f) => ({ ...f, isActive: !!c }))}
+                />
+                <Label htmlFor="spActive" className="text-xs font-medium cursor-pointer">
+                  Publish immediately to mobile app Study Planner
+                </Label>
+              </div>
             </div>
 
             <DialogFooter className="gap-2 sm:gap-0 pt-3">

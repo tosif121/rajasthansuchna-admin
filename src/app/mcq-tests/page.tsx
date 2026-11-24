@@ -23,6 +23,7 @@ import {
   DeleteConfirmationModal,
   PageHeader,
 } from "@/components/reusable";
+import { cn } from "@/lib/utils";
 import {
   AlertCircle,
   CheckCircle2,
@@ -119,6 +120,7 @@ export default function McqTestsPage() {
   const [form, setForm] = useState<TestForm>(emptyForm());
   const [formError, setFormError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [langTab, setLangTab] = useState<"hi" | "en">("hi");
   const [testToDelete, setTestToDelete] = useState<McqTestSummary | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -168,6 +170,7 @@ export default function McqTestsPage() {
     setEditingTest(null);
     setForm(emptyForm());
     setFormError(null);
+    setLangTab("hi");
     setFormOpen(true);
   };
 
@@ -198,6 +201,7 @@ export default function McqTestsPage() {
           explanationEn: question.explanationEn || "",
         })),
       });
+      setLangTab("hi");
       setFormOpen(true);
     } catch {
       setFeedback({ message: "Network error while loading the test.", type: "error" });
@@ -430,41 +434,89 @@ export default function McqTestsPage() {
           )}
 
           <div className="space-y-4 py-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Title (English) *">
-                <Input
-                  value={form.titleEn}
-                  onChange={(e) => setForm((prev) => ({ ...prev, titleEn: e.target.value }))}
-                  placeholder="Rajasthan GK - Set 1"
-                />
-              </FormField>
-              <FormField label="Title (Hindi) *">
-                <Input
-                  value={form.titleHi}
-                  onChange={(e) => setForm((prev) => ({ ...prev, titleHi: e.target.value }))}
-                  placeholder="राजस्थान सामान्य ज्ञान - सेट 1"
-                />
-              </FormField>
+            {/* Language Content Switcher */}
+            <div className="flex flex-wrap items-center justify-between p-2.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                Language Content / भाषा विवरण:
+              </span>
+              <div className="inline-flex items-center bg-slate-200 dark:bg-slate-700 p-1 rounded-xl gap-1">
+                <button
+                  type="button"
+                  onClick={() => setLangTab("hi")}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                    langTab === "hi"
+                      ? "bg-amber-500 text-white shadow-xs"
+                      : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                  )}
+                >
+                  <span>हिन्दी (Hindi)</span>
+                  {form.titleHi.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLangTab("en")}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                    langTab === "en"
+                      ? "bg-[#A30B0B] text-white shadow-xs"
+                      : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                  )}
+                >
+                  <span>English (अंग्रेजी)</span>
+                  {form.titleEn.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                </button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Description (English)">
-                <Textarea
-                  rows={2}
-                  value={form.descriptionEn}
-                  onChange={(e) => setForm((prev) => ({ ...prev, descriptionEn: e.target.value }))}
-                />
-              </FormField>
-              <FormField label="Description (Hindi)">
-                <Textarea
-                  rows={2}
-                  value={form.descriptionHi}
-                  onChange={(e) => setForm((prev) => ({ ...prev, descriptionHi: e.target.value }))}
-                />
-              </FormField>
-            </div>
+            {/* Hindi Tab Content */}
+            {langTab === "hi" && (
+              <div className="space-y-3.5 animate-in fade-in duration-150">
+                <FormField label="टेस्ट शीर्षक (Hindi) *">
+                  <Input
+                    value={form.titleHi}
+                    onChange={(e) => setForm((prev) => ({ ...prev, titleHi: e.target.value }))}
+                    placeholder="उदा. राजस्थान सामान्य ज्ञान - सेट 1"
+                    className="font-sans"
+                  />
+                </FormField>
+                <FormField label="विवरण (Hindi)">
+                  <Textarea
+                    rows={2}
+                    value={form.descriptionHi}
+                    onChange={(e) => setForm((prev) => ({ ...prev, descriptionHi: e.target.value }))}
+                    placeholder="उदा. आरपीएससी व आरएसएसबी परीक्षाओं हेतु राजस्थान इतिहास व भूगोल प्रश्नोत्तरी..."
+                    className="font-sans"
+                  />
+                </FormField>
+              </div>
+            )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+            {/* English Tab Content */}
+            {langTab === "en" && (
+              <div className="space-y-3.5 animate-in fade-in duration-150">
+                <FormField label="Test Title (English) *">
+                  <Input
+                    value={form.titleEn}
+                    onChange={(e) => setForm((prev) => ({ ...prev, titleEn: e.target.value }))}
+                    placeholder="e.g. Rajasthan GK Mock Test - Set 1"
+                    className="font-sans"
+                  />
+                </FormField>
+                <FormField label="Description (English)">
+                  <Textarea
+                    rows={2}
+                    value={form.descriptionEn}
+                    onChange={(e) => setForm((prev) => ({ ...prev, descriptionEn: e.target.value }))}
+                    placeholder="e.g. High-yield practice quiz covering Rajasthan History, Polity and Geography..."
+                    className="font-sans"
+                  />
+                </FormField>
+              </div>
+            )}
+
+            {/* Common Settings */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end pt-2 border-t border-slate-200 dark:border-slate-800">
               <FormField label="Duration (minutes)">
                 <Input
                   type="number"
@@ -487,7 +539,7 @@ export default function McqTestsPage() {
 
             <div className="space-y-4 border-t border-slate-200 dark:border-slate-800 pt-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Questions</h3>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Questions & Options</h3>
                 <Button
                   type="button"
                   variant="outline"
@@ -506,70 +558,104 @@ export default function McqTestsPage() {
                       <button
                         type="button"
                         onClick={() => setForm((prev) => ({ ...prev, questions: prev.questions.filter((_, index) => index !== questionIndex) }))}
-                        className="text-[11px] font-bold text-red-600 hover:underline"
+                        className="text-[11px] font-bold text-red-600 hover:underline cursor-pointer"
                       >
                         Remove
                       </button>
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <FormField label="Question (English)">
-                      <Textarea
-                        rows={2}
-                        value={question.questionEn}
-                        onChange={(e) => updateQuestion(questionIndex, "questionEn", e.target.value)}
-                      />
-                    </FormField>
-                    <FormField label="Question (Hindi)">
-                      <Textarea
-                        rows={2}
-                        value={question.questionHi}
-                        onChange={(e) => updateQuestion(questionIndex, "questionHi", e.target.value)}
-                      />
-                    </FormField>
-                  </div>
+                  {langTab === "hi" ? (
+                    <div className="space-y-3 animate-in fade-in duration-150">
+                      <FormField label="प्रश्न विवरण (Hindi) *">
+                        <Textarea
+                          rows={2}
+                          value={question.questionHi}
+                          onChange={(e) => updateQuestion(questionIndex, "questionHi", e.target.value)}
+                          placeholder="उदा. राजस्थान का राज्य वृक्ष कौनसा है?"
+                          className="font-sans"
+                        />
+                      </FormField>
 
-                  <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Options</span>
-                    {question.options.map((option, optionIndex) => (
-                      <div key={optionIndex} className="grid grid-cols-[auto_1fr_1fr] items-center gap-2">
-                        <input
-                          type="radio"
-                          name={`correct-${questionIndex}`}
-                          checked={question.correctOption === optionIndex}
-                          onChange={() => updateQuestion(questionIndex, "correctOption", optionIndex)}
-                          className="h-4 w-4 accent-[#A30B0B] cursor-pointer"
-                          title="Mark as correct answer"
-                        />
-                        <Input
-                          value={option.en}
-                          onChange={(e) => updateOption(questionIndex, optionIndex, "en", e.target.value)}
-                          placeholder={`Option ${optionIndex + 1} (English)`}
-                        />
-                        <Input
-                          value={option.hi}
-                          onChange={(e) => updateOption(questionIndex, optionIndex, "hi", e.target.value)}
-                          placeholder={`विकल्प ${optionIndex + 1} (Hindi)`}
-                        />
+                      <div className="space-y-2">
+                        <span className="text-[11px] font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">
+                          विकल्प (सही उत्तर चिन्हित करें)
+                        </span>
+                        {question.options.map((option, optionIndex) => (
+                          <div key={optionIndex} className="grid grid-cols-[auto_1fr] items-center gap-2">
+                            <input
+                              type="radio"
+                              name={`correct-${questionIndex}`}
+                              checked={question.correctOption === optionIndex}
+                              onChange={() => updateQuestion(questionIndex, "correctOption", optionIndex)}
+                              className="h-4 w-4 accent-[#A30B0B] cursor-pointer"
+                              title="सही उत्तर चिन्हित करें"
+                            />
+                            <Input
+                              value={option.hi}
+                              onChange={(e) => updateOption(questionIndex, optionIndex, "hi", e.target.value)}
+                              placeholder={`विकल्प ${optionIndex + 1} (Hindi)`}
+                              className="font-sans"
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <FormField label="Explanation (English)">
-                      <Input
-                        value={question.explanationEn}
-                        onChange={(e) => updateQuestion(questionIndex, "explanationEn", e.target.value)}
-                      />
-                    </FormField>
-                    <FormField label="Explanation (Hindi)">
-                      <Input
-                        value={question.explanationHi}
-                        onChange={(e) => updateQuestion(questionIndex, "explanationHi", e.target.value)}
-                      />
-                    </FormField>
-                  </div>
+                      <FormField label="उत्तर व्याख्या (Hindi)">
+                        <Input
+                          value={question.explanationHi}
+                          onChange={(e) => updateQuestion(questionIndex, "explanationHi", e.target.value)}
+                          placeholder="उदा. खेजड़ी को 1983 में राज्य वृक्ष घोषित किया गया था..."
+                          className="font-sans"
+                        />
+                      </FormField>
+                    </div>
+                  ) : (
+                    <div className="space-y-3 animate-in fade-in duration-150">
+                      <FormField label="Question Text (English) *">
+                        <Textarea
+                          rows={2}
+                          value={question.questionEn}
+                          onChange={(e) => updateQuestion(questionIndex, "questionEn", e.target.value)}
+                          placeholder="e.g. Which is the state tree of Rajasthan?"
+                          className="font-sans"
+                        />
+                      </FormField>
+
+                      <div className="space-y-2">
+                        <span className="text-[11px] font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">
+                          Options (Select correct radio)
+                        </span>
+                        {question.options.map((option, optionIndex) => (
+                          <div key={optionIndex} className="grid grid-cols-[auto_1fr] items-center gap-2">
+                            <input
+                              type="radio"
+                              name={`correct-${questionIndex}`}
+                              checked={question.correctOption === optionIndex}
+                              onChange={() => updateQuestion(questionIndex, "correctOption", optionIndex)}
+                              className="h-4 w-4 accent-[#A30B0B] cursor-pointer"
+                              title="Mark as correct answer"
+                            />
+                            <Input
+                              value={option.en}
+                              onChange={(e) => updateOption(questionIndex, optionIndex, "en", e.target.value)}
+                              placeholder={`Option ${optionIndex + 1} (English)`}
+                              className="font-sans"
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      <FormField label="Answer Explanation (English)">
+                        <Input
+                          value={question.explanationEn}
+                          onChange={(e) => updateQuestion(questionIndex, "explanationEn", e.target.value)}
+                          placeholder="e.g. Khejri (Prosopis cineraria) was declared state tree in 1983..."
+                          className="font-sans"
+                        />
+                      </FormField>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

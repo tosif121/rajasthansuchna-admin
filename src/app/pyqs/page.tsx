@@ -30,6 +30,7 @@ import {
   PageHeader,
   StatCard,
 } from "@/components/reusable";
+import { cn } from "@/lib/utils";
 import {
   AlertCircle,
   Building,
@@ -52,8 +53,10 @@ interface PyqFormData {
   agencyId: string;
   agencyName: string;
   examYear: string;
-  paperType: string;
-  shiftOrDate: string;
+  paperTypeHi: string;
+  paperTypeEn: string;
+  shiftOrDateHi: string;
+  shiftOrDateEn: string;
   questionPaperUrl: string;
   answerKeyUrl: string;
   isActive: boolean;
@@ -65,8 +68,10 @@ const emptyForm: PyqFormData = {
   agencyId: "rssb",
   agencyName: "राजस्थान कर्मचारी चयन बोर्ड (RSSB)",
   examYear: "2024",
-  paperType: "Combined Test (Paper 1)",
-  shiftOrDate: "Single Shift",
+  paperTypeHi: "प्रारंभिक परीक्षा (Paper 1)",
+  paperTypeEn: "Prelims Examination (Paper 1)",
+  shiftOrDateHi: "प्रथम पारी",
+  shiftOrDateEn: "Morning Shift",
   questionPaperUrl: "",
   answerKeyUrl: "",
   isActive: true,
@@ -90,6 +95,7 @@ export default function PyqsPage() {
   const [formOpen, setFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<PyqRecord | null>(null);
   const [form, setForm] = useState<PyqFormData>(emptyForm);
+  const [langTab, setLangTab] = useState<"hi" | "en">("hi");
   const [isSaving, setIsSaving] = useState(false);
 
   const [itemToDelete, setItemToDelete] = useState<PyqRecord | null>(null);
@@ -117,6 +123,7 @@ export default function PyqsPage() {
   const openCreate = () => {
     setEditingItem(null);
     setForm(emptyForm);
+    setLangTab("hi");
     setFormOpen(true);
   };
 
@@ -128,12 +135,15 @@ export default function PyqsPage() {
       agencyId: item.agencyId,
       agencyName: item.agencyName,
       examYear: item.examYear || "2024",
-      paperType: item.paperType || "Main Exam",
-      shiftOrDate: item.shiftOrDate || "",
+      paperTypeHi: item.paperType || "मुख्य परीक्षा",
+      paperTypeEn: item.paperType || "Main Exam",
+      shiftOrDateHi: item.shiftOrDate || "",
+      shiftOrDateEn: item.shiftOrDate || "",
       questionPaperUrl: item.questionPaperUrl,
       answerKeyUrl: item.answerKeyUrl || "",
       isActive: item.isActive,
     });
+    setLangTab("hi");
     setFormOpen(true);
   };
 
@@ -153,8 +163,8 @@ export default function PyqsPage() {
       agencyId: form.agencyId,
       agencyName: agencyList.find((a) => a.id === form.agencyId)?.name || form.agencyName,
       examYear: form.examYear.trim(),
-      paperType: form.paperType.trim(),
-      shiftOrDate: form.shiftOrDate.trim(),
+      paperType: form.paperTypeEn.trim() || form.paperTypeHi.trim(),
+      shiftOrDate: form.shiftOrDateHi.trim() || form.shiftOrDateEn.trim(),
       questionPaperUrl: form.questionPaperUrl.trim(),
       answerKeyUrl: form.answerKeyUrl.trim() || undefined,
       isActive: form.isActive,
@@ -448,111 +458,187 @@ export default function PyqsPage() {
           </DialogHeader>
 
           <form onSubmit={handleSave} className="space-y-4 py-2">
-            <div>
-              <Label className="text-xs font-semibold">Title (English) *</Label>
-              <Input
-                required
-                value={form.titleEn}
-                onChange={(e) => setForm((f) => ({ ...f, titleEn: e.target.value }))}
-                placeholder="e.g. RPSC RAS Prelims Exam 2023 Official Paper & Model Key"
-                className="mt-1"
-              />
-            </div>
-
-            <div>
-              <Label className="text-xs font-semibold">Title (Hindi) *</Label>
-              <Input
-                required
-                value={form.titleHi}
-                onChange={(e) => setForm((f) => ({ ...f, titleHi: e.target.value }))}
-                placeholder="उदा. आरपीएससी आरएएस प्रारंभिक परीक्षा 2023 मूल प्रश्न पत्र व अंतिम उत्तर कुंजी"
-                className="mt-1"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <Label className="text-xs font-semibold">Commission / Agency</Label>
-                <Select
-                  value={form.agencyId}
-                  onValueChange={(val) => setForm((f) => ({ ...f, agencyId: val }))}
+            {/* Language Switcher Tabs */}
+            <div className="flex flex-wrap items-center justify-between p-2.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                Language Content / भाषा विवरण:
+              </span>
+              <div className="inline-flex items-center bg-slate-200 dark:bg-slate-700 p-1 rounded-xl gap-1">
+                <button
+                  type="button"
+                  onClick={() => setLangTab("hi")}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                    langTab === "hi"
+                      ? "bg-amber-500 text-white shadow-xs"
+                      : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                  )}
                 >
-                  <SelectTrigger className="mt-1">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {agencyList.map((a) => (
-                      <SelectItem key={a.id} value={a.id}>
-                        {a.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  <span>हिन्दी (Hindi)</span>
+                  {form.titleHi.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLangTab("en")}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                    langTab === "en"
+                      ? "bg-[#A30B0B] text-white shadow-xs"
+                      : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                  )}
+                >
+                  <span>English (अंग्रेजी)</span>
+                  {form.titleEn.trim() && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Hindi Tab Content */}
+            {langTab === "hi" && (
+              <div className="space-y-3.5 animate-in fade-in duration-150">
+                <div>
+                  <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">प्रश्न पत्र शीर्षक (Hindi) *</Label>
+                  <Input
+                    required
+                    value={form.titleHi}
+                    onChange={(e) => setForm((f) => ({ ...f, titleHi: e.target.value }))}
+                    placeholder="उदा. आरपीएससी आरएएस प्रारंभिक परीक्षा 2023 मूल प्रश्न पत्र व अंतिम उत्तर कुंजी"
+                    className="mt-1 font-sans"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">परीक्षा प्रकार / पेपर (Hindi)</Label>
+                    <Input
+                      value={form.paperTypeHi}
+                      onChange={(e) => setForm((f) => ({ ...f, paperTypeHi: e.target.value }))}
+                      placeholder="उदा. प्रारंभिक परीक्षा (प्रश्न पत्र 1 - सामान्य ज्ञान)"
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">पारी या परीक्षा तिथि (Hindi)</Label>
+                    <Input
+                      value={form.shiftOrDateHi}
+                      onChange={(e) => setForm((f) => ({ ...f, shiftOrDateHi: e.target.value }))}
+                      placeholder="उदा. 01 अक्टूबर 2023 (प्रथम पारी)"
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* English Tab Content */}
+            {langTab === "en" && (
+              <div className="space-y-3.5 animate-in fade-in duration-150">
+                <div>
+                  <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">Question Paper Title (English) *</Label>
+                  <Input
+                    required
+                    value={form.titleEn}
+                    onChange={(e) => setForm((f) => ({ ...f, titleEn: e.target.value }))}
+                    placeholder="e.g. RPSC RAS Prelims Exam 2023 Official Paper & Model Answer Key"
+                    className="mt-1"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">Paper Type (English)</Label>
+                    <Input
+                      value={form.paperTypeEn}
+                      onChange={(e) => setForm((f) => ({ ...f, paperTypeEn: e.target.value }))}
+                      placeholder="e.g. Prelims Examination (Paper 1 - GK & GS)"
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-xs font-semibold text-slate-800 dark:text-slate-200">Shift or Exam Date (English)</Label>
+                    <Input
+                      value={form.shiftOrDateEn}
+                      onChange={(e) => setForm((f) => ({ ...f, shiftOrDateEn: e.target.value }))}
+                      placeholder="e.g. 01 Oct 2023 (Morning Shift)"
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* General Settings */}
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-3">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                General Settings / सामान्य विवरण
+              </span>
+
+              <div className="space-y-3">
+                <div className="min-w-0">
+                  <Label className="text-xs font-semibold">Commission / Agency</Label>
+                  <Select
+                    value={form.agencyId}
+                    onValueChange={(val) => setForm((f) => ({ ...f, agencyId: val }))}
+                  >
+                    <SelectTrigger className="mt-1 w-full min-w-0">
+                      <SelectValue placeholder="Select Commission / Agency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {agencyList.map((a) => (
+                        <SelectItem key={a.id} value={a.id}>
+                          {a.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="min-w-0">
+                  <Label className="text-xs font-semibold">Exam Year</Label>
+                  <Input
+                    value={form.examYear}
+                    onChange={(e) => setForm((f) => ({ ...f, examYear: e.target.value }))}
+                    placeholder="2024"
+                    className="mt-1 w-full min-w-0"
+                  />
+                </div>
               </div>
 
               <div>
-                <Label className="text-xs font-semibold">Exam Year</Label>
+                <Label className="text-xs font-semibold">Question Paper PDF Link *</Label>
                 <Input
-                  value={form.examYear}
-                  onChange={(e) => setForm((f) => ({ ...f, examYear: e.target.value }))}
-                  placeholder="2024"
+                  required
+                  type="url"
+                  value={form.questionPaperUrl}
+                  onChange={(e) => setForm((f) => ({ ...f, questionPaperUrl: e.target.value }))}
+                  placeholder="https://rpsc.rajasthan.gov.in/Static/Paper.pdf"
                   className="mt-1"
                 />
               </div>
 
               <div>
-                <Label className="text-xs font-semibold">Paper Type</Label>
+                <Label className="text-xs font-semibold">Official Answer Key PDF Link (Optional)</Label>
                 <Input
-                  value={form.paperType}
-                  onChange={(e) => setForm((f) => ({ ...f, paperType: e.target.value }))}
-                  placeholder="e.g. Prelims / Mains / Paper 1"
+                  type="url"
+                  value={form.answerKeyUrl}
+                  onChange={(e) => setForm((f) => ({ ...f, answerKeyUrl: e.target.value }))}
+                  placeholder="https://rpsc.rajasthan.gov.in/Static/AnswerKey.pdf"
                   className="mt-1"
                 />
               </div>
-            </div>
 
-            <div>
-              <Label className="text-xs font-semibold">Shift or Exam Date</Label>
-              <Input
-                value={form.shiftOrDate}
-                onChange={(e) => setForm((f) => ({ ...f, shiftOrDate: e.target.value }))}
-                placeholder="e.g. 01 Oct 2023 (Morning Shift)"
-                className="mt-1"
-              />
-            </div>
-
-            <div>
-              <Label className="text-xs font-semibold">Question Paper PDF Link *</Label>
-              <Input
-                required
-                type="url"
-                value={form.questionPaperUrl}
-                onChange={(e) => setForm((f) => ({ ...f, questionPaperUrl: e.target.value }))}
-                placeholder="https://rpsc.rajasthan.gov.in/Static/Paper.pdf"
-                className="mt-1"
-              />
-            </div>
-
-            <div>
-              <Label className="text-xs font-semibold">Official Answer Key PDF Link (Optional)</Label>
-              <Input
-                type="url"
-                value={form.answerKeyUrl}
-                onChange={(e) => setForm((f) => ({ ...f, answerKeyUrl: e.target.value }))}
-                placeholder="https://rpsc.rajasthan.gov.in/Static/AnswerKey.pdf"
-                className="mt-1"
-              />
-            </div>
-
-            <div className="flex items-center gap-2 pt-1">
-              <Checkbox
-                id="pyqActive"
-                checked={form.isActive}
-                onCheckedChange={(c) => setForm((f) => ({ ...f, isActive: !!c }))}
-              />
-              <Label htmlFor="pyqActive" className="text-xs font-medium cursor-pointer">
-                Publish immediately to mobile app PYQ tab
-              </Label>
+              <div className="flex items-center gap-2 pt-1">
+                <Checkbox
+                  id="pyqActive"
+                  checked={form.isActive}
+                  onCheckedChange={(c) => setForm((f) => ({ ...f, isActive: !!c }))}
+                />
+                <Label htmlFor="pyqActive" className="text-xs font-medium cursor-pointer">
+                  Publish immediately to mobile app PYQ tab
+                </Label>
+              </div>
             </div>
 
             <DialogFooter className="gap-2 sm:gap-0 pt-3">
