@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
 import {
@@ -59,7 +59,11 @@ interface NoticeFacts {
   applicationStart?: string;
   applicationEnd?: string;
   feeEndDate?: string;
+  correctionEndDate?: string;
+  examCityDate?: string;
+  admitCardDate?: string;
   examDate?: string;
+  answerKeyDate?: string;
   feeGeneralObc?: string;
   feeScSt?: string;
   feePh?: string;
@@ -74,7 +78,17 @@ interface NoticeFacts {
   howToCheckResult?: string;
   telegramUrl?: string;
   whatsappUrl?: string;
+  applyOnlineUrl?: string;
+  shortNoticeUrl?: string;
+  notificationPdfUrl?: string;
   syllabusUrl?: string;
+  correctionUrl?: string;
+  admitCardUrl?: string;
+  examCityUrl?: string;
+  answerKeyUrl?: string;
+  scoreCardUrl?: string;
+  resultUrl?: string;
+  officialSiteUrl?: string;
   faqs?: Array<{ question: string; answer: string }>;
   selectionProcess: string;
   sourceUrl: string;
@@ -137,7 +151,11 @@ interface NoticeForm {
   applicationStart: string;
   applicationEnd: string;
   feeEndDate: string;
+  correctionEndDate: string;
+  examCityDate: string;
+  admitCardDate: string;
   examDate: string;
+  answerKeyDate: string;
   feeGeneralObc: string;
   feeScSt: string;
   feePh: string;
@@ -154,11 +172,18 @@ interface NoticeForm {
   categoryVacancies: string;
   telegramUrl: string;
   whatsappUrl: string;
-  syllabusUrl: string;
-  faqs: string;
-  notificationPdfUrl: string;
   applyOnlineUrl: string;
+  shortNoticeUrl: string;
+  notificationPdfUrl: string;
+  syllabusUrl: string;
+  correctionUrl: string;
+  admitCardUrl: string;
+  examCityUrl: string;
+  answerKeyUrl: string;
+  scoreCardUrl: string;
+  resultUrl: string;
   officialSiteUrl: string;
+  faqs: string;
 }
 
 const DEFAULT_JURISDICTIONS: Option[] = [
@@ -185,7 +210,7 @@ function parseCategoryVacancies(str?: string): Record<string, string> | undefine
   if (!str || !str.trim()) return undefined;
   try {
     if (str.trim().startsWith('{')) return JSON.parse(str.trim());
-  } catch {}
+  } catch { }
   const result: Record<string, string> = {};
   const parts = str.split(/[,\n]+/);
   for (const p of parts) {
@@ -201,7 +226,7 @@ function parseFaqs(str?: string): Array<{ question: string; answer: string }> | 
   if (!str || !str.trim()) return undefined;
   try {
     if (str.trim().startsWith('[')) return JSON.parse(str.trim());
-  } catch {}
+  } catch { }
   const items: Array<{ question: string; answer: string }> = [];
   const blocks = str.split(/\n\s*\n/);
   for (const block of blocks) {
@@ -256,12 +281,14 @@ const emptyForm = (): NoticeForm => ({
   categoryVacancies: '',
   telegramUrl: 'https://t.me/Raj_Suchna',
   whatsappUrl: 'https://whatsapp.com/channel/0029Vakea9U89inpSSjnR82N',
-  syllabusUrl: '',
-  faqs: '',
   applicationStart: '',
   applicationEnd: '',
   feeEndDate: '',
-  examDate: '',
+  correctionEndDate: '',
+  examCityDate: '',
+  admitCardDate: 'एग्जाम से पहले जारी किया जाएगा।',
+  examDate: 'जल्द ही यहां अपडेट किया जाएगा।',
+  answerKeyDate: '',
   feeGeneralObc: '',
   feeScSt: '',
   feePh: '',
@@ -273,9 +300,18 @@ const emptyForm = (): NoticeForm => ({
   sourceDate: '',
   verifiedAt: '',
   verifiedBy: 'Raj Suchna Editorial Board',
-  notificationPdfUrl: '',
   applyOnlineUrl: '',
+  shortNoticeUrl: '',
+  notificationPdfUrl: '',
+  syllabusUrl: '',
+  correctionUrl: '',
+  admitCardUrl: '',
+  examCityUrl: '',
+  answerKeyUrl: '',
+  scoreCardUrl: '',
+  resultUrl: '',
   officialSiteUrl: '',
+  faqs: '',
 });
 
 const dateOnly = (value?: string) => (value ? value.split('T')[0] : '');
@@ -393,6 +429,18 @@ export default function NoticesPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
+  const filteredAgencies = useMemo(() => {
+    const isCentral = form.state === 'central';
+    return agencyOptions.filter((a) => {
+      const grp = (a.parentGroup || '').trim().toLowerCase();
+      if (isCentral) {
+        return grp === 'central' || ['ssc', 'upsc', 'railway', 'banking', 'defence', 'teaching', 'rbi', 'crpf_bsf_cisf_itbp_ssb', 'aiims', 'lic_niacl_nicl_uiic', 'drdo', 'fci', 'aai', 'nabard', 'bhel'].includes(a.id);
+      } else {
+        return (grp === 'state' || grp === 'rajasthan' || !grp) && grp !== 'central' && !['ssc', 'upsc', 'railway', 'banking', 'defence', 'teaching', 'rbi', 'crpf_bsf_cisf_itbp_ssb', 'aiims', 'lic_niacl_nicl_uiic', 'drdo', 'fci', 'aai', 'nabard', 'bhel'].includes(a.id);
+      }
+    });
+  }, [agencyOptions, form.state]);
+
   // Delete Confirmation Modal State
   const [noticeToDelete, setNoticeToDelete] = useState<NoticeItem | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -498,7 +546,11 @@ export default function NoticesPage() {
     const next = emptyForm();
     next.sourceDate = today();
     next.verifiedAt = today();
-    next.agencyId = agencyOptions[0]?.id || '';
+    const initialAgencies = agencyOptions.filter((a) => {
+      const grp = (a.parentGroup || '').trim().toLowerCase();
+      return (grp === 'state' || grp === 'rajasthan' || !grp) && grp !== 'central';
+    });
+    next.agencyId = initialAgencies[0]?.id || agencyOptions[0]?.id || 'rssb';
     next.categoryId = categoryOptions[0]?.id || '';
     setEditingNotice(null);
     setForm(next);
@@ -530,12 +582,26 @@ export default function NoticesPage() {
       categoryVacancies: formatCategoryVacancies(notice.facts?.categoryVacancies),
       telegramUrl: notice.facts?.telegramUrl || linkValue(notice.links, 'telegram') || 'https://t.me/Raj_Suchna',
       whatsappUrl: notice.facts?.whatsappUrl || linkValue(notice.links, 'whatsapp') || 'https://whatsapp.com/channel/0029Vakea9U89inpSSjnR82N',
-      syllabusUrl: notice.facts?.syllabusUrl || linkValue(notice.links, 'syllabus'),
+      syllabusUrl: notice.facts?.syllabusUrl || linkValue(notice.links, 'syllabus') || '',
+      shortNoticeUrl: notice.facts?.shortNoticeUrl || linkValue(notice.links, 'shortNotice') || '',
+      notificationPdfUrl: notice.facts?.notificationPdfUrl || linkValue(notice.links, 'notificationPdf') || '',
+      applyOnlineUrl: notice.facts?.applyOnlineUrl || linkValue(notice.links, 'applyOnline') || '',
+      correctionUrl: notice.facts?.correctionUrl || linkValue(notice.links, 'correctionForm') || linkValue(notice.links, 'correction') || '',
+      admitCardUrl: notice.facts?.admitCardUrl || linkValue(notice.links, 'admitCard') || '',
+      examCityUrl: notice.facts?.examCityUrl || linkValue(notice.links, 'examCity') || '',
+      answerKeyUrl: notice.facts?.answerKeyUrl || linkValue(notice.links, 'answerKey') || '',
+      scoreCardUrl: notice.facts?.scoreCardUrl || linkValue(notice.links, 'scoreCard') || '',
+      resultUrl: notice.facts?.resultUrl || linkValue(notice.links, 'result') || '',
+      officialSiteUrl: notice.facts?.officialSiteUrl || linkValue(notice.links, 'officialSite') || '',
       faqs: formatFaqs(notice.facts?.faqs),
       applicationStart: dateOnly(notice.facts?.applicationStart),
       applicationEnd: dateOnly(notice.facts?.applicationEnd),
       feeEndDate: dateOnly(notice.facts?.feeEndDate),
-      examDate: dateOnly(notice.facts?.examDate),
+      correctionEndDate: dateOnly(notice.facts?.correctionEndDate) || notice.facts?.correctionEndDate || '',
+      examCityDate: dateOnly(notice.facts?.examCityDate) || notice.facts?.examCityDate || '',
+      admitCardDate: notice.facts?.admitCardDate || 'एग्जाम से पहले जारी किया जाएगा।',
+      examDate: notice.facts?.examDate || 'जल्द ही यहां अपडेट किया जाएगा।',
+      answerKeyDate: dateOnly(notice.facts?.answerKeyDate) || notice.facts?.answerKeyDate || '',
       feeGeneralObc: notice.facts?.feeGeneralObc || '',
       feeScSt: notice.facts?.feeScSt || '',
       feePh: notice.facts?.feePh || (notice.sections?.find((s) => s.key === 'fee')?.rows?.['PH / Divyang'] || notice.sections?.find((s) => s.key === 'fee')?.rows?.['PH'] || ''),
@@ -547,9 +613,6 @@ export default function NoticesPage() {
       sourceDate: dateOnly(notice.facts?.sourceDate) || today(),
       verifiedAt: dateOnly(notice.facts?.verifiedAt) || today(),
       verifiedBy: notice.facts?.verifiedBy || 'Raj Suchna Editorial Board',
-      notificationPdfUrl: linkValue(notice.links, 'notificationPdf'),
-      applyOnlineUrl: linkValue(notice.links, 'applyOnline'),
-      officialSiteUrl: linkValue(notice.links, 'officialSite'),
     });
     setFormError(null);
     setFormOpen(true);
@@ -562,17 +625,38 @@ export default function NoticesPage() {
     const defaultCategory = form.categoryId || (categoryOptions[0]?.id ?? 'general');
 
     const links: NoticeLink[] = [];
-    if (form.notificationPdfUrl.trim()) {
-      links.push({ label: 'Official Notification (PDF)', url: form.notificationPdfUrl.trim(), kind: 'notificationPdf' });
-    }
     if (form.applyOnlineUrl.trim()) {
-      links.push({ label: 'Apply Online', url: form.applyOnlineUrl.trim(), kind: 'applyOnline' });
+      links.push({ label: 'ऑनलाइन आवेदन करें', url: form.applyOnlineUrl.trim(), kind: 'applyOnline' });
+    }
+    if (form.shortNoticeUrl.trim()) {
+      links.push({ label: 'शोर्ट नोटिस / एग्जाम डेट नोटिस', url: form.shortNoticeUrl.trim(), kind: 'shortNotice' });
+    }
+    if (form.notificationPdfUrl.trim()) {
+      links.push({ label: 'आधिकारिक विज्ञप्ति', url: form.notificationPdfUrl.trim(), kind: 'notificationPdf' });
     }
     if (form.syllabusUrl.trim()) {
-      links.push({ label: 'Download Syllabus (PDF)', url: form.syllabusUrl.trim(), kind: 'syllabus' });
+      links.push({ label: 'सिलेबस और एग्जाम पैटर्न', url: form.syllabusUrl.trim(), kind: 'syllabus' });
+    }
+    if (form.correctionUrl.trim()) {
+      links.push({ label: 'फॉर्म में सुधार', url: form.correctionUrl.trim(), kind: 'correctionForm' });
+    }
+    if (form.admitCardUrl.trim()) {
+      links.push({ label: 'एडमिट कार्ड', url: form.admitCardUrl.trim(), kind: 'admitCard' });
+    }
+    if (form.examCityUrl.trim()) {
+      links.push({ label: 'एग्जाम सिटी डिटेल्स', url: form.examCityUrl.trim(), kind: 'examCity' });
+    }
+    if (form.answerKeyUrl.trim()) {
+      links.push({ label: 'उत्तर कुंजी', url: form.answerKeyUrl.trim(), kind: 'answerKey' });
+    }
+    if (form.scoreCardUrl.trim()) {
+      links.push({ label: 'स्कोर कार्ड', url: form.scoreCardUrl.trim(), kind: 'scoreCard' });
+    }
+    if (form.resultUrl.trim()) {
+      links.push({ label: 'परिणाम / मेरिट सूची', url: form.resultUrl.trim(), kind: 'result' });
     }
     if (form.officialSiteUrl.trim()) {
-      links.push({ label: 'Official Website', url: form.officialSiteUrl.trim(), kind: 'officialSite' });
+      links.push({ label: 'विभागीय आधिकारिक वेबसाइट', url: form.officialSiteUrl.trim(), kind: 'officialSite' });
     }
     if (form.telegramUrl.trim()) {
       links.push({ label: 'Join Telegram Channel', url: form.telegramUrl.trim(), kind: 'telegram' });
@@ -596,7 +680,17 @@ export default function NoticesPage() {
       ...(categoryVacancies ? { categoryVacancies } : {}),
       ...(form.telegramUrl ? { telegramUrl: form.telegramUrl.trim() } : {}),
       ...(form.whatsappUrl ? { whatsappUrl: form.whatsappUrl.trim() } : {}),
+      ...(form.applyOnlineUrl ? { applyOnlineUrl: form.applyOnlineUrl.trim() } : {}),
+      ...(form.shortNoticeUrl ? { shortNoticeUrl: form.shortNoticeUrl.trim() } : {}),
+      ...(form.notificationPdfUrl ? { notificationPdfUrl: form.notificationPdfUrl.trim() } : {}),
       ...(form.syllabusUrl ? { syllabusUrl: form.syllabusUrl.trim() } : {}),
+      ...(form.correctionUrl ? { correctionUrl: form.correctionUrl.trim() } : {}),
+      ...(form.admitCardUrl ? { admitCardUrl: form.admitCardUrl.trim() } : {}),
+      ...(form.examCityUrl ? { examCityUrl: form.examCityUrl.trim() } : {}),
+      ...(form.answerKeyUrl ? { answerKeyUrl: form.answerKeyUrl.trim() } : {}),
+      ...(form.scoreCardUrl ? { scoreCardUrl: form.scoreCardUrl.trim() } : {}),
+      ...(form.resultUrl ? { resultUrl: form.resultUrl.trim() } : {}),
+      ...(form.officialSiteUrl ? { officialSiteUrl: form.officialSiteUrl.trim() } : {}),
       ...(faqs ? { faqs } : {}),
       ...(form.postsCount ? { postsCount: Number(form.postsCount) } : {}),
       ...(form.ageMin ? { ageMin: Number(form.ageMin) } : {}),
@@ -604,7 +698,11 @@ export default function NoticesPage() {
       ...(form.applicationStart ? { applicationStart: form.applicationStart } : {}),
       ...(form.applicationEnd ? { applicationEnd: form.applicationEnd } : {}),
       ...(form.feeEndDate ? { feeEndDate: form.feeEndDate } : {}),
-      ...(form.examDate ? { examDate: form.examDate } : {}),
+      ...(form.correctionEndDate ? { correctionEndDate: form.correctionEndDate.trim() } : {}),
+      ...(form.examCityDate ? { examCityDate: form.examCityDate.trim() } : {}),
+      admitCardDate: form.admitCardDate.trim() || 'एग्जाम से पहले जारी किया जाएगा।',
+      examDate: form.examDate.trim() || 'जल्द ही यहां अपडेट किया जाएगा।',
+      ...(form.answerKeyDate ? { answerKeyDate: form.answerKeyDate.trim() } : {}),
       ...(form.feeGeneralObc ? { feeGeneralObc: form.feeGeneralObc } : {}),
       ...(form.feeScSt ? { feeScSt: form.feeScSt } : {}),
       ...(form.feePh ? { feePh: form.feePh } : {}),
@@ -722,14 +820,14 @@ export default function NoticesPage() {
 
         return (
           <div className="max-w-sm">
-            <p 
+            <p
               className="font-semibold text-slate-900 dark:text-white text-xs cursor-default hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               title={fullTitle}
             >
               {displayTitle}
             </p>
             <div className="flex flex-wrap items-center gap-1 mt-1">
-              <span 
+              <span
                 className="inline-block text-[10px] text-amber-800 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-900/50 cursor-default hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors"
                 title={fullAgency}
               >
@@ -860,11 +958,10 @@ export default function NoticesPage() {
 
           {feedback && (
             <div
-              className={`p-4 rounded-xl text-xs flex items-center justify-between border ${
-                feedback.type === 'success'
-                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/80'
-                  : 'bg-red-50 text-red-800 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/80'
-              }`}
+              className={`p-4 rounded-xl text-xs flex items-center justify-between border ${feedback.type === 'success'
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/80'
+                : 'bg-red-50 text-red-800 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/80'
+                }`}
             >
               <div className="flex items-center gap-2.5">
                 {feedback.type === 'success' ? (
@@ -919,16 +1016,14 @@ export default function NoticesPage() {
               <button
                 key={tab.value}
                 onClick={() => setStatusFilter(tab.value as 'all' | 'active' | 'inactive')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${
-                  statusFilter === tab.value
-                    ? 'bg-[#A30B0B] text-white shadow-sm'
-                    : 'bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800'
-                }`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${statusFilter === tab.value
+                  ? 'bg-[#A30B0B] text-white shadow-sm'
+                  : 'bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800'
+                  }`}
               >
                 <span>{tab.label}</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
-                  statusFilter === tab.value ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
-                }`}>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${statusFilter === tab.value ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                  }`}>
                   {tab.count}
                 </span>
               </button>
@@ -1017,20 +1112,51 @@ export default function NoticesPage() {
               </FormField>
             </div>
 
+            {/* Notice Type ---> Jurisdiction ---> Category -----> Agency (Filtered) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <FormField label="Agency *">
-                <Select value={form.agencyId} onValueChange={(val) => updateForm('agencyId', val)}>
+              <FormField label="1. Notice Type *">
+                <Select value={form.noticeType} onValueChange={(val) => updateForm('noticeType', val)}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select agency" />
+                    <SelectValue placeholder="Notice type" />
                   </SelectTrigger>
                   <SelectContent>
-                    {agencyOptions.map((a) => (
-                      <SelectItem key={a.id} value={a.id}>{a.nameEn}</SelectItem>
+                    {(noticeTypeOptions.length > 0 ? noticeTypeOptions : DEFAULT_NOTICE_TYPES).map((t) => (
+                      <SelectItem key={t.id} value={t.id}>{t.nameEn}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </FormField>
-              <FormField label="Category *">
+
+              <FormField label="2. Jurisdiction *">
+                <Select
+                  value={form.state}
+                  onValueChange={(val) => {
+                    const newState = val as NoticeForm['state'];
+                    setForm((prev) => {
+                      const validAgencies = agencyOptions.filter((a) => {
+                        const grp = (a.parentGroup || '').toLowerCase();
+                        if (newState === 'central') {
+                          return grp === 'central' || ['ssc', 'upsc', 'railway', 'ibps', 'defence'].includes(a.id);
+                        }
+                        return grp === 'state' || grp === 'rajasthan' || !['ssc', 'upsc', 'railway', 'ibps', 'defence'].includes(a.id);
+                      });
+                      const validAgency = validAgencies.some(a => a.id === prev.agencyId) ? prev.agencyId : (validAgencies[0]?.id || '');
+                      return { ...prev, state: newState, agencyId: validAgency };
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Jurisdiction" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(jurisdictionOptions.length > 0 ? jurisdictionOptions : DEFAULT_JURISDICTIONS).map((j) => (
+                      <SelectItem key={j.id} value={j.id}>{j.nameEn} ({j.nameHi})</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormField>
+
+              <FormField label="3. Category *">
                 <Select value={form.categoryId} onValueChange={(val) => updateForm('categoryId', val)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select category" />
@@ -1042,26 +1168,15 @@ export default function NoticesPage() {
                   </SelectContent>
                 </Select>
               </FormField>
-              <FormField label="Jurisdiction">
-                <Select value={form.state} onValueChange={(val) => updateForm('state', val as NoticeForm['state'])}>
+
+              <FormField label="4. Agency*">
+                <Select value={form.agencyId} onValueChange={(val) => updateForm('agencyId', val)}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Jurisdiction" />
+                    <SelectValue placeholder="Select agency" />
                   </SelectTrigger>
                   <SelectContent>
-                    {(jurisdictionOptions.length > 0 ? jurisdictionOptions : DEFAULT_JURISDICTIONS).map((j) => (
-                      <SelectItem key={j.id} value={j.id}>{j.nameEn}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormField>
-              <FormField label="Notice Type">
-                <Select value={form.noticeType} onValueChange={(val) => updateForm('noticeType', val)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Notice type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {(noticeTypeOptions.length > 0 ? noticeTypeOptions : DEFAULT_NOTICE_TYPES).map((t) => (
-                      <SelectItem key={t.id} value={t.id}>{t.nameEn}</SelectItem>
+                    {filteredAgencies.map((a) => (
+                      <SelectItem key={a.id} value={a.id}>{a.nameEn}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -1137,56 +1252,137 @@ export default function NoticesPage() {
               </FormField>
             </div>
 
-            <FormField 
+            <FormField
               label="Category-Wise Vacancies (वर्गवार रिक्तियों का विवरण)"
-              hint="Format: UR: 450, EWS: 105, OBC: 210, MBC: 52, SC: 168, ST: 135"
+              hint="खाली रखने पर ऐप में यह सेक्शन पूरी तरह से छुपा रहेगा (कोई गलत या डमी डेटा नहीं आएगा)। Format: UR: 450, EWS: 105, OBC: 210, MBC: 52, SC: 168, ST: 135"
             >
               <Textarea
                 rows={2}
                 value={form.categoryVacancies}
                 onChange={(e) => updateForm('categoryVacancies', e.target.value)}
-                placeholder="UR: 450, EWS: 105, OBC: 210, MBC: 52, SC: 168, ST: 135"
+                placeholder="UR: 450, EWS: 105, OBC: 210, MBC: 52, SC: 168, ST: 135 (वैकल्पिक)"
               />
             </FormField>
 
-            <FormField label="Qualification *">
+            <FormField
+              label="Qualification / शैक्षणिक योग्यता *"
+              hint="नंबरिंग व बोल्ड शब्द समर्थित हैं। उदा: 1. **12वीं पास** के साथ **RSCIT** डिप्लोमा"
+            >
+              <div className="flex items-center gap-2 mb-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm((prev) => ({
+                      ...prev,
+                      qualification: prev.qualification ? `${prev.qualification} **बोल्ड शब्द**` : '**मुख्य योग्यता**',
+                    }));
+                  }}
+                  className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors"
+                  title="शब्दों को बोल्ड करने के लिए **शब्द** लगाएं"
+                >
+                  ** Bold Selected
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm((prev) => {
+                      const lines = prev.qualification ? prev.qualification.split('\n') : [];
+                      const nextNum = lines.length + 1;
+                      const newLine = `${nextNum}. `;
+                      return {
+                        ...prev,
+                        qualification: prev.qualification ? `${prev.qualification}\n${newLine}` : newLine,
+                      };
+                    });
+                  }}
+                  className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors"
+                  title="क्रम संख्या जोड़ें"
+                >
+                  1. Add Point
+                </button>
+              </div>
               <Textarea
-                rows={2}
+                rows={3}
                 value={form.qualification}
                 onChange={(e) => updateForm('qualification', e.target.value)}
-                placeholder="Graduate / 12th Pass with RSCIT Diploma"
+                placeholder="1. मान्यता प्राप्त बोर्ड से **12वीं (10+2)** उत्तीर्ण।&#10;2. **RSCIT** अथवा समकक्ष कम्प्यूटर डिप्लोमा।"
               />
             </FormField>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <FormField label="Application Start">
-                <DatePicker
-                  date={form.applicationStart}
-                  onChange={(val) => updateForm('applicationStart', val)}
-                  placeholder="Application start date"
-                />
-              </FormField>
-              <FormField label="Application Last Date">
-                <DatePicker
-                  date={form.applicationEnd}
-                  onChange={(val) => updateForm('applicationEnd', val)}
-                  placeholder="Application end date"
-                />
-              </FormField>
-              <FormField label="Fee Last Date">
-                <DatePicker
-                  date={form.feeEndDate}
-                  onChange={(val) => updateForm('feeEndDate', val)}
-                  placeholder="Fee last date"
-                />
-              </FormField>
-              <FormField label="Exam Date">
-                <DatePicker
-                  date={form.examDate}
-                  onChange={(val) => updateForm('examDate', val)}
-                  placeholder="Exam date"
-                />
-              </FormField>
+            {/* Dates Section (8 Important Dates) */}
+            <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 space-y-3">
+              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  📅 Important Dates / महत्वपूर्ण तिथियाँ
+                </span>
+                <span className="text-[11px] text-slate-500">
+                  (एडमिट कार्ड व परीक्षा तिथि खाली होने पर डिफॉल्ट सूचना स्वतः प्रदर्शित होगी)
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <FormField label="आवेदन प्रारंभ तिथि:">
+                  <DatePicker
+                    date={form.applicationStart}
+                    onChange={(val) => updateForm('applicationStart', val)}
+                    placeholder="आवेदन प्रारंभ तिथि"
+                  />
+                </FormField>
+                <FormField label="आवेदन अंतिम तिथि:">
+                  <DatePicker
+                    date={form.applicationEnd}
+                    onChange={(val) => updateForm('applicationEnd', val)}
+                    placeholder="आवेदन अंतिम तिथि"
+                  />
+                </FormField>
+                <FormField label="शुल्क भुगतान अंतिम तिथि:">
+                  <DatePicker
+                    date={form.feeEndDate}
+                    onChange={(val) => updateForm('feeEndDate', val)}
+                    placeholder="शुल्क भुगतान अंतिम तिथि"
+                  />
+                </FormField>
+                <FormField label="फॉर्म सुधार अंतिम तिथि:">
+                  <DatePicker
+                    date={form.correctionEndDate}
+                    onChange={(val) => updateForm('correctionEndDate', val)}
+                    placeholder="फॉर्म सुधार अंतिम तिथि"
+                  />
+                </FormField>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <FormField label="एग्जाम सिटी की जानकारी:">
+                  <DatePicker
+                    date={form.examCityDate}
+                    onChange={(val) => updateForm('examCityDate', val)}
+                    placeholder="एग्जाम सिटी तिथि"
+                  />
+                </FormField>
+                <FormField label="एडमिट कार्ड तिथि:" hint="डिफॉल्ट: एग्जाम से पहले जारी किया जाएगा।">
+                  <Textarea
+                    rows={1}
+                    value={form.admitCardDate}
+                    onChange={(e) => updateForm('admitCardDate', e.target.value)}
+                    placeholder="एग्जाम से पहले जारी किया जाएगा।"
+                  />
+                </FormField>
+                <FormField label="परीक्षा तिथि:" hint="डिफॉल्ट: जल्द ही यहां अपडेट किया जाएगा।">
+                  <Textarea
+                    rows={1}
+                    value={form.examDate}
+                    onChange={(e) => updateForm('examDate', e.target.value)}
+                    placeholder="जल्द ही यहां अपडेट किया जाएगा।"
+                  />
+                </FormField>
+                <FormField label="उत्तर कुंजी तिथि:">
+                  <DatePicker
+                    date={form.answerKeyDate}
+                    onChange={(val) => updateForm('answerKeyDate', val)}
+                    placeholder="उत्तर कुंजी तिथि"
+                  />
+                </FormField>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1216,141 +1412,139 @@ export default function NoticesPage() {
               </FormField>
             </div>
 
-            <FormField label="Selection Process">
+            <FormField
+              label="Selection Process / चयन प्रक्रिया"
+              hint="चयन प्रक्रिया के चरण नंबरिंग के साथ दर्ज करें"
+            >
+              <div className="flex items-center gap-2 mb-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm((prev) => ({
+                      ...prev,
+                      selectionProcess: '1. लिखित परीक्षा (Written Examination)\n2. शारीरिक दक्षता परीक्षा (PET / PST)\n3. दस्तावेज सत्यापन (Document Verification)\n4. चिकित्सा परीक्षण (Medical Examination)',
+                    }));
+                  }}
+                  className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors"
+                  title="मानक चयन प्रक्रिया चरण जोड़ें"
+                >
+                  + 1,2,3 Stages (मानक चरण)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm((prev) => {
+                      const lines = prev.selectionProcess ? prev.selectionProcess.split('\n') : [];
+                      const nextNum = lines.length + 1;
+                      const newLine = `${nextNum}. `;
+                      return {
+                        ...prev,
+                        selectionProcess: prev.selectionProcess ? `${prev.selectionProcess}\n${newLine}` : newLine,
+                      };
+                    });
+                  }}
+                  className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors"
+                >
+                  1. Add Step
+                </button>
+              </div>
               <Textarea
-                rows={2}
+                rows={3}
                 value={form.selectionProcess}
                 onChange={(e) => updateForm('selectionProcess', e.target.value)}
-                placeholder="Written Exam, Interview & Document Verification"
+                placeholder="1. लिखित परीक्षा (Written Exam)&#10;2. शारीरिक दक्षता परीक्षा (PET/PST)&#10;3. दस्तावेज सत्यापन (DV)"
               />
             </FormField>
 
-            <div className="space-y-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
-              <div className="flex items-center justify-between pb-1 border-b border-slate-200 dark:border-slate-800">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                  Step-by-Step Candidate Guides (How to Apply, Admit Card & Results)
+            {/* 11 Important Links Section (Sarkari 11 Portals) */}
+            <div className="space-y-4 p-4 rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/20 dark:bg-amber-950/20">
+              <div className="flex items-center justify-between pb-2 border-b border-amber-200 dark:border-amber-800/80">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                    🔗 Important Links / महत्वपूर्ण लिंक्स (11 Sarkari Portals)
+                  </span>
+                  <Badge variant="outline" className="text-[10px] bg-amber-100 text-amber-900 border-amber-300">
+                    BTN = यहाँ क्लिक करें
+                  </Badge>
+                </div>
+                <span className="text-[11px] text-slate-500">
+                  (जो लिंक खाली रहेगा, वह ऐप में स्वतः छुपा रहेगा)
                 </span>
-                <span className="text-[11px] text-slate-400">
-                  (Only filled guides appear in the app; blank ones are hidden)
-                </span>
               </div>
 
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <Label>1. How to Apply / आवेदन प्रक्रिया</Label>
-                  <button
-                    type="button"
-                    onClick={() => updateForm('howToApply', defaultHowToApply('vacancy'))}
-                    className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-medium"
-                  >
-                    + Insert Standard Steps
-                  </button>
-                </div>
-                <Textarea
-                  rows={3}
-                  value={form.howToApply}
-                  onChange={(e) => updateForm('howToApply', e.target.value)}
-                  placeholder="Leave empty if not available yet. Or click '+ Insert Standard Steps' above."
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <FormField label="1. ऑनलाइन आवेदन करें (Apply Online)">
+                  <Textarea rows={1} value={form.applyOnlineUrl} onChange={(e) => updateForm('applyOnlineUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+                <FormField label="2. शोर्ट नोटिस / एग्जाम डेट नोटिस (Short Notice)">
+                  <Textarea rows={1} value={form.shortNoticeUrl} onChange={(e) => updateForm('shortNoticeUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
               </div>
 
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <Label>2. How to Download Admit Card / प्रवेश पत्र डाउनलोड प्रक्रिया</Label>
-                  <button
-                    type="button"
-                    onClick={() => updateForm('howToDownloadAdmitCard', defaultHowToApply('admitCard'))}
-                    className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-medium"
-                  >
-                    + Insert Standard Steps
-                  </button>
-                </div>
-                <Textarea
-                  rows={3}
-                  value={form.howToDownloadAdmitCard}
-                  onChange={(e) => updateForm('howToDownloadAdmitCard', e.target.value)}
-                  placeholder="Leave empty if admit card is not yet released. Or click '+ Insert Standard Steps'."
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <FormField label="3. आधिकारिक विज्ञप्ति (Official Notification PDF)">
+                  <Textarea rows={1} value={form.notificationPdfUrl} onChange={(e) => updateForm('notificationPdfUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+                <FormField label="4. सिलेबस और एग्जाम पैटर्न (Syllabus PDF)">
+                  <Textarea rows={1} value={form.syllabusUrl} onChange={(e) => updateForm('syllabusUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
               </div>
 
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <Label>3. How to Check Result / रिजल्ट चेक करने की प्रक्रिया</Label>
-                  <button
-                    type="button"
-                    onClick={() => updateForm('howToCheckResult', defaultHowToApply('result'))}
-                    className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-medium"
-                  >
-                    + Insert Standard Steps
-                  </button>
-                </div>
-                <Textarea
-                  rows={3}
-                  value={form.howToCheckResult}
-                  onChange={(e) => updateForm('howToCheckResult', e.target.value)}
-                  placeholder="Leave empty if result is not yet declared. Or click '+ Insert Standard Steps'."
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <FormField label="5. फॉर्म में सुधार (Correction Portal)">
+                  <Textarea rows={1} value={form.correctionUrl} onChange={(e) => updateForm('correctionUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+                <FormField label="6. एडमिट कार्ड (Admit Card)">
+                  <Textarea rows={1} value={form.admitCardUrl} onChange={(e) => updateForm('admitCardUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <FormField label="7. एग्जाम सिटी डिटेल्स (Exam City Info)">
+                  <Textarea rows={1} value={form.examCityUrl} onChange={(e) => updateForm('examCityUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+                <FormField label="8. उत्तर कुंजी (Answer Key)">
+                  <Textarea rows={1} value={form.answerKeyUrl} onChange={(e) => updateForm('answerKeyUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <FormField label="9. स्कोर कार्ड (Score Card / Marks)">
+                  <Textarea rows={1} value={form.scoreCardUrl} onChange={(e) => updateForm('scoreCardUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+                <FormField label="10. परिणाम / मेरिट सूची (Result & Merit List)">
+                  <Textarea rows={1} value={form.resultUrl} onChange={(e) => updateForm('resultUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <FormField label="11. विभागीय आधिकारिक वेबसाइट (Official Website)">
+                  <Textarea rows={1} value={form.officialSiteUrl} onChange={(e) => updateForm('officialSiteUrl', e.target.value)} placeholder="https://..." />
+                </FormField>
+                <FormField label="Telegram Channel / Group">
+                  <Textarea rows={1} value={form.telegramUrl} onChange={(e) => updateForm('telegramUrl', e.target.value)} placeholder="https://t.me/Raj_Suchna" />
+                </FormField>
+                <FormField label="WhatsApp Community / Channel">
+                  <Textarea rows={1} value={form.whatsappUrl} onChange={(e) => updateForm('whatsappUrl', e.target.value)} placeholder="https://whatsapp.com/channel/..." />
+                </FormField>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Official Notification PDF URL">
-                <Textarea
-                  rows={2}
-                  value={form.notificationPdfUrl}
-                  onChange={(e) => updateForm('notificationPdfUrl', e.target.value)}
-                  placeholder="https://..."
-                />
-              </FormField>
-              <FormField label="Apply Online URL">
-                <Textarea
-                  rows={2}
-                  value={form.applyOnlineUrl}
-                  onChange={(e) => updateForm('applyOnlineUrl', e.target.value)}
-                  placeholder="https://..."
-                />
-              </FormField>
+            {/* Official Note & Disclaimer Alert Card */}
+            <div className="p-4 rounded-xl border border-amber-300 dark:border-amber-800 bg-amber-50/70 dark:bg-amber-950/40 text-xs text-amber-950 dark:text-amber-200 space-y-2">
+              <div className="font-bold flex items-center gap-1.5 text-amber-900 dark:text-amber-100">
+                <span>⚠️</span>
+                <span>अस्वीकरण / Disclaimer (कानूनी सुरक्षा एवं Google Play Store अनुपालन)</span>
+              </div>
+              <p className="leading-relaxed">
+                <strong>आधिकारिक पुष्टि अनिवार्य:</strong> आवेदन करने से पहले अंतिम पात्रता, आयु सीमा और महत्वपूर्ण तिथियों की पुष्टि संबंधित भर्ती बोर्ड की आधिकारिक वेबसाइट या अधिसूचना से अवश्य करें।
+              </p>
+              <p className="text-[11px] text-amber-800 dark:text-amber-300">
+                <strong>नोट:</strong> यह एक स्वतंत्र सूचना प्लेटफॉर्म है और किसी भी सरकारी संस्था या भर्ती बोर्ड से संबद्ध (Affiliated) नहीं है। छात्रों से यह अनुरोध किया जाता है, कि वो अपना फॉर्म भरने से पहले Official Notification को ध्यान से जरूर पढ़ें उसके बाद ही अपना फॉर्म भरें। 🙏
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Official Website URL">
-                <Textarea
-                  rows={2}
-                  value={form.officialSiteUrl}
-                  onChange={(e) => updateForm('officialSiteUrl', e.target.value)}
-                  placeholder="https://..."
-                />
-              </FormField>
-              <FormField label="Syllabus PDF URL (पाठ्यक्रम लिंक)">
-                <Textarea
-                  rows={2}
-                  value={form.syllabusUrl}
-                  onChange={(e) => updateForm('syllabusUrl', e.target.value)}
-                  placeholder="https://..."
-                />
-              </FormField>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Telegram Channel / Group URL">
-                <Textarea
-                  rows={2}
-                  value={form.telegramUrl}
-                  onChange={(e) => updateForm('telegramUrl', e.target.value)}
-                  placeholder="https://t.me/Raj_Suchna"
-                />
-              </FormField>
-              <FormField label="WhatsApp Community / Channel URL">
-                <Textarea
-                  rows={2}
-                  value={form.whatsappUrl}
-                  onChange={(e) => updateForm('whatsappUrl', e.target.value)}
-                  placeholder="https://whatsapp.com/channel/0029Vakea9U89inpSSjnR82N"
-                />
-              </FormField>
-            </div>
-
-            <FormField 
+            <FormField
               label="FAQs / अक्सर पूछे जाने वाले प्रश्न (Candidate Doubts)"
               hint="Format: Q: प्रश्न? \n A: उत्तर।"
             >
