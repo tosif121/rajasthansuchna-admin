@@ -1481,7 +1481,20 @@ export default function NoticesPage() {
                     label="Selection Process / चयन प्रक्रिया"
                     hint="चयन प्रक्रिया के चरण नंबरिंग के साथ दर्ज करें"
                   >
-                    <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.selectionProcessHi || form.selectionProcess;
+                          const updated = current ? `${current} **बोल्ड शब्द**` : '**मुख्य चरण**';
+                          updateForm('selectionProcessHi', updated);
+                          updateForm('selectionProcess', updated);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="शब्दों को बोल्ड करने के लिए **शब्द** लगाएं"
+                      >
+                        ** Bold Selected
+                      </button>
                       <button
                         type="button"
                         onClick={() => {
@@ -1508,6 +1521,24 @@ export default function NoticesPage() {
                         className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
                       >
                         1. Add Step
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.selectionProcessHi || form.selectionProcess;
+                          if (!current) return;
+                          const lines = current.split('\n').map((l) => l.trim()).filter(Boolean);
+                          const numbered = lines.map((l, i) => {
+                            const cleaned = l.replace(/^(\d+[\.\)]|(Stage|Step|चरण)\s*\d+[:\.\-]?|[-•*])\s*/i, '');
+                            return `${i + 1}. ${cleaned}`;
+                          }).join('\n');
+                          updateForm('selectionProcessHi', numbered);
+                          updateForm('selectionProcess', numbered);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="सभी चरणों को 1, 2, 3 क्रमबद्ध करें"
+                      >
+                        1,2,3 Auto-Order
                       </button>
                     </div>
                     <Textarea
@@ -1654,7 +1685,18 @@ export default function NoticesPage() {
                     label="Selection Process (English)"
                     hint="Specify selection stages with numbers"
                   >
-                    <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.selectionProcessEn;
+                          const updated = current ? `${current} **bold**` : '**Key Stage**';
+                          updateForm('selectionProcessEn', updated);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                      >
+                        ** Bold Selected
+                      </button>
                       <button
                         type="button"
                         onClick={() => {
@@ -1679,6 +1721,23 @@ export default function NoticesPage() {
                         className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
                       >
                         1. Add Step
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.selectionProcessEn;
+                          if (!current) return;
+                          const lines = current.split('\n').map((l) => l.trim()).filter(Boolean);
+                          const numbered = lines.map((l, i) => {
+                            const cleaned = l.replace(/^(\d+[\.\)]|(Stage|Step|चरण)\s*\d+[:\.\-]?|[-•*])\s*/i, '');
+                            return `${i + 1}. ${cleaned}`;
+                          }).join('\n');
+                          updateForm('selectionProcessEn', numbered);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="Auto-number all lines as 1, 2, 3..."
+                      >
+                        1,2,3 Auto-Order
                       </button>
                     </div>
                     <Textarea
