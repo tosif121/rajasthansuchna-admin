@@ -349,9 +349,9 @@ export default function McqTestsPage() {
         <AdminHeader />
         <main className="p-4 sm:p-6 lg:p-8 w-full mx-auto space-y-6">
           <PageHeader
-            eyebrow="Practice & Mock Tests"
-            title="MCQ Tests"
-            description="Create and manage objective practice tests delivered to the mobile app."
+            eyebrow="Practice, Test Series & Mock Exams"
+            title="Test Series & Quizzes"
+            description="Create, publish, and manage interactive objective mock tests and full-length test series for mobile candidates."
             actions={
               <div className="flex items-center gap-2">
                 <button

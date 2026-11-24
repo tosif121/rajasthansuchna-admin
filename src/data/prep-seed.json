@@ -1,0 +1,226 @@
+{
+  "syllabuses": [
+    {
+      "id": "syl_ras_2026",
+      "slug": "rpsc-ras-rts-exam-syllabus-2026",
+      "titleHi": "आरपीएससी आरएएस/आरटीएस प्रारंभिक व मुख्य परीक्षा पाठ्यक्रम 2026",
+      "titleEn": "RPSC RAS / RTS Combined Competitive Exam Syllabus 2026",
+      "agencyId": "rpsc",
+      "agencyName": "राजस्थान लोक सेवा आयोग (RPSC)",
+      "examYear": "2026",
+      "totalMarks": "200 (Prelims) / 800 (Mains)",
+      "durationMinutes": 180,
+      "pdfUrl": "https://rpsc.rajasthan.gov.in/Static/Syllabus/RAS_2026.pdf",
+      "subjects": ["सामान्य ज्ञान व सामान्य विज्ञान", "राजस्थान का इतिहास व संस्कृति", "तार्किक दक्षता व गणित", "करंट अफेयर्स"],
+      "schemeSummary": "प्रारंभिक परीक्षा 200 अंक (150 बहुविकल्पीय प्रश्न, नकारात्मक अंकन 1/3)। मुख्य परीक्षा 4 विवरणात्मक प्रश्नपत्र।",
+      "isActive": true,
+      "createdAt": "2026-11-20T10:00:00.000Z",
+      "updatedAt": "2026-11-20T10:00:00.000Z"
+    },
+    {
+      "id": "syl_cet_grad_2026",
+      "slug": "rssb-cet-graduate-level-syllabus-2026",
+      "titleHi": "आरएसएसबी समान पात्रता परीक्षा (CET स्नातक स्तर) विस्तृत पाठ्यक्रम 2026",
+      "titleEn": "RSSB Common Eligibility Test (CET Graduate Level) Syllabus 2026",
+      "agencyId": "rssb",
+      "agencyName": "राजस्थान कर्मचारी चयन बोर्ड (RSSB)",
+      "examYear": "2026",
+      "totalMarks": "300",
+      "durationMinutes": 180,
+      "pdfUrl": "https://rsmssb.rajasthan.gov.in/Static/Syllabus/CET_Grad_2026.pdf",
+      "subjects": ["राजस्थान इतिहास व कला संस्कृति", "भारत एवं राजस्थान भूगोल", "भारतीय राजनीति", "तार्किक विवेचन", "सामान्य हिंदी व अंग्रेजी", "कंप्यूटर ज्ञान"],
+      "schemeSummary": "कुल 150 प्रश्न, 300 अंक। समय 3 घंटे। कोई नकारात्मक अंकन नहीं।",
+      "isActive": true,
+      "createdAt": "2026-11-21T11:00:00.000Z",
+      "updatedAt": "2026-11-21T11:00:00.000Z"
+    },
+    {
+      "id": "syl_police_si_2026",
+      "slug": "rajasthan-police-sub-inspector-syllabus-2026",
+      "titleHi": "राजस्थान पुलिस उप-निरीक्षक (SI / Platoon Commander) परीक्षा स्कीम व सिलेबस",
+      "titleEn": "Rajasthan Police Sub Inspector (SI) Scheme & Detailed Syllabus 2026",
+      "agencyId": "police",
+      "agencyName": "राजस्थान पुलिस भर्ती बोर्ड",
+      "examYear": "2026",
+      "totalMarks": "400",
+      "durationMinutes": 240,
+      "pdfUrl": "https://police.rajasthan.gov.in/Static/Syllabus/Police_SI_2026.pdf",
+      "subjects": ["सामान्य हिंदी (Paper 1 - 200 Marks)", "सामान्य ज्ञान व सामान्य विज्ञान (Paper 2 - 200 Marks)"],
+      "schemeSummary": "Paper 1 (Hindi): 100 प्रश्न (200 अंक)। Paper 2 (GK & GS): 100 प्रश्न (200 अंक)। 1/3 नेगेटिव मार्किंग।",
+      "isActive": true,
+      "createdAt": "2026-11-22T09:30:00.000Z",
+      "updatedAt": "2026-11-22T09:30:00.000Z"
+    }
+  ],
+  "pyqs": [
+    {
+      "id": "pyq_ras_pre_2023",
+      "slug": "rpsc-ras-prelims-2023-official-paper",
+      "titleHi": "आरपीएससी आरएएस प्रारंभिक परीक्षा 2023 मूल प्रश्न पत्र व अंतिम उत्तर कुंजी",
+      "titleEn": "RPSC RAS Prelims Exam 2023 Official Question Paper & Final Answer Key",
+      "agencyId": "rpsc",
+      "agencyName": "राजस्थान लोक सेवा आयोग (RPSC)",
+      "examYear": "2023",
+      "paperType": "Prelims Paper 1 (GK & GS)",
+      "shiftOrDate": "01 अक्टूबर 2023 (Single Shift)",
+      "questionPaperUrl": "https://rpsc.rajasthan.gov.in/Static/CandidateInformation/Paper_RAS_2023.pdf",
+      "answerKeyUrl": "https://rpsc.rajasthan.gov.in/Static/CandidateInformation/Final_Key_RAS_2023.pdf",
+      "isActive": true,
+      "createdAt": "2026-11-18T10:00:00.000Z",
+      "updatedAt": "2026-11-18T10:00:00.000Z"
+    },
+    {
+      "id": "pyq_cet_grad_2024",
+      "slug": "rssb-cet-graduate-2024-all-shifts-papers",
+      "titleHi": "आरएसएसबी सीईटी स्नातक स्तर 2024 सभी पारियों के प्रश्न पत्र व मॉडल की",
+      "titleEn": "RSSB CET Graduate Level 2024 All Shifts Question Papers & Answer Keys",
+      "agencyId": "rssb",
+      "agencyName": "राजस्थान कर्मचारी चयन बोर्ड (RSSB)",
+      "examYear": "2024",
+      "paperType": "CET Common Test (Shift 1 & 2)",
+      "shiftOrDate": "27-28 सितम्बर 2024",
+      "questionPaperUrl": "https://rsmssb.rajasthan.gov.in/Static/Papers/CET_2024_Paper.pdf",
+      "answerKeyUrl": "https://rsmssb.rajasthan.gov.in/Static/Papers/CET_2024_Key.pdf",
+      "isActive": true,
+      "createdAt": "2026-11-19T14:00:00.000Z",
+      "updatedAt": "2026-11-19T14:00:00.000Z"
+    },
+    {
+      "id": "pyq_patwari_2021",
+      "slug": "rssb-patwari-recruitment-2021-question-paper",
+      "titleHi": "राजस्थान पटवारी सीधी भर्ती 2021 आधिकारिक प्रश्न पत्र हल सहित",
+      "titleEn": "Rajasthan Patwari Direct Recruitment 2021 Official Question Paper",
+      "agencyId": "rssb",
+      "agencyName": "राजस्थान कर्मचारी चयन बोर्ड (RSSB)",
+      "examYear": "2021",
+      "paperType": "Patwari Main Examination",
+      "shiftOrDate": "23-24 अक्टूबर 2021",
+      "questionPaperUrl": "https://rsmssb.rajasthan.gov.in/Static/Papers/Patwar_2021_Paper.pdf",
+      "answerKeyUrl": "https://rsmssb.rajasthan.gov.in/Static/Papers/Patwar_2021_FinalKey.pdf",
+      "isActive": true,
+      "createdAt": "2026-11-20T12:00:00.000Z",
+      "updatedAt": "2026-11-20T12:00:00.000Z"
+    }
+  ],
+  "currentAffairs": [
+    {
+      "id": "ca_2026_11_25_01",
+      "slug": "rajasthan-budget-announcements-youth-schemes-2026",
+      "date": "2026-11-25",
+      "titleHi": "राजस्थान मुख्यमंत्री युवा स्वरोजगार योजना 2026: नए प्रावधान व आवेदन प्रक्रिया",
+      "titleEn": "Rajasthan Mukhyamantri Yuva Swarojgar Yojana 2026: Key Updates",
+      "summaryHi": "राज्य सरकार ने युवाओं के लिए ब्याज मुक्त ऋण सीमा 5 लाख से बढ़ाकर 10 लाख रुपये की। स्वरोजगार को बढ़ावा देने के लिए जिला उद्योग केंद्रों में सिंगल विंडो सेल स्थापित।",
+      "summaryEn": "State Govt increases interest-free loan cap from 5 Lakh to 10 Lakh INR under Mukhyamantri Yuva Swarojgar Yojana to support educated youth enterprises.",
+      "category": "योजना व नीतियां",
+      "sourceUrl": "https://dipr.rajasthan.gov.in",
+      "sourceName": "DIPR Rajasthan",
+      "isFeatured": true,
+      "createdAt": "2026-11-25T00:00:00.000Z",
+      "updatedAt": "2026-11-25T00:00:00.000Z"
+    },
+    {
+      "id": "ca_2026_11_24_02",
+      "slug": "rajasthan-solar-park-capacity-expansion-jaisalmer",
+      "date": "2026-11-24",
+      "titleHi": "जैसलमेर व बीकानेर में 2400 मेगावाट नवीन सौर पार्क स्थापना को मंजूरी",
+      "titleEn": "Cabinet Approves 2,400 MW Ultra-Mega Solar Park in Jaisalmer & Bikaner",
+      "summaryHi": "राजस्थान ऊर्जा विकास निगम द्वारा पश्चिमी राजस्थान में सौर ऊर्जा उत्पादन का नया रिकॉर्ड। नवीकरणीय ऊर्जा नीति के तहत 12000 करोड़ का नया निवेश आमंत्रित।",
+      "summaryEn": "Rajasthan Renewable Energy Corp announces 2,400 MW solar park expansion in Western Rajasthan, aiming for highest green energy generation in the country.",
+      "category": "ऊर्जा व विकास",
+      "sourceUrl": "https://energy.rajasthan.gov.in",
+      "sourceName": "Rajasthan Renewable Energy Dept",
+      "isFeatured": false,
+      "createdAt": "2026-11-24T00:00:00.000Z",
+      "updatedAt": "2026-11-24T00:00:00.000Z"
+    }
+  ],
+  "studyPlans": [
+    {
+      "id": "sp_cet_grad_60d",
+      "slug": "rssb-cet-graduate-level-60-days-master-study-plan",
+      "examTitleHi": "आरएसएसबी सीईटी (स्नातक स्तर) 60-दिवसीय व्यवस्थित अध्ययन योजना",
+      "examTitleEn": "RSSB CET Graduate Level 60-Day Comprehensive Strategy Plan",
+      "agencyId": "rssb",
+      "targetDate": "2026-12-15",
+      "durationDays": 60,
+      "dailyHoursTarget": 6,
+      "phases": [
+        {
+          "phaseNumber": 1,
+          "title": "आधारभूत अवधारणाएं व राजस्थान सामान्य ज्ञान",
+          "durationWeeks": 3,
+          "focusAreas": ["राजस्थान का इतिहास, कला एवं साहित्य", "भौगोलिक संरचना एवं जलवायु", "दैनिक विज्ञान"]
+        },
+        {
+          "phaseNumber": 2,
+          "title": "गणित, रीजनिंग, सामान्य हिंदी व अंग्रेजी",
+          "durationWeeks": 3,
+          "focusAreas": ["तार्किक तर्कशक्ति व गणितीय संक्रियाएं", "व्याकरण एवं संधि-समास", "कंप्यूटर अनुप्रयोग"]
+        },
+        {
+          "phaseNumber": 3,
+          "title": "मॉक टेस्ट, पूर्व प्रश्न व गहन पुनरावृत्ति",
+          "durationWeeks": 2,
+          "focusAreas": ["दैनिक 1 फुल लेंथ टेस्ट", "कमजोर विषयों की गहन समीक्षा", "राजस्थान समसामयिकी 2026"]
+        }
+      ],
+      "keyMilestones": [
+        "Day 15: राजस्थान इतिहास व कला संस्कृति पाठ्यक्रम पूरा",
+        "Day 35: तार्किक क्षमता व गणित के सभी महत्वपूर्ण अध्यायों का अभ्यास",
+        "Day 50: विगत 5 वर्षों के प्रश्न पत्रों का हल",
+        "Day 60: 10 पूर्ण मॉक टेस्ट व समय प्रबंधन समीक्षा"
+      ],
+      "recommendedResources": [
+        { "title": "राजस्थान अध्ययन (कक्षा 9 से 12 RBSE)", "type": "book" },
+        { "title": "सीईटी 2024 सॉल्व्ड पेपर्स पीडीएफ", "url": "https://rsmssb.rajasthan.gov.in", "type": "pdf" },
+        { "title": "दैनिक राजस्थान करंट अफेयर्स नोट्स", "type": "link" }
+      ],
+      "isActive": true,
+      "createdAt": "2026-11-20T08:00:00.000Z",
+      "updatedAt": "2026-11-20T08:00:00.000Z"
+    },
+    {
+      "id": "sp_patwari_90d",
+      "slug": "rajasthan-patwari-90-days-smart-study-schedule",
+      "examTitleHi": "राजस्थान पटवारी परीक्षा 90-दिवसीय लक्ष्य-आधारित क्रैश शेड्यूल",
+      "examTitleEn": "Rajasthan Patwari Direct Exam 90-Day Target-Based Schedule",
+      "agencyId": "rssb",
+      "targetDate": "2027-01-20",
+      "durationDays": 90,
+      "dailyHoursTarget": 7,
+      "phases": [
+        {
+          "phaseNumber": 1,
+          "title": "बेसिक फाउंडेशन (GK + मैथ्स)",
+          "durationWeeks": 4,
+          "focusAreas": ["राजस्व मंडल नियम", "पटवार गणितीय ट्रिक्स", "भारतीय संविधान व राज्य व्यवस्था"]
+        },
+        {
+          "phaseNumber": 2,
+          "title": "हिंदी, अंग्रेजी व कंप्यूटर दक्षता",
+          "durationWeeks": 4,
+          "focusAreas": ["हिंदी व्याकरण शुद्धिकरण", "कंप्यूटर एमएस ऑफिस व शॉर्टकट्स", "करंट अफेयर्स"]
+        },
+        {
+          "phaseNumber": 3,
+          "title": "फाइनल टेस्ट सीरीज व स्पीड ड्रिल",
+          "durationWeeks": 4,
+          "focusAreas": ["150 प्रश्नों की 3 घंटे की टेस्ट सिमुलेशन", "नेगेटिव मार्किंग नियंत्रण अभ्यास"]
+        }
+      ],
+      "keyMilestones": [
+        "Day 25: राजस्थान भूगोल एवं अर्थव्यवस्था सम्पूर्ण",
+        "Day 55: मैथ्स एवं रीजनिंग में 90%+ सटीकता दर",
+        "Day 75: 15 फुल लेंथ पेपर्स हल",
+        "Day 90: फाइनल रिवीजन एवं परीक्षा केंद्र रणनीति"
+      ],
+      "recommendedResources": [
+        { "title": "पटवारी आधिकारिक पाठ्यक्रम व मानक पुस्तकें", "type": "pdf" },
+        { "title": "राज सूचना मोबाइल क्विज टेस्ट सीरीज", "type": "link" }
+      ],
+      "isActive": true,
+      "createdAt": "2026-11-21T09:00:00.000Z",
+      "updatedAt": "2026-11-21T09:00:00.000Z"
+    }
+  ]
+}

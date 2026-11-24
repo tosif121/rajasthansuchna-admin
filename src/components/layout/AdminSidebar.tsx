@@ -12,15 +12,23 @@ import {
   ListChecks, 
   SlidersHorizontal,
   Users,
+  BookOpen,
+  History,
+  Newspaper,
+  CalendarDays,
   X 
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 
 const navigation = [
   { name: "All Notices", href: "/notices", icon: FileText },
+  { name: "Syllabus", href: "/syllabus", icon: BookOpen },
+  { name: "Previous Papers (PYQ)", href: "/pyqs", icon: History },
+  { name: "Current Affairs", href: "/current-affairs", icon: Newspaper },
+  { name: "Study Planner", href: "/study-planner", icon: CalendarDays },
+  { name: "Test Series", href: "/mcq-tests", icon: ListChecks },
   { name: "Notice Attributes", href: "/attributes", icon: SlidersHorizontal },
   { name: "Agencies & Boards", href: "/agencies", icon: Building2 },
-  { name: "MCQ Tests", href: "/mcq-tests", icon: ListChecks },
   { name: "App Users", href: "/users", icon: Users },
   { name: "Push Alerts", href: "/notifications", icon: Bell },
   { name: "Settings", href: "/settings", icon: Sparkles },
