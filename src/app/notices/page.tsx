@@ -1753,12 +1753,9 @@ export default function NoticesPage() {
 
             {/* 4. Dates Section (8 Important Dates) */}
             <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 space-y-3">
-              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-800">
+              <div className="pb-1.5 border-b border-slate-200 dark:border-slate-800">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
                   Important Dates / महत्वपूर्ण तिथियाँ (8 Dates)
-                </span>
-                <span className="text-[11px] text-slate-500">
-                  (एडमिट कार्ड व परीक्षा तिथि खाली होने पर डिफॉल्ट सूचना स्वतः प्रदर्शित होगी)
                 </span>
               </div>
 
@@ -1801,7 +1798,7 @@ export default function NoticesPage() {
                     placeholder="एग्जाम सिटी तिथि"
                   />
                 </FormField>
-                <FormField label="एडमिट कार्ड तिथि:" hint="डिफॉल्ट: एग्जाम से पहले जारी किया जाएगा।">
+                <FormField label="एडमिट कार्ड तिथि:">
                   <Textarea
                     rows={1}
                     value={form.admitCardDate}
@@ -1809,7 +1806,7 @@ export default function NoticesPage() {
                     placeholder="एग्जाम से पहले जारी किया जाएगा।"
                   />
                 </FormField>
-                <FormField label="परीक्षा तिथि:" hint="डिफॉल्ट: जल्द ही यहां अपडेट किया जाएगा।">
+                <FormField label="परीक्षा तिथि:">
                   <Textarea
                     rows={1}
                     value={form.examDate}
