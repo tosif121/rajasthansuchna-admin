@@ -1866,9 +1866,6 @@ export default function NoticesPage() {
                     BTN = यहाँ क्लिक करें
                   </Badge>
                 </div>
-                <span className="text-[11px] text-slate-500">
-                  (जो लिंक खाली रहेगा, वह ऐप में स्वतः छुपा रहेगा)
-                </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
