@@ -1857,15 +1857,10 @@ export default function NoticesPage() {
 
             {/* 6. 11 Important Links Section (Sarkari 11 Portals) */}
             <div className="space-y-4 p-4 rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/20 dark:bg-amber-950/20">
-              <div className="flex items-center justify-between pb-2 border-b border-amber-200 dark:border-amber-800/80">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                    Important Links / महत्वपूर्ण लिंक्स (11 Sarkari Portals)
-                  </span>
-                  <Badge variant="outline" className="text-[10px] bg-amber-100 text-amber-900 border-amber-300">
-                    BTN = यहाँ क्लिक करें
-                  </Badge>
-                </div>
+              <div className="pb-2 border-b border-amber-200 dark:border-amber-800/80">
+                <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                  Important Links / महत्वपूर्ण लिंक्स (11 Sarkari Portals)
+                </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
