@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import React, { useState, useEffect, useMemo } from 'react';
+import { cn } from "@/lib/utils";
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminHeader } from '@/components/layout/AdminHeader';
 import {
@@ -68,12 +69,18 @@ interface NoticeFacts {
   feeScSt?: string;
   feePh?: string;
   qualification: string;
+  qualificationHi?: string;
+  qualificationEn?: string;
   ageMin?: number;
   ageMax?: number;
   ageAsOnDate?: string;
   ageRelaxation?: string;
+  ageRelaxationHi?: string;
+  ageRelaxationEn?: string;
   categoryVacancies?: Record<string, string | number>;
   howToApply?: string;
+  howToApplyHi?: string;
+  howToApplyEn?: string;
   howToDownloadAdmitCard?: string;
   howToCheckResult?: string;
   telegramUrl?: string;
@@ -90,7 +97,11 @@ interface NoticeFacts {
   resultUrl?: string;
   officialSiteUrl?: string;
   faqs?: Array<{ question: string; answer: string }>;
+  faqsHi?: Array<{ question: string; answer: string }>;
+  faqsEn?: Array<{ question: string; answer: string }>;
   selectionProcess: string;
+  selectionProcessHi?: string;
+  selectionProcessEn?: string;
   sourceUrl: string;
   sourceDate: string;
   verifiedAt: string;
@@ -146,6 +157,8 @@ interface NoticeForm {
   expiresAt: string;
   postsCount: string;
   qualification: string;
+  qualificationHi: string;
+  qualificationEn: string;
   ageMin: string;
   ageMax: string;
   applicationStart: string;
@@ -160,7 +173,11 @@ interface NoticeForm {
   feeScSt: string;
   feePh: string;
   selectionProcess: string;
+  selectionProcessHi: string;
+  selectionProcessEn: string;
   howToApply?: string;
+  howToApplyHi: string;
+  howToApplyEn: string;
   howToDownloadAdmitCard?: string;
   howToCheckResult?: string;
   sourceUrl: string;
@@ -169,6 +186,8 @@ interface NoticeForm {
   verifiedBy: string;
   ageAsOnDate: string;
   ageRelaxation: string;
+  ageRelaxationHi: string;
+  ageRelaxationEn: string;
   categoryVacancies: string;
   telegramUrl: string;
   whatsappUrl: string;
@@ -184,6 +203,8 @@ interface NoticeForm {
   resultUrl: string;
   officialSiteUrl: string;
   faqs: string;
+  faqsHi: string;
+  faqsEn: string;
 }
 
 const DEFAULT_JURISDICTIONS: Option[] = [
@@ -259,6 +280,39 @@ function formatFaqs(faqs?: Array<{ question: string; answer: string }>): string 
   return faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n');
 }
 
+function defaultHowToApply(noticeType: string): string {
+  if (noticeType === 'admitCard') {
+    return '1. संबंधित भर्ती बोर्ड अथवा आयोग के आधिकारिक पोर्टल पर जाएं।\n2. प्रवेश पत्र (एडमिट कार्ड) डाउनलोड लिंक पर क्लिक करें।\n3. अपना आवेदन क्रमांक एवं जन्मतिथि दर्ज करें।\n4. स्क्रीन पर प्रदर्शित प्रवेश पत्र डाउनलोड कर प्रिंट निकालें।';
+  }
+  if (noticeType === 'result') {
+    return '1. आधिकारिक पोर्टल के परिणाम अनुभाग में जाएं।\n2. संबंधित भर्ती परिणाम व चयन सूची (पीडीएफ) पर क्लिक करें।\n3. सूची में अपना रोल नंबर खोजें।\n4. कट-ऑफ अंक व चयन स्थिति की जांच करें।';
+  }
+  if (noticeType === 'syllabus') {
+    return '1. आधिकारिक वेबसाइट के पाठ्यक्रम अनुभाग में जाएं।\n2. संबंधित परीक्षा योजना एवं पाठ्यक्रम लिंक पर क्लिक करें।\n3. विस्तृत विषयवार पाठ्यक्रम व अंक विभाजन डाउनलोड कर सुरक्षित रखें।';
+  }
+  if (noticeType === 'answerKey') {
+    return '1. आयोग अथवा चयन बोर्ड के उत्तर कुंजी पोर्टल पर जाएं।\n2. संबंधित प्रश्न पत्र व मास्टर उत्तर कुंजी डाउनलोड करें।\n3. अपने उत्तरों का मिलान करें और निर्धारित तिथि तक पोर्टल से ऑनलाइन आपत्ति दर्ज करें।';
+  }
+  // Default recruitment vacancy
+  return '1. राजस्थान एसएसओ पोर्टल (sso.rajasthan.gov.in) अथवा आधिकारिक वेबसाइट पर लॉगिन करें।\n2. भर्ती पोर्टल का चयन करें एवं अपनी ओटीआर प्रोफाइल जांचें।\n3. चालू भर्तियों में संबंधित पद के ऑनलाइन आवेदन लिंक पर क्लिक करें।\n4. अपनी शैक्षणिक योग्यता, व्यक्तिगत विवरण व फोटो-हस्ताक्षर अपलोड करें।\n5. निर्धारित आवेदन शुल्क का भुगतान कर अंतिम रूप से फॉर्म सबमिट करें।\n6. आवेदन पूर्ण होने के बाद पुष्टिकरण रसीद (कन्फर्मेशन पेज) का प्रिंट सुरक्षित रखें।';
+}
+
+function defaultHowToApplyEn(noticeType: string): string {
+  if (noticeType === 'admitCard') {
+    return '1. Visit the official website or recruitment board portal.\n2. Click on the Admit Card / Hall Ticket download link.\n3. Enter your Application Number and Date of Birth / Password.\n4. Download and print the admit card for the examination.';
+  }
+  if (noticeType === 'result') {
+    return '1. Visit the official portal result section.\n2. Click on the relevant recruitment Result & Merit List PDF.\n3. Search your Roll Number in the qualified candidate list.\n4. Check cut-off marks and document verification schedule.';
+  }
+  if (noticeType === 'syllabus') {
+    return '1. Navigate to the official website syllabus & examination scheme portal.\n2. Click on the detailed syllabus PDF link.\n3. Review the exam pattern, subject-wise weightage and marking scheme.';
+  }
+  if (noticeType === 'answerKey') {
+    return '1. Visit the Answer Key section of the commission / board portal.\n2. Download the question paper and master answer key.\n3. Verify your responses and submit online representations within the deadline.';
+  }
+  return '1. Visit the official portal / SSO Rajasthan (sso.rajasthan.gov.in) and log in.\n2. Navigate to Recruitment Portal and verify your OTR profile.\n3. Select the ongoing recruitment notification and click on Apply Online.\n4. Fill in required educational qualifications and upload photograph/signature.\n5. Pay the required application fee online and submit the final form.\n6. Print and safely preserve the application confirmation page.';
+}
+
 const emptyForm = (): NoticeForm => ({
   titleHi: '',
   titleEn: '',
@@ -274,10 +328,14 @@ const emptyForm = (): NoticeForm => ({
   expiresAt: '',
   postsCount: '',
   qualification: '',
+  qualificationHi: '',
+  qualificationEn: '',
   ageMin: '',
   ageMax: '',
   ageAsOnDate: '01/01/2026',
   ageRelaxation: 'राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।',
+  ageRelaxationHi: 'राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।',
+  ageRelaxationEn: 'Age relaxation of 5 to 10 years admissible for reserved categories (SC/ST/OBC/MBC/EWS) and female candidates as per State Government rules.',
   categoryVacancies: '',
   telegramUrl: 'https://t.me/Raj_Suchna',
   whatsappUrl: 'https://whatsapp.com/channel/0029Vakea9U89inpSSjnR82N',
@@ -293,7 +351,11 @@ const emptyForm = (): NoticeForm => ({
   feeScSt: '',
   feePh: '',
   selectionProcess: '',
+  selectionProcessHi: '',
+  selectionProcessEn: '',
   howToApply: '',
+  howToApplyHi: defaultHowToApply('vacancy'),
+  howToApplyEn: defaultHowToApplyEn('vacancy'),
   howToDownloadAdmitCard: '',
   howToCheckResult: '',
   sourceUrl: '',
@@ -312,6 +374,8 @@ const emptyForm = (): NoticeForm => ({
   resultUrl: '',
   officialSiteUrl: '',
   faqs: '',
+  faqsHi: '',
+  faqsEn: '',
 });
 
 const dateOnly = (value?: string) => (value ? value.split('T')[0] : '');
@@ -325,27 +389,13 @@ const truncateText = (text: string, limit: number): string => {
   return text.length > limit ? `${text.slice(0, limit).trim()}...` : text;
 };
 
-function defaultHowToApply(noticeType: string): string {
-  if (noticeType === 'admitCard') {
-    return '1. संबंधित भर्ती बोर्ड अथवा आयोग के आधिकारिक पोर्टल पर जाएं।\n2. प्रवेश पत्र (एडमिट कार्ड) डाउनलोड लिंक पर क्लिक करें।\n3. अपना आवेदन क्रमांक एवं जन्मतिथि दर्ज करें।\n4. स्क्रीन पर प्रदर्शित प्रवेश पत्र डाउनलोड कर प्रिंट निकालें।';
-  }
-  if (noticeType === 'result') {
-    return '1. आधिकारिक पोर्टल के परिणाम अनुभाग में जाएं।\n2. संबंधित भर्ती परिणाम व चयन सूची (पीडीएफ) पर क्लिक करें।\n3. सूची में अपना रोल नंबर खोजें।\n4. कट-ऑफ अंक व चयन स्थिति की जांच करें।';
-  }
-  if (noticeType === 'syllabus') {
-    return '1. आधिकारिक वेबसाइट के पाठ्यक्रम अनुभाग में जाएं।\n2. संबंधित परीक्षा योजना एवं पाठ्यक्रम लिंक पर क्लिक करें।\n3. विस्तृत विषयवार पाठ्यक्रम व अंक विभाजन डाउनलोड कर सुरक्षित रखें।';
-  }
-  if (noticeType === 'answerKey') {
-    return '1. आयोग अथवा चयन बोर्ड के उत्तर कुंजी पोर्टल पर जाएं।\n2. संबंधित प्रश्न पत्र व मास्टर उत्तर कुंजी डाउनलोड करें।\n3. अपने उत्तरों का मिलान करें और निर्धारित तिथि तक पोर्टल से ऑनलाइन आपत्ति दर्ज करें।';
-  }
-  // Default recruitment vacancy
-  return '1. राजस्थान एसएसओ पोर्टल (sso.rajasthan.gov.in) अथवा आधिकारिक वेबसाइट पर लॉगिन करें।\n2. भर्ती पोर्टल का चयन करें एवं अपनी ओटीआर प्रोफाइल जांचें।\n3. चालू भर्तियों में संबंधित पद के ऑनलाइन आवेदन लिंक पर क्लिक करें।\n4. अपनी शैक्षणिक योग्यता, व्यक्तिगत विवरण व फोटो-हस्ताक्षर अपलोड करें।\n5. निर्धारित आवेदन शुल्क का भुगतान कर अंतिम रूप से फॉर्म सबमिट करें।\n6. आवेदन पूर्ण होने के बाद पुष्टिकरण रसीद (कन्फर्मेशन पेज) का प्रिंट सुरक्षित रखें।';
-}
-
 function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSection[] {
   const sections: NoticeSection[] = [];
-  const overview = form.summaryEn || form.summaryHi;
+  const overview = form.summaryHi || form.summaryEn;
   if (overview) sections.push({ key: 'overview', title: 'Overview', body: overview });
+  if (form.summaryEn && form.summaryEn !== form.summaryHi) {
+    sections.push({ key: 'overview_en', title: 'Overview (English)', body: form.summaryEn });
+  }
 
   const dateRows: Record<string, string> = {};
   if (form.applicationStart) dateRows['Application Start'] = form.applicationStart;
@@ -356,11 +406,16 @@ function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSect
     sections.push({ key: 'importantDates', title: 'Important Dates', body: '', rows: dateRows });
   }
 
-  if (form.qualification || form.ageMin || form.ageMax) {
+  const qualHi = form.qualificationHi?.trim() || form.qualification?.trim();
+  const qualEn = form.qualificationEn?.trim();
+  if (qualHi || form.ageMin || form.ageMax) {
     const rows: Record<string, string> = {};
-    if (form.qualification) rows['Qualification'] = form.qualification;
+    if (qualHi) rows['Qualification'] = qualHi;
     if (form.ageMin || form.ageMax) rows['Age Limit'] = `${form.ageMin || '-'} to ${form.ageMax || '-'} years`;
-    sections.push({ key: 'eligibility', title: 'Eligibility Criteria', body: form.qualification, rows });
+    sections.push({ key: 'eligibility', title: 'Eligibility Criteria', body: qualHi || qualEn || '', rows });
+  }
+  if (qualEn) {
+    sections.push({ key: 'eligibility_en', title: 'Eligibility Criteria (English)', body: qualEn });
   }
 
   const feeRows: Record<string, string> = {};
@@ -371,15 +426,27 @@ function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSect
     sections.push({ key: 'fee', title: 'Application Fee', body: '', rows: feeRows });
   }
 
-  if (form.selectionProcess) {
-    sections.push({ key: 'selectionProcess', title: 'Selection Process', body: form.selectionProcess });
+  const selHi = form.selectionProcessHi?.trim() || form.selectionProcess?.trim();
+  if (selHi) {
+    sections.push({ key: 'selectionProcess', title: 'Selection Process', body: selHi });
+  }
+  if (form.selectionProcessEn?.trim()) {
+    sections.push({ key: 'selectionProcess_en', title: 'Selection Process (English)', body: form.selectionProcessEn.trim() });
   }
 
-  if (form.howToApply?.trim()) {
+  const applyHi = form.howToApplyHi?.trim() || form.howToApply?.trim();
+  if (applyHi) {
     sections.push({
       key: 'howToApply',
       title: 'How to Apply / आवेदन कैसे करें',
-      body: form.howToApply.trim(),
+      body: applyHi,
+    });
+  }
+  if (form.howToApplyEn?.trim()) {
+    sections.push({
+      key: 'howToApply_en',
+      title: 'How to Apply (English)',
+      body: form.howToApplyEn.trim(),
     });
   }
 
@@ -401,7 +468,7 @@ function buildSections(form: NoticeForm, existing?: NoticeSection[]): NoticeSect
 
   // Preserve any custom sections from existing that aren't the standard keys
   if (existing) {
-    const standardKeys = new Set(['overview', 'importantDates', 'eligibility', 'fee', 'selectionProcess', 'howToApply', 'howToDownloadAdmitCard', 'howToCheckResult']);
+    const standardKeys = new Set(['overview', 'overview_en', 'importantDates', 'eligibility', 'eligibility_en', 'fee', 'selectionProcess', 'selectionProcess_en', 'howToApply', 'howToApply_en', 'howToDownloadAdmitCard', 'howToCheckResult']);
     for (const s of existing) {
       if (!standardKeys.has(s.key)) {
         sections.push(s);
@@ -426,6 +493,7 @@ export default function NoticesPage() {
   const [formOpen, setFormOpen] = useState(false);
   const [editingNotice, setEditingNotice] = useState<NoticeItem | null>(null);
   const [form, setForm] = useState<NoticeForm>(emptyForm());
+  const [formLangTab, setFormLangTab] = useState<'hi' | 'en'>('hi');
   const [formError, setFormError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -554,12 +622,25 @@ export default function NoticesPage() {
     next.categoryId = categoryOptions[0]?.id || '';
     setEditingNotice(null);
     setForm(next);
+    setFormLangTab('hi');
     setFormError(null);
     setFormOpen(true);
   };
 
   const openEdit = (notice: NoticeItem) => {
     setEditingNotice(notice);
+    const facts = (notice.facts || {}) as any;
+    const qualHi = facts?.qualificationHi || facts?.qualification || '';
+    const qualEn = facts?.qualificationEn || (notice.sections?.find((s) => s.key === 'eligibility_en')?.body) || '';
+    const selHi = facts?.selectionProcessHi || facts?.selectionProcess || '';
+    const selEn = facts?.selectionProcessEn || (notice.sections?.find((s) => s.key === 'selectionProcess_en')?.body) || '';
+    const applyHi = facts?.howToApplyHi || facts?.howToApply || notice.sections?.find((s) => s.key === 'howToApply')?.body || '';
+    const applyEn = facts?.howToApplyEn || notice.sections?.find((s) => s.key === 'howToApply_en')?.body || '';
+    const relaxHi = facts?.ageRelaxationHi || facts?.ageRelaxation || 'राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।';
+    const relaxEn = facts?.ageRelaxationEn || 'Age relaxation of 5 to 10 years admissible for reserved categories (SC/ST/OBC/MBC/EWS) and female candidates as per State Government rules.';
+    const faqsHi = facts?.faqsHi ? formatFaqs(facts.faqsHi) : formatFaqs(facts?.faqs);
+    const faqsEn = facts?.faqsEn ? formatFaqs(facts.faqsEn) : '';
+
     setForm({
       titleHi: notice.titleHi || '',
       titleEn: notice.titleEn || '',
@@ -574,11 +655,15 @@ export default function NoticesPage() {
       isBreaking: Boolean(notice.isBreaking),
       expiresAt: dateOnly(notice.expiresAt),
       postsCount: notice.facts?.postsCount?.toString() || '',
-      qualification: notice.facts?.qualification || '',
+      qualification: qualHi || qualEn,
+      qualificationHi: qualHi,
+      qualificationEn: qualEn,
       ageMin: notice.facts?.ageMin?.toString() || '',
       ageMax: notice.facts?.ageMax?.toString() || '',
       ageAsOnDate: notice.facts?.ageAsOnDate || '01/01/2026',
-      ageRelaxation: notice.facts?.ageRelaxation || 'राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।',
+      ageRelaxation: relaxHi || relaxEn,
+      ageRelaxationHi: relaxHi,
+      ageRelaxationEn: relaxEn,
       categoryVacancies: formatCategoryVacancies(notice.facts?.categoryVacancies),
       telegramUrl: notice.facts?.telegramUrl || linkValue(notice.links, 'telegram') || 'https://t.me/Raj_Suchna',
       whatsappUrl: notice.facts?.whatsappUrl || linkValue(notice.links, 'whatsapp') || 'https://whatsapp.com/channel/0029Vakea9U89inpSSjnR82N',
@@ -593,7 +678,9 @@ export default function NoticesPage() {
       scoreCardUrl: notice.facts?.scoreCardUrl || linkValue(notice.links, 'scoreCard') || '',
       resultUrl: notice.facts?.resultUrl || linkValue(notice.links, 'result') || '',
       officialSiteUrl: notice.facts?.officialSiteUrl || linkValue(notice.links, 'officialSite') || '',
-      faqs: formatFaqs(notice.facts?.faqs),
+      faqs: faqsHi || faqsEn,
+      faqsHi: faqsHi,
+      faqsEn: faqsEn,
       applicationStart: dateOnly(notice.facts?.applicationStart),
       applicationEnd: dateOnly(notice.facts?.applicationEnd),
       feeEndDate: dateOnly(notice.facts?.feeEndDate),
@@ -605,8 +692,12 @@ export default function NoticesPage() {
       feeGeneralObc: notice.facts?.feeGeneralObc || '',
       feeScSt: notice.facts?.feeScSt || '',
       feePh: notice.facts?.feePh || (notice.sections?.find((s) => s.key === 'fee')?.rows?.['PH / Divyang'] || notice.sections?.find((s) => s.key === 'fee')?.rows?.['PH'] || ''),
-      selectionProcess: notice.facts?.selectionProcess || '',
-      howToApply: notice.facts?.howToApply || notice.sections?.find((s) => s.key === 'howToApply')?.body || '',
+      selectionProcess: selHi || selEn,
+      selectionProcessHi: selHi,
+      selectionProcessEn: selEn,
+      howToApply: applyHi || applyEn,
+      howToApplyHi: applyHi || defaultHowToApply(notice.noticeType || 'vacancy'),
+      howToApplyEn: applyEn || defaultHowToApplyEn(notice.noticeType || 'vacancy'),
       howToDownloadAdmitCard: notice.facts?.howToDownloadAdmitCard || notice.sections?.find((s) => s.key === 'howToDownloadAdmitCard')?.body || '',
       howToCheckResult: notice.facts?.howToCheckResult || notice.sections?.find((s) => s.key === 'howToCheckResult')?.body || '',
       sourceUrl: notice.facts?.sourceUrl || '',
@@ -614,6 +705,7 @@ export default function NoticesPage() {
       verifiedAt: dateOnly(notice.facts?.verifiedAt) || today(),
       verifiedBy: notice.facts?.verifiedBy || 'Raj Suchna Editorial Board',
     });
+    setFormLangTab('hi');
     setFormError(null);
     setFormOpen(true);
   };
@@ -666,17 +758,37 @@ export default function NoticesPage() {
     }
 
     const categoryVacancies = parseCategoryVacancies(form.categoryVacancies);
-    const faqs = parseFaqs(form.faqs);
+    const faqsHi = parseFaqs(form.faqsHi || form.faqs);
+    const faqsEn = parseFaqs(form.faqsEn);
+    const faqs = faqsHi || faqsEn;
+
+    const qualHi = (form.qualificationHi || form.qualification || '').trim();
+    const qualEn = (form.qualificationEn || '').trim();
+    const selHi = (form.selectionProcessHi || form.selectionProcess || '').trim();
+    const selEn = (form.selectionProcessEn || '').trim();
+    const applyHi = (form.howToApplyHi || form.howToApply || '').trim();
+    const applyEn = (form.howToApplyEn || '').trim();
+    const relaxHi = (form.ageRelaxationHi || form.ageRelaxation || '').trim();
+    const relaxEn = (form.ageRelaxationEn || '').trim();
 
     const facts: NoticeFacts = {
-      qualification: form.qualification.trim(),
-      selectionProcess: form.selectionProcess.trim(),
+      qualification: qualHi || qualEn || '10th / 12th / Graduate',
+      qualificationHi: qualHi,
+      qualificationEn: qualEn,
+      selectionProcess: selHi || selEn || 'Written Exam',
+      selectionProcessHi: selHi,
+      selectionProcessEn: selEn,
+      howToApply: applyHi || applyEn,
+      howToApplyHi: applyHi,
+      howToApplyEn: applyEn,
+      ageRelaxation: relaxHi || relaxEn,
+      ageRelaxationHi: relaxHi,
+      ageRelaxationEn: relaxEn,
       sourceUrl: form.sourceUrl.trim(),
       sourceDate: form.sourceDate || today(),
       verifiedAt: form.verifiedAt || today(),
       verifiedBy: form.verifiedBy.trim() || 'Raj Suchna Editorial Board',
       ...(form.ageAsOnDate ? { ageAsOnDate: form.ageAsOnDate.trim() } : {}),
-      ...(form.ageRelaxation ? { ageRelaxation: form.ageRelaxation.trim() } : {}),
       ...(categoryVacancies ? { categoryVacancies } : {}),
       ...(form.telegramUrl ? { telegramUrl: form.telegramUrl.trim() } : {}),
       ...(form.whatsappUrl ? { whatsappUrl: form.whatsappUrl.trim() } : {}),
@@ -692,6 +804,8 @@ export default function NoticesPage() {
       ...(form.resultUrl ? { resultUrl: form.resultUrl.trim() } : {}),
       ...(form.officialSiteUrl ? { officialSiteUrl: form.officialSiteUrl.trim() } : {}),
       ...(faqs ? { faqs } : {}),
+      ...(faqsHi ? { faqsHi } : {}),
+      ...(faqsEn ? { faqsEn } : {}),
       ...(form.postsCount ? { postsCount: Number(form.postsCount) } : {}),
       ...(form.ageMin ? { ageMin: Number(form.ageMin) } : {}),
       ...(form.ageMax ? { ageMax: Number(form.ageMax) } : {}),
@@ -706,7 +820,6 @@ export default function NoticesPage() {
       ...(form.feeGeneralObc ? { feeGeneralObc: form.feeGeneralObc } : {}),
       ...(form.feeScSt ? { feeScSt: form.feeScSt } : {}),
       ...(form.feePh ? { feePh: form.feePh } : {}),
-      ...(form.howToApply ? { howToApply: form.howToApply.trim() } : {}),
       ...(form.howToDownloadAdmitCard ? { howToDownloadAdmitCard: form.howToDownloadAdmitCard.trim() } : {}),
       ...(form.howToCheckResult ? { howToCheckResult: form.howToCheckResult.trim() } : {}),
     };
@@ -1074,184 +1187,558 @@ export default function NoticesPage() {
           )}
 
           <div className="space-y-4 py-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Title (English) *">
-                <Textarea
-                  rows={2}
-                  value={form.titleEn}
-                  onChange={(e) => updateForm('titleEn', e.target.value)}
-                  placeholder="Rajasthan Patwari Recruitment 2026"
-                />
-              </FormField>
-              <FormField label="Title (Hindi) *">
-                <Textarea
-                  rows={2}
-                  value={form.titleHi}
-                  onChange={(e) => updateForm('titleHi', e.target.value)}
-                  placeholder="राजस्थान पटवारी भर्ती 2026"
-                />
-              </FormField>
-            </div>
+            {/* 1. Primary Attributes & Selection Filters */}
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/40 space-y-3">
+              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  1. Primary Attributes / मुख्य चयन श्रेणियाँ
+                </span>
+              </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Summary (English)">
-                <Textarea
-                  rows={3}
-                  value={form.summaryEn}
-                  onChange={(e) => updateForm('summaryEn', e.target.value)}
-                  placeholder="Brief recruitment summary in English..."
-                />
-              </FormField>
-              <FormField label="Summary (Hindi)">
-                <Textarea
-                  rows={3}
-                  value={form.summaryHi}
-                  onChange={(e) => updateForm('summaryHi', e.target.value)}
-                  placeholder="संक्षिप्त विवरण हिन्दी में..."
-                />
-              </FormField>
-            </div>
+              {/* Hierarchy: Notice Type ---> Jurisdiction ---> Category -----> Agency (Filtered) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <FormField label="1. Notice Type *">
+                  <Select value={form.noticeType} onValueChange={(val) => updateForm('noticeType', val)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Notice type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(noticeTypeOptions.length > 0 ? noticeTypeOptions : DEFAULT_NOTICE_TYPES).map((t) => (
+                        <SelectItem key={t.id} value={t.id}>{t.nameEn}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormField>
 
-            {/* Notice Type ---> Jurisdiction ---> Category -----> Agency (Filtered) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <FormField label="1. Notice Type *">
-                <Select value={form.noticeType} onValueChange={(val) => updateForm('noticeType', val)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Notice type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {(noticeTypeOptions.length > 0 ? noticeTypeOptions : DEFAULT_NOTICE_TYPES).map((t) => (
-                      <SelectItem key={t.id} value={t.id}>{t.nameEn}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormField>
-
-              <FormField label="2. Jurisdiction *">
-                <Select
-                  value={form.state}
-                  onValueChange={(val) => {
-                    const newState = val as NoticeForm['state'];
-                    setForm((prev) => {
-                      const validAgencies = agencyOptions.filter((a) => {
-                        const grp = (a.parentGroup || '').toLowerCase();
-                        if (newState === 'central') {
-                          return grp === 'central' || ['ssc', 'upsc', 'railway', 'ibps', 'defence'].includes(a.id);
-                        }
-                        return grp === 'state' || grp === 'rajasthan' || !['ssc', 'upsc', 'railway', 'ibps', 'defence'].includes(a.id);
+                <FormField label="2. Jurisdiction *">
+                  <Select
+                    value={form.state}
+                    onValueChange={(val) => {
+                      const newState = val as NoticeForm['state'];
+                      setForm((prev) => {
+                        const validAgencies = agencyOptions.filter((a) => {
+                          const grp = (a.parentGroup || '').toLowerCase();
+                          if (newState === 'central') {
+                            return grp === 'central' || ['ssc', 'upsc', 'railway', 'ibps', 'defence'].includes(a.id);
+                          }
+                          return grp === 'state' || grp === 'rajasthan' || !['ssc', 'upsc', 'railway', 'ibps', 'defence'].includes(a.id);
+                        });
+                        const validAgency = validAgencies.some(a => a.id === prev.agencyId) ? prev.agencyId : (validAgencies[0]?.id || '');
+                        return { ...prev, state: newState, agencyId: validAgency };
                       });
-                      const validAgency = validAgencies.some(a => a.id === prev.agencyId) ? prev.agencyId : (validAgencies[0]?.id || '');
-                      return { ...prev, state: newState, agencyId: validAgency };
-                    });
-                  }}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Jurisdiction" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {(jurisdictionOptions.length > 0 ? jurisdictionOptions : DEFAULT_JURISDICTIONS).map((j) => (
-                      <SelectItem key={j.id} value={j.id}>{j.nameEn} ({j.nameHi})</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormField>
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Jurisdiction" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(jurisdictionOptions.length > 0 ? jurisdictionOptions : DEFAULT_JURISDICTIONS).map((j) => (
+                        <SelectItem key={j.id} value={j.id}>{j.nameEn} ({j.nameHi})</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormField>
 
-              <FormField label="3. Category *">
-                <Select value={form.categoryId} onValueChange={(val) => updateForm('categoryId', val)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categoryOptions.map((c) => (
-                      <SelectItem key={c.id} value={c.id}>{c.nameEn}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormField>
+                <FormField label="3. Category *">
+                  <Select value={form.categoryId} onValueChange={(val) => updateForm('categoryId', val)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categoryOptions.map((c) => (
+                        <SelectItem key={c.id} value={c.id}>{c.nameEn}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormField>
 
-              <FormField label="4. Agency*">
-                <Select value={form.agencyId} onValueChange={(val) => updateForm('agencyId', val)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select agency" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {filteredAgencies.map((a) => (
-                      <SelectItem key={a.id} value={a.id}>{a.nameEn}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormField>
+                <FormField label="4. Agency*">
+                  <Select value={form.agencyId} onValueChange={(val) => updateForm('agencyId', val)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select agency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {filteredAgencies.map((a) => (
+                        <SelectItem key={a.id} value={a.id}>{a.nameEn}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormField>
+              </div>
+
+              {/* Status, Expires On, Featured, Breaking */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <FormField label="Status">
+                  <Select value={form.status} onValueChange={(val) => updateForm('status', val as NoticeForm['status'])}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">Active (live)</SelectItem>
+                      <SelectItem value="inactive">Inactive (hidden)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormField>
+                <FormField label="Expires On">
+                  <DatePicker
+                    date={form.expiresAt}
+                    onChange={(val) => updateForm('expiresAt', val)}
+                    placeholder="Select expiry date"
+                  />
+                </FormField>
+                <FormCheckbox label="Featured" checked={form.isFeatured} onChange={(v) => updateForm('isFeatured', v)} />
+                <FormCheckbox label="Breaking" checked={form.isBreaking} onChange={(v) => updateForm('isBreaking', v)} />
+              </div>
+
+              {/* Vacancy & Age Numbers */}
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <FormField label="Total Posts (कुल पद)" hint="e.g. 2998">
+                  <Textarea
+                    rows={1}
+                    value={form.postsCount}
+                    onChange={(e) => updateForm('postsCount', e.target.value)}
+                    placeholder="e.g. 2998"
+                  />
+                </FormField>
+                <FormField label="Age Min (न्यूनतम आयु)">
+                  <Textarea
+                    rows={1}
+                    value={form.ageMin}
+                    onChange={(e) => updateForm('ageMin', e.target.value)}
+                    placeholder="18"
+                  />
+                </FormField>
+                <FormField label="Age Max (अधिकतम आयु)">
+                  <Textarea
+                    rows={1}
+                    value={form.ageMax}
+                    onChange={(e) => updateForm('ageMax', e.target.value)}
+                    placeholder="40"
+                  />
+                </FormField>
+                <FormField label="Age As On (गणना आधार)" hint="e.g. 01/01/2026">
+                  <Textarea
+                    rows={1}
+                    value={form.ageAsOnDate}
+                    onChange={(e) => updateForm('ageAsOnDate', e.target.value)}
+                    placeholder="01/01/2026"
+                  />
+                </FormField>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <FormField label="Status">
-                <Select value={form.status} onValueChange={(val) => updateForm('status', val as NoticeForm['status'])}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="active">Active (live)</SelectItem>
-                    <SelectItem value="inactive">Inactive (hidden)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormField>
-              <FormField label="Expires On">
-                <DatePicker
-                  date={form.expiresAt}
-                  onChange={(val) => updateForm('expiresAt', val)}
-                  placeholder="Select expiry date"
-                />
-              </FormField>
-              <FormCheckbox label="Featured" checked={form.isFeatured} onChange={(v) => updateForm('isFeatured', v)} />
-              <FormCheckbox label="Breaking" checked={form.isBreaking} onChange={(v) => updateForm('isBreaking', v)} />
+            {/* 2. Language Tabs: [ Hindi (हिन्दी) ] & [ English ] for All Text Areas & Inputs */}
+            <div className="rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs overflow-hidden">
+              {/* Tab Header Bar */}
+              <div className="flex flex-wrap items-center justify-between p-3.5 bg-slate-100/90 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 gap-2">
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-100">
+                    2. Language Tabs / भाषा विवरण:
+                  </span>
+
+                  <div className="inline-flex items-center bg-slate-200/90 dark:bg-slate-700/80 p-1 rounded-xl gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setFormLangTab('hi')}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                        formLangTab === 'hi'
+                          ? "bg-amber-500 text-white shadow-xs"
+                          : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                      )}
+                    >
+                      <span>हिन्दी (Hindi)</span>
+                      {(form.titleHi.trim() || form.qualificationHi?.trim() || form.qualification?.trim()) && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setFormLangTab('en')}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                        formLangTab === 'en'
+                          ? "bg-blue-600 text-white shadow-xs"
+                          : "text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white"
+                      )}
+                    >
+                      <span>English (अंग्रेजी)</span>
+                      {(form.titleEn.trim() || form.qualificationEn?.trim()) && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    {formLangTab === 'hi' ? 'हिन्दी टेक्स्ट एरिया व इनपुट्स' : 'English Text Areas & Inputs'}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (formLangTab === 'hi') {
+                        if (!form.titleHi && form.titleEn) updateForm('titleHi', form.titleEn);
+                        if (!form.summaryHi && form.summaryEn) updateForm('summaryHi', form.summaryEn);
+                        if (!form.qualificationHi && form.qualificationEn) {
+                          updateForm('qualificationHi', form.qualificationEn);
+                          updateForm('qualification', form.qualificationEn);
+                        }
+                      } else {
+                        if (!form.titleEn && form.titleHi) updateForm('titleEn', form.titleHi);
+                        if (!form.summaryEn && form.summaryHi) updateForm('summaryEn', form.summaryHi);
+                        if (!form.qualificationEn && (form.qualificationHi || form.qualification)) {
+                          updateForm('qualificationEn', form.qualificationHi || form.qualification);
+                        }
+                      }
+                    }}
+                    className="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
+                    title="दोनों भाषाओं के शीर्षक व विवरण का त्वरित मिलान करें"
+                  >
+                    Quick Sync
+                  </button>
+                </div>
+              </div>
+
+              {/* TAB 1: HINDI (हिन्दी) */}
+              {formLangTab === 'hi' && (
+                <div className="p-4 space-y-4 bg-amber-50/20 dark:bg-amber-950/10">
+                  <div className="flex items-center justify-between pb-1 border-b border-amber-200 dark:border-amber-900/50">
+                    <span className="text-xs font-bold text-amber-900 dark:text-amber-200">
+                      हिन्दी सामग्री (Hindi Language Content)
+                    </span>
+                    <span className="text-[11px] text-amber-700 dark:text-amber-400">
+                      (ऐप के हिन्दी मोड में यह समस्त विवरण प्रदर्शित होगा)
+                    </span>
+                  </div>
+
+                  <FormField label="भर्ती शीर्षक (Title in Hindi) *" hint="उदा: राजस्थान पटवारी 2998 पदों पर सीधी भर्ती 2026">
+                    <Textarea
+                      rows={2}
+                      value={form.titleHi}
+                      onChange={(e) => updateForm('titleHi', e.target.value)}
+                      placeholder="राजस्थान पटवारी भर्ती 2026"
+                    />
+                  </FormField>
+
+                  <FormField label="संक्षिप्त विवरण (Summary in Hindi)" hint="भर्ती का मुख्य संक्षिप्त विवरण">
+                    <Textarea
+                      rows={3}
+                      value={form.summaryHi}
+                      onChange={(e) => updateForm('summaryHi', e.target.value)}
+                      placeholder="संक्षिप्त विवरण हिन्दी में..."
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="Qualification / शैक्षणिक योग्यता *"
+                    hint="नंबरिंग व बोल्ड शब्द समर्थित हैं। उदा: 1. **12वीं पास** के साथ **RSCIT** डिप्लोमा"
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.qualificationHi || form.qualification;
+                          const updated = current ? `${current} **बोल्ड शब्द**` : '**मुख्य योग्यता**';
+                          updateForm('qualificationHi', updated);
+                          updateForm('qualification', updated);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="शब्दों को बोल्ड करने के लिए **शब्द** लगाएं"
+                      >
+                        ** Bold Selected
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.qualificationHi || form.qualification;
+                          const lines = current ? current.split('\n') : [];
+                          const nextNum = lines.length + 1;
+                          const newLine = `${nextNum}. `;
+                          const updated = current ? `${current}\n${newLine}` : newLine;
+                          updateForm('qualificationHi', updated);
+                          updateForm('qualification', updated);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="क्रम संख्या जोड़ें"
+                      >
+                        1. Add Point
+                      </button>
+                    </div>
+                    <Textarea
+                      rows={3}
+                      value={form.qualificationHi || form.qualification}
+                      onChange={(e) => {
+                        updateForm('qualificationHi', e.target.value);
+                        updateForm('qualification', e.target.value);
+                      }}
+                      placeholder="1. मान्यता प्राप्त बोर्ड से **12वीं (10+2)** उत्तीर्ण।&#10;2. **RSCIT** अथवा समकक्ष कम्प्यूटर डिप्लोमा।"
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="Selection Process / चयन प्रक्रिया"
+                    hint="चयन प्रक्रिया के चरण नंबरिंग के साथ दर्ज करें"
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const standardStages = '1. लिखित परीक्षा (Written Examination)\n2. शारीरिक दक्षता परीक्षा (PET / PST)\n3. दस्तावेज सत्यापन (Document Verification)\n4. चिकित्सा परीक्षण (Medical Examination)';
+                          updateForm('selectionProcessHi', standardStages);
+                          updateForm('selectionProcess', standardStages);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="मानक चयन प्रक्रिया चरण जोड़ें"
+                      >
+                        + 1,2,3 Stages (मानक चरण)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.selectionProcessHi || form.selectionProcess;
+                          const lines = current ? current.split('\n') : [];
+                          const nextNum = lines.length + 1;
+                          const newLine = `${nextNum}. `;
+                          const updated = current ? `${current}\n${newLine}` : newLine;
+                          updateForm('selectionProcessHi', updated);
+                          updateForm('selectionProcess', updated);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                      >
+                        1. Add Step
+                      </button>
+                    </div>
+                    <Textarea
+                      rows={3}
+                      value={form.selectionProcessHi || form.selectionProcess}
+                      onChange={(e) => {
+                        updateForm('selectionProcessHi', e.target.value);
+                        updateForm('selectionProcess', e.target.value);
+                      }}
+                      placeholder="1. लिखित परीक्षा (Written Exam)&#10;2. शारीरिक दक्षता परीक्षा (PET/PST)&#10;3. दस्तावेज सत्यापन (DV)"
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="How to Apply / आवेदन कैसे करें (स्टेप-बाय-स्टेप हिन्दी गाइड)"
+                    hint="अभ्यर्थियों के लिए ऑनलाइन आवेदन करने का चरणबद्ध विवरण"
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const def = defaultHowToApply(form.noticeType);
+                          updateForm('howToApplyHi', def);
+                          updateForm('howToApply', def);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="भर्ती प्रकार के अनुसार मानक आवेदन प्रक्रिया दर्ज करें"
+                      >
+                        + लोड करें मानक आवेदन प्रक्रिया
+                      </button>
+                    </div>
+                    <Textarea
+                      rows={4}
+                      value={form.howToApplyHi || form.howToApply || ''}
+                      onChange={(e) => {
+                        updateForm('howToApplyHi', e.target.value);
+                        updateForm('howToApply', e.target.value);
+                      }}
+                      placeholder="1. राजस्थान एसएसओ पोर्टल पर लॉगिन करें...&#10;2. भर्ती पोर्टल पर जाएं..."
+                    />
+                  </FormField>
+
+                  <FormField label="Age Relaxation (आयु सीमा में छूट - हिन्दी विवरण)">
+                    <Textarea
+                      rows={2}
+                      value={form.ageRelaxationHi || form.ageRelaxation}
+                      onChange={(e) => {
+                        updateForm('ageRelaxationHi', e.target.value);
+                        updateForm('ageRelaxation', e.target.value);
+                      }}
+                      placeholder="राज्य सरकार के नियमानुसार आरक्षित वर्गों (SC/ST/OBC/MBC/EWS) एवं महिला अभ्यर्थियों को अधिकतम आयु सीमा में 5 से 10 वर्ष की छूट देय होगी।"
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="FAQs / अक्सर पूछे जाने वाले प्रश्न (हिन्दी)"
+                    hint="Format: Q: प्रश्न? \n A: उत्तर।"
+                  >
+                    <Textarea
+                      rows={4}
+                      value={form.faqsHi || form.faqs}
+                      onChange={(e) => {
+                        updateForm('faqsHi', e.target.value);
+                        updateForm('faqs', e.target.value);
+                      }}
+                      placeholder="Q: क्या ओटीआर अनिवार्य है?&#10;A: हाँ, राजस्थान की सभी राज्यस्तरीय भर्तियों के लिए ओटीआर अनिवार्य है।&#10;&#10;Q: आयु सीमा में कितनी छूट मिलेगी?&#10;A: नियमानुसार आरक्षित वर्गों को 5 से 10 वर्ष की छूट देय होगी।"
+                    />
+                  </FormField>
+                </div>
+              )}
+
+              {/* TAB 2: ENGLISH (English) */}
+              {formLangTab === 'en' && (
+                <div className="p-4 space-y-4 bg-blue-50/20 dark:bg-blue-950/10">
+                  <div className="flex items-center justify-between pb-1 border-b border-blue-200 dark:border-blue-900/50">
+                    <span className="text-xs font-bold text-blue-900 dark:text-blue-200">
+                      English Details (English Language Content)
+                    </span>
+                    <span className="text-[11px] text-blue-700 dark:text-blue-400">
+                      (Displayed when user chooses English in the mobile app)
+                    </span>
+                  </div>
+
+                  <FormField label="Recruitment Title (Title in English) *" hint="e.g. Rajasthan Patwari 2998 Posts Recruitment 2026">
+                    <Textarea
+                      rows={2}
+                      value={form.titleEn}
+                      onChange={(e) => updateForm('titleEn', e.target.value)}
+                      placeholder="Rajasthan Patwari Recruitment 2026"
+                    />
+                  </FormField>
+
+                  <FormField label="Recruitment Summary (Summary in English)" hint="Brief recruitment summary in English">
+                    <Textarea
+                      rows={3}
+                      value={form.summaryEn}
+                      onChange={(e) => updateForm('summaryEn', e.target.value)}
+                      placeholder="Brief recruitment summary in English..."
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="Educational Qualification (English) *"
+                    hint="Numbering and bold words supported. e.g.: 1. **12th Pass** with **RSCIT** Diploma"
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.qualificationEn;
+                          const updated = current ? `${current} **bold term**` : '**Key Qualification**';
+                          updateForm('qualificationEn', updated);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="Format words in bold"
+                      >
+                        ** Bold Selected
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.qualificationEn;
+                          const lines = current ? current.split('\n') : [];
+                          const nextNum = lines.length + 1;
+                          const newLine = `${nextNum}. `;
+                          const updated = current ? `${current}\n${newLine}` : newLine;
+                          updateForm('qualificationEn', updated);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="Add numbered point"
+                      >
+                        1. Add Point
+                      </button>
+                    </div>
+                    <Textarea
+                      rows={3}
+                      value={form.qualificationEn}
+                      onChange={(e) => updateForm('qualificationEn', e.target.value)}
+                      placeholder="1. Passed **10+2 (Intermediate)** from a recognized board.&#10;2. **RSCIT** or equivalent computer diploma."
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="Selection Process (English)"
+                    hint="Specify selection stages with numbers"
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const stages = '1. Written Examination (CBT / OMR)\n2. Physical Efficiency Test (PET / PST)\n3. Document Verification (DV)\n4. Medical Examination';
+                          updateForm('selectionProcessEn', stages);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="Insert standard selection stages"
+                      >
+                        + 1,2,3 Stages (Standard)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = form.selectionProcessEn;
+                          const lines = current ? current.split('\n') : [];
+                          const nextNum = lines.length + 1;
+                          const newLine = `${nextNum}. `;
+                          const updated = current ? `${current}\n${newLine}` : newLine;
+                          updateForm('selectionProcessEn', updated);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                      >
+                        1. Add Step
+                      </button>
+                    </div>
+                    <Textarea
+                      rows={3}
+                      value={form.selectionProcessEn}
+                      onChange={(e) => updateForm('selectionProcessEn', e.target.value)}
+                      placeholder="1. Written Examination&#10;2. Physical Efficiency Test (PET/PST)&#10;3. Document Verification (DV)"
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="How to Apply (Step-by-Step English Guide)"
+                    hint="Step-by-step instructions for candidates in English"
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const def = defaultHowToApplyEn(form.noticeType);
+                          updateForm('howToApplyEn', def);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
+                        title="Insert standard English application guide"
+                      >
+                        + Insert Standard Guide
+                      </button>
+                    </div>
+                    <Textarea
+                      rows={4}
+                      value={form.howToApplyEn}
+                      onChange={(e) => updateForm('howToApplyEn', e.target.value)}
+                      placeholder="1. Visit the official portal / SSO Rajasthan (sso.rajasthan.gov.in) and log in.&#10;2. Navigate to Recruitment Portal and verify your OTR profile.&#10;3. Select the ongoing recruitment notification and click on Apply Online."
+                    />
+                  </FormField>
+
+                  <FormField label="Age Relaxation (English Details)">
+                    <Textarea
+                      rows={2}
+                      value={form.ageRelaxationEn}
+                      onChange={(e) => updateForm('ageRelaxationEn', e.target.value)}
+                      placeholder="Age relaxation of 5 to 10 years admissible for reserved categories (SC/ST/OBC/MBC/EWS) and female candidates as per State Government rules."
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="FAQs (Frequently Asked Questions - English)"
+                    hint="Format: Q: Question? \n A: Answer."
+                  >
+                    <Textarea
+                      rows={4}
+                      value={form.faqsEn}
+                      onChange={(e) => updateForm('faqsEn', e.target.value)}
+                      placeholder="Q: Is OTR registration mandatory?&#10;A: Yes, OTR is mandatory for all state examinations.&#10;&#10;Q: What is the age relaxation?&#10;A: 5 to 10 years relaxation for reserved categories."
+                    />
+                  </FormField>
+                </div>
+              )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <FormField label="Total Posts">
-                <Textarea
-                  rows={1}
-                  value={form.postsCount}
-                  onChange={(e) => updateForm('postsCount', e.target.value)}
-                  placeholder="e.g. 2998"
-                />
-              </FormField>
-              <FormField label="Age Min">
-                <Textarea
-                  rows={1}
-                  value={form.ageMin}
-                  onChange={(e) => updateForm('ageMin', e.target.value)}
-                  placeholder="18"
-                />
-              </FormField>
-              <FormField label="Age Max">
-                <Textarea
-                  rows={1}
-                  value={form.ageMax}
-                  onChange={(e) => updateForm('ageMax', e.target.value)}
-                  placeholder="40"
-                />
-              </FormField>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <FormField label="Age Calculation Date (आयु गणना आधार तिथि)" hint="e.g. 01/01/2026">
-                <Textarea
-                  rows={1}
-                  value={form.ageAsOnDate}
-                  onChange={(e) => updateForm('ageAsOnDate', e.target.value)}
-                  placeholder="01/01/2026"
-                />
-              </FormField>
-              <FormField label="Age Relaxation (आयु सीमा में छूट)">
-                <Textarea
-                  rows={2}
-                  value={form.ageRelaxation}
-                  onChange={(e) => updateForm('ageRelaxation', e.target.value)}
-                  placeholder="SC/ST/OBC/MBC/EWS को नियमानुसार 5 से 10 वर्ष की छूट देय होगी।"
-                />
-              </FormField>
-            </div>
-
+            {/* 3. Category-Wise Vacancies */}
             <FormField
               label="Category-Wise Vacancies (वर्गवार रिक्तियों का विवरण)"
               hint="खाली रखने पर ऐप में यह सेक्शन पूरी तरह से छुपा रहेगा (कोई गलत या डमी डेटा नहीं आएगा)। Format: UR: 450, EWS: 105, OBC: 210, MBC: 52, SC: 168, ST: 135"
@@ -1264,56 +1751,11 @@ export default function NoticesPage() {
               />
             </FormField>
 
-            <FormField
-              label="Qualification / शैक्षणिक योग्यता *"
-              hint="नंबरिंग व बोल्ड शब्द समर्थित हैं। उदा: 1. **12वीं पास** के साथ **RSCIT** डिप्लोमा"
-            >
-              <div className="flex items-center gap-2 mb-1.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm((prev) => ({
-                      ...prev,
-                      qualification: prev.qualification ? `${prev.qualification} **बोल्ड शब्द**` : '**मुख्य योग्यता**',
-                    }));
-                  }}
-                  className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors"
-                  title="शब्दों को बोल्ड करने के लिए **शब्द** लगाएं"
-                >
-                  ** Bold Selected
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm((prev) => {
-                      const lines = prev.qualification ? prev.qualification.split('\n') : [];
-                      const nextNum = lines.length + 1;
-                      const newLine = `${nextNum}. `;
-                      return {
-                        ...prev,
-                        qualification: prev.qualification ? `${prev.qualification}\n${newLine}` : newLine,
-                      };
-                    });
-                  }}
-                  className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors"
-                  title="क्रम संख्या जोड़ें"
-                >
-                  1. Add Point
-                </button>
-              </div>
-              <Textarea
-                rows={3}
-                value={form.qualification}
-                onChange={(e) => updateForm('qualification', e.target.value)}
-                placeholder="1. मान्यता प्राप्त बोर्ड से **12वीं (10+2)** उत्तीर्ण।&#10;2. **RSCIT** अथवा समकक्ष कम्प्यूटर डिप्लोमा।"
-              />
-            </FormField>
-
-            {/* Dates Section (8 Important Dates) */}
+            {/* 4. Dates Section (8 Important Dates) */}
             <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 space-y-3">
               <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-800">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                  📅 Important Dates / महत्वपूर्ण तिथियाँ
+                  Important Dates / महत्वपूर्ण तिथियाँ (8 Dates)
                 </span>
                 <span className="text-[11px] text-slate-500">
                   (एडमिट कार्ड व परीक्षा तिथि खाली होने पर डिफॉल्ट सूचना स्वतः प्रदर्शित होगी)
@@ -1385,6 +1827,7 @@ export default function NoticesPage() {
               </div>
             </div>
 
+            {/* 5. Fees Section */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <FormField label="Fee - General / OBC">
                 <Textarea
@@ -1412,56 +1855,12 @@ export default function NoticesPage() {
               </FormField>
             </div>
 
-            <FormField
-              label="Selection Process / चयन प्रक्रिया"
-              hint="चयन प्रक्रिया के चरण नंबरिंग के साथ दर्ज करें"
-            >
-              <div className="flex items-center gap-2 mb-1.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm((prev) => ({
-                      ...prev,
-                      selectionProcess: '1. लिखित परीक्षा (Written Examination)\n2. शारीरिक दक्षता परीक्षा (PET / PST)\n3. दस्तावेज सत्यापन (Document Verification)\n4. चिकित्सा परीक्षण (Medical Examination)',
-                    }));
-                  }}
-                  className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors"
-                  title="मानक चयन प्रक्रिया चरण जोड़ें"
-                >
-                  + 1,2,3 Stages (मानक चरण)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm((prev) => {
-                      const lines = prev.selectionProcess ? prev.selectionProcess.split('\n') : [];
-                      const nextNum = lines.length + 1;
-                      const newLine = `${nextNum}. `;
-                      return {
-                        ...prev,
-                        selectionProcess: prev.selectionProcess ? `${prev.selectionProcess}\n${newLine}` : newLine,
-                      };
-                    });
-                  }}
-                  className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition-colors"
-                >
-                  1. Add Step
-                </button>
-              </div>
-              <Textarea
-                rows={3}
-                value={form.selectionProcess}
-                onChange={(e) => updateForm('selectionProcess', e.target.value)}
-                placeholder="1. लिखित परीक्षा (Written Exam)&#10;2. शारीरिक दक्षता परीक्षा (PET/PST)&#10;3. दस्तावेज सत्यापन (DV)"
-              />
-            </FormField>
-
-            {/* 11 Important Links Section (Sarkari 11 Portals) */}
+            {/* 6. 11 Important Links Section (Sarkari 11 Portals) */}
             <div className="space-y-4 p-4 rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/20 dark:bg-amber-950/20">
               <div className="flex items-center justify-between pb-2 border-b border-amber-200 dark:border-amber-800/80">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                    🔗 Important Links / महत्वपूर्ण लिंक्स (11 Sarkari Portals)
+                    Important Links / महत्वपूर्ण लिंक्स (11 Sarkari Portals)
                   </span>
                   <Badge variant="outline" className="text-[10px] bg-amber-100 text-amber-900 border-amber-300">
                     BTN = यहाँ क्लिक करें
@@ -1530,32 +1929,7 @@ export default function NoticesPage() {
               </div>
             </div>
 
-            {/* Official Note & Disclaimer Alert Card */}
-            <div className="p-4 rounded-xl border border-amber-300 dark:border-amber-800 bg-amber-50/70 dark:bg-amber-950/40 text-xs text-amber-950 dark:text-amber-200 space-y-2">
-              <div className="font-bold flex items-center gap-1.5 text-amber-900 dark:text-amber-100">
-                <span>⚠️</span>
-                <span>अस्वीकरण / Disclaimer (कानूनी सुरक्षा एवं Google Play Store अनुपालन)</span>
-              </div>
-              <p className="leading-relaxed">
-                <strong>आधिकारिक पुष्टि अनिवार्य:</strong> आवेदन करने से पहले अंतिम पात्रता, आयु सीमा और महत्वपूर्ण तिथियों की पुष्टि संबंधित भर्ती बोर्ड की आधिकारिक वेबसाइट या अधिसूचना से अवश्य करें।
-              </p>
-              <p className="text-[11px] text-amber-800 dark:text-amber-300">
-                <strong>नोट:</strong> यह एक स्वतंत्र सूचना प्लेटफॉर्म है और किसी भी सरकारी संस्था या भर्ती बोर्ड से संबद्ध (Affiliated) नहीं है। छात्रों से यह अनुरोध किया जाता है, कि वो अपना फॉर्म भरने से पहले Official Notification को ध्यान से जरूर पढ़ें उसके बाद ही अपना फॉर्म भरें। 🙏
-              </p>
-            </div>
-
-            <FormField
-              label="FAQs / अक्सर पूछे जाने वाले प्रश्न (Candidate Doubts)"
-              hint="Format: Q: प्रश्न? \n A: उत्तर।"
-            >
-              <Textarea
-                rows={4}
-                value={form.faqs}
-                onChange={(e) => updateForm('faqs', e.target.value)}
-                placeholder="Q: क्या ओटीआर अनिवार्य है?&#10;A: हाँ, राजस्थान की सभी राज्यस्तरीय भर्तियों के लिए ओटीआर अनिवार्य है।&#10;&#10;Q: आयु सीमा में कितनी छूट मिलेगी?&#10;A: नियमानुसार आरक्षित वर्गों को 5 से 10 वर्ष की छूट देय होगी।"
-              />
-            </FormField>
-
+            {/* Source URL & Editorial Verification */}
             <FormField label="Source URL (used for AI citations)">
               <Textarea
                 rows={2}

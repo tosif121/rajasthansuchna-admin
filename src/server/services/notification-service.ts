@@ -4,6 +4,7 @@ import { neon } from '@neondatabase/serverless';
 import { randomUUID } from 'crypto';
 import { sendFcmBroadcast } from './fcm-admin-service';
 import { isNeonReachable, safeNeonQuery } from '@/lib/db';
+import { NoticeService } from './notice-service';
 
 export type NotificationType = 'newVacancy' | 'admitCard' | 'result' | 'correction' | 'closingSoon';
 
@@ -102,6 +103,7 @@ function getSql() {
 
 export class NotificationService {
   static async getNotifications(): Promise<AdminNotificationRecord[]> {
+    let explicitNotifications: AdminNotificationRecord[] = [];
     const sql = getSql();
     if (sql && (await isNeonReachable(sql))) {
       try {
@@ -114,7 +116,7 @@ export class NotificationService {
           ORDER BY created_at DESC;
         `)) as any[];
         if (rows && rows.length > 0) {
-          return rows.map((r: any) => ({
+          explicitNotifications = rows.map((r: any) => ({
             id: r.id,
             title: r.title,
             message: r.message,
@@ -130,7 +132,61 @@ export class NotificationService {
         // Table might not exist or network unavailable
       }
     }
-    return memoryNotifications;
+
+    if (explicitNotifications.length === 0) {
+      explicitNotifications = [...memoryNotifications];
+    }
+
+    // Automatically incorporate ALL published Notices/Posts so every vacancy has a notification
+    try {
+      const allNotices = await NoticeService.getNotices();
+      const existingSlugs = new Set(
+        explicitNotifications
+          .map((n) => n.vacancySlug || n.vacancyId)
+          .filter(Boolean)
+      );
+
+      const noticeNotifications: AdminNotificationRecord[] = allNotices
+        .filter((notice) => !existingSlugs.has(notice.slug) && !existingSlugs.has(notice.id))
+        .map((notice) => {
+          let notifType: NotificationType = 'newVacancy';
+          const rawType = (notice.noticeType || '').toLowerCase();
+          if (rawType === 'admitcard' || rawType === 'admit_card') {
+            notifType = 'admitCard';
+          } else if (rawType === 'result') {
+            notifType = 'result';
+          } else if (rawType === 'answerkey' || rawType === 'answer_key' || rawType === 'correction') {
+            notifType = 'correction';
+          }
+
+          const title = notice.titleHi || notice.titleEn || 'नई भर्ती विज्ञप्ति';
+          const summary = notice.summaryHi || notice.summaryEn;
+          const agencyDisplay = notice.agencyName || (notice.agencyId ? notice.agencyId.replace('agency_', '').toUpperCase() : 'Raj Suchna');
+          const postsText = notice.facts?.postsCount ? ` (${notice.facts.postsCount} पद)` : '';
+          const message = summary && summary.trim().length > 0
+            ? summary
+            : `${agencyDisplay} द्वारा ${title}${postsText} की आधिकारिक विज्ञप्ति एवं महत्वपूर्ण तिथियां जारी।`;
+
+          return {
+            id: `notif_${notice.id}`,
+            title,
+            message,
+            vacancyId: notice.id,
+            vacancySlug: notice.slug,
+            agencyName: agencyDisplay,
+            type: notifType,
+            createdAt: notice.publishedAt || (notice as any).updatedAt || new Date().toISOString(),
+            sentAt: notice.publishedAt || (notice as any).updatedAt || new Date().toISOString(),
+          };
+        });
+
+      const combined = [...explicitNotifications, ...noticeNotifications];
+      combined.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      return combined;
+    } catch (err) {
+      console.error('Failed to combine notices into notifications:', err);
+      return explicitNotifications;
+    }
   }
 
   static async createNotification(data: {
