@@ -39,6 +39,7 @@ import {
   Clock,
   Building,
   FileText,
+  X,
 } from 'lucide-react';
 
 interface NoticeLink {
@@ -485,6 +486,24 @@ export default function NoticesPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
+  // Bulk operations state
+  const [selectedNoticeIds, setSelectedNoticeIds] = useState<string[]>([]);
+  const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [bulkDeleteModalOpen, setBulkDeleteModalOpen] = useState(false);
+  const [bulkEditing, setBulkEditing] = useState(false);
+  const [bulkEditModalOpen, setBulkEditModalOpen] = useState(false);
+  const [bulkEditForm, setBulkEditForm] = useState<{
+    categoryId: string;
+    agencyId: string;
+    isBreaking: string;
+    status: string;
+  }>({
+    categoryId: 'keep',
+    agencyId: 'keep',
+    isBreaking: 'keep',
+    status: 'keep',
+  });
+
   const [agencyOptions, setAgencyOptions] = useState<Option[]>([]);
   const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
   const [jurisdictionOptions, setJurisdictionOptions] = useState<Option[]>([]);
@@ -914,6 +933,114 @@ export default function NoticesPage() {
     }
   };
 
+  const handleBulkStatus = async (status: 'active' | 'inactive') => {
+    if (selectedNoticeIds.length === 0) return;
+    setFeedback(null);
+    try {
+      invalidateClientApiCache('/api/v1/admin/notices');
+      const res = await fetch('/api/v1/admin/notices/bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'status',
+          ids: selectedNoticeIds,
+          status,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setFeedback({ message: data.error || 'Failed to update notices status.', type: 'error' });
+      } else {
+        setFeedback({ message: data.message || `Notices updated to ${status}.`, type: 'success' });
+        setSelectedNoticeIds([]);
+        await fetchNotices(true);
+      }
+    } catch {
+      setFeedback({ message: 'Network error updating notices status.', type: 'error' });
+    }
+  };
+
+  const handleBulkDeleteConfirm = async () => {
+    if (selectedNoticeIds.length === 0) return;
+    setBulkDeleting(true);
+    try {
+      invalidateClientApiCache('/api/v1/admin/notices');
+      const res = await fetch('/api/v1/admin/notices/bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'delete',
+          ids: selectedNoticeIds,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setFeedback({ message: data.error || 'Failed to delete notices.', type: 'error' });
+      } else {
+        setFeedback({ message: data.message || 'Selected notices deleted successfully.', type: 'success' });
+        setSelectedNoticeIds([]);
+        setBulkDeleteModalOpen(false);
+        await fetchNotices(true);
+      }
+    } catch {
+      setFeedback({ message: 'Network error deleting notices.', type: 'error' });
+    } finally {
+      setBulkDeleting(false);
+    }
+  };
+
+  const handleBulkEditConfirm = async () => {
+    if (selectedNoticeIds.length === 0) return;
+    const updates: Record<string, any> = {};
+    if (bulkEditForm.categoryId !== 'keep') {
+      updates.categoryId = bulkEditForm.categoryId;
+    }
+    if (bulkEditForm.agencyId !== 'keep') {
+      updates.agencyId = bulkEditForm.agencyId;
+      const agencyObj = agencyOptions.find(a => a.id === bulkEditForm.agencyId);
+      if (agencyObj) updates.agencyName = agencyObj.nameEn;
+    }
+    if (bulkEditForm.isBreaking !== 'keep') {
+      updates.isBreaking = bulkEditForm.isBreaking === 'yes';
+    }
+    if (bulkEditForm.status !== 'keep') {
+      updates.status = bulkEditForm.status;
+    }
+
+    if (Object.keys(updates).length === 0) {
+      setFeedback({ message: 'No fields were modified for bulk edit.', type: 'error' });
+      setBulkEditModalOpen(false);
+      return;
+    }
+
+    setBulkEditing(true);
+    try {
+      invalidateClientApiCache('/api/v1/admin/notices');
+      const res = await fetch('/api/v1/admin/notices/bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'edit',
+          ids: selectedNoticeIds,
+          updates,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setFeedback({ message: data.error || 'Failed to bulk edit notices.', type: 'error' });
+      } else {
+        setFeedback({ message: data.message || 'Notices bulk updated successfully.', type: 'success' });
+        setSelectedNoticeIds([]);
+        setBulkEditModalOpen(false);
+        await fetchNotices(true);
+      }
+    } catch {
+      setFeedback({ message: 'Network error bulk editing notices.', type: 'error' });
+    } finally {
+      setBulkEditing(false);
+    }
+  };
+
   const filteredNotices = notices.filter(n => {
     return statusFilter === 'all' || n.status === statusFilter;
   });
@@ -1128,7 +1255,10 @@ export default function NoticesPage() {
             ].map(tab => (
               <button
                 key={tab.value}
-                onClick={() => setStatusFilter(tab.value as 'all' | 'active' | 'inactive')}
+                onClick={() => {
+                  setStatusFilter(tab.value as 'all' | 'active' | 'inactive');
+                  setSelectedNoticeIds([]);
+                }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors flex items-center gap-2 ${statusFilter === tab.value
                   ? 'bg-[#A30B0B] text-white shadow-sm'
                   : 'bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800'
@@ -1150,6 +1280,83 @@ export default function NoticesPage() {
             searchKey="titleEn"
             searchPlaceholder="Search notices by recruitment title..."
             pageSize={10}
+            selectable
+            selectedIds={selectedNoticeIds}
+            onSelectionChange={setSelectedNoticeIds}
+            getRowId={(item) => item.id}
+            renderBulkActions={(selectedIds, clearSelection) => (
+              <div className="flex items-center gap-2 sm:gap-3 bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-md text-white px-4 py-2.5 rounded-2xl shadow-2xl border border-slate-700/80 transition-all select-none">
+                <div className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-xl bg-white/10 border border-white/10">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>
+                    <strong className="font-bold text-white tabular-nums">{selectedIds.length}</strong> selected
+                  </span>
+                </div>
+
+                <div className="h-4 w-px bg-slate-700/60 mx-0.5" />
+
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => handleBulkStatus('active')}
+                  className="h-8 text-xs font-semibold text-emerald-300 hover:text-emerald-200 hover:bg-emerald-950/50 cursor-pointer"
+                  title="Publish selected notices to mobile app"
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-400" />
+                  Activate
+                </Button>
+
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => handleBulkStatus('inactive')}
+                  className="h-8 text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 cursor-pointer"
+                  title="Unpublish selected notices"
+                >
+                  Deactivate
+                </Button>
+
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setBulkEditForm({
+                      categoryId: 'keep',
+                      agencyId: 'keep',
+                      isBreaking: 'keep',
+                      status: 'keep',
+                    });
+                    setBulkEditModalOpen(true);
+                  }}
+                  className="h-8 text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-amber-950/50 cursor-pointer"
+                  title="Bulk edit category, commission, or breaking alert"
+                >
+                  <Pencil className="w-3.5 h-3.5 mr-1 text-amber-400" />
+                  Bulk Edit
+                </Button>
+
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setBulkDeleteModalOpen(true)}
+                  className="h-8 text-xs font-semibold text-red-400 hover:text-red-300 hover:bg-red-950/50 cursor-pointer"
+                  title="Delete all selected notices"
+                >
+                  <Trash2 className="w-3.5 h-3.5 mr-1 text-red-400" />
+                  Delete
+                </Button>
+
+                <div className="h-4 w-px bg-slate-700/60 mx-0.5" />
+
+                <button
+                  onClick={clearSelection}
+                  title="Deselect all"
+                  className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
             emptyTitle="No recruitment notices found"
             emptyDescription={
               statusFilter !== 'all'
@@ -1169,6 +1376,121 @@ export default function NoticesPage() {
         onConfirm={handleDeleteConfirm}
         onCancel={() => setNoticeToDelete(null)}
       />
+
+      {/* Bulk Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={bulkDeleteModalOpen}
+        title={`Delete ${selectedNoticeIds.length} Notices`}
+        description={`Are you sure you want to permanently delete these ${selectedNoticeIds.length} selected recruitment notices? This will remove them immediately from the mobile application.`}
+        itemName={`${selectedNoticeIds.length} selected notices`}
+        isDeleting={bulkDeleting}
+        onConfirm={handleBulkDeleteConfirm}
+        onCancel={() => setBulkDeleteModalOpen(false)}
+      />
+
+      {/* Bulk Edit Modal */}
+      <Dialog open={bulkEditModalOpen} onOpenChange={(open) => { if (!open) setBulkEditModalOpen(false); }}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Pencil className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <span>Bulk Edit ({selectedNoticeIds.length} Notices)</span>
+            </DialogTitle>
+            <DialogDescription>
+              Select the fields you want to update across all {selectedNoticeIds.length} selected notices. Leave fields set to &quot;No change&quot; to preserve existing values.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-2">
+            <div>
+              <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Category</Label>
+              <Select
+                value={bulkEditForm.categoryId}
+                onValueChange={(val) => setBulkEditForm(f => ({ ...f, categoryId: val }))}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="keep">— No change (Keep existing) —</SelectItem>
+                  {categoryOptions.map(c => (
+                    <SelectItem key={c.id} value={c.id}>{c.nameEn || c.id}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Commission / Agency</Label>
+              <Select
+                value={bulkEditForm.agencyId}
+                onValueChange={(val) => setBulkEditForm(f => ({ ...f, agencyId: val }))}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select Commission" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="keep">— No change (Keep existing) —</SelectItem>
+                  {agencyOptions.map(a => (
+                    <SelectItem key={a.id} value={a.id}>{a.nameEn || a.id}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Breaking Alert Badge</Label>
+              <Select
+                value={bulkEditForm.isBreaking}
+                onValueChange={(val) => setBulkEditForm(f => ({ ...f, isBreaking: val }))}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select Breaking Alert" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="keep">— No change (Keep existing) —</SelectItem>
+                  <SelectItem value="yes">Set as BREAKING Alert</SelectItem>
+                  <SelectItem value="no">Normal (Remove Breaking Alert)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Publication Status</Label>
+              <Select
+                value={bulkEditForm.status}
+                onValueChange={(val) => setBulkEditForm(f => ({ ...f, status: val }))}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="keep">— No change (Keep existing) —</SelectItem>
+                  <SelectItem value="active">Active (Publish to mobile app)</SelectItem>
+                  <SelectItem value="inactive">Inactive (Draft / Unpublish)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button
+              variant="outline"
+              onClick={() => setBulkEditModalOpen(false)}
+              disabled={bulkEditing}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBulkEditConfirm}
+              disabled={bulkEditing}
+              className="bg-[#A30B0B] hover:bg-[#850909] text-white font-semibold cursor-pointer"
+            >
+              {bulkEditing ? 'Updating...' : `Apply Changes to ${selectedNoticeIds.length} Notices`}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Create / Edit Notice Dialog */}
       <Dialog open={formOpen} onOpenChange={(open) => { if (!open) setFormOpen(false); }}>

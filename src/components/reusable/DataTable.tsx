@@ -25,6 +25,8 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 import { EmptyState } from "./EmptyState";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 
@@ -49,6 +51,13 @@ export interface DataTableProps<T = any> {
   emptyDescription?: string;
   disablePagination?: boolean;
 
+  // Row selection & bulk operations support
+  selectable?: boolean;
+  selectedIds?: string[];
+  onSelectionChange?: (selectedIds: string[]) => void;
+  getRowId?: (item: T) => string;
+  renderBulkActions?: (selectedIds: string[], clearSelection: () => void) => React.ReactNode;
+
   // Server-side dynamic pagination support
   serverSide?: boolean;
   totalRecords?: number;
@@ -70,6 +79,11 @@ export function DataTable<T extends Record<string, any>>({
   emptyTitle = "No records found",
   emptyDescription = "Try adjusting your search query or filters.",
   disablePagination = false,
+  selectable = false,
+  selectedIds = [],
+  onSelectionChange,
+  getRowId,
+  renderBulkActions,
   serverSide = false,
   totalRecords,
   currentPage: externalPage,
@@ -167,6 +181,56 @@ export function DataTable<T extends Record<string, any>>({
     return pages;
   }, [effectiveCurrentPage, totalPages]);
 
+  // Selection helpers
+  const resolveRowId = (item: T, idx: number): string => {
+    if (getRowId) return getRowId(item);
+    return item.id ?? item._id ?? item.slug ?? String(idx);
+  };
+
+  const pageRowIds = useMemo(() => {
+    if (!selectable) return [];
+    return pageData.map((item, idx) => resolveRowId(item, idx));
+  }, [pageData, selectable, getRowId]);
+
+  const isAllPageSelected = useMemo(() => {
+    if (!selectable || pageRowIds.length === 0 || !selectedIds) return false;
+    return pageRowIds.every((id) => selectedIds.includes(id));
+  }, [selectable, pageRowIds, selectedIds]);
+
+  const isSomePageSelected = useMemo(() => {
+    if (!selectable || !selectedIds) return false;
+    return pageRowIds.some((id) => selectedIds.includes(id)) && !isAllPageSelected;
+  }, [selectable, pageRowIds, selectedIds, isAllPageSelected]);
+
+  const handleToggleSelectAll = () => {
+    if (!onSelectionChange) return;
+    const current = selectedIds || [];
+    if (isAllPageSelected) {
+      // Unselect records on current page
+      onSelectionChange(current.filter((id) => !pageRowIds.includes(id)));
+    } else {
+      // Select records on current page
+      const next = Array.from(new Set([...current, ...pageRowIds]));
+      onSelectionChange(next);
+    }
+  };
+
+  const handleToggleRow = (id: string) => {
+    if (!onSelectionChange) return;
+    const current = selectedIds || [];
+    if (current.includes(id)) {
+      onSelectionChange(current.filter((item) => item !== id));
+    } else {
+      onSelectionChange([...current, id]);
+    }
+  };
+
+  const clearSelection = () => {
+    if (onSelectionChange) {
+      onSelectionChange([]);
+    }
+  };
+
   return (
     <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
       {/* Search & page size toolbar */}
@@ -247,6 +311,16 @@ export function DataTable<T extends Record<string, any>>({
       <Table>
         <TableHeader>
           <TableRow>
+            {selectable && (
+              <TableHead className="w-10 px-3 py-3 text-center">
+                <Checkbox
+                  checked={isAllPageSelected ? true : isSomePageSelected ? "indeterminate" : false}
+                  onCheckedChange={handleToggleSelectAll}
+                  aria-label="Select all current page"
+                  className="cursor-pointer border-slate-300 dark:border-slate-700 data-[state=checked]:bg-[#A30B0B] data-[state=checked]:border-[#A30B0B]"
+                />
+              </TableHead>
+            )}
             {columns.map((col, idx) => (
               <TableHead key={idx} className={col.className}>
                 {typeof col.header === "string" ? col.header : col.header}
@@ -261,20 +335,44 @@ export function DataTable<T extends Record<string, any>>({
             ))
           ) : pageData.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={columns.length} className="py-8">
+              <TableCell colSpan={columns.length + (selectable ? 1 : 0)} className="py-8">
                 <EmptyState title={emptyTitle} description={emptyDescription} />
               </TableCell>
             </TableRow>
           ) : (
-            pageData.map((row, rowIdx) => (
-              <TableRow key={rowIdx}>
-                {columns.map((col, colIdx) => (
-                  <TableCell key={colIdx} className={col.className}>
-                    {col.cell ? col.cell(row) : (col.accessorKey ? String(row[col.accessorKey] ?? "") : null)}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
+            pageData.map((row, rowIdx) => {
+              const rowId = resolveRowId(row, rowIdx);
+              const isSelected = !!selectedIds?.includes(rowId);
+
+              return (
+                <TableRow
+                  key={rowIdx}
+                  className={cn(
+                    "transition-colors",
+                    isSelected && "bg-amber-50/50 dark:bg-amber-950/20 hover:bg-amber-50/70 dark:hover:bg-amber-950/30"
+                  )}
+                >
+                  {selectable && (
+                    <TableCell
+                      className="w-10 px-3 py-3 text-center"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Checkbox
+                        checked={isSelected}
+                        onCheckedChange={() => handleToggleRow(rowId)}
+                        aria-label={`Select row ${rowId}`}
+                        className="cursor-pointer border-slate-300 dark:border-slate-700 data-[state=checked]:bg-[#A30B0B] data-[state=checked]:border-[#A30B0B]"
+                      />
+                    </TableCell>
+                  )}
+                  {columns.map((col, colIdx) => (
+                    <TableCell key={colIdx} className={col.className}>
+                      {col.cell ? col.cell(row) : (col.accessorKey ? String(row[col.accessorKey] ?? "") : null)}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })
           )}
         </TableBody>
       </Table>
@@ -370,6 +468,13 @@ export function DataTable<T extends Record<string, any>>({
             Showing <strong className="text-slate-900 dark:text-white tabular-nums font-mono">{startItem}–{endItem}</strong> of{" "}
             <strong className="text-slate-900 dark:text-white tabular-nums font-mono">{totalItems}</strong> records
           </div>
+        </div>
+      )}
+
+      {/* Floating Bulk Action Dock */}
+      {selectable && selectedIds && selectedIds.length > 0 && renderBulkActions && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-200">
+          {renderBulkActions(selectedIds, clearSelection)}
         </div>
       )}
     </div>

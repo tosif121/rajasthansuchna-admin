@@ -622,6 +622,155 @@ export class NoticeService {
     return true;
   }
 
+  static async bulkUpdateStatus(ids: string[], status: NoticeStatus): Promise<{ updatedCount: number }> {
+    if (!ids || ids.length === 0) return { updatedCount: 0 };
+    const idSet = new Set(ids);
+    let updatedCount = 0;
+    const now = new Date().toISOString();
+
+    for (const notice of memoryNotices) {
+      if (idSet.has(notice.id) || idSet.has(notice.slug)) {
+        notice.status = status;
+        notice.updatedAt = now;
+        if (status === 'active' && !notice.publishedAt) {
+          notice.publishedAt = now;
+        }
+        updatedCount++;
+      }
+    }
+    saveMemoryNotices(memoryNotices);
+
+    const sql = getSql();
+    if (sql) {
+      try {
+        await sql`
+          UPDATE notices
+          SET status = ${status}, updated_at = now()
+          WHERE id::text = ANY(${ids}) OR slug = ANY(${ids});
+        `;
+      } catch (err) {
+        console.error('Failed to bulk update notice status in DB:', err);
+      }
+    }
+
+    await AuditService.recordLog({
+      actorName: 'Admin',
+      actorRole: 'Admin',
+      action: status === 'active' ? 'BULK_ACTIVATED_NOTICES' : 'BULK_DEACTIVATED_NOTICES',
+      entityType: 'Notice',
+      entityName: `${updatedCount} notices`,
+      ipAddress: '127.0.0.1 (Jaipur)',
+      status: 'SUCCESS'
+    });
+
+    return { updatedCount };
+  }
+
+  static async bulkDelete(ids: string[]): Promise<{ deletedCount: number }> {
+    if (!ids || ids.length === 0) return { deletedCount: 0 };
+    const idSet = new Set(ids);
+    const initialLen = memoryNotices.length;
+
+    const remaining = memoryNotices.filter((n) => !idSet.has(n.id) && !idSet.has(n.slug));
+    const deletedCount = initialLen - remaining.length;
+    memoryNotices.length = 0;
+    memoryNotices.push(...remaining);
+    saveMemoryNotices(memoryNotices);
+
+    const sql = getSql();
+    if (sql) {
+      try {
+        await sql`
+          DELETE FROM notices
+          WHERE id::text = ANY(${ids}) OR slug = ANY(${ids});
+        `;
+      } catch (err) {
+        console.error('Failed to bulk delete notices from DB:', err);
+      }
+    }
+
+    await AuditService.recordLog({
+      actorName: 'Admin',
+      actorRole: 'Admin',
+      action: 'BULK_DELETED_NOTICES',
+      entityType: 'Notice',
+      entityName: `${deletedCount} notices`,
+      ipAddress: '127.0.0.1 (Jaipur)',
+      status: 'SUCCESS'
+    });
+
+    return { deletedCount };
+  }
+
+  static async bulkEdit(
+    ids: string[],
+    updates: {
+      categoryId?: string;
+      agencyId?: string;
+      agencyName?: string;
+      isBreaking?: boolean;
+      status?: NoticeStatus;
+    }
+  ): Promise<{ updatedCount: number }> {
+    if (!ids || ids.length === 0) return { updatedCount: 0 };
+    const idSet = new Set(ids);
+    let updatedCount = 0;
+    const now = new Date().toISOString();
+
+    for (const notice of memoryNotices) {
+      if (idSet.has(notice.id) || idSet.has(notice.slug)) {
+        if (updates.categoryId !== undefined) notice.categoryId = updates.categoryId;
+        if (updates.agencyId !== undefined) {
+          notice.agencyId = updates.agencyId;
+          if (updates.agencyName) notice.agencyName = updates.agencyName;
+        }
+        if (updates.isBreaking !== undefined) notice.isBreaking = updates.isBreaking;
+        if (updates.status !== undefined) {
+          notice.status = updates.status;
+          if (updates.status === 'active' && !notice.publishedAt) {
+            notice.publishedAt = now;
+          }
+        }
+        notice.updatedAt = now;
+        updatedCount++;
+      }
+    }
+    saveMemoryNotices(memoryNotices);
+
+    const sql = getSql();
+    if (sql) {
+      try {
+        for (const id of ids) {
+          await sql`
+            UPDATE notices
+            SET 
+              category_id = COALESCE(${updates.categoryId || null}, category_id),
+              agency_id = COALESCE(${updates.agencyId || null}, agency_id),
+              agency_name = COALESCE(${updates.agencyName || null}, agency_name),
+              is_breaking = COALESCE(${updates.isBreaking !== undefined ? updates.isBreaking : null}, is_breaking),
+              status = COALESCE(${updates.status || null}, status),
+              updated_at = now()
+            WHERE id::text = ${id} OR slug = ${id};
+          `;
+        }
+      } catch (err) {
+        console.error('Failed to bulk edit notices in DB:', err);
+      }
+    }
+
+    await AuditService.recordLog({
+      actorName: 'Admin',
+      actorRole: 'Admin',
+      action: 'BULK_EDITED_NOTICES',
+      entityType: 'Notice',
+      entityName: `${updatedCount} notices`,
+      ipAddress: '127.0.0.1 (Jaipur)',
+      status: 'SUCCESS'
+    });
+
+    return { updatedCount };
+  }
+
   static toFlutterVacancy(n: AdminNoticeRecord) {
     return {
       id: n.id,
